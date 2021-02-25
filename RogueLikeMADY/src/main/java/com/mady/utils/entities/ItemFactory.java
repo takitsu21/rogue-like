@@ -1,4 +1,4 @@
-package com.mady.utils;
+package com.mady.utils.entities;
 
 public class ItemFactory {
     private static final ItemFactory INSTANCE = new ItemFactory();

@@ -1,4 +1,4 @@
-package com.mady.utils;
+package com.mady.utils.entities;
 
 public class PoisonVie extends AbstractItem {
     public PoisonVie(Position position) {
@@ -7,8 +7,11 @@ public class PoisonVie extends AbstractItem {
 
     @Override
     public void act(Player player) {
-        if (player.getPV()-getDamages() >= 0) {
-            player.setPV(player.getPV()-getDamages());
+        if (player.getHitPoints()-getDamages() >= 0) {
+            player.setHitPoints(player.getHitPoints()-getDamages());
+        }
+        else{
+            player.setHitPoints(0);
         }
     }
 }
