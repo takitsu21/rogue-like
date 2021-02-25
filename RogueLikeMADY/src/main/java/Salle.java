@@ -1,19 +1,57 @@
+import javax.swing.text.Position;
+
 public class Salle {
-    int largeur;
-    int hauteur;
-    int monster_number;
-    int object_number;
-    Case[][] representation;
-    Salle(int largeur , int hauteur   ){
+    private final int largeur;
+    private final int hauteur;
+    private int monster_number;
+    private int object_number;
+    private Case[][] representation;
+
+
+    Salle(int largeur , int hauteur, int monster_number, int object_number){
         this.largeur = largeur;
         this.hauteur = hauteur;
+        this.monster_number = monster_number;
+        this.object_number = object_number;
         representation = new Case[largeur][hauteur];
+        add_monster();
+        add_item();
+    }
+
+    public Case[][] getRepresentation() {
+        return representation;
+    }
+
+    private Position getFreePos (){
+        int x = (int) (Math.random() * largeur);
+        int y = (int) (Math.random() * largeur);
+        while (!representation[x][y].isOccupied()){
+            int x = (int) (Math.random() * largeur);
+            int y = (int) (Math.random() * largeur);
+        }
+        return new Position(x,y);
+    }
+
+    private void add_monster(){
+        for (int i=0; i<monster_number; i++){
+            Position pos = getFreePos();
+
+            representation[pos.getX()][pos.getY()].setMonster(new Monster());
+
+        }
+    }
+
+    private void add_item(){
+        for (int i=0; i<object_number; i++){
+            Position pos = getFreePos();
+
+            representation[pos.getX()][pos.getY()].setItem(new Item());
+
+        }
     }
 
 
-
-
-    void create_salle(int l, int h){
+    private void create_salle(int l, int h){
         for(int j = 0 ; j < largeur; j++){
             representation[j][0] = new Case('#',null);
         }
@@ -27,8 +65,6 @@ public class Salle {
         for(int j = 0 ; j < largeur; j++){
             representation[j][hauteur] = new Case('#',null);
         }
-
-
     }
 
     @Override
