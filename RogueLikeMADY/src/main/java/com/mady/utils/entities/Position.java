@@ -31,7 +31,7 @@ public class Position {
 
 
     public Position getRandomPos(int maxX, int maxY){
-        return new Position(Util.r.nextInt(maxX),Util.r.nextInt(maxY));
+        return new Position(Util.r.nextInt(maxX) + 1,Util.r.nextInt(maxY) + 1);
     }
     public Position moveTo(Position playerPos, double distance) {
         return getRandomPos(64,64);

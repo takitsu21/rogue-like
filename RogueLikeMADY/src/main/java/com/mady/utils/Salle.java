@@ -2,40 +2,39 @@ package com.mady.utils;
 
 import com.mady.utils.entities.Position;
 
-import java.util.Random;
-
 public class Salle {
-    private final int largeur;
-    private final int hauteur;
+    private final int lignes;
+    private final int colonnes;
     private final Position pos;
     private final int monsterNumber;
     private final int objectNumber;
     private Case[][] representation;
 
 
-
-    public Salle(int largeur,
-                 int hauteur,
+    public Salle(int lignes,
+                 int colonnes,
                  int monsterNumber,
                  int objectNumber,
                  Position pos) {
-        this.largeur = largeur;
-        this.hauteur = hauteur;
+        this.lignes = lignes;
+        this.colonnes = colonnes;
         this.monsterNumber = monsterNumber;
         this.objectNumber = objectNumber;
         this.pos = pos;
-        representation = new Case[largeur][hauteur];
-        createSalle(largeur, hauteur);
-        addMonster();
-        addItem();
+        representation = new Case[lignes][colonnes];
+        createSalle();
+//        addMonster();
+//        addItem();
     }
 
-    public Salle(int largeur, int hauteur, Position pos) {
-        this(largeur, hauteur, 0, 0, pos);
+    public Salle(int lignes, int colonnes, Position pos) {
+        this(lignes, colonnes, 0, 0, pos);
     }
 
     public Salle(Position pos) {
-        this(Util.r.nextInt(15), Util.r.nextInt(15), 0, 0, pos);
+        this(Util.r.nextInt(15 - 3) + 3,
+                Util.r.nextInt(15 - 3) + 3,
+                0, 0, pos);
     }
 
     public Case[][] getRepresentation() {
@@ -43,11 +42,11 @@ public class Salle {
     }
 
     private Position getFreePos() {
-        int x = Util.r.nextInt(largeur);
-        int y = Util.r.nextInt(hauteur);
+        int x = Util.r.nextInt(lignes);
+        int y = Util.r.nextInt(colonnes);
         while (!representation[x][y].isOccupied() && !representation[x][y].isWall()) {
-            x = Util.r.nextInt(largeur);
-            y = Util.r.nextInt(hauteur);
+            x = Util.r.nextInt(lignes);
+            y = Util.r.nextInt(colonnes);
         }
         return new Position(x, y);
     }
@@ -67,19 +66,20 @@ public class Salle {
         }
     }
 
-    private void createSalle(int l, int h) {
-        for (int j = 0; j < largeur; j++) {
+    private void createSalle() {
+        for (int j = 0; j < lignes; j++) {
             representation[j][0] = new Case("#", null);
         }
-        for (int i = 1; i < hauteur - 1; i++) {
+        for (int i = 1; i < colonnes; i++) {
+
             representation[0][i] = new Case("#", null);
-            for (int k = 1; k < largeur - 1; k++) {
+            for (int k = 1; k < lignes; k++) {
                 representation[k][i] = new Case(" ", null);
             }
-            representation[largeur - 1][i] = new Case("#", null);
+            representation[lignes - 1][i] = new Case("#", null);
         }
-        for (int j = 0; j < largeur; j++) {
-            representation[j][hauteur - 1] = new Case("#", null);
+        for (int j = 0; j < lignes; j++) {
+            representation[j][colonnes-1] = new Case("#", null);
         }
     }
 
@@ -87,12 +87,12 @@ public class Salle {
         return pos;
     }
 
-    public int getLargeur() {
-        return largeur;
+    public int getlignes() {
+        return lignes;
     }
 
-    public int getHauteur() {
-        return hauteur;
+    public int getcolonnes() {
+        return colonnes;
     }
 
     public int getmonsterNumber() {
@@ -106,8 +106,8 @@ public class Salle {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < largeur; i++) {
-            for (int j = 0; j < hauteur; j++) {
+        for (int i = 0; i < lignes; i++) {
+            for (int j = 0; j < colonnes; j++) {
                 sb.append(representation[i][j].toString());
             }
             sb.append("\n");
