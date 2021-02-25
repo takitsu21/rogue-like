@@ -1,5 +1,7 @@
 package com.mady.utils;
 
+import com.mady.utils.entities.Position;
+
 public class Salle {
     private final int largeur;
     private final int hauteur;

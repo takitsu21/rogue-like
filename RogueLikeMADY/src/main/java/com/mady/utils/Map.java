@@ -1,5 +1,7 @@
 package com.mady.utils;
 
+import com.mady.utils.entities.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 

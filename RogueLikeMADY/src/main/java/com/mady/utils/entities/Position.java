@@ -25,7 +25,7 @@ public class Position {
         this.y = y;
     }
 
-    public Position moveTo(Position playerPos, double distance) {
-
-    }
+//    public Position moveTo(Position playerPos, double distance) {
+//
+//    }
 }
