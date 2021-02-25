@@ -16,8 +16,8 @@ public class Salle {
         this.monster_number = monster_number;
         this.object_number = object_number;
         representation = new Case[largeur][hauteur];
-        add_monster();
-        add_item();
+        addMonster();
+        addItem();
     }
 
     public Case[][] getRepresentation() {
@@ -34,26 +34,26 @@ public class Salle {
         return new Position(x,y);
     }
 
-    private void add_monster(){
+    private void addMonster(){
         for (int i=0; i<monster_number; i++){
             Position pos = getFreePos();
 
-            representation[pos.getX()][pos.getY()].setItem(new Monster());
+            representation[pos.getX()][pos.getY()].setItem(new Object()); //monster
 
         }
     }
 
-    private void add_item(){
+    private void addItem(){
         for (int i=0; i<object_number; i++){
             Position pos = getFreePos();
 
-            representation[pos.getX()][pos.getY()].setItem(new Item());
+            representation[pos.getX()][pos.getY()].setItem(new Object()); //item
 
         }
     }
 
 
-    private void create_salle(int l, int h){
+    private void createSalle(int l, int h){
         for(int j = 0 ; j < largeur; j++){
             representation[j][0] = new Case("#",null);
         }
