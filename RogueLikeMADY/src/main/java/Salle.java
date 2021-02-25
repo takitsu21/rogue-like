@@ -1,4 +1,3 @@
-import javax.swing.text.Position;
 
 public class Salle {
     private final int largeur;
@@ -25,9 +24,9 @@ public class Salle {
     private Position getFreePos (){
         int x = (int) (Math.random() * largeur);
         int y = (int) (Math.random() * largeur);
-        while (!representation[x][y].isOccupied()){
-            int x = (int) (Math.random() * largeur);
-            int y = (int) (Math.random() * largeur);
+        while (!representation[x][y].isOccupied() && !representation[x][y].isWall()){
+             x = (int) (Math.random() * largeur);
+             y = (int) (Math.random() * largeur);
         }
         return new Position(x,y);
     }
