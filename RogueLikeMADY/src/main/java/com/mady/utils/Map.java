@@ -4,6 +4,7 @@ import com.mady.utils.entities.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Map {
     private final int nbSalles;
@@ -23,6 +24,8 @@ public class Map {
         System.out.println(map.toString());
     }
 
+
+
     public Map(int nbSalles) {
         this.nbSalles = nbSalles;
         this.map = new Case[BASE_WIDTH][BASE_HEIGHT];
@@ -37,20 +40,46 @@ public class Map {
         generateRooms();
     }
 
-    private void generateRoom(int x, int y) {
-        Salle s = new Salle(new Position(x, y));
-
-        for (int i = 0; i < s.getLargeur(); i++) {
-            for (int j = 0; j < s.getHauteur(); j++) {
-                map[i + y][j + y] = s.getRepresentation()[i][j];
-            }
+    private void generateRoom(Position p) {
+         int x = p.getX();
+         int y = p.getY();
+        Salle s = new Salle(p);
+        while (! checkFreeArea(p, s.getLargeur(), s.getHauteur())){
+            s = new Salle(p);
         }
-        salles.add(s);
+            for (int i = 0; i < s.getLargeur(); i++) {
+                for (int j = 0; j < s.getHauteur(); j++) {
+                    map[i + x][j + y] = s.getRepresentation()[i][j];
+                }
+            }
+            salles.add(s);
+
+
     }
 
     private void generateRooms() {
-        generateRoom(10, 10);
+        Position p = new Position(0,0);
+        for(int i = 0; i < 3 ; i ++){
+            generateRoom(p.getRandomPos(BASE_WIDTH,BASE_HEIGHT));
+        }
+       
     }
+
+    private boolean checkFreeArea(Position p, int largeur, int hauteur) {
+        boolean result = true;
+        int x = p.getX();
+        int y = p.getY();
+        for (int i = 0; i < largeur; i++) {
+            for (int j = 0; j < hauteur; j++) {
+                if (map[i + x][j + y].isOccupied()) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
 
     @Override
     public String toString() {
