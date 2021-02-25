@@ -1,4 +1,4 @@
-package com.mady.utils;
+package com.mady.utils.entities;
 
 public class Position {
     private int x;
@@ -23,5 +23,9 @@ public class Position {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public Position moveTo(Position playerPos, double distance) {
+
     }
 }
