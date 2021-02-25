@@ -1,3 +1,6 @@
+package com.mady.utils;
+
+import com.mady.utils.Position;
 
 public class Salle {
     private final int largeur;
@@ -35,7 +38,7 @@ public class Salle {
         for (int i=0; i<monster_number; i++){
             Position pos = getFreePos();
 
-            representation[pos.getX()][pos.getY()].setMonster(new Monster());
+            representation[pos.getX()][pos.getY()].setItem(new Monster());
 
         }
     }
@@ -52,17 +55,17 @@ public class Salle {
 
     private void create_salle(int l, int h){
         for(int j = 0 ; j < largeur; j++){
-            representation[j][0] = new Case('#',null);
+            representation[j][0] = new Case("#",null);
         }
         for(int i = 1 ; i < hauteur-1; i++){
-            representation[0][i] = new Case('#',null);
+            representation[0][i] = new Case("#",null);
             for(int k = 1; k < largeur-1; k ++){
                 representation[k][i] = new Case(" ",null);
             }
-            representation[largeur][i] = new Case('#',null);
+            representation[largeur][i] = new Case("#",null);
         }
         for(int j = 0 ; j < largeur; j++){
-            representation[j][hauteur] = new Case('#',null);
+            representation[j][hauteur] = new Case("#",null);
         }
     }
 
