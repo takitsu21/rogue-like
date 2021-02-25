@@ -46,6 +46,7 @@ public abstract class AbstractEntities implements  entities{
 
     @Override
     public void takeDamages(int damages) {
+
         setHitPoints(getHitPoints()-damages);
 
         /* TODO : gérer la mort */
