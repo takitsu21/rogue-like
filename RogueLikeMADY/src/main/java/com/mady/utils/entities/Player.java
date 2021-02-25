@@ -6,4 +6,13 @@ public class Player extends AbstractEntities{
     }
 
 
+    @Override
+    public int getMaxDammages() {
+        return 0;
+    }
+
+    @Override
+    public void setMaxDammages(int maxDammages) {
+
+    }
 }

@@ -13,4 +13,14 @@ public class GoblinArcher extends AbstractMonster{
     public void act(Player player) {
 
     }
+
+    @Override
+    public int getMaxDammages() {
+        return 0;
+    }
+
+    @Override
+    public void setMaxDammages(int maxDammages) {
+
+    }
 }

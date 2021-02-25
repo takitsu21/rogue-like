@@ -3,8 +3,6 @@ package com.mady.utils.entities.factories.monster;
 import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
-import javafx.geometry.Pos;
-import sun.java2d.DefaultDisposerRecord;
 
 public abstract class AbstractMonster  extends AbstractEntities implements monster {
 
@@ -15,6 +13,7 @@ public abstract class AbstractMonster  extends AbstractEntities implements monst
 
     private double getDistance (Player player) {
         /* TODO : gérer la distance */
+        return 0.0;
     }
 
     private void updatePos(Player player, double distance) {
