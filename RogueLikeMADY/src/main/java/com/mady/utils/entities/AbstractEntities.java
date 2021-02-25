@@ -2,9 +2,9 @@ package com.mady.utils.entities;
 
 public abstract class AbstractEntities implements  entities{
     private Position pos;
-    private  final int maxHitPoints;
+    private int maxHitPoints;
     private int hitPoints;
-    private final int damages;
+    private int damages;
     private final double movement;
 
     public AbstractEntities(Position pos, int hitPoints, int damages, double movement) {
@@ -31,19 +31,35 @@ public abstract class AbstractEntities implements  entities{
     }
 
     @Override
+    public void setMaxHitPoints(int maxHitPoints) {
+        this.maxHitPoints=maxHitPoints;}
+
+    @Override
     public int getHitPoints() {
         return hitPoints;
     }
 
     @Override
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints=hitPoints;
+    }
+
+    @Override
     public void takeDamages(int damages) {
-        hitPoints -= damages;
-        /* TODO : gérer la mort et la remise à zéro */
+
+        setHitPoints(getHitPoints()-damages);
+
+        /* TODO : gérer la mort */
     }
 
     @Override
     public int getDamages() {
         return damages;
+    }
+
+    @Override
+    public void setDamages(int damages) {
+        this.damages=damages;
     }
 
     @Override
