@@ -1,9 +1,12 @@
 package com.mady.utils.entities;
 
+import com.mady.utils.Util;
+
+import java.util.Random;
+
 public class Position {
     private int x;
     private int y;
-
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
@@ -25,7 +28,12 @@ public class Position {
         this.y = y;
     }
 
-//    public Position moveTo(Position playerPos, double distance) {
-//
-//    }
+
+
+    public Position getRandomPos(int maxX, int maxY){
+        return new Position(Util.r.nextInt(maxX),Util.r.nextInt(maxY));
+    }
+    public Position moveTo(Position playerPos, double distance) {
+        return getRandomPos(64,64);
+    }
 }

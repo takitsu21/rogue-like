@@ -2,6 +2,8 @@ package com.mady.utils;
 
 import com.mady.utils.entities.Position;
 
+import java.util.Random;
+
 public class Salle {
     private final int largeur;
     private final int hauteur;
@@ -9,6 +11,7 @@ public class Salle {
     private final int monsterNumber;
     private final int objectNumber;
     private Case[][] representation;
+
 
 
     public Salle(int largeur,
@@ -32,7 +35,7 @@ public class Salle {
     }
 
     public Salle(Position pos) {
-        this(10, 15, 0, 0, pos);
+        this(Util.r.nextInt(15), Util.r.nextInt(15), 0, 0, pos);
     }
 
     public Case[][] getRepresentation() {
@@ -40,11 +43,11 @@ public class Salle {
     }
 
     private Position getFreePos() {
-        int x = (int) (Math.random() * largeur);
-        int y = (int) (Math.random() * largeur);
+        int x = Util.r.nextInt(largeur);
+        int y = Util.r.nextInt(hauteur);
         while (!representation[x][y].isOccupied() && !representation[x][y].isWall()) {
-            x = (int) (Math.random() * largeur);
-            y = (int) (Math.random() * largeur);
+            x = Util.r.nextInt(largeur);
+            y = Util.r.nextInt(hauteur);
         }
         return new Position(x, y);
     }
