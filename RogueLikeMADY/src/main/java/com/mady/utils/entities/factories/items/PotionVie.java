@@ -10,10 +10,16 @@ public class PotionVie extends AbstractItem {
     }
 
 
+
     @Override
     public void act(Player player) {
-        if (player.getPV()+getDamages() <= player.getMaxPV()) {
-            player.setPV(player.getPV()+getDamages());
+        if (player.getHitPoints()+getDamages() <= player.getMaxHitPoints()) {
+            player.setHitPoints(player.getHitPoints() + getDamages());
+        }
+        else{
+            player.setHitPoints(player.getMaxHitPoints());
+        }
+
     }
 }
 

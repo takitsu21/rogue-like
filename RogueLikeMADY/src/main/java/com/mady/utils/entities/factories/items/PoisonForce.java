@@ -11,8 +11,11 @@ public class PoisonForce extends AbstractItem {
 
     @Override
     public void act(Player player) {
-        if (player.getAttack()-getDamages() >= 0) {
-            player.setAttack(player.getAttack()-getDamages());
+        if (player.getDamages()-getDamages() >= 0) {
+            player.setDamages(player.getDamages()-getDamages());
+        }
+        else{
+            player.setDamages(0);
         }
     }
 }

@@ -12,8 +12,11 @@ public class PotionForce extends AbstractItem {
 
     @Override
     public void act(Player player) {
-        if (player.getAttack()+getDamages() <= player.getMaxAttack()) {
-            player.setAttack(player.getAttack()+getDamages());
+        if (player.getDamages()+getDamages() <= player.getMaxDammages()) {
+            player.setDamages(player.getDamages()+getDamages());
+        }
+        else{
+            player.setDamages(player.getMaxDammages());
         }
     }
 }

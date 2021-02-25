@@ -2,7 +2,6 @@ package com.mady.utils.entities.factories.items;
 
 
 import com.mady.utils.entities.Position;
-import com.mady.utils.entities.factories.items.Item;
 
 public abstract class AbstractItem implements Item {
 
