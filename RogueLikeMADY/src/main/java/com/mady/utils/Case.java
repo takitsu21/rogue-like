@@ -23,7 +23,7 @@ public class Case {
 
     @Override
     public String toString() {
-        return repr;
+        return getRepr();
     }
 
     public boolean isWall() {
