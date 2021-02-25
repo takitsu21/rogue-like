@@ -1,4 +1,7 @@
-package com.mady.utils;
+package com.mady.utils.entities.factories.items;
+
+import com.mady.utils.entities.Player;
+import com.mady.utils.entities.Position;
 
 public interface Item {
     Position getPosition();

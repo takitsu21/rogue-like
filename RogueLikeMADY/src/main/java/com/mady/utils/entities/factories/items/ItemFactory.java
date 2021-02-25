@@ -1,4 +1,6 @@
-package com.mady.utils;
+package com.mady.utils.entities.factories.items;
+
+import com.mady.utils.entities.Position;
 
 public class ItemFactory {
     private static final ItemFactory INSTANCE = new ItemFactory();

@@ -1,4 +1,8 @@
-package com.mady.utils;
+package com.mady.utils.entities.factories.items;
+
+import com.mady.utils.entities.Player;
+import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.AbstractItem;
 
 public class PoisonVie extends AbstractItem {
     public PoisonVie(Position position) {

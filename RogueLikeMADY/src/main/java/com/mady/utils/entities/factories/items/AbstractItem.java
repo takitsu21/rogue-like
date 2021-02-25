@@ -1,7 +1,10 @@
-package com.mady.utils;
+package com.mady.utils.entities.factories.items;
 
 
-public abstract class AbstractItem implements Item{
+import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.Item;
+
+public abstract class AbstractItem implements Item {
 
     private Position position;
     private final double movement;
