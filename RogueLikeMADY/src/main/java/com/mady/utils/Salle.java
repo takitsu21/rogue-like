@@ -47,6 +47,7 @@ public class Salle {
         return new Position(x, y);
     }
 
+
     private void addMonster() {
         for (int i = 0; i < monsterNumber; i++) {
             Position pos = getFreePos();
@@ -64,7 +65,6 @@ public class Salle {
     private void createSalle(int l, int h) {
         for (int j = 0; j < largeur; j++) {
             representation[j][0] = new Case("#", null);
-
         }
         for (int i = 1; i < hauteur - 1; i++) {
             representation[0][i] = new Case("#", null);
