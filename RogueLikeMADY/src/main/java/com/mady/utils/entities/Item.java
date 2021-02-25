@@ -1,4 +1,4 @@
-package com.mady.utils;
+package com.mady.utils.entities;
 
 public interface Item {
     Position getPosition();
