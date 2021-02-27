@@ -30,7 +30,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.mady.test</mainClass>
+                    <mainClass>com.mady.Game</mainClass>
                 </configuration>
             </plugin>
         </plugins>
