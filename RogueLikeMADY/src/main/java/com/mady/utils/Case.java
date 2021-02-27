@@ -45,4 +45,11 @@ public class Case {
     public void setItem(Object item) {
         this.item = item;
     }
+
+    public boolean isFreeCase() {
+        return !(isWall() && isOccupied());
+    }
+
+
+
 }

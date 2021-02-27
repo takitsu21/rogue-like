@@ -169,107 +169,61 @@ public class Map {
         map[x1+s1.getPos().getX()][y1+s1.getPos().getY()]=new Case("*");
         map[x2+s2.getPos().getX()][y2+s2.getPos().getY()]=new Case("*");
 
-        createdPath(new Position(x1+s1.getPos().getX(), y1+s1.getPos().getY()), new Position(x2+s2.getPos().getX(),y2+s2.getPos().getY()));
+        createPath(new Position(x1+s1.getPos().getX(), y1+s1.getPos().getY()),
+                new Position(x2+s2.getPos().getX(),y2+s2.getPos().getY()));
     }
 
-    private void createdPath(Position p1, Position p2){
-        int x1=p1.getX();
-        int y1=p1.getY();
-        int x2=p2.getX();
-        int y2=p2.getY();
 
-
-        while(x1<x2){
-            System.out.println("x"+x1+"<"+x2);
-            if (map[x1+1][y1].getRepr().equals(".") || map[x1+1][y1].getRepr().equals("*")) {
-                x1 += 1;
-
+    private void createPath(Position src, Position dst) {
+        int x = src.getX();
+        int y = src.getY();
+//        System.out.println(src.equals(dst));
+//        System.out.println(src.equals(src));
+//        System.out.println(src);
+        int acc = 0;
+        while (!src.equals(dst)) {
+            if (acc == 30) {
+                return;
             }
-            else {
-                y1 = movePathY(x1, y1, y2);
+            acc++;
+//            System.out.println(src);
+
+//            System.out.println(map[x - 1][y].isFreeCase());
+            if (src.getX() > dst.getX() && map[x - 1][y].isFreeCase()) {
+                src = left(src);
             }
-            map[x1][y1] = new Case("*");
+            else if (src.getX() < dst.getX() && map[x + 1][y].isFreeCase()) {
+                src = right(src);
+            }
+            else if (src.getY() < dst.getY() && map[x][y + 1].isFreeCase()) {
+                src = down(src);
+            }
+            else if (src.getY() > dst.getY() && map[x][y - 1].isFreeCase()) {
+                src = up(src);
+            }
+
+            map[src.getX()][src.getY()].setRepr("*");
+//            System.out.println(src);
+//            return;
         }
+    }
 
-
-        while(x1>x2){
-            System.out.println("x"+x1+">"+x2);
-            if (map[x1-1][y1].getRepr().equals(".")  || map[x1-1][y1].getRepr().equals("*")) {
-                x1 -= 1;
-
-            }
-            else {
-                y1 = movePathY(x1, y1, y2);
-            }
-            map[x1][y1] = new Case("*");
-        }
-
-        while(y1<y2){
-            System.out.println("y"+y1+"<"+y2);
-            if (map[x1][y1+1].getRepr().equals(".") || map[x1][y1+1].getRepr().equals("*")) {
-                y1 += 1;
-            }
-            else {
-                x1 = movePathX(y1, x1, x2);
-            }
-            map[x1][y1] = new Case("*");
-        }
-
-        while(y1>y2){
-            System.out.println("y"+y1+">"+y2);
-            if (map[x1][y1-1].getRepr().equals(".") || map[x1][y1-1].getRepr().equals("*")) {
-                y1 -= 1;
-            }
-            else {
-                x1 = movePathX(x1, y1, x2);
-            }
-            map[x1][y1] = new Case("*");
-        }
-
-
+    private Position left(Position src) {
+        return new Position(src.getX() - 1, src.getY());
 
     }
 
-    private int movePathX(int y1, int x1, int x2) {
-        if (x1 < x2) {
-            x1 += 1;
-        }
-        else {
-            if (x1 > x2) {
-                x1 -= 1;
-            }
-            else {
-                if ((map[x1 + 1][y1].getRepr().equals(".") || map[x1 + 1][y1].getRepr().equals("*")) && x1+1<=BASE_HEIGHT) {
-                    x1 += 1;
-                } else {
-                    x1 -= 1;
-                }
-            }
-        }
-        return x1;
+    private Position right(Position src) {
+        return new Position(src.getX() + 1, src.getY());
     }
 
-    private int movePathY(int x1, int y1, int y2) {
-        if (y1 < y2) {
-            y1 += 1;
-
-        }
-        else {
-            if (y1 > y2) {
-                y1 -= 1;
-
-            }
-            else {
-                if ((map[x1][y1 + 1].getRepr().equals(".") || map[x1][y1 + 1].getRepr().equals("*")) && y1+1<=BASE_WIDTH) {
-                    y1 += 1;
-                } else {
-                    y1 -= 1;
-                }
-            }
-        }
-        return y1;
+    private Position up(Position src) {
+        return new Position(src.getX(), src.getY() - 1);
     }
 
+    private Position down(Position src) {
+        return new Position(src.getX(), src.getY() + 1);
+    }
 
     @Override
     public String toString() {
