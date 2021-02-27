@@ -1,6 +1,6 @@
 package com.mady.utils.entities;
 
-public abstract class AbstractEntities implements  entities{
+public abstract class AbstractEntities implements Entities {
     private Position pos;
     private int maxHitPoints;
     private int hitPoints;

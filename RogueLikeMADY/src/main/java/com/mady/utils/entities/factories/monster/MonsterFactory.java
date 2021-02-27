@@ -11,7 +11,7 @@ public class MonsterFactory {
         return instance;
     }
 
-    public monster generate(String id, Position position) {
+    public Monster generate(String id, Position position) {
         switch(id) {
             case "golbinArcher":
                 return new GoblinArcher(position);

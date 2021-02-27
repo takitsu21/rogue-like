@@ -1,8 +1,8 @@
 package com.mady.utils.entities.factories.monster;
 
 import com.mady.utils.entities.Player;
-import com.mady.utils.entities.entities;
+import com.mady.utils.entities.Entities;
 
-public interface monster extends entities {
+public interface Monster extends Entities {
     void act(Player player);
 }

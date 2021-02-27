@@ -4,7 +4,7 @@ import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
-public abstract class AbstractMonster  extends AbstractEntities implements monster {
+public abstract class AbstractMonster  extends AbstractEntities implements Monster {
 
 
     public AbstractMonster(Position pos, int lifePoints, int damages, double movement) {

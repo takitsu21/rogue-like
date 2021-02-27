@@ -1,6 +1,6 @@
 package com.mady.utils.entities;
 
-public interface entities {
+public interface Entities {
     Position getPosition();
     void setPos(Position position);
 
