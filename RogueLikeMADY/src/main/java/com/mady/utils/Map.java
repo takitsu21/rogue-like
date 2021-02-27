@@ -36,7 +36,7 @@ public class Map {
                 map[i][j] = new Case();
             }
         }
-        generateRooms();
+//        generateRooms();
     }
 
     private void generateRoom(Position p) {
