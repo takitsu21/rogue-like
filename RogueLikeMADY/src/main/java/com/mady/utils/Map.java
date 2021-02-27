@@ -27,10 +27,11 @@ public class Map {
     private void createMap() {
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
-                map[i][j] = new Case();
+                map[i][j] = new Case(".");
             }
         }
         generateRooms();
+        selectLien();
     }
 
     private void generateRoom(Position p) {
@@ -69,8 +70,11 @@ public class Map {
 
     private boolean checkFreeArea(Position p, int lignes, int colonnes) {
         boolean result = true;
-        int x = p.getX();
-        int y = p.getY();
+        int x = p.getX()!=0? p.getX()-1 : p.getX();
+        int y = p.getY()!=0? p.getY()-1 : p.getY();
+        lignes = lignes!=BASE_HEIGHT? lignes+2 : lignes;
+        colonnes = colonnes!=BASE_WIDTH? colonnes+2 : colonnes;
+
         if (isInside(lignes + x, colonnes + y)) {
             for (int i = 0; i < lignes; i++) {
                 for (int j = 0; j < colonnes; j++) {
@@ -85,6 +89,185 @@ public class Map {
             result = false;
         }
         return result;
+    }
+
+    private void selectLien(){
+        Salle s=salles.get(0);
+        ArrayList<Boolean> relier = new ArrayList<>(salles.size());
+        for (int i=0; i<salles.size();i++){
+            relier.add(false);
+        }
+
+        relier.set(0, true);
+
+        while (relier.contains(false)){
+            Double distance=(double)Integer.MAX_VALUE;
+            Salle salleselect=s;
+            for (Salle s2: salles){
+                Double distance2= Math.sqrt(Math.pow(s2.getPos().getX()-s.getPos().getX(),2)
+                        +Math.pow(s2.getPos().getY()-s.getPos().getY(),2));
+                if (!s.equals(s2) && distance2<distance && !relier.get(salles.indexOf(s2))){
+                    distance=distance2;
+                    salleselect=s2;
+
+                }
+            }
+            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
+            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
+            System.out.println(String.valueOf(salles.indexOf(s)) +"-"+String.valueOf(salles.indexOf(salleselect)));
+            relie(s,salleselect);
+            s=salleselect;
+            relier.set(salles.indexOf(salleselect), true);
+
+        }
+    }
+
+    private void relie(Salle s1, Salle s2){
+
+        int x1;
+        int y1;
+        int x2;
+        int y2;
+        if(s1.getPos().getX()<s2.getPos().getX()){
+            if(s1.getPos().getY()<s2.getPos().getY()){
+                x1=s1.getlignes()-1;
+                y1=s1.getcolonnes()/2;
+                x2=s2.getlignes()/2;
+                y2=0;
+                //gauche+bas
+            }
+            else {
+                x1 = s1.getlignes() / 2;
+                y1 = 0;
+                x2 = 0;
+                y2 = s2.getcolonnes() / 2;
+
+                //gauche+haut
+            }
+        }
+        else {
+            if (s1.getPos().getY() < s2.getPos().getY()) {
+                x1 = s1.getlignes() / 2;
+                y1 = s1.getcolonnes()-1;
+                x2 = s2.getlignes()-1;
+                y2 = s2.getcolonnes() / 2;
+
+                //droit+bas
+            }
+            else {
+                x1 = 0;
+                y1 = s1.getcolonnes() / 2;
+                x2 = s2.getlignes() / 2;
+                y2 = s2.getcolonnes()-1;
+
+                //droit+haut
+            }
+        }
+
+        //Position pos1=new Position(x1,y1);
+        //Position pos2=new Position(x2,y2);
+        map[x1+s1.getPos().getX()][y1+s1.getPos().getY()]=new Case("*");
+        map[x2+s2.getPos().getX()][y2+s2.getPos().getY()]=new Case("*");
+
+        createdPath(new Position(x1+s1.getPos().getX(), y1+s1.getPos().getY()), new Position(x2+s2.getPos().getX(),y2+s2.getPos().getY()));
+    }
+
+    private void createdPath(Position p1, Position p2){
+        int x1=p1.getX();
+        int y1=p1.getY();
+        int x2=p2.getX();
+        int y2=p2.getY();
+
+
+        while(x1<x2){
+            System.out.println("x"+x1+"<"+x2);
+            if (map[x1+1][y1].getRepr().equals(".") || map[x1+1][y1].getRepr().equals("*")) {
+                x1 += 1;
+
+            }
+            else {
+                y1 = movePathY(x1, y1, y2);
+            }
+            map[x1][y1] = new Case("*");
+        }
+
+
+        while(x1>x2){
+            System.out.println("x"+x1+">"+x2);
+            if (map[x1-1][y1].getRepr().equals(".")  || map[x1-1][y1].getRepr().equals("*")) {
+                x1 -= 1;
+
+            }
+            else {
+                y1 = movePathY(x1, y1, y2);
+            }
+            map[x1][y1] = new Case("*");
+        }
+
+        while(y1<y2){
+            System.out.println("y"+y1+"<"+y2);
+            if (map[x1][y1+1].getRepr().equals(".") || map[x1][y1+1].getRepr().equals("*")) {
+                y1 += 1;
+            }
+            else {
+                x1 = movePathX(y1, x1, x2);
+            }
+            map[x1][y1] = new Case("*");
+        }
+
+        while(y1>y2){
+            System.out.println("y"+y1+">"+y2);
+            if (map[x1][y1-1].getRepr().equals(".") || map[x1][y1-1].getRepr().equals("*")) {
+                y1 -= 1;
+            }
+            else {
+                x1 = movePathX(x1, y1, x2);
+            }
+            map[x1][y1] = new Case("*");
+        }
+
+
+
+    }
+
+    private int movePathX(int y1, int x1, int x2) {
+        if (x1 < x2) {
+            x1 += 1;
+        }
+        else {
+            if (x1 > x2) {
+                x1 -= 1;
+            }
+            else {
+                if ((map[x1 + 1][y1].getRepr().equals(".") || map[x1 + 1][y1].getRepr().equals("*")) && x1+1<=BASE_HEIGHT) {
+                    x1 += 1;
+                } else {
+                    x1 -= 1;
+                }
+            }
+        }
+        return x1;
+    }
+
+    private int movePathY(int x1, int y1, int y2) {
+        if (y1 < y2) {
+            y1 += 1;
+
+        }
+        else {
+            if (y1 > y2) {
+                y1 -= 1;
+
+            }
+            else {
+                if ((map[x1][y1 + 1].getRepr().equals(".") || map[x1][y1 + 1].getRepr().equals("*")) && y1+1<=BASE_WIDTH) {
+                    y1 += 1;
+                } else {
+                    y1 -= 1;
+                }
+            }
+        }
+        return y1;
     }
 
 
