@@ -9,27 +9,36 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
-    private final int BASE_HEIGHT = 32;
-    private final int BASE_WIDTH = 128;
+
+    private final int BASE_HEIGHT;
+    private final int BASE_WIDTH;
 
     public static void main(String[] args) {
-        Map map = new Map(10);
+        Map map = new Map(5, 16, 128);
+
         map.createMap();
         System.out.println(map.toString());
     }
 
 
-    public Map(int nbSalles) {
+    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH) {
         this.nbSalles = nbSalles;
+        this.BASE_HEIGHT = BASE_HEIGHT;
+        this.BASE_WIDTH = BASE_WIDTH;
         this.map = new Case[BASE_HEIGHT][BASE_WIDTH];
     }
 
-    private void createMap() {
+    public Map(int nbSalles) {
+        this(nbSalles, 16, 128);
+    }
+
+    public void createMap() {
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
                 map[i][j] = new Case(" ");
             }
         }
+
         generateRooms();
         selectLien();
     }
@@ -52,6 +61,7 @@ public class Map {
 
     public List<Salle> getSalles() {
         return salles;
+
     }
 
     private void generateRoom(Position p) {
@@ -73,8 +83,9 @@ public class Map {
         salles.add(s);
     }
 
-    private boolean isInside(int x, int y) {
-        return (x >= 0 && x < BASE_HEIGHT) && (y >= 0 && y < BASE_WIDTH);
+    public boolean isInside(int x, int y) {
+        return (x >= 0 && x < BASE_HEIGHT)
+                && (y >= 0 && y < BASE_WIDTH);
     }
 
 
@@ -106,6 +117,7 @@ public class Map {
         }
         return result;
     }
+
 
     private void selectLien() {
         Salle s = salles.get(0);
@@ -193,6 +205,27 @@ public class Map {
                 }
             }
         }
+    }
+
+    public int getNbSalles() {
+        return nbSalles;
+    }
+
+    public Case[][] getMap() {
+        return map;
+    }
+
+    public List<Salle> getSalles() {
+        return salles;
+    }
+
+    public int getBASE_HEIGHT() {
+        return BASE_HEIGHT;
+    }
+
+    public int getBASE_WIDTH() {
+        return BASE_WIDTH;
+
     }
 
     @Override
