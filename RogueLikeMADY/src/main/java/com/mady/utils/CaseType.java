@@ -1,7 +1,7 @@
 package com.mady.utils;
 
 public enum CaseType {
-    MAP(1), WALL(2), SALLE(3);
+    MAP(1), WALL(2), SALLE(3), PATH(4);
 
     public int type;
 

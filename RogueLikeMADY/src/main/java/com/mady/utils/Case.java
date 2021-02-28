@@ -20,6 +20,10 @@ public class Case {
         this(" ", null, ct);
     }
 
+    public Case(String repr, CaseType ct) {
+        this(repr, null, ct);
+    }
+
     public boolean isOccupied() {
         return item != null;
     }
@@ -67,5 +71,9 @@ public class Case {
 
     public boolean isFreeCase() {
         return !(isWall() && isOccupied());
+    }
+
+    public boolean isPath() {
+        return CaseType.PATH == ct;
     }
 }

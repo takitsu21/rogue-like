@@ -99,8 +99,7 @@ public class Map {
         if (isInside(lignes + x, colonnes + y)) {
             for (int i = 0; i < lignes; i++) {
                 for (int j = 0; j < colonnes; j++) {
-                    if (!isInside(i + x, j + y) || map[i + x][j + y].isOccupied()
-                            || map[i + x][j + y].isWall()) {
+                    if (!isInside(i + x, j + y) || !map[i+x][j+y].isMap()) {
                         result = false;
                         break;
                     }
@@ -138,6 +137,7 @@ public class Map {
             System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
             relie(s, salleselect);
             s = salleselect;
+
             relier.set(salles.indexOf(salleselect), true);
 
         }
@@ -184,12 +184,13 @@ public class Map {
 
         //Position pos1=new Position(x1,y1);
         //Position pos2=new Position(x2,y2);
-        map[x1 + s1.getPos().getX()][y1 + s1.getPos().getY()] = new Case("*");
-        map[x2 + s2.getPos().getX()][y2 + s2.getPos().getY()] = new Case("*");
+        map[x1 + s1.getPos().getX()][y1 + s1.getPos().getY()] = new Case("*", CaseType.PATH);
+        map[x2 + s2.getPos().getX()][y2 + s2.getPos().getY()] = new Case("*", CaseType.PATH);
 
         //createPath(new Position(x1 + s1.getPos().getX(), y1 + s1.getPos().getY()),
         //        new Position(x2 + s2.getPos().getX(), y2 + s2.getPos().getY()));
 
+        System.out.println(this.toString());
         AStar aStar = new AStar();
         int[][] res = aStar.search(this, 1, new Position(x1 + s1.getPos().getX(),
                         y1 + s1.getPos().getY()), new Position(x2 + s2.getPos().getX(), y2 + s2.getPos().getY()));

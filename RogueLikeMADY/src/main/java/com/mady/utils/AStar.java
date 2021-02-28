@@ -14,7 +14,7 @@ public class AStar {
         List<Position> path = new ArrayList<>();
         int noCollumn = map.getBASE_WIDTH();
         int no_rows = map.getBASE_HEIGHT();
-        int[][] result = new int[noCollumn][no_rows];
+        int[][] result = new int[no_rows][noCollumn];
         for (int i = 0; i < no_rows; i++) {
             for (int j = 0; j < noCollumn; j++) {
                 result[i][j] = -1;
@@ -52,6 +52,7 @@ public class AStar {
         int currentIndex;
         List<Node> children;
         while (yetToVisitList.size() > 0) {
+
             outerIterations++;
             currentNode = yetToVisitList.get(0);
             currentIndex = 0;
@@ -68,8 +69,11 @@ public class AStar {
                 return returnPath(currentNode, map);
             }
             yetToVisitList.remove(currentIndex);
+            System.out.printf(currentNode.getPosition().toString());
+            System.out.println(endNode.getPosition().toString());
             visitedList.add(currentNode);
-            if (currentNode == endNode) {
+            if (currentNode.equals(endNode)) {
+
                 return returnPath(currentNode, map);
             }
             children = new ArrayList<>();
@@ -82,7 +86,7 @@ public class AStar {
                     continue;
 
                 }
-                if (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()) {
+                if (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap() && !map.getMap()[nodePosition.getX()][nodePosition.getY()].isPath()) {
                     continue;
                 }
                 Node newNode = new Node(currentNode, nodePosition);
