@@ -34,6 +34,26 @@ public class Map {
         selectLien();
     }
 
+    public int getBASE_HEIGHT() {
+        return BASE_HEIGHT;
+    }
+
+    public int getBASE_WIDTH() {
+        return BASE_WIDTH;
+    }
+
+    public Case[][] getMap() {
+        return map;
+    }
+
+    public int getNbSalles() {
+        return nbSalles;
+    }
+
+    public List<Salle> getSalles() {
+        return salles;
+    }
+
     private void generateRoom(Position p) {
         int x = p.getX();
         int y = p.getY();
