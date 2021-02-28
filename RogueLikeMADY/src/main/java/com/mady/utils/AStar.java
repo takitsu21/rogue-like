@@ -3,19 +3,16 @@ package com.mady.utils;
 import com.mady.utils.entities.Position;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class AStar {
-
-
     public int[][] returnPath(Node currentNode, Map map) {
         List<Position> path = new ArrayList<>();
         int noCollumn = map.getBASE_WIDTH();
-        int no_rows = map.getBASE_HEIGHT();
-        int[][] result = new int[no_rows][noCollumn];
-        for (int i = 0; i < no_rows; i++) {
+        int noRows = map.getBASE_HEIGHT();
+        int[][] result = new int[noRows][noCollumn];
+        for (int i = 0; i < noRows; i++) {
             for (int j = 0; j < noCollumn; j++) {
                 result[i][j] = -1;
             }
@@ -26,10 +23,10 @@ public class AStar {
             current = current.getParent();
         }
         Collections.reverse(path);
-        int start_value = 0;
-        for (int i = 0; i < path.size(); i++) {
-            result[path.get(i).getX()][path.get(i).getY()] = start_value;
-            start_value++;
+        int startValue = 0;
+        for (Position position : path) {
+            result[position.getX()][position.getY()] = startValue;
+            startValue++;
         }
         return result;
 
@@ -47,7 +44,7 @@ public class AStar {
         int outerIterations = 0;
         int maxIterations = (int) Math.pow(((double) map.getBASE_HEIGHT()) / 2, 10);
         Position[] move = new Position[]{new Position(-1, 0), new Position(0, -1), new Position(1, 0), new Position(0, 1)};
-        int noCollumn = map.getBASE_WIDTH();
+        int noColumn = map.getBASE_WIDTH();
         int noRows = map.getBASE_HEIGHT();
         int currentIndex;
         List<Node> children;
@@ -69,8 +66,6 @@ public class AStar {
                 return returnPath(currentNode, map);
             }
             yetToVisitList.remove(currentIndex);
-            System.out.printf(currentNode.getPosition().toString());
-            System.out.println(endNode.getPosition().toString());
             visitedList.add(currentNode);
             if (currentNode.equals(endNode)) {
 
@@ -81,12 +76,13 @@ public class AStar {
                 Position nodePosition = new Position(currentNode.getPosition().getX() + newPosition.getX(),
                         currentNode.getPosition().getY() + newPosition.getY());
                 if (nodePosition.getX() > noRows - 1 || nodePosition.getX() < 0
-                        || nodePosition.getY() > noCollumn - 1
+                        || nodePosition.getY() > noColumn - 1
                         || nodePosition.getY() < 0) {
                     continue;
 
                 }
-                if (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap() && !map.getMap()[nodePosition.getX()][nodePosition.getY()].isPath()) {
+                if (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
+                        && !map.getMap()[nodePosition.getX()][nodePosition.getY()].isPath()) {
                     continue;
                 }
                 Node newNode = new Node(currentNode, nodePosition);
@@ -123,11 +119,8 @@ public class AStar {
                     continue;
                 }
                 yetToVisitList.add(child);
-
             }
-
         }
-
         return null;
     }
 

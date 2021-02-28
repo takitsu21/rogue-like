@@ -3,18 +3,17 @@ package com.mady.utils;
 import com.mady.utils.entities.Position;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
-    private final int BASE_HEIGHT = 16;
+    private final int BASE_HEIGHT = 32;
     private final int BASE_WIDTH = 128;
 
     public static void main(String[] args) {
-        Map map = new Map(5);
+        Map map = new Map(10);
         map.createMap();
         System.out.println(map.toString());
     }
@@ -28,7 +27,7 @@ public class Map {
     private void createMap() {
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
-                map[i][j] = new Case(".");
+                map[i][j] = new Case(" ");
             }
         }
         generateRooms();
@@ -72,8 +71,6 @@ public class Map {
             }
         }
         salles.add(s);
-
-
     }
 
     private boolean isInside(int x, int y) {
@@ -86,20 +83,19 @@ public class Map {
         for (int i = 0; i < nbSalles; i++) {
             generateRoom(p.getRandomPos(BASE_HEIGHT, BASE_WIDTH));
         }
-
     }
 
     private boolean checkFreeArea(Position p, int lignes, int colonnes) {
         boolean result = true;
-        int x = p.getX() != 0 ? p.getX() - 1 : p.getX();
-        int y = p.getY() != 0 ? p.getY() - 1 : p.getY();
-        lignes = lignes != BASE_HEIGHT ? lignes + 2 : lignes;
-        colonnes = colonnes != BASE_WIDTH ? colonnes + 2 : colonnes;
+        int x = p.getX() > 2 ? p.getX() - 3 : p.getX();
+        int y = p.getY() > 2 ? p.getY() - 3 : p.getY();
+        lignes = lignes != BASE_HEIGHT ? lignes + 5 : lignes;
+        colonnes = colonnes != BASE_WIDTH ? colonnes + 5 : colonnes;
 
         if (isInside(lignes + x, colonnes + y)) {
             for (int i = 0; i < lignes; i++) {
                 for (int j = 0; j < colonnes; j++) {
-                    if (!isInside(i + x, j + y) || !map[i+x][j+y].isMap()) {
+                    if (!isInside(i + x, j + y) || !map[i + x][j + y].isMap()) {
                         result = false;
                         break;
                     }
@@ -132,14 +128,12 @@ public class Map {
 
                 }
             }
-            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
-            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
+//            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
+//            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
             System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
             relie(s, salleselect);
             s = salleselect;
-
             relier.set(salles.indexOf(salleselect), true);
-
         }
     }
 
@@ -181,71 +175,24 @@ public class Map {
                 //droit+haut
             }
         }
+        map[x1 + s1.getPos().getX()][y1 + s1.getPos().getY()] = new Case("'", CaseType.PATH);
+        map[x2 + s2.getPos().getX()][y2 + s2.getPos().getY()] = new Case("'", CaseType.PATH);
 
-        //Position pos1=new Position(x1,y1);
-        //Position pos2=new Position(x2,y2);
-        map[x1 + s1.getPos().getX()][y1 + s1.getPos().getY()] = new Case("*", CaseType.PATH);
-        map[x2 + s2.getPos().getX()][y2 + s2.getPos().getY()] = new Case("*", CaseType.PATH);
-
-        //createPath(new Position(x1 + s1.getPos().getX(), y1 + s1.getPos().getY()),
-        //        new Position(x2 + s2.getPos().getX(), y2 + s2.getPos().getY()));
-
-        System.out.println(this.toString());
         AStar aStar = new AStar();
-        int[][] res = aStar.search(this, 1, new Position(x1 + s1.getPos().getX(),
-                        y1 + s1.getPos().getY()), new Position(x2 + s2.getPos().getX(), y2 + s2.getPos().getY()));
-        System.out.println(Arrays.deepToString(res));
+        int[][] res = aStar.search(this, 5, new Position(x1 + s1.getPos().getX(),
+                y1 + s1.getPos().getY()), new Position(x2 + s2.getPos().getX(), y2 + s2.getPos().getY()));
+        setupPaths(res);
     }
 
-
-    private void createPath(Position src, Position dst) {
-        System.out.println("creating path");
-        int x = src.getX();
-        int y = src.getY();
-//        System.out.println(src.equals(dst));
-//        System.out.println(src.equals(src));
-//        System.out.println(src);
-        int acc = 0;
-        while (!src.equals(dst)) {
-            if (acc == 500) {
-                return;
+    private void setupPaths(int[][] solvedPath) {
+        for (int i = 0; i < solvedPath.length; i++) {
+            for (int j = 0; j < solvedPath[i].length; j++) {
+                if (solvedPath[i][j] != -1) {
+                    map[i][j].setRepr("'");
+                    map[i][j].setCt(CaseType.PATH);
+                }
             }
-            acc++;
-            x = src.getX();
-            y = src.getY();
-//            System.out.println(src);
-
-//            System.out.println(map[x - 1][y].isFreeCase());
-            if (src.getX() > dst.getX() && !map[x - 1][y].isSalle()) {
-                src = left(src);
-            } else if (src.getX() < dst.getX() && !map[x + 1][y].isSalle()) {
-                src = right(src);
-            } else if (src.getY() < dst.getY() && !map[x][y + 1].isSalle()) {
-                src = down(src);
-            } else if (src.getY() > dst.getY() && !map[x][y - 1].isSalle()) {
-                src = up(src);
-            }
-
-            map[src.getX()][src.getY()].setRepr("*");
-//            System.out.println(src);
-//            return;
         }
-    }
-
-    private Position left(Position src) {
-        return new Position(src.getX() - 1, src.getY());
-    }
-
-    private Position right(Position src) {
-        return new Position(src.getX() + 1, src.getY());
-    }
-
-    private Position up(Position src) {
-        return new Position(src.getX(), src.getY() - 1);
-    }
-
-    private Position down(Position src) {
-        return new Position(src.getX(), src.getY() + 1);
     }
 
     @Override
