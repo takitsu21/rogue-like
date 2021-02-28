@@ -82,7 +82,7 @@ public class AStar {
                     continue;
 
                 }
-                if (map.getMap()[nodePosition.getX()][newPosition.getY()].isMap()) {
+                if (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()) {
                     continue;
                 }
                 Node newNode = new Node(currentNode, nodePosition);
@@ -100,8 +100,25 @@ public class AStar {
                 if (tempChild.size() > 0) {
                     continue;
                 }
-                yetToVisitList.add(child);
 
+                child.setG(currentNode.getG() + cost);
+                child.setH((int) (Math.pow(child.getPosition().getX() - endNode.getPosition().getX(), 2) +
+                        Math.pow(child.getPosition().getY() - endNode.getPosition().getY(), 2)));
+                child.setF(child.getG() + child.getH());
+
+                List<Node> tempChild2 = new ArrayList<>();
+
+
+                for (Node n : yetToVisitList) {
+                    if (n.equals(child) && n.getG() < child.getG()) {
+                        tempChild2.add(n);
+                    }
+                }
+
+                if (tempChild2.size() > 0) {
+                    continue;
+                }
+                yetToVisitList.add(child);
 
             }
 

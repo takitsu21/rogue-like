@@ -3,6 +3,7 @@ package com.mady.utils;
 import com.mady.utils.entities.Position;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Map {
@@ -186,8 +187,13 @@ public class Map {
         map[x1 + s1.getPos().getX()][y1 + s1.getPos().getY()] = new Case("*");
         map[x2 + s2.getPos().getX()][y2 + s2.getPos().getY()] = new Case("*");
 
-        createPath(new Position(x1 + s1.getPos().getX(), y1 + s1.getPos().getY()),
-                new Position(x2 + s2.getPos().getX(), y2 + s2.getPos().getY()));
+        //createPath(new Position(x1 + s1.getPos().getX(), y1 + s1.getPos().getY()),
+        //        new Position(x2 + s2.getPos().getX(), y2 + s2.getPos().getY()));
+
+        AStar aStar = new AStar();
+        int[][] res = aStar.search(this, 1, new Position(x1 + s1.getPos().getX(),
+                        y1 + s1.getPos().getY()), new Position(x2 + s2.getPos().getX(), y2 + s2.getPos().getY()));
+        System.out.println(Arrays.deepToString(res));
     }
 
 
