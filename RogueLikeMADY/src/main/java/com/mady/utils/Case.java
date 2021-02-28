@@ -3,18 +3,25 @@ package com.mady.utils;
 public class Case {
     private String repr;
     private Object item; // objet qui representera l'objet associé a cette case (monstre, coffre etc...)
+    private CaseType ct;
 
-    public Case(String repr, Object item) {
+
+    public Case(String repr, Object item, CaseType ct) {
         this.repr = repr;
         this.item = item;
+        this.ct = ct;
     }
 
     public Case(String repr) {
-        this(repr, null);
+        this(repr, null, CaseType.MAP);
     }
 
-    public Case() {
-        this(" ", null);
+    public Case(CaseType ct) {
+        this(" ", null, ct);
+    }
+
+    public Case(String repr, CaseType ct) {
+        this(repr, null, ct);
     }
 
     public boolean isOccupied() {
@@ -27,7 +34,15 @@ public class Case {
     }
 
     public boolean isWall() {
-        return repr.equals("#");
+        return CaseType.WALL == ct;
+    }
+
+    public boolean isSalle() {
+        return CaseType.SALLE == ct;
+    }
+
+    public boolean isMap() {
+        return CaseType.MAP == ct;
     }
 
     public String getRepr() {
@@ -44,5 +59,21 @@ public class Case {
 
     public void setItem(Object item) {
         this.item = item;
+    }
+
+    public CaseType getCt() {
+        return ct;
+    }
+
+    public void setCt(CaseType ct) {
+        this.ct = ct;
+    }
+
+    public boolean isFreeCase() {
+        return !(isWall() && isOccupied());
+    }
+
+    public boolean isPath() {
+        return CaseType.PATH == ct;
     }
 }

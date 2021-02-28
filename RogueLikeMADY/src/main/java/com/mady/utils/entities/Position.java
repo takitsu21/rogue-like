@@ -2,6 +2,7 @@ package com.mady.utils.entities;
 
 import com.mady.utils.Util;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class Position {
@@ -35,5 +36,25 @@ public class Position {
     }
     public Position moveTo(Position playerPos, double distance) {
         return getRandomPos(64,64);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getX(), getY());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Position) {
+            Position o = (Position) obj;
+            return o.getX() == getX() && o.getY() == this.getY();
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%d, %d)", getX(), getY());
     }
 }
