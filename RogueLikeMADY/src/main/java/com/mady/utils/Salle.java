@@ -68,18 +68,18 @@ public class Salle {
 
     private void createSalle() {
         for (int j = 0; j < lignes; j++) {
-            representation[j][0] = new Case("#", null);
+            representation[j][0] = new Case("#", null, CaseType.WALL);
         }
         for (int i = 1; i < colonnes; i++) {
 
-            representation[0][i] = new Case("#", null);
+            representation[0][i] = new Case("#", null, CaseType.WALL);
             for (int k = 1; k < lignes; k++) {
-                representation[k][i] = new Case(" ", null);
+                representation[k][i] = new Case(" ", null,CaseType.SALLE);
             }
-            representation[lignes - 1][i] = new Case("#", null);
+            representation[lignes - 1][i] = new Case("#", null, CaseType.WALL);
         }
         for (int j = 0; j < lignes; j++) {
-            representation[j][colonnes-1] = new Case("#", null);
+            representation[j][colonnes-1] = new Case("#", null, CaseType.WALL);
         }
     }
 

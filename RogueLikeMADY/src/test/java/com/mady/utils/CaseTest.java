@@ -13,9 +13,9 @@ class CaseTest {
 
     @BeforeEach
     void setUp() {
-        cWall = new Case("#", null);
-        cEmpty = new Case();
-        cItemNotEmpty = new Case("C", new String(""));
+        cWall = new Case("#", null, CaseType.WALL);
+        cEmpty = new Case(CaseType.SALLE);
+        cItemNotEmpty = new Case("C", new String(""), CaseType.SALLE);
         cConstructor = new Case(".");
     }
 
