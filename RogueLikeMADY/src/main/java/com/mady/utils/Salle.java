@@ -114,4 +114,20 @@ public class Salle {
         }
         return sb.toString();
     }
+
+    public Position findMiddle(){
+        return new Position(pos.getX()+lignes/2, pos.getY()+colonnes/2);
+    }
+
+    public boolean inSalle(Position position){
+        System.out.println(position.toString());
+        System.out.println(pos.toString());
+        System.out.println(pos.getX()+lignes);
+        System.out.println(pos.getY()+colonnes);
+        boolean b=(position.getX()>=this.pos.getX() && position.getX()<=this.pos.getX()+lignes
+                && position.getY()>=this.pos.getY() && position.getY()<=this.pos.getY()+colonnes);
+        System.out.println(b);
+        return (position.getX()>=this.pos.getX() && position.getX()<=this.pos.getX()+lignes
+                && position.getY()>=this.pos.getY() && position.getY()<=this.pos.getY()+colonnes);
+    }
 }

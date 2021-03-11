@@ -33,7 +33,7 @@ public class AStar {
 
     }
 
-    public int[][] search(Map map, int cost, Position start, Position end) {
+    public int[][] search(Map map, int cost, Position start, Position end, Salle salleStart, Salle salleEnd) {
         Node startNode = new Node(null, start);
         Node endNode = new Node(null, end);
         Node currentNode;
@@ -48,11 +48,18 @@ public class AStar {
         int noRows = map.getBASE_HEIGHT();
         int currentIndex;
         List<Node> children;
+        boolean inFirstSalle=true;
         while (yetToVisitList.size() > 0) {
-
             outerIterations++;
             currentNode = yetToVisitList.get(0);
             currentIndex = 0;
+
+
+
+
+
+
+
             for (int i = 0; i < yetToVisitList.size(); i++) {
                 Node item = yetToVisitList.get(i);
                 if (item.getF() < currentNode.getF()) {
@@ -61,14 +68,17 @@ public class AStar {
                 }
 
             }
+
+
+
             if (outerIterations > maxIterations) {
                 System.out.println("giving up on pathfinding");
                 return returnPath(currentNode, map);
             }
             yetToVisitList.remove(currentIndex);
             visitedList.add(currentNode);
-            if (currentNode.equals(endNode)) {
-
+            if (currentNode.equals(endNode) ) {
+                System.out.println("ok");
                 return returnPath(currentNode, map);
             }
             children = new ArrayList<>();
@@ -81,10 +91,13 @@ public class AStar {
                     continue;
 
                 }
-                if (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
-                        && !map.getMap()[nodePosition.getX()][nodePosition.getY()].isPath()) {
+                inFirstSalle=salleStart.inSalle(nodePosition);
+
+                if (!inFirstSalle || (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
+                        && !map.getMap()[nodePosition.getX()][nodePosition.getY()].isPath())) {
                     continue;
                 }
+
                 Node newNode = new Node(currentNode, nodePosition);
                 children.add(newNode);
 
