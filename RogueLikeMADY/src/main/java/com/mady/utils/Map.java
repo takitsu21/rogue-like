@@ -14,7 +14,7 @@ public class Map {
     private final int BASE_WIDTH;
 
     public static void main(String[] args) {
-        Map map = new Map(5, 16, 128);
+        Map map = new Map(10, 20, 200);
 
         map.createMap();
         System.out.println(map.toString());
@@ -120,8 +120,8 @@ public class Map {
 
                 }
             }
-//            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
-//            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
+            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
+            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
             System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
             relie(s, salleselect);
             s = salleselect;
@@ -177,7 +177,7 @@ public class Map {
     private void setupPaths(int[][] solvedPath) {
         for (int i = 0; i < solvedPath.length; i++) {
             for (int j = 0; j < solvedPath[i].length; j++) {
-                if (solvedPath[i][j] != -1) {
+                if (solvedPath[i][j] != -1){// && !map[i][j].isSalle()) {
                     map[i][j].setRepr("'");
                     map[i][j].setCt(CaseType.PATH);
                 }

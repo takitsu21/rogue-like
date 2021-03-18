@@ -120,13 +120,6 @@ public class Salle {
     }
 
     public boolean inSalle(Position position){
-        System.out.println(position.toString());
-        System.out.println(pos.toString());
-        System.out.println(pos.getX()+lignes);
-        System.out.println(pos.getY()+colonnes);
-        boolean b=(position.getX()>=this.pos.getX() && position.getX()<=this.pos.getX()+lignes
-                && position.getY()>=this.pos.getY() && position.getY()<=this.pos.getY()+colonnes);
-        System.out.println(b);
         return (position.getX()>=this.pos.getX() && position.getX()<=this.pos.getX()+lignes
                 && position.getY()>=this.pos.getY() && position.getY()<=this.pos.getY()+colonnes);
     }
