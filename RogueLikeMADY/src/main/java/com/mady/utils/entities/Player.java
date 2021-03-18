@@ -1,5 +1,8 @@
 package com.mady.utils.entities;
 
+import com.mady.utils.Case;
+
+import javax.swing.undo.AbstractUndoableEdit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +36,52 @@ public class Player extends AbstractEntities {
     public void setMaxDammages(int maxDammages) {
 
     }
+
+    public void pickItem( AbstractStuffItem i) {
+        this.stuff.getItems().add(i);
+    }
+    public void pickItem(Case c) {
+        AbstractStuffItem i = (AbstractStuffItem) c.getItem();
+        i.setPos(null);
+        this.stuff.getItems().add(i);
+        c.setItem(null);
+    }
+
+    public void equipItem(Case c) {
+        AbstractStuffItem i = (AbstractStuffItem) c.getItem();
+        i.setPos(null);
+        c.setItem(null);
+        String n = i.getName();
+        switch (n) {
+            case "helmet":
+                this.stuff.setHelmet(i);
+            case "weapon":
+                this.stuff.setWeapon(i);
+            case "shoes":
+                this.stuff.setShoes(i);
+            case "pant":
+                this.stuff.setPant(i);
+            case "chest":
+                this.stuff.setChest(i);
+                break;
+        }
+    }
+
+    public void useItem(Case c) {
+        AbstractStuffItem i = (AbstractStuffItem) c.getItem();
+        i.setPos(null);
+        c.setItem(null);
+        if (i.isDrinkable()) {
+            i.act(this);
+        } else if (i.isPickable()) {
+            pickItem(i);
+        }
+
+    }
+
+
+
+
 
     public Stuff getStuff() {
         return stuff;
@@ -124,7 +173,6 @@ public class Player extends AbstractEntities {
             stat = stat * 1.36;
         }
     }
-
 
 
     public boolean isLevelUp(int expGain) {

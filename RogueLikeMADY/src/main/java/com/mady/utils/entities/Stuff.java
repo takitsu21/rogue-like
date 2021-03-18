@@ -17,43 +17,43 @@ public class Stuff {
             Arrays.asList(helmet, weapon, shoes, pant, chest)
     );
 
-    public static AbstractStuffItem getHelmet() {
+    public AbstractStuffItem getHelmet() {
         return helmet;
     }
 
-    public static void setHelmet(AbstractStuffItem helmet) {
+    public void setHelmet(AbstractStuffItem helmet) {
         Stuff.helmet = helmet;
     }
 
-    public static AbstractStuffItem getWeapon() {
+    public AbstractStuffItem getWeapon() {
         return weapon;
     }
 
-    public static void setWeapon(AbstractStuffItem weapon) {
+    public void setWeapon(AbstractStuffItem weapon) {
         Stuff.weapon = weapon;
     }
 
-    public static AbstractStuffItem getShoes() {
+    public AbstractStuffItem getShoes() {
         return shoes;
     }
 
-    public static void setShoes(AbstractStuffItem shoes) {
+    public void setShoes(AbstractStuffItem shoes) {
         Stuff.shoes = shoes;
     }
 
-    public static AbstractStuffItem getPant() {
+    public AbstractStuffItem getPant() {
         return pant;
     }
 
-    public static void setPant(AbstractStuffItem pant) {
+    public void setPant(AbstractStuffItem pant) {
         Stuff.pant = pant;
     }
 
-    public static AbstractStuffItem getChest() {
+    public AbstractStuffItem getChest() {
         return chest;
     }
 
-    public static void setChest(AbstractStuffItem chest) {
+    public void setChest(AbstractStuffItem chest) {
         Stuff.chest = chest;
     }
 

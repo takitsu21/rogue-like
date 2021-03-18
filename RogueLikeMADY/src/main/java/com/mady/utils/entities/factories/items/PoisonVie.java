@@ -6,7 +6,7 @@ import com.mady.utils.entities.factories.items.AbstractItem;
 
 public class PoisonVie extends AbstractItem {
     public PoisonVie(Position position) {
-        super(position, 0, (int) (Math.random() * 3), "Poison de vie");
+        super(position, 0, (int) (Math.random() * 3), "Poison de vie",true,false);
     }
 
     @Override
