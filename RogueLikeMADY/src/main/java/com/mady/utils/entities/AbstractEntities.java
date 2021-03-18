@@ -6,13 +6,15 @@ public abstract class AbstractEntities implements Entities {
     private int hitPoints;
     private int damages;
     private final double movement;
+    private final String repr;
 
-    public AbstractEntities(Position pos, int hitPoints, int damages, double movement) {
+    public AbstractEntities(Position pos, int hitPoints, int damages, double movement, String repr) {
         this.pos = pos;
         maxHitPoints = hitPoints;
         this.hitPoints = hitPoints;
         this.damages = damages;
         this.movement = movement;
+        this.repr = repr;
     }
 
     @Override

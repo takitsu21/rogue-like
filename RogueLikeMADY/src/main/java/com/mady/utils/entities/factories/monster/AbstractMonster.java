@@ -7,8 +7,8 @@ import com.mady.utils.entities.Position;
 public abstract class AbstractMonster  extends AbstractEntities implements Monster {
 
 
-    public AbstractMonster(Position pos, int lifePoints, int damages, double movement) {
-        super(pos, lifePoints, damages, movement);
+    public AbstractMonster(Position pos, int lifePoints, int damages, double movement, String repr) {
+        super(pos, lifePoints, damages, movement, repr);
     }
 
     private double getDistance (Player player) {
