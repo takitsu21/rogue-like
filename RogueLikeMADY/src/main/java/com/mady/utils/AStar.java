@@ -88,14 +88,20 @@ public class AStar {
                 }
 
 
-                if (!salleStart.inSalle(nodePosition) && !salleEnd.inSalle(nodePosition)
-                        && !map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
-                        && !espaceVitalPath(nodePosition, newPosition, map)) {//&& !map.getMap()[nodePosition.getX()][nodePosition.getY()].isPath())
+                /*if (!salleStart.inSalle(nodePosition) && !salleEnd.inSalle(nodePosition)
+                        && (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
+                        || !espaceVitalPath(nodePosition, newPosition, map))
+                ) {//&& !map.getMap()[nodePosition.getX()][nodePosition.getY()].isPath())
                     continue;
-                }
+                }*/
 
-                Node newNode = new Node(currentNode, nodePosition);
-                children.add(newNode);
+                if (salleStart.inSalle(nodePosition) || salleEnd.inSalle(nodePosition)
+                        //|| map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
+                        || (map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
+                        && espaceVitalPath(nodePosition, newPosition, map))){
+                    Node newNode = new Node(currentNode, nodePosition);
+                    children.add(newNode);
+                }
 
             }
             for (Node child : children) {
@@ -136,21 +142,29 @@ public class AStar {
     private boolean espaceVitalPath(Position nodePosition, Position newPosition, Map map) {
         System.out.println(newPosition.getY());
         System.out.println(newPosition.getX());
-        if (newPosition.getX() == 0) {
-            System.out.println(map.getMap()[nodePosition.getX()][nodePosition.getY() + newPosition.getY()].isMap()
-                    && map.getMap()[nodePosition.getX() + 1][nodePosition.getY() + newPosition.getY()].isMap()
-                    && map.getMap()[nodePosition.getX() - 1][nodePosition.getY() + newPosition.getY()].isMap());
+        if (newPosition.getX() == 0 && nodePosition.getY() + newPosition.getY()>=0
+                && nodePosition.getY() + newPosition.getY()<= map.getMap()[0].length-1
+                && nodePosition.getX() - 1 >=0
+                && nodePosition.getX() + 1<= map.getMap().length-1) {
+
+
             return (map.getMap()[nodePosition.getX()][nodePosition.getY() + newPosition.getY()].isMap()
                     && map.getMap()[nodePosition.getX() + 1][nodePosition.getY() + newPosition.getY()].isMap()
-                    && map.getMap()[nodePosition.getX() - 1][nodePosition.getY() + newPosition.getY()].isMap());
+                    && map.getMap()[nodePosition.getX() - 1][nodePosition.getY() + newPosition.getY()].isMap()
+                    && map.getMap()[nodePosition.getX() + 1][nodePosition.getY()].isMap()
+                    && map.getMap()[nodePosition.getX() - 1][nodePosition.getY()].isMap());
         }
-        if (newPosition.getY() == 0) {
-            System.out.println(map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY()].isMap()
-                    && map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY() + 1].isMap()
-                    && map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY() - 1].isMap());
+        if (newPosition.getY() == 0 && nodePosition.getX() + newPosition.getX()>=0
+                && nodePosition.getX() + newPosition.getX()<= map.getMap().length-1
+                && nodePosition.getY() - 1 >=0
+                && nodePosition.getY() + 1<= map.getMap()[0].length-1) {
+
+
             return (map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY()].isMap()
                     && map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY() + 1].isMap()
-                    && map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY() - 1].isMap());
+                    && map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY() - 1].isMap()
+                    && map.getMap()[nodePosition.getX()][nodePosition.getY() + 1].isMap()
+                    && map.getMap()[nodePosition.getX()][nodePosition.getY() - 1].isMap());
         }
         return true;
     }

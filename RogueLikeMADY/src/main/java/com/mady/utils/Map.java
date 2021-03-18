@@ -14,7 +14,7 @@ public class Map {
     private final int BASE_WIDTH;
 
     public static void main(String[] args) {
-        Map map = new Map(10, 20, 200);
+        Map map = new Map(8, 50, 100);
 
         map.createMap();
         System.out.println(map.toString());
@@ -120,8 +120,8 @@ public class Map {
 
                 }
             }
-            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
-            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
+            //map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
+            //map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
             System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
             relie(s, salleselect);
             s = salleselect;
@@ -170,14 +170,14 @@ public class Map {
         map[x2 + s2.getPos().getX()][y2 + s2.getPos().getY()] = new Case("'", CaseType.PATH);*/
 
         AStar aStar = new AStar();
-        int[][] res = aStar.search(this, 5, pos1, pos2, s1, s2);
+        int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2);
         setupPaths(res);
     }
 
     private void setupPaths(int[][] solvedPath) {
         for (int i = 0; i < solvedPath.length; i++) {
             for (int j = 0; j < solvedPath[i].length; j++) {
-                if (solvedPath[i][j] != -1){// && !map[i][j].isSalle()) {
+                if (solvedPath[i][j] != -1 && !map[i][j].isSalle()) {
                     map[i][j].setRepr("'");
                     map[i][j].setCt(CaseType.PATH);
                 }
