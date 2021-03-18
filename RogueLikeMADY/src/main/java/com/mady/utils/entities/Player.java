@@ -4,29 +4,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Player extends AbstractEntities{
+public class Player extends AbstractEntities {
 
     private static int lvl;
     private double exp;
     private static double expMax;
-    private static double HP;
-    private static double MP;
-    private static double ATK;
-    private static double DEF;
-    private static double AGI;
-    private static double LUK;
+    private static double HP = 10;
+    private static double MP = 5;
+    private static double ATK = 3;
+    private static double DEF = 1;
+    private static double AGI = 1;
+    private static double LUK = 1;
     private List<Double> stats = new ArrayList<>(Arrays.asList(expMax, HP, MP, ATK, DEF, AGI, LUK));
+    private final Stuff stuff;
 
     public Player(Position pos, int hitPoints, int damages, double movement, String repr) {
         super(pos, hitPoints, damages, movement, repr);
-        this.lvl = 1;
-        this.HP = 10;
-        this.MP = 5;
-        this.ATK = 3;
-        this.DEF = 1;
-        this.AGI = 1;
-        this.LUK = 1;
-
+        this.stuff = new Stuff();
     }
 
 
@@ -38,6 +32,10 @@ public class Player extends AbstractEntities{
     @Override
     public void setMaxDammages(int maxDammages) {
 
+    }
+
+    public Stuff getStuff() {
+        return stuff;
     }
 
     public double getExp() {
@@ -126,6 +124,8 @@ public class Player extends AbstractEntities{
             stat = stat * 1.36;
         }
     }
+
+
 
     public boolean isLevelUp(int expGain) {
         double newExp = (exp + expGain) % expMax;
