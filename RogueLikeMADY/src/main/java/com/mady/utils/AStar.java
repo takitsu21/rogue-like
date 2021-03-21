@@ -33,7 +33,7 @@ public class AStar {
 
     }
 
-    public int[][] search(Map map, int cost, Position start, Position end) {
+    public int[][] search(Map map, int cost, Position start, Position end, Salle salleStart, Salle salleEnd) {
         Node startNode = new Node(null, start);
         Node endNode = new Node(null, end);
         Node currentNode;
@@ -49,18 +49,22 @@ public class AStar {
         int currentIndex;
         List<Node> children;
         while (yetToVisitList.size() > 0) {
-
             outerIterations++;
             currentNode = yetToVisitList.get(0);
             currentIndex = 0;
+
+
             for (int i = 0; i < yetToVisitList.size(); i++) {
                 Node item = yetToVisitList.get(i);
                 if (item.getF() < currentNode.getF()) {
                     currentNode = item;
                     currentIndex = i;
+
                 }
 
             }
+
+
             if (outerIterations > maxIterations) {
                 System.out.println("giving up on pathfinding");
                 return returnPath(currentNode, map);
@@ -68,9 +72,10 @@ public class AStar {
             yetToVisitList.remove(currentIndex);
             visitedList.add(currentNode);
             if (currentNode.equals(endNode)) {
-
+                System.out.println("ok");
                 return returnPath(currentNode, map);
             }
+
             children = new ArrayList<>();
             for (Position newPosition : move) {
                 Position nodePosition = new Position(currentNode.getPosition().getX() + newPosition.getX(),
@@ -81,12 +86,22 @@ public class AStar {
                     continue;
 
                 }
-                if (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
-                        && !map.getMap()[nodePosition.getX()][nodePosition.getY()].isPath()) {
+
+
+                /*if (!salleStart.inSalle(nodePosition) && !salleEnd.inSalle(nodePosition)
+                        && (!map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
+                        || !espaceVitalPath(nodePosition, newPosition, map))
+                ) {//&& !map.getMap()[nodePosition.getX()][nodePosition.getY()].isPath())
                     continue;
+                }*/
+
+                if (salleStart.inSalle(nodePosition) || salleEnd.inSalle(nodePosition)
+                        //|| map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
+                        || (map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
+                        && espaceVitalPath(nodePosition, newPosition, map))){
+                    Node newNode = new Node(currentNode, nodePosition);
+                    children.add(newNode);
                 }
-                Node newNode = new Node(currentNode, nodePosition);
-                children.add(newNode);
 
             }
             for (Node child : children) {
@@ -122,6 +137,36 @@ public class AStar {
             }
         }
         return null;
+    }
+
+    private boolean espaceVitalPath(Position nodePosition, Position newPosition, Map map) {
+        System.out.println(newPosition.getY());
+        System.out.println(newPosition.getX());
+        if (newPosition.getX() == 0 && nodePosition.getY() + newPosition.getY()>=0
+                && nodePosition.getY() + newPosition.getY()<= map.getMap()[0].length-1
+                && nodePosition.getX() - 1 >=0
+                && nodePosition.getX() + 1<= map.getMap().length-1) {
+
+
+            return (map.getMap()[nodePosition.getX()][nodePosition.getY() + newPosition.getY()].isMap()
+                    && map.getMap()[nodePosition.getX() + 1][nodePosition.getY() + newPosition.getY()].isMap()
+                    && map.getMap()[nodePosition.getX() - 1][nodePosition.getY() + newPosition.getY()].isMap()
+                    && map.getMap()[nodePosition.getX() + 1][nodePosition.getY()].isMap()
+                    && map.getMap()[nodePosition.getX() - 1][nodePosition.getY()].isMap());
+        }
+        if (newPosition.getY() == 0 && nodePosition.getX() + newPosition.getX()>=0
+                && nodePosition.getX() + newPosition.getX()<= map.getMap().length-1
+                && nodePosition.getY() - 1 >=0
+                && nodePosition.getY() + 1<= map.getMap()[0].length-1) {
+
+
+            return (map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY()].isMap()
+                    && map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY() + 1].isMap()
+                    && map.getMap()[nodePosition.getX() + newPosition.getX()][nodePosition.getY() - 1].isMap()
+                    && map.getMap()[nodePosition.getX()][nodePosition.getY() + 1].isMap()
+                    && map.getMap()[nodePosition.getX()][nodePosition.getY() - 1].isMap());
+        }
+        return true;
     }
 
 }
