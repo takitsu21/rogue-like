@@ -1,5 +1,6 @@
 package com.mady.utils;
 
+import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
 import java.util.ArrayList;
@@ -12,12 +13,14 @@ public class Map {
 
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
+    private Player player;
 
     public static void main(String[] args) {
         Map map = new Map(5, 16, 128);
 
         map.createMap();
-        System.out.println(map.toString());
+        Player player = new Player(map.randomPosPlayerInSalle(), 10, 5, 1, "@");
+        map.addPlayerToMap(player);
     }
 
 
@@ -43,6 +46,24 @@ public class Map {
         selectLien();
     }
 
+    public Position randomPosPlayerInSalle() {
+        Salle s = salles.get(Util.r.nextInt(salles.size()));
+        Position pos = s.getFreePlaceInsideRoom();
+        return pos.incrementPos(s.getPos());
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void addPlayerToMap(Player player) {
+        setPlayer(player);
+        map[player.getPosition().getX()][player.getPosition().getY()].setRepr(player.getRepr());
+    }
 
     private void generateRoom(Position p) {
         int x = p.getX();

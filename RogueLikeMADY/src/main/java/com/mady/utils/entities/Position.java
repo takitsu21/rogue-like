@@ -29,7 +29,9 @@ public class Position {
         this.y = y;
     }
 
-
+    public Position incrementPos(Position pos) {
+        return new Position(pos.getX() + getX(), pos.getY() + getY());
+    }
 
     public Position getRandomPos(int maxX, int maxY){
         return new Position(Util.r.nextInt(maxX) + 1,Util.r.nextInt(maxY) + 1);

@@ -1,15 +1,26 @@
 package com.mady.utils;
 
+import com.mady.utils.entities.AbstractEntities;
+import com.mady.utils.entities.Entities;
+
 public class Case {
     private String repr;
     private Object item; // objet qui representera l'objet associé a cette case (monstre, coffre etc...)
     private CaseType ct;
+    private Entities entity;
 
 
     public Case(String repr, Object item, CaseType ct) {
         this.repr = repr;
         this.item = item;
         this.ct = ct;
+    }
+
+    public Case(String repr, Object item, CaseType ct, Entities entity) {
+        this.repr = repr;
+        this.item = item;
+        this.ct = ct;
+        this.entity = entity;
     }
 
     public Case(String repr) {
@@ -25,7 +36,7 @@ public class Case {
     }
 
     public boolean isOccupied() {
-        return item != null;
+        return item != null || entity != null;
     }
 
     @Override

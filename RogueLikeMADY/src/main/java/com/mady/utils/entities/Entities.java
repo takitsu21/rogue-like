@@ -20,4 +20,6 @@ public interface Entities {
     int getMaxDammages();
     void setMaxDammages(int maxDammages);
 
+    String getRepr();
+
 }

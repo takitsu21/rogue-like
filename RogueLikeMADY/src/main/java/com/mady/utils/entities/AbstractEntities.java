@@ -17,6 +17,14 @@ public abstract class AbstractEntities implements Entities {
         this.repr = repr;
     }
 
+    public Position getPos() {
+        return pos;
+    }
+
+    public String getRepr() {
+        return repr;
+    }
+
     @Override
     public Position getPosition() {
         return pos;
