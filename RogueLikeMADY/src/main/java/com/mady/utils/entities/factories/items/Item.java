@@ -10,4 +10,6 @@ public interface Item {
     int getDamages();
     String getName();
     void act(Player player);
+    Boolean isDrinkable();
+    Boolean isPickable();
 }

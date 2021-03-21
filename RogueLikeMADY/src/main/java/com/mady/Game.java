@@ -2,6 +2,7 @@ package com.mady;
 
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
+import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
 public class Game {

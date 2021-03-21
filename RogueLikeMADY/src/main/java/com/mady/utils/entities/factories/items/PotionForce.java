@@ -7,7 +7,7 @@ import com.mady.utils.entities.factories.items.AbstractItem;
 
 public class PotionForce extends AbstractItem {
     public PotionForce(Position position) {
-        super(position, 0, (int) (Math.random() * 3), "Potion de force");
+        super(position, 0, (int) (Math.random() * 3), "Potion de force",true,false);
     }
 
     @Override
