@@ -21,6 +21,7 @@ public class Map {
         map.createMap();
         Player player = new Player(map.randomPosPlayerInSalle(), 10, 5, 1, "@");
         map.addPlayerToMap(player);
+        System.out.println(map);
 
     }
 
@@ -142,9 +143,9 @@ public class Map {
 
                 }
             }
-            //map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
-            //map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
-            System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
+//            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
+//            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
+//            System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
             relie(s, salleselect);
             s = salleselect;
             relier.set(salles.indexOf(salleselect), true);

@@ -72,7 +72,7 @@ public class AStar {
             yetToVisitList.remove(currentIndex);
             visitedList.add(currentNode);
             if (currentNode.equals(endNode)) {
-                System.out.println("ok");
+//                System.out.println("ok");
                 return returnPath(currentNode, map);
             }
 
@@ -140,8 +140,8 @@ public class AStar {
     }
 
     private boolean espaceVitalPath(Position nodePosition, Position newPosition, Map map) {
-        System.out.println(newPosition.getY());
-        System.out.println(newPosition.getX());
+//        System.out.println(newPosition.getY());
+//        System.out.println(newPosition.getX());
         if (newPosition.getX() == 0 && nodePosition.getY() + newPosition.getY()>=0
                 && nodePosition.getY() + newPosition.getY()<= map.getMap()[0].length-1
                 && nodePosition.getX() - 1 >=0

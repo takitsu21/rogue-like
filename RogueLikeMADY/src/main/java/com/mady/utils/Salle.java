@@ -52,11 +52,11 @@ public class Salle {
     }
 
     public Position getFreePlaceInsideRoom() {
-        int x = Util.r.nextInt(lignes - 1) + 1;
-        int y = Util.r.nextInt(colonnes - 1) + 1;
+        int x = Util.r.nextInt(lignes - 2) + 1;
+        int y = Util.r.nextInt(colonnes - 2) + 1;
         while (!representation[x][y].isFreeCase()) {
-            x = Util.r.nextInt(lignes - 1) + 1;
-            y = Util.r.nextInt(colonnes - 1) + 1;
+            x = Util.r.nextInt(lignes - 2) + 1;
+            y = Util.r.nextInt(colonnes - 2) + 1;
         }
         return new Position(x, y);
     }
