@@ -21,6 +21,7 @@ public class Map {
         map.createMap();
         Player player = new Player(map.randomPosPlayerInSalle(), 10, 5, 1, "@");
         map.addPlayerToMap(player);
+
     }
 
 
