@@ -32,4 +32,7 @@ public class GameController {
         return player.getPosition();
     }
 
+    public Player getPlayer() {
+        return player;
+    }
 }

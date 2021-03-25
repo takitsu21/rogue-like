@@ -33,6 +33,7 @@ public abstract class GameLoop {
 
         logger.setLevel(Level.ALL);
         controller = new GameController(map.randomPosPlayerInSalle());
+        map.addPlayerToMap(controller.getPlayer());
         status = GameStatus.STOPPED;
     }
 

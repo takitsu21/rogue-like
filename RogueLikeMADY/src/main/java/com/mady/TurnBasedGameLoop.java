@@ -11,6 +11,7 @@ public class TurnBasedGameLoop extends GameLoop{
             for (Entities entitie : map.getEntities()) {
                 entitie.doTurn();
             }
+            render();
         }
     }
 }
