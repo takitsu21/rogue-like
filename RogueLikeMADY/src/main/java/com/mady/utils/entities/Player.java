@@ -184,7 +184,7 @@ public class Player extends AbstractEntities {
     }
 
     @Override
-    public void doTurn() {
+    public void doTurn(Player player) {
         /*TODO*/
     }
 }

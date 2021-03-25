@@ -1,5 +1,7 @@
 package com.mady.utils.entities;
 
+import com.mady.utils.entities.factories.monster.Monster;
+
 public abstract class AbstractEntities implements Entities {
     private Position pos;
     private int maxHitPoints;
@@ -17,9 +19,6 @@ public abstract class AbstractEntities implements Entities {
         this.repr = repr;
     }
 
-    public Position getPos() {
-        return pos;
-    }
 
     public String getRepr() {
         return repr;
@@ -77,8 +76,9 @@ public abstract class AbstractEntities implements Entities {
         return movement;
     }
 
+
     @Override
-    public void doTurn() {
-        /*TODO*/
-    }
+    public abstract void doTurn(Player player);
+
+
 }

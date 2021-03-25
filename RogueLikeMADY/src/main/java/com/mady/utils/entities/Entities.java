@@ -22,6 +22,8 @@ public interface Entities {
 
     String getRepr();
 
-    void doTurn();
+    void doTurn(Player player);
+
+
 
 }

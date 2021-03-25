@@ -8,6 +8,7 @@ import java.util.Random;
 public class Position {
     private int x;
     private int y;
+
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
@@ -58,5 +59,11 @@ public class Position {
     @Override
     public String toString() {
         return String.format("(%d, %d)", getX(), getY());
+    }
+
+    public double getDistance(Position pos) {
+        double dx = x - pos.x;
+        double dy = y - pos.y;
+        return Math.hypot(dx, dy);
     }
 }

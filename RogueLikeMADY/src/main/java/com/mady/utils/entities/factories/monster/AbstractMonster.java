@@ -3,17 +3,22 @@ package com.mady.utils.entities.factories.monster;
 import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import javafx.geometry.Pos;
 
 public abstract class AbstractMonster  extends AbstractEntities implements Monster {
 
+    private final int effectiveArea;
 
-    public AbstractMonster(Position pos, int lifePoints, int damages, double movement, String repr) {
+    public AbstractMonster(Position pos, int lifePoints, int damages, double movement, String repr, int effectiveArea) {
         super(pos, lifePoints, damages, movement, repr);
+
+        this.effectiveArea = effectiveArea;
     }
 
     private double getDistance (Player player) {
-        /* TODO : gérer la distance */
-        return 0.0;
+        Position monsterPos = getPosition();
+        Position playerPos = player.getPosition();
+        return monsterPos.getDistance(playerPos);
     }
 
     private void updatePos(Player player, double distance) {
@@ -33,5 +38,18 @@ public abstract class AbstractMonster  extends AbstractEntities implements Monst
     public void attack(Player player) {
         int monsterDamages = getDamages();
         player.takeDamages(monsterDamages);
+    }
+
+    public boolean isAreaClear(Player player) {
+        return (getDistance(player) < effectiveArea);
+    }
+
+    @Override
+    public void doTurn(Player player) {
+        if (isAreaClear(player)) {
+            double movement = getMovement();
+            if (getPosition().getX() + movement > //dimension de salle) //idée: mettre la liste des entités
+                                                                        // dans salle.
+        }
     }
 }
