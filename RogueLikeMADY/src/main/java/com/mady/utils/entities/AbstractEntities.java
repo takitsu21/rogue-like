@@ -76,4 +76,9 @@ public abstract class AbstractEntities implements Entities {
     public double getMovement() {
         return movement;
     }
+
+    @Override
+    public void doTurn() {
+        /*TODO*/
+    }
 }

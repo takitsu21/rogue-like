@@ -22,4 +22,6 @@ public interface Entities {
 
     String getRepr();
 
+    void doTurn();
+
 }

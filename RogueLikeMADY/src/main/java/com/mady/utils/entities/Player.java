@@ -79,10 +79,6 @@ public class Player extends AbstractEntities {
 
     }
 
-
-
-
-
     public Stuff getStuff() {
         return stuff;
     }
@@ -174,7 +170,6 @@ public class Player extends AbstractEntities {
         }
     }
 
-
     public boolean isLevelUp(int expGain) {
         double newExp = (exp + expGain) % expMax;
         if (newExp < exp) {
@@ -188,4 +183,8 @@ public class Player extends AbstractEntities {
         return (getHP() <= 0);
     }
 
+    @Override
+    public void doTurn() {
+        /*TODO*/
+    }
 }

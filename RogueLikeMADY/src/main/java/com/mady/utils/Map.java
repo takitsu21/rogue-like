@@ -1,5 +1,7 @@
 package com.mady.utils;
 
+import com.mady.utils.entities.AbstractEntities;
+import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
@@ -14,6 +16,7 @@ public class Map {
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private Player player;
+    private final List<Entities> entities = new ArrayList<>();
 
     public static void main(String[] args) {
         Map map = new Map(8, 50, 100);
@@ -239,5 +242,9 @@ public class Map {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public List<Entities> getEntities() {
+        return entities;
     }
 }
