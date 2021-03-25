@@ -1,12 +1,15 @@
 package com.mady.utils;
 
+import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
+    private Frame frame = new Frame();
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
@@ -48,10 +51,23 @@ public class Map {
         selectLien();
     }
 
+    public Frame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(Frame frame) {
+        this.frame = frame;
+    }
+
     public Position randomPosPlayerInSalle() {
         Salle s = salles.get(Util.r.nextInt(salles.size()));
         Position pos = s.getFreePlaceInsideRoom();
         return pos.incrementPos(s.getPos());
+    }
+
+
+    public Case getcase(Position p){
+        return this.map[p.getX()][p.getY()];
     }
 
     public Player getPlayer() {
@@ -228,6 +244,42 @@ public class Map {
         return BASE_WIDTH;
 
     }
+
+    public void move(Entities e , Position p){
+        Position firstPos = e.getPosition();
+        Position newPos = firstPos.incrementPos(p);
+        Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
+        Case newCase = this.map[newPos.getX()][newPos.getY()];
+        if(newCase.isFreeCase() && newCase.isSalle()){
+            oldCase.setItem(null);
+            oldCase.setRepr(" ");
+            newCase.setRepr(e.getRepr());
+            newCase.setItem(e);
+            getPlayer().setPos(newPos);
+
+        }
+
+        else{
+            System.out.println(newPos);}
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public String toString() {
