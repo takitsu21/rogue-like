@@ -62,4 +62,9 @@ public class Position {
     public String toString() {
         return String.format("(%d, %d)", getX(), getY());
     }
+
+    public boolean nextTo(Position pos){
+        return x==pos.getX()+1 || x==pos.getX()-1 ||
+                y==pos.getY()+1 || y==pos.getY()-1;
+    }
 }

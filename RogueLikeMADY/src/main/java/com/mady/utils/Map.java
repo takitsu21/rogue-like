@@ -4,7 +4,6 @@ import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +16,10 @@ public class Map {
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private Player player;
+    private List<ListPos> chemins = new ArrayList<>();
 
     public static void main(String[] args) {
-        Map map = new Map(8, 50, 100);
+        Map map = new Map(8, 30, 200);
 
         map.createMap();
         Player player = new Player(map.randomPosPlayerInSalle(), 10, 5, 1, "@");
@@ -210,18 +210,27 @@ public class Map {
 
         AStar aStar = new AStar();
         int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2);
+
         setupPaths(res);
     }
 
     private void setupPaths(int[][] solvedPath) {
+        List<Position> portes = new ArrayList<>();
         for (int i = 0; i < solvedPath.length; i++) {
             for (int j = 0; j < solvedPath[i].length; j++) {
+
                 if (solvedPath[i][j] != -1 && !map[i][j].isSalle()) {
-                    map[i][j].setRepr("'");
+                    if (map[i][j].isWall()){
+                        map[i][j].setRepr("P");
+                        portes.add(new Position(i,j));
+                    }
+                    else{
+                    map[i][j].setRepr("'");}
                     map[i][j].setCt(CaseType.PATH);
                 }
             }
         }
+        chemins.add(new ListPos(portes));
     }
 
     public int getNbSalles() {
@@ -256,29 +265,43 @@ public class Map {
             newCase.setRepr(e.getRepr());
             newCase.setItem(e);
             getPlayer().setPos(newPos);
+            System.out.println("ok");
+        }
 
+        if (newCase.isPath()){
+            Position newPos2=findDoor(newPos);
+            oldCase.setItem(null);
+            oldCase.setRepr(" ");
+            newCase.setRepr(e.getRepr());
+            newCase.setItem(e);
+            getPlayer().setPos(newPos2);
+            System.out.println(getPlayer().getPos().toString());
         }
 
         else{
-            System.out.println(newPos);}
+            System.out.println(newPos);
+            }
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private Position findDoor(Position newPos) {
+        System.out.println(newPos.toString());
+        System.out.println("find door");
+        for(ListPos chemin : chemins){
+            for (Position porte : chemin.getList()) {
+                System.out.println(porte.toString());
+                if (porte.equals(newPos)) {
+                    if(chemin.getList().size()==3 && chemin.getList().indexOf(porte)==2){
+                       return porte.nextTo(chemin.getList().get(0))?
+                               chemin.getList().get(chemin.getList().size()-1) : chemin.getList().get(0);
+                    }
+                    return chemin.getList().indexOf(porte)<chemin.getList().indexOf(porte)/2 ?
+                            chemin.getList().get(0) : chemin.getList().get(chemin.getList().size()-1);
+                }
+            }
+        }
+        return null;
+    }
 
 
     @Override
