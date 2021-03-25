@@ -4,6 +4,7 @@ import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
+//    private final MonsterFactory instance = new MonsterFactory();
 
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
@@ -49,6 +51,7 @@ public class Map {
 
         generateRooms();
         selectLien();
+        generateEntities();
     }
 
     public Position randomPosPlayerInSalle() {
@@ -229,7 +232,23 @@ public class Map {
 
     public int getBASE_WIDTH() {
         return BASE_WIDTH;
+    }
 
+    private void generateEntities() {
+//        addPlayerToMap(player);
+        int nbMonstersByRoom;
+        for (int i = 0; i < nbSalles; i++) {
+            nbMonstersByRoom = Util.r.nextInt(5);
+            addEntity(nbMonstersByRoom);
+        }
+    }
+
+    private void addEntity(int nbMonsters) {
+        for (int i = 0; i < nbMonsters; i++) {
+            Position pos = randomPosPlayerInSalle();
+            map[pos.getX()][pos.getY()].setEntity(MonsterFactory.getInstance().generate(
+                    Util.r.nextInt(MonsterFactory.nbMonsters), pos));
+        }
     }
 
     @Override
