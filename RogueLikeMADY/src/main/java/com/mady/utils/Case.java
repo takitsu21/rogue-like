@@ -76,6 +76,15 @@ public class Case {
         return ct;
     }
 
+    public Entities getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entities entity) {
+        this.entity = entity;
+        repr = entity.getRepr();
+    }
+
     public void setCt(CaseType ct) {
         this.ct = ct;
     }
