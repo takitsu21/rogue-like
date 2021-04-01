@@ -16,10 +16,10 @@ public class Map {
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private Player player;
-    private List<ListPos> chemins = new ArrayList<>();
+    private List<PairPos> chemins = new ArrayList<>();
 
     public static void main(String[] args) {
-        Map map = new Map(8, 30, 200);
+        Map map = new Map(15, 30, 200);
 
         map.createMap();
         Player player = new Player(map.randomPosPlayerInSalle(), 10, 5, 1, "@");
@@ -230,7 +230,7 @@ public class Map {
                 }
             }
         }
-        chemins.add(new ListPos(portes));
+        chemins.add(new PairPos(portes.get(0), portes.get(1)));
     }
 
     public int getNbSalles() {
@@ -287,17 +287,13 @@ public class Map {
     private Position findDoor(Position newPos) {
         System.out.println(newPos.toString());
         System.out.println("find door");
-        for(ListPos chemin : chemins){
-            for (Position porte : chemin.getList()) {
-                System.out.println(porte.toString());
-                if (porte.equals(newPos)) {
-                    if(chemin.getList().size()==3 && chemin.getList().indexOf(porte)==2){
-                       return porte.nextTo(chemin.getList().get(0))?
-                               chemin.getList().get(chemin.getList().size()-1) : chemin.getList().get(0);
-                    }
-                    return chemin.getList().indexOf(porte)<chemin.getList().indexOf(porte)/2 ?
-                            chemin.getList().get(0) : chemin.getList().get(chemin.getList().size()-1);
+        for(PairPos chemin : chemins){
+
+                if (chemin.getP1().equals(newPos)) {
+                       return chemin.getP2();
                 }
+                if (chemin.getP2().equals(newPos)){
+                    return chemin.getP1();
             }
         }
         return null;

@@ -27,7 +27,7 @@ public class TESTMOVING {
     }
 
     public TESTMOVING() {
-        Map map = new Map(6, 24, 128);
+        Map map = new Map(10, 24, 128);
 
         map.createMap();
         this.player = new Player(map.randomPosPlayerInSalle(), 10, 5, 1, "@");
