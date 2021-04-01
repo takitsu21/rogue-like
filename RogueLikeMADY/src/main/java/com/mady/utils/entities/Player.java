@@ -2,7 +2,6 @@ package com.mady.utils.entities;
 
 import com.mady.utils.Case;
 
-import javax.swing.undo.AbstractUndoableEdit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +20,7 @@ public class Player extends AbstractEntities {
     private List<Double> stats = new ArrayList<>(Arrays.asList(expMax, HP, MP, ATK, DEF, AGI, LUK));
     private final Stuff stuff;
 
-    public Player(Position pos, int hitPoints, int damages, double movement, String repr) {
+    public Player(Position pos, int hitPoints, int damages, int movement, String repr) {
         super(pos, hitPoints, damages, movement, repr, 3);
         this.stuff = new Stuff();
     }

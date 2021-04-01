@@ -2,21 +2,20 @@ package com.mady.utils.entities;
 
 import com.mady.utils.Map;
 import com.mady.utils.Util;
-import com.mady.utils.entities.factories.monster.Monster;
 
 public abstract class AbstractEntities implements Entities {
     private Position pos;
     private int maxHitPoints;
     private int hitPoints;
     private int damages;
-    private final double movement;
+    private final int movement;
     private final String repr;
     private final int effectiveArea;
 
     public AbstractEntities(Position pos,
                             int hitPoints,
                             int damages,
-                            double movement,
+                            int movement,
                             String repr,
                             int effectiveArea) {
         this.pos = pos;
@@ -81,7 +80,7 @@ public abstract class AbstractEntities implements Entities {
     }
 
     @Override
-    public double getMovement() {
+    public int getMovement() {
         return movement;
     }
 
@@ -100,39 +99,19 @@ public abstract class AbstractEntities implements Entities {
 
 
     public Position nextPos(Entities entitie) {
-        int randomMove = Util.r.nextInt((int)entitie.getMovement());
+        int randomMove = Util.r.nextInt(entitie.getMovement());
         Deplacement d = Util.randomDirection();
-        Position nextPos;
-
-        switch (d) {
-            case BAS:
-                return entitie.getPosition().incrementPos(d.pos.incrementPos(ne));
-                break;
-            case HAUT:
-
-                break;
-            case GAUCHE:
-
-                break;
-            default:
-
-                break;
-
-
-
-        }
-
-        return nextPos;
+        return d.pos.multiplyPos(randomMove);
     }
 
     @Override
     public Map doTurn(Map map) {
         if (isInPerimeter(map)) {
 //            attack
-            System.out.println("Le monstre attack");
+            System.out.println("Le monstre attaque");
         } else {
             System.out.println("on bouge");
-            map = move(map);
+            map.move(this,nextPos(this));
         }
         return map;
 //        if (isAreaClear(player)) {

@@ -17,7 +17,7 @@ public interface Entities {
     int getDamages();
     void setDamages(int damages);
 
-    double getMovement();
+    int getMovement();
 
     int getMaxDammages();
     void setMaxDammages(int maxDammages);

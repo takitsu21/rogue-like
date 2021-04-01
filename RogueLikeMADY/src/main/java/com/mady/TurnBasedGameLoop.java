@@ -8,7 +8,7 @@ public class TurnBasedGameLoop extends GameLoop{
     protected void processGameLoop() {
         while (isGameRunning()) {
             for (Entities entitie : map.getEntities()) {
-                map.move(entitie, entitie.nex)
+                map = entitie.doTurn(map);
             }
             render();
         }

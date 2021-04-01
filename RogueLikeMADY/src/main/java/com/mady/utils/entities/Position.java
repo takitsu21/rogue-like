@@ -76,4 +76,9 @@ public class Position {
         double dy = y - pos.y;
         return Math.hypot(dx, dy);
     }
+
+
+    public Position multiplyPos(int Mouvement){
+        return new Position(this.getX()*Mouvement, this.getY()*Mouvement);
+    }
 }

@@ -1,6 +1,5 @@
 package com.mady.utils.entities.factories.monster;
 
-import com.mady.utils.Map;
 import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
@@ -13,7 +12,7 @@ public abstract class AbstractMonster  extends AbstractEntities implements Monst
     public AbstractMonster(Position pos,
                            int lifePoints,
                            int damages,
-                           double movement,
+                           int movement,
                            String repr,
                            int effectiveArea) {
         super(pos, lifePoints, damages, movement, repr, effectiveArea);
