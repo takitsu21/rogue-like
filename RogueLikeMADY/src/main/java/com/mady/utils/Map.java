@@ -1,8 +1,6 @@
 package com.mady.utils;
 
 
-import com.mady.utils.entities.AbstractEntities;
-
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
@@ -21,7 +19,7 @@ public class Map {
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private Player player;
-  
+
     private List<PairPos> chemins = new ArrayList<>();
     private final List<Entities> entities = new ArrayList<>();
 
@@ -75,7 +73,7 @@ public class Map {
     }
 
 
-    public Case getcase(Position p){
+    public Case getcase(Position p) {
         return this.map[p.getX()][p.getY()];
     }
 
@@ -180,8 +178,8 @@ public class Map {
 
     private void relie(Salle s1, Salle s2) {
 
-        Position pos1= s1.findMiddle();
-        Position pos2= s2.findMiddle();
+        Position pos1 = s1.findMiddle();
+        Position pos2 = s2.findMiddle();
         /*if (s1.getPos().getX() < s2.getPos().getX()) {
             if (s1.getPos().getY() < s2.getPos().getY()) {
                 x1 = s1.getlignes() - 1;
@@ -229,12 +227,12 @@ public class Map {
             for (int j = 0; j < solvedPath[i].length; j++) {
 
                 if (solvedPath[i][j] != -1 && !map[i][j].isSalle()) {
-                    if (map[i][j].isWall()){
+                    if (map[i][j].isWall()) {
                         map[i][j].setRepr("P");
-                        portes.add(new Position(i,j));
+                        portes.add(new Position(i, j));
+                    } else {
+                        map[i][j].setRepr("'");
                     }
-                    else{
-                    map[i][j].setRepr("'");}
                     map[i][j].setCt(CaseType.PATH);
                 }
             }
@@ -283,66 +281,63 @@ public class Map {
 
     /*mouvement des entities */
 
-    public void move(Entities e , Position p){
+    public void move(Entities e, Position p) {
         Position firstPos = e.getPosition();
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
-        if(oldCase.isPath() && newCase.isSalle()) {
+        if (oldCase.isPath() && newCase.isSalle()) {
             oldCase.setItem(null);
             oldCase.setRepr("P");
             newCase.setRepr(e.getRepr());
             newCase.setItem(e);
             getPlayer().setPos(newPos);
-        }
-        else if(oldCase.isPath() && newCase.isPath()){
-            Position newPos2=findDoor(firstPos);
+        } else if (oldCase.isPath() && newCase.isPath()) {
+            Position newPos2 = findDoor(firstPos);
             newCase = this.map[newPos2.getX()][newPos2.getY()];
             oldCase.setItem(null);
             oldCase.setRepr("P");
             newCase.setRepr(e.getRepr());
             newCase.setItem(e);
             getPlayer().setPos(newPos2);
-            System.out.println(getPlayer().getPos().toString());
+            System.out.println(getPlayer().getPosition().toString());
 
-        }
-        else{
-        if(newCase.isFreeCase() && newCase.isSalle()){
-            oldCase.setItem(null);
-            oldCase.setRepr(" ");
-            newCase.setRepr(e.getRepr());
-            newCase.setItem(e);
-            getPlayer().setPos(newPos);
-            System.out.println("ok");
-        }
+        } else {
+            if (newCase.isFreeCase() && newCase.isSalle()) {
+                oldCase.setItem(null);
+                oldCase.setRepr(" ");
+                newCase.setRepr(e.getRepr());
+                newCase.setItem(e);
+                getPlayer().setPos(newPos);
+                System.out.println("ok");
+            }
 
-        if (newCase.isPath()){
-            Position newPos2=findDoor(newPos);
-            newCase = this.map[newPos2.getX()][newPos2.getY()];
-            oldCase.setItem(null);
-            oldCase.setRepr(" ");
-            newCase.setRepr(e.getRepr());
-            newCase.setItem(e);
-            getPlayer().setPos(newPos2);
-            System.out.println(getPlayer().getPos().toString());
+            if (newCase.isPath()) {
+                Position newPos2 = findDoor(newPos);
+                newCase = this.map[newPos2.getX()][newPos2.getY()];
+                oldCase.setItem(null);
+                oldCase.setRepr(" ");
+                newCase.setRepr(e.getRepr());
+                newCase.setItem(e);
+                getPlayer().setPos(newPos2);
+                System.out.println(getPlayer().getPosition().toString());
+            } else {
+                System.out.println(newPos);
+            }
         }
-
-        else{
-            System.out.println(newPos);
-            }}
         System.out.println(map);
     }
 
     private Position findDoor(Position newPos) {
         System.out.println(newPos.toString());
         System.out.println("find door");
-        for(PairPos chemin : chemins){
+        for (PairPos chemin : chemins) {
 
-                if (chemin.getP1().equals(newPos)) {
-                       return chemin.getP2();
-                }
-                if (chemin.getP2().equals(newPos)){
-                    return chemin.getP1();
+            if (chemin.getP1().equals(newPos)) {
+                return chemin.getP2();
+            }
+            if (chemin.getP2().equals(newPos)) {
+                return chemin.getP1();
             }
         }
         return null;

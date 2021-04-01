@@ -99,32 +99,30 @@ public abstract class AbstractEntities implements Entities {
 
 
 
-    public Map move(Map map) {
-        int randomMove = Util.r.nextInt((int)movement);
-        int randomDirection = Util.r.nextInt(4);
-        switch (randomDirection) {
-            case 0:
-                map.getMap()[pos.getX()][pos.getY()].setRepr(" ");
-                map.getMap()[pos.getX()-randomMove][pos.getY()].setEntity(this);
+    public Position nextPos(Entities entitie) {
+        int randomMove = Util.r.nextInt((int)entitie.getMovement());
+        Deplacement d = Util.randomDirection();
+        Position nextPos;
+
+        switch (d) {
+            case BAS:
+                return entitie.getPosition().incrementPos(d.pos.incrementPos(ne));
                 break;
-            case 1:
-                map.getMap()[pos.getX()][pos.getY()].setRepr(" ");
-                map.getMap()[pos.getX()][pos.getY()-randomMove].setEntity(this);
+            case HAUT:
+
                 break;
-            case 2:
-                map.getMap()[pos.getX()][pos.getY()].setRepr(" ");
-                map.getMap()[pos.getX()+randomMove][pos.getY()].setEntity(this);
+            case GAUCHE:
+
                 break;
             default:
-                map.getMap()[pos.getX()][pos.getY()].setRepr(" ");
-                map.getMap()[pos.getX()][pos.getY()+randomMove].setEntity(this);
+
                 break;
 
 
 
         }
 
-        return map;
+        return nextPos;
     }
 
     @Override
