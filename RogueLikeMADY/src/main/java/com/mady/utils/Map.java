@@ -1,8 +1,12 @@
 package com.mady.utils;
 
+
+import com.mady.utils.entities.AbstractEntities;
+
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +16,15 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
+//    private final MonsterFactory instance = new MonsterFactory();
 
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private Player player;
+  
     private List<PairPos> chemins = new ArrayList<>();
+    private final List<Entities> entities = new ArrayList<>();
+
 
     public static void main(String[] args) {
         Map map = new Map(15, 30, 200);
@@ -49,6 +57,7 @@ public class Map {
 
         generateRooms();
         selectLien();
+        generateEntities();
     }
 
     public Frame getFrame() {
@@ -251,7 +260,25 @@ public class Map {
 
     public int getBASE_WIDTH() {
         return BASE_WIDTH;
+    }
 
+    private void generateEntities() {
+//        addPlayerToMap(player);
+        int nbMonstersByRoom;
+        for (int i = 0; i < nbSalles; i++) {
+            nbMonstersByRoom = Util.r.nextInt(5);
+            addEntity(nbMonstersByRoom);
+        }
+    }
+
+    private void addEntity(int nbMonsters) {
+        for (int i = 0; i < nbMonsters; i++) {
+            Position pos = randomPosPlayerInSalle();
+            Entities entity = MonsterFactory.getInstance().generate(
+                    Util.r.nextInt(MonsterFactory.nbMonsters), pos);
+            map[pos.getX()][pos.getY()].setEntity(entity);
+            entities.add(entity);
+        }
     }
 
     /*mouvement des entities */
@@ -332,5 +359,9 @@ public class Map {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public List<Entities> getEntities() {
+        return entities;
     }
 }

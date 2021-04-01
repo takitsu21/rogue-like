@@ -7,7 +7,7 @@ public class OrcWarrior extends AbstractMonster{
 
 
     public OrcWarrior(Position pos) {
-        super(pos, 10, 3, 3, "o");
+        super(pos, 10, 3, 3, "o", 3);
     }
 
     @Override
