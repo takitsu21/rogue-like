@@ -246,8 +246,10 @@ public class Map {
     private void addEntity(int nbMonsters) {
         for (int i = 0; i < nbMonsters; i++) {
             Position pos = randomPosPlayerInSalle();
-            map[pos.getX()][pos.getY()].setEntity(MonsterFactory.getInstance().generate(
-                    Util.r.nextInt(MonsterFactory.nbMonsters), pos));
+            Entities entity = MonsterFactory.getInstance().generate(
+                    Util.r.nextInt(MonsterFactory.nbMonsters), pos);
+            map[pos.getX()][pos.getY()].setEntity(entity);
+            entities.add(entity);
         }
     }
 

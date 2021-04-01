@@ -1,5 +1,7 @@
 package com.mady.utils.entities;
 
+import com.mady.utils.Map;
+
 public interface Entities {
     Position getPosition();
     void setPos(Position position);
@@ -22,7 +24,7 @@ public interface Entities {
 
     String getRepr();
 
-    void doTurn(Player player);
+    Map doTurn(Map map);
 
 
 

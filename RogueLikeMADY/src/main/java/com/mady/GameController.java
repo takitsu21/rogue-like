@@ -15,16 +15,16 @@ public class GameController {
     }
 
     /**
-     * Move bullet position by the provided offset.
+     * Move player position by the provided position.
      *
-     * @param pos moving offset
+     * @param pos moving position
      */
     public void movePlayer(Position pos) {
         player.setPos(pos);
     }
 
     /**
-     * Get current position of the bullet.
+     * Get current position of the player.
      *
      * @return position of player
      */

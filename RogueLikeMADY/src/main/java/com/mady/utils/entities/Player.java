@@ -22,7 +22,7 @@ public class Player extends AbstractEntities {
     private final Stuff stuff;
 
     public Player(Position pos, int hitPoints, int damages, double movement, String repr) {
-        super(pos, hitPoints, damages, movement, repr);
+        super(pos, hitPoints, damages, movement, repr, 3);
         this.stuff = new Stuff();
     }
 
@@ -181,10 +181,5 @@ public class Player extends AbstractEntities {
 
     public boolean isDead() {
         return (getHP() <= 0);
-    }
-
-    @Override
-    public void doTurn(Player player) {
-        /*TODO*/
     }
 }

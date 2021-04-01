@@ -2,6 +2,7 @@ package com.mady.utils;
 
 import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Entities;
+import com.mady.utils.entities.Player;
 
 public class Case {
     private String repr;
@@ -37,6 +38,12 @@ public class Case {
 
     public boolean isOccupied() {
         return item != null || entity != null;
+    }
+
+    public boolean isPlayer() {
+        System.out.println(entity instanceof Player);
+//        System.out.println(entity.equals(Player));
+        return entity instanceof Player;
     }
 
     @Override
