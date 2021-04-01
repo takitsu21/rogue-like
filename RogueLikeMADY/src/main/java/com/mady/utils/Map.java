@@ -286,33 +286,35 @@ public class Map {
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
-        if (oldCase.isPath() && newCase.isSalle()) {
+        if (oldCase.isPath() && newCase.isSalle() && e instanceof Player) {
             oldCase.setItem(null);
+            oldCase.setEntity(null);
             oldCase.setRepr("P");
             newCase.setRepr(e.getRepr());
             newCase.setItem(e);
+            newCase.setEntity(e);
             getPlayer().setPos(newPos);
-        } else if (oldCase.isPath() && newCase.isPath()) {
+        } else if (oldCase.isPath() && newCase.isPath()&& e instanceof Player) {
             Position newPos2 = findDoor(firstPos);
             newCase = this.map[newPos2.getX()][newPos2.getY()];
             oldCase.setItem(null);
             oldCase.setRepr("P");
             newCase.setRepr(e.getRepr());
             newCase.setItem(e);
+            newCase.setEntity(e);
             getPlayer().setPos(newPos2);
             System.out.println(getPlayer().getPosition().toString());
 
         } else {
             if (newCase.isFreeCase() && newCase.isSalle()) {
                 oldCase.setItem(null);
-                oldCase.setRepr(" ");
-                newCase.setRepr(e.getRepr());
-                newCase.setItem(e);
+                oldCase.setEntity(null);
+                newCase.setEntity(e);
                 getPlayer().setPos(newPos);
                 System.out.println("ok");
             }
 
-            if (newCase.isPath()) {
+            if (newCase.isPath() && e instanceof Player) {
                 Position newPos2 = findDoor(newPos);
                 newCase = this.map[newPos2.getX()][newPos2.getY()];
                 oldCase.setItem(null);
@@ -325,7 +327,7 @@ public class Map {
                 System.out.println(newPos);
             }
         }
-        System.out.println(map);
+
     }
 
     private Position findDoor(Position newPos) {

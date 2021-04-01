@@ -89,7 +89,7 @@ public class Case {
 
     public void setEntity(Entities entity) {
         this.entity = entity;
-        repr = entity.getRepr();
+        repr = entity == null ? " " : entity.getRepr();
     }
 
     public void setCt(CaseType ct) {
