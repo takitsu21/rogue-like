@@ -4,16 +4,25 @@ import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
+
 public abstract class AbstractMonster  extends AbstractEntities implements Monster {
 
 
-    public AbstractMonster(Position pos, int lifePoints, int damages, double movement, String repr) {
-        super(pos, lifePoints, damages, movement, repr);
+
+    public AbstractMonster(Position pos,
+                           int lifePoints,
+                           int damages,
+                           int movement,
+                           String repr,
+                           int effectiveArea) {
+        super(pos, lifePoints, damages, movement, repr, effectiveArea);
+
     }
 
     private double getDistance (Player player) {
-        /* TODO : gérer la distance */
-        return 0.0;
+        Position monsterPos = getPosition();
+        Position playerPos = player.getPosition();
+        return monsterPos.getDistance(playerPos);
     }
 
     private void updatePos(Player player, double distance) {
@@ -34,4 +43,10 @@ public abstract class AbstractMonster  extends AbstractEntities implements Monst
         int monsterDamages = getDamages();
         player.takeDamages(monsterDamages);
     }
+
+//    public boolean isAreaClear(Player player) {
+//        return (getDistance(player) < effectiveArea);
+//    }
+
+
 }

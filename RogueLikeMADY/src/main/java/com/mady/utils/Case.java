@@ -2,6 +2,7 @@ package com.mady.utils;
 
 import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Entities;
+import com.mady.utils.entities.Player;
 
 public class Case {
     private String repr;
@@ -39,6 +40,12 @@ public class Case {
         return item != null || entity != null;
     }
 
+    public boolean isPlayer() {
+        System.out.println(entity instanceof Player);
+//        System.out.println(entity.equals(Player));
+        return entity instanceof Player;
+    }
+
     @Override
     public String toString() {
         return getRepr();
@@ -74,6 +81,15 @@ public class Case {
 
     public CaseType getCt() {
         return ct;
+    }
+
+    public Entities getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entities entity) {
+        this.entity = entity;
+        repr = entity == null ? " " : entity.getRepr();
     }
 
     public void setCt(CaseType ct) {

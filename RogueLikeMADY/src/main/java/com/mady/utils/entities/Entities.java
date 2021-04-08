@@ -1,5 +1,7 @@
 package com.mady.utils.entities;
 
+import com.mady.utils.Map;
+
 public interface Entities {
     Position getPosition();
     void setPos(Position position);
@@ -15,11 +17,15 @@ public interface Entities {
     int getDamages();
     void setDamages(int damages);
 
-    double getMovement();
+    int getMovement();
 
     int getMaxDammages();
     void setMaxDammages(int maxDammages);
 
     String getRepr();
+
+    Map doTurn(Map map);
+
+
 
 }

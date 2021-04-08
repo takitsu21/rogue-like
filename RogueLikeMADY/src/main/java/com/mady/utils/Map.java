@@ -1,22 +1,31 @@
 package com.mady.utils;
 
+
+import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
+    private Frame frame = new Frame();
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
+//    private final MonsterFactory instance = new MonsterFactory();
 
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private Player player;
 
+    private List<PairPos> chemins = new ArrayList<>();
+    private final List<Entities> entities = new ArrayList<>();
+
+
     public static void main(String[] args) {
-        Map map = new Map(8, 50, 100);
+        Map map = new Map(15, 30, 200);
 
         map.createMap();
         Player player = new Player(map.randomPosPlayerInSalle(), 10, 5, 1, "@");
@@ -46,12 +55,26 @@ public class Map {
 
         generateRooms();
         selectLien();
+        generateEntities();
+    }
+
+    public Frame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(Frame frame) {
+        this.frame = frame;
     }
 
     public Position randomPosPlayerInSalle() {
         Salle s = salles.get(Util.r.nextInt(salles.size()));
         Position pos = s.getFreePlaceInsideRoom();
         return pos.incrementPos(s.getPos());
+    }
+
+
+    public Case getcase(Position p) {
+        return this.map[p.getX()][p.getY()];
     }
 
     public Player getPlayer() {
@@ -155,8 +178,8 @@ public class Map {
 
     private void relie(Salle s1, Salle s2) {
 
-        Position pos1= s1.findMiddle();
-        Position pos2= s2.findMiddle();
+        Position pos1 = s1.findMiddle();
+        Position pos2 = s2.findMiddle();
         /*if (s1.getPos().getX() < s2.getPos().getX()) {
             if (s1.getPos().getY() < s2.getPos().getY()) {
                 x1 = s1.getlignes() - 1;
@@ -194,18 +217,27 @@ public class Map {
 
         AStar aStar = new AStar();
         int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2);
+
         setupPaths(res);
     }
 
     private void setupPaths(int[][] solvedPath) {
+        List<Position> portes = new ArrayList<>();
         for (int i = 0; i < solvedPath.length; i++) {
             for (int j = 0; j < solvedPath[i].length; j++) {
+
                 if (solvedPath[i][j] != -1 && !map[i][j].isSalle()) {
-                    map[i][j].setRepr("'");
+                    if (map[i][j].isWall()) {
+                        map[i][j].setRepr("P");
+                        portes.add(new Position(i, j));
+                    } else {
+                        map[i][j].setRepr("'");
+                    }
                     map[i][j].setCt(CaseType.PATH);
                 }
             }
         }
+        chemins.add(new PairPos(portes.get(0), portes.get(1)));
     }
 
     public int getNbSalles() {
@@ -226,8 +258,93 @@ public class Map {
 
     public int getBASE_WIDTH() {
         return BASE_WIDTH;
+    }
+
+    private void generateEntities() {
+//        addPlayerToMap(player);
+        int nbMonstersByRoom;
+        for (int i = 0; i < nbSalles; i++) {
+            nbMonstersByRoom = Util.r.nextInt(5);
+            addEntity(nbMonstersByRoom);
+        }
+    }
+
+    private void addEntity(int nbMonsters) {
+        for (int i = 0; i < nbMonsters; i++) {
+            Position pos = randomPosPlayerInSalle();
+            Entities entity = MonsterFactory.getInstance().generate(
+                    Util.r.nextInt(MonsterFactory.nbMonsters), pos);
+            map[pos.getX()][pos.getY()].setEntity(entity);
+            entities.add(entity);
+        }
+    }
+
+    /*mouvement des entities */
+
+    public void move(Entities e, Position p) {
+        Position firstPos = e.getPosition();
+        Position newPos = firstPos.incrementPos(p);
+        Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
+        Case newCase = this.map[newPos.getX()][newPos.getY()];
+        if (oldCase.isPath() && newCase.isSalle() && e instanceof Player) {
+            oldCase.setItem(null);
+            oldCase.setEntity(null);
+            oldCase.setRepr("P");
+            newCase.setRepr(e.getRepr());
+            newCase.setItem(e);
+            newCase.setEntity(e);
+            e.setPos(newPos);
+        } else if (oldCase.isPath() && newCase.isPath()&& e instanceof Player) {
+            Position newPos2 = findDoor(firstPos);
+            newCase = this.map[newPos2.getX()][newPos2.getY()];
+            oldCase.setItem(null);
+            oldCase.setRepr("P");
+            newCase.setRepr(e.getRepr());
+            newCase.setItem(e);
+            newCase.setEntity(e);
+            e.setPos(newPos2);
+//            System.out.println(getPlayer().getPosition().toString());
+
+        } else {
+            if (newCase.isFreeCase() && newCase.isSalle()) {
+                oldCase.setItem(null);
+                oldCase.setEntity(null);
+                newCase.setEntity(e);
+                e.setPos(newPos);
+//                System.out.println("ok");
+            }
+
+            if (newCase.isPath() && e instanceof Player) {
+                Position newPos2 = findDoor(newPos);
+                newCase = this.map[newPos2.getX()][newPos2.getY()];
+                oldCase.setItem(null);
+                oldCase.setRepr(" ");
+                newCase.setRepr(e.getRepr());
+                newCase.setItem(e);
+                e.setPos(newPos2);
+//                System.out.println(getPlayer().getPosition().toString());
+            } else {
+//                System.out.println(newPos);
+            }
+        }
 
     }
+
+    private Position findDoor(Position newPos) {
+        System.out.println(newPos.toString());
+        System.out.println("find door");
+        for (PairPos chemin : chemins) {
+
+            if (chemin.getP1().equals(newPos)) {
+                return chemin.getP2();
+            }
+            if (chemin.getP2().equals(newPos)) {
+                return chemin.getP1();
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public String toString() {
@@ -239,5 +356,9 @@ public class Map {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public List<Entities> getEntities() {
+        return entities;
     }
 }

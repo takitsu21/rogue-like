@@ -8,10 +8,14 @@ import java.util.Random;
 public class Position {
     private int x;
     private int y;
+
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
+
+
+
 
     public int getX() {
         return x;
@@ -58,5 +62,23 @@ public class Position {
     @Override
     public String toString() {
         return String.format("(%d, %d)", getX(), getY());
+    }
+
+
+    public boolean nextTo(Position pos) {
+        return x==pos.getX()+1 || x==pos.getX()-1 ||
+                y==pos.getY()+1 || y==pos.getY()-1;
+    }
+
+  
+    public double getDistance(Position pos) {
+        double dx = x - pos.x;
+        double dy = y - pos.y;
+        return Math.hypot(dx, dy);
+    }
+
+
+    public Position multiplyPos(int Mouvement){
+        return new Position(this.getX()*Mouvement, this.getY()*Mouvement);
     }
 }

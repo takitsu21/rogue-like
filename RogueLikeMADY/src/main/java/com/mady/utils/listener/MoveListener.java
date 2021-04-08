@@ -1,99 +1,57 @@
 package com.mady.utils.listener;
 
-import java.io.*;
-import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import com.mady.utils.Map;
+import com.mady.utils.Util;
+import com.mady.utils.entities.Position;
 
-/**
- * Created by djb on 2015/06/03.
- */
-public class MoveListener {
-    public MoveListener() {
-    }
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-    static long rand = 10000;
-
-    public static void main(String args[]) {
-
-        ExecutorService executor = Executors.newFixedThreadPool(5);
-
-        File f = new File("./temp");
-        try {
-
-            Runnable keyPressThread = new MoveListener.KeyPressThread();
-            Thread t = new Thread(keyPressThread);
-            t.start();
-
-            BufferedReader br = new BufferedReader(new FileReader(f));
-
-            String line;
-
-            while ((line = br.readLine()) != null) {
-
-                try {
-                    final String copy = line;
-
-                    executor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-
-                                System.out.println(rand);
-                                Thread.sleep(rand);
-                                System.out.println(copy);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+public class MoveListener implements KeyListener {
+    private Map map;
+    public MoveListener(Map map) {
+        this.map = map;
 
     }
 
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        switch(e.getKeyChar()){
+            case 'z':
+                System.out.println("avance");
+                map.move(map.getPlayer(),new Position(-1,0 ));
+                break;
+            case 's':
+                System.out.println("descend");
+                map.move(map.getPlayer(),new Position(1, 0));
 
+                break;
+            case 'q':
+                System.out.println("gauche");
+                map.move(map.getPlayer(),new Position(0, -1));
+                break;
+            case 'd':
+                System.out.println("droite");
+                map.move(map.getPlayer(),new Position(0, 1));
 
-    public static class KeyPressThread implements Runnable {
+                break;
+            default:
+                System.out.println("touche non bindé");
+                return;
 
-        Scanner inputReader = new Scanner(System.in);
-
-        //Method that gets called when the object is instantiated
-        public KeyPressThread() {
         }
+        Util.playerTurn = false;
+//        System.out.println(Util.playerTurn);
+    }
 
-        public void run()
-        {
-            while(true)
-            {
-                if (inputReader.hasNext())
-                {
-                    String input = inputReader.next();
-                    if (input.equals("["))
-                    {
-                        rand+=100;
-                        System.out.println("Pressed [");
-                    }
-                    if (input.equals("]"))
-                    {
-                        rand-=100;
-                        System.out.println("Pressed ]");
-                    }
-                    if (input.equalsIgnoreCase("Q"))
-                    {
-                        break; // stop KeyPressThread
-                    }
-                }
-            }
-        } }  }
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+}

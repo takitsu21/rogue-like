@@ -1,25 +1,32 @@
 package com.mady.utils.entities;
 
+import com.mady.utils.Map;
+import com.mady.utils.Util;
+
 public abstract class AbstractEntities implements Entities {
     private Position pos;
     private int maxHitPoints;
     private int hitPoints;
     private int damages;
-    private final double movement;
+    private final int movement;
     private final String repr;
+    private final int effectiveArea;
 
-    public AbstractEntities(Position pos, int hitPoints, int damages, double movement, String repr) {
+    public AbstractEntities(Position pos,
+                            int hitPoints,
+                            int damages,
+                            int movement,
+                            String repr,
+                            int effectiveArea) {
         this.pos = pos;
         maxHitPoints = hitPoints;
         this.hitPoints = hitPoints;
         this.damages = damages;
         this.movement = movement;
         this.repr = repr;
+        this.effectiveArea = effectiveArea;
     }
 
-    public Position getPos() {
-        return pos;
-    }
 
     public String getRepr() {
         return repr;
@@ -73,7 +80,51 @@ public abstract class AbstractEntities implements Entities {
     }
 
     @Override
-    public double getMovement() {
+    public int getMovement() {
         return movement;
     }
+
+
+    private boolean isInPerimeter(Map map) {
+        for (int i = pos.getX() - effectiveArea; i < effectiveArea; i++) {
+            for (int j = pos.getY() - effectiveArea; j < effectiveArea; j++) {
+                if (map.getMap()[i][j].isPlayer()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+    public Position nextPos(Entities entitie) {
+        int randomMove = Util.r.nextInt(entitie.getMovement() + 1);
+        Deplacement d = Util.randomDirection();
+        return d.pos.multiplyPos(randomMove);
+    }
+
+    @Override
+    public Map doTurn(Map map) {
+        if (isInPerimeter(map)) {
+//            attack
+            System.out.println("Le monstre attaque");
+        } else {
+//            System.out.println("on bouge");
+            map.move(this,nextPos(this));
+        }
+        return map;
+//        if (isAreaClear(player)) {
+//            double movement = getMovement();
+//            if (getPosition().getX() + movement > //dimension de salle) //idée: mettre la liste des entités
+//            // dans salle.
+//        }
+    }
+//
+//    @Override
+//    public void doTurn() {
+//
+//    }
+
+
 }
