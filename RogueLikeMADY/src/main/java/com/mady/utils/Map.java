@@ -352,13 +352,13 @@ public class Map {
 
             }
             if (newCase.getItem() != null){
-                System.out.println("item ramassé !!\nstats player:");
-                System.out.println("vie " +((Player) e).getHitPoints()+"\n"+((Player) e).getDamages());
-                System.out.printf("stat item :\n\t"+newCase.getItem().getName()+"\n\tforce: "+newCase.getItem().getDamages()+"\n");
+//                System.out.println("item ramassé !!\nstats player:");
+//                System.out.println("vie " +((Player) e).getHitPoints()+"\n"+((Player) e).getDamages());
+//                System.out.printf("stat item :\n\t"+newCase.getItem().getName()+"\n\tforce: "+newCase.getItem().getDamages()+"\n");
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
-                System.out.println("new stat palyer : ");
-                System.out.println("\tvie " +((Player) e).getHitPoints()+"\n\tforce: "+((Player) e).getDamages());
+//                System.out.println("new stat palyer : ");
+//                System.out.println("\tvie " +((Player) e).getHitPoints()+"\n\tforce: "+((Player) e).getDamages());
                 newCase.setEntity(e);
                 e.setPos(newPos);
                 return true;
@@ -446,7 +446,7 @@ public class Map {
                 (int)player.getHP(), (int)player.getMaxHp(), (int)player.getMP(), (int)player.getMaxMp(),
                 player.getLvl(), (int)player.getExp(), (int)player.getExpMax());
         System.out.println(playerHud);
-        player.updateStats();
+//        player.updateStats();
 
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
