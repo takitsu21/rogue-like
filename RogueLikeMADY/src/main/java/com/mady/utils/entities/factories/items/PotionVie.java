@@ -21,8 +21,11 @@ public class PotionVie extends AbstractItem {
         }
 
     }
+    @Override
+    public String getRepresentation() {
+        return "V";
+    }
 }
-
 
 
 

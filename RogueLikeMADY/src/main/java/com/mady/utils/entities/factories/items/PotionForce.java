@@ -19,4 +19,8 @@ public class PotionForce extends AbstractItem {
             player.setDamages(player.getMaxDammages());
         }
     }
+    @Override
+    public String getRepresentation() {
+        return "F";
+    }
 }

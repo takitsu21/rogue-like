@@ -4,6 +4,8 @@ package com.mady.utils;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.items.ItemFactory;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
@@ -57,6 +59,7 @@ public class Map {
         generateRooms();
         selectLien();
         generateEntities();
+        generateItems();
     }
 
     public Frame getFrame() {
@@ -290,72 +293,101 @@ public class Map {
         }
     }
 
-    /*mouvement des entities */
+    //ajout des items dans les salles de la map
 
-    public boolean move(Entities e, Position p) {
-        Position firstPos = e.getPosition();
-        Position newPos = firstPos.incrementPos(p);
-        Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
-        Case newCase = this.map[newPos.getX()][newPos.getY()];
-        if (oldCase.isPath() && newCase.isSalle() && e instanceof Player) {
-            oldCase.setItem(null);
-            oldCase.setEntity(null);
-            oldCase.setRepr("P");
-            newCase.setRepr(e.getRepr());
-            newCase.setItem(e);
-            newCase.setEntity(e);
-            e.setPos(newPos);
-            return true;
-        } else if (oldCase.isPath() && newCase.isPath() && e instanceof Player) {
-            Position newPos2 = findDoor(newPos);
-            if(newPos2==null) {
-                newPos2 = findDoor(firstPos);
-            }
-            newCase = this.map[newPos2.getX()][newPos2.getY()];
-            oldCase.setItem(null);
-            oldCase.setRepr("P");
-            newCase.setRepr(e.getRepr());
-            newCase.setItem(e);
-            newCase.setEntity(e);
-            e.setPos(newPos2);
-//            System.out.println(getPlayer().getPosition().toString());
-            return true;
-
-        } else {
-            if (newCase.isFreeCase() && newCase.isSalle()) {
-                if(e instanceof Player && e.getSalle()!= player.getSalle() && nextToDoor(newPos)) {
-                    return false;
-                }
-                oldCase.setItem(null);
-                oldCase.setEntity(null);
-                newCase.setEntity(e);
-                e.setPos(newPos);
-//                System.out.println("ok");
-                return true;
-            }
-
-            if (newCase.isPath() && e instanceof Player) {
-                Position newPos2 = findDoor(newPos);
-                newCase = this.map[newPos2.getX()][newPos2.getY()];
-                oldCase.setItem(null);
-                oldCase.setRepr(" ");
-                newCase.setRepr(e.getRepr());
-                newCase.setItem(e);
-                e.setPos(newPos2);
-                return true;
-//                System.out.println(getPlayer().getPosition().toString());
-            } else {
-                return false;
-//                System.out.println(newPos);
-            }
+    private void addItems(int nbItem) {
+        for (int i = 0; i < nbItem; i++) {
+            Position pos = randomPosPlayerInSalle();
+            Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
+            map[pos.getX()][pos.getY()].setItem(item);
         }
+    }
+
+    private void generateItems() {
+        int nbMaxItems = Util.r.nextInt(10);
+        addItems(nbMaxItems);
 
     }
 
 
+    /*mouvement des entities */
+    private void clearCase(Case c) {
+
+        c.setItem(null);
+        c.setEntity(null);
+        if (c.isPath()) {
+            c.setRepr("P");
+        }
+    }
+
+
+    public boolean move(Entities e, Position p) {
+
+        Position firstPos = e.getPosition();
+        Position newPos = firstPos.incrementPos(p);
+        Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
+        Case newCase = this.map[newPos.getX()][newPos.getY()];
+        if (newCase.isFreeCase() && newCase.isSalle()) { //mouvement le plus basique
+            System.out.println(newCase.getItem());
+            clearCase(oldCase);
+            newCase.setEntity(e);
+            e.setPos(newPos);
+            return true;
+        }
+        if (e instanceof Player) {
+            if (oldCase.isPath() && newCase.isSalle()) {
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos);
+
+                return true;
+            }
+            if (oldCase.isPath() && newCase.isPath()) {
+                Position newPos2 = findDoor(newPos); // gère les cas où l'on se déplace de chemin en chemin
+                if (newPos2 == null) { //gère les retour en arrière dans un couloir
+                    newPos2 = findDoor(firstPos);
+                }
+                newCase = this.map[newPos2.getX()][newPos2.getY()];
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos2);
+                return true;
+
+            }
+            if (newCase.isPath()) {
+                Position newPos2 = findDoor(newPos);
+                newCase = this.map[newPos2.getX()][newPos2.getY()];
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos2);
+                return true;
+
+            }
+            if (newCase.getItem() != null){
+//                System.out.println("item ramassé !!\nstats player:");
+//                System.out.println("vie " +((Player) e).getHitPoints()+"\n"+((Player) e).getDamages());
+//                System.out.printf("stat item :\n\t"+newCase.getItem().getName()+"\n\tforce: "+newCase.getItem().getDamages()+"\n");
+                clearCase(oldCase);
+                ((Player) e).useItem(newCase);
+//                System.out.println("new stat palyer : ");
+//                System.out.println("\tvie " +((Player) e).getHitPoints()+"\n\tforce: "+((Player) e).getDamages());
+                newCase.setEntity(e);
+                e.setPos(newPos);
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+
+
+
+
     private Position findDoor(Position newPos) {
-        System.out.println(newPos.toString());
-        System.out.println("find door");
+//        System.out.println(newPos.toString());
+//        System.out.println("find door");
         for (PairPos chemin : chemins) {
 
             if (chemin.getP1().equals(newPos)) {
@@ -368,6 +400,7 @@ public class Map {
         return null;
     }
 
+
         private boolean nextToDoor(Position pos){
             return findDoor(new Position(pos.getX()-1, pos.getY())) != null
                     || findDoor(new Position(pos.getX()+1, pos.getY())) != null
@@ -376,12 +409,29 @@ public class Map {
         }
 
 
+
+    /**
+    Affiche la map
+     */
+
     @Override
     public String toString() {
+
         StringBuilder sb = new StringBuilder();
+        String playerHud = String.format("HP : %d/%d | MP %d/%d | Lvl %d [%d/%d EXP]",
+                (int)player.getHP(), (int)player.getMaxHp(), (int)player.getMP(), (int)player.getMaxMp(),
+                player.getLvl(), (int)player.getExp(), (int)player.getExpMax());
+        System.out.println(playerHud);
+//        player.updateStats();
+
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
-                sb.append(map[i][j].toString());
+                if (i == 0 || j == BASE_WIDTH - 1 || j == 0 || i == BASE_HEIGHT - 1) {
+                    sb.append('\"');
+                }
+                else {
+                    sb.append(map[i][j].toString());
+                }
             }
             sb.append("\n");
         }

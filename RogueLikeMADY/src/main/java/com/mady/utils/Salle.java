@@ -62,19 +62,19 @@ public class Salle {
     }
 
 
-    private void addMonster() {
-        for (int i = 0; i < monsterNumber; i++) {
-            Position pos = getFreePos();
-            representation[pos.getX()][pos.getY()].setItem(new Object());
-        }
-    }
-
-    private void addItem() {
-        for (int i = 0; i < objectNumber; i++) {
-            Position pos = getFreePos();
-            representation[pos.getX()][pos.getY()].setItem(new Object());
-        }
-    }
+//    private void addMonster() {
+//        for (int i = 0; i < monsterNumber; i++) {
+//            Position pos = getFreePos();
+//            representation[pos.getX()][pos.getY()].setEntity(new Object());
+//        }
+//    }
+//
+//    private void addItem() {
+//        for (int i = 0; i < objectNumber; i++) {
+//            Position pos = getFreePos();
+//            representation[pos.getX()][pos.getY()].setItem(new Object());
+//        }
+//    }
 
     private void createSalle() {
         for (int j = 0; j < lignes; j++) {

@@ -9,6 +9,7 @@ public class PoisonForce extends AbstractItem {
         super(position, 0, (int) (Math.random() * 3), "Poison de force",true,false);
     }
 
+
     @Override
     public void act(Player player) {
         if (player.getDamages()-getDamages() >= 0) {
@@ -17,5 +18,10 @@ public class PoisonForce extends AbstractItem {
         else{
             player.setDamages(0);
         }
+    }
+
+    @Override
+    public String getRepresentation() {
+        return "F";
     }
 }
