@@ -370,6 +370,7 @@ public class Map {
     }
 
 
+
     public void move_old_this_one_is_trash(Entities e, Position p) {
         Position firstPos = e.getPosition();
         Position newPos = firstPos.incrementPos(p);
