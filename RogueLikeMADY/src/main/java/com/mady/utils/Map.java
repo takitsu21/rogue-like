@@ -28,7 +28,8 @@ public class Map {
         Map map = new Map(15, 30, 200);
 
         map.createMap();
-        Player player = new Player(map.randomPosPlayerInSalle(), 10, 5, 1, "@");
+        Salle salle= map.chooseSalle();
+        Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
         map.addPlayerToMap(player);
         System.out.println(map);
 
@@ -65,9 +66,12 @@ public class Map {
     public void setFrame(Frame frame) {
         this.frame = frame;
     }
-
-    public Position randomPosPlayerInSalle() {
+    public Salle chooseSalle() {
         Salle s = salles.get(Util.r.nextInt(salles.size()));
+        return s;
+    }
+
+    public Position randomPosPlayerInSalle(Salle s) {
         Position pos = s.getFreePlaceInsideRoom();
         return pos.incrementPos(s.getPos());
     }
@@ -264,16 +268,23 @@ public class Map {
 //        addPlayerToMap(player);
         int nbMonstersByRoom;
         for (int i = 0; i < nbSalles; i++) {
-            nbMonstersByRoom = Util.r.nextInt(5);
+            nbMonstersByRoom = Util.r.nextInt(10);
             addEntity(nbMonstersByRoom);
         }
     }
 
     private void addEntity(int nbMonsters) {
         for (int i = 0; i < nbMonsters; i++) {
-            Position pos = randomPosPlayerInSalle();
+            Salle salle=chooseSalle();
+            Position pos = randomPosPlayerInSalle(salle);
+            System.out.println("ok2");
+            while(nextToDoor(pos)){
+                System.out.println("ok");
+                pos = randomPosPlayerInSalle(salle);
+            }
+
             Entities entity = MonsterFactory.getInstance().generate(
-                    Util.r.nextInt(MonsterFactory.nbMonsters), pos);
+                    Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
             map[pos.getX()][pos.getY()].setEntity(entity);
             entities.add(entity);
         }
@@ -281,7 +292,7 @@ public class Map {
 
     /*mouvement des entities */
 
-    public void move(Entities e, Position p) {
+    public boolean move(Entities e, Position p) {
         Position firstPos = e.getPosition();
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
@@ -294,8 +305,12 @@ public class Map {
             newCase.setItem(e);
             newCase.setEntity(e);
             e.setPos(newPos);
-        } else if (oldCase.isPath() && newCase.isPath()&& e instanceof Player) {
-            Position newPos2 = findDoor(firstPos);
+            return true;
+        } else if (oldCase.isPath() && newCase.isPath() && e instanceof Player) {
+            Position newPos2 = findDoor(newPos);
+            if(newPos2==null) {
+                newPos2 = findDoor(firstPos);
+            }
             newCase = this.map[newPos2.getX()][newPos2.getY()];
             oldCase.setItem(null);
             oldCase.setRepr("P");
@@ -304,14 +319,19 @@ public class Map {
             newCase.setEntity(e);
             e.setPos(newPos2);
 //            System.out.println(getPlayer().getPosition().toString());
+            return true;
 
         } else {
             if (newCase.isFreeCase() && newCase.isSalle()) {
+                if(e instanceof Player && e.getSalle()!= player.getSalle() && nextToDoor(newPos)) {
+                    return false;
+                }
                 oldCase.setItem(null);
                 oldCase.setEntity(null);
                 newCase.setEntity(e);
                 e.setPos(newPos);
 //                System.out.println("ok");
+                return true;
             }
 
             if (newCase.isPath() && e instanceof Player) {
@@ -322,13 +342,16 @@ public class Map {
                 newCase.setRepr(e.getRepr());
                 newCase.setItem(e);
                 e.setPos(newPos2);
+                return true;
 //                System.out.println(getPlayer().getPosition().toString());
             } else {
+                return false;
 //                System.out.println(newPos);
             }
         }
 
     }
+
 
     private Position findDoor(Position newPos) {
         System.out.println(newPos.toString());
@@ -344,6 +367,13 @@ public class Map {
         }
         return null;
     }
+
+        private boolean nextToDoor(Position pos){
+            return findDoor(new Position(pos.getX()-1, pos.getY())) != null
+                    || findDoor(new Position(pos.getX()+1, pos.getY())) != null
+                    || findDoor(new Position(pos.getX(), pos.getY()-1)) != null
+                    || findDoor(new Position(pos.getX(), pos.getY()+1)) != null;
+        }
 
 
     @Override

@@ -1,6 +1,7 @@
 package com.mady.utils.entities;
 
 import com.mady.utils.Map;
+import com.mady.utils.Salle;
 
 public interface Entities {
     Position getPosition();
@@ -26,6 +27,10 @@ public interface Entities {
 
     Map doTurn(Map map);
 
+    Salle getSalle();
+
+
+    void setSalle(Salle salle);
 
 
 }

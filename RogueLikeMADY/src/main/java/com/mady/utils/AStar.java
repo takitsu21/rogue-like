@@ -101,7 +101,8 @@ public class AStar {
 
                         && !(map.getMap()[nodePosition.getX()][nodePosition.getY()].isWall()
                             && map.getMap()[currentNode.getPosition().getX()][currentNode.getPosition().getY()].isWall())
-                        && !salleEnd.isCorner(nodePosition)){
+                        && !salleEnd.isCorner(nodePosition)
+                        && !salleStart.isCorner(nodePosition)){
 
 
                     Node newNode = new Node(currentNode, nodePosition);
