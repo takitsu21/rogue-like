@@ -97,10 +97,11 @@ public class AStar {
 
                 if ((salleStart.inSalle(nodePosition) || salleEnd.inSalle(nodePosition)
                         || (map.getMap()[nodePosition.getX()][nodePosition.getY()].isMap()
-                        && espaceVitalPath(nodePosition, newPosition, map)))
+                            && espaceVitalPath(nodePosition, newPosition, map)))
 
-                        && !((map.getMap()[nodePosition.getX()][nodePosition.getY()].isWall())
-                        && (map.getMap()[currentNode.getPosition().getX()][currentNode.getPosition().getY()].isWall()))){
+                        && !(map.getMap()[nodePosition.getX()][nodePosition.getY()].isWall()
+                            && map.getMap()[currentNode.getPosition().getX()][currentNode.getPosition().getY()].isWall())
+                        && !salleEnd.isCorner(nodePosition)){
 
 
                     Node newNode = new Node(currentNode, nodePosition);
