@@ -1,6 +1,7 @@
 package com.mady.utils.entities;
 
 import com.mady.utils.Case;
+import com.mady.utils.entities.factories.items.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +69,15 @@ public class Player extends AbstractEntities {
                 break;
         }
     }
+    public void useItem(Case c) {
+        Item i = c.getItem();
 
+        c.setItem(null);
+        if (i.isDrinkable()) {
+            i.act(this);
+        } else if (i.isPickable()) {
+           // pickItem(i);
+        }
 
     public int getLvl() {
         return lvl;

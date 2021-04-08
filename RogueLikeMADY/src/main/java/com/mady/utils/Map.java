@@ -4,6 +4,8 @@ package com.mady.utils;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.items.ItemFactory;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ public class Map {
         generateRooms();
         selectLien();
         generateEntities();
+        generateItems();
     }
 
     public Frame getFrame() {
@@ -279,35 +282,122 @@ public class Map {
         }
     }
 
-    /*mouvement des entities */
+    //ajout des items dans les salles de la map
 
-    public void move(Entities e, Position p) {
+    private void addItems(int nbItem) {
+        for (int i = 0; i < nbItem; i++) {
+            Position pos = randomPosPlayerInSalle();
+            Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
+            map[pos.getX()][pos.getY()].setItem(item);
+        }
+    }
+
+    private void generateItems() {
+        int nbMaxItems = Util.r.nextInt(10);
+        addItems(nbMaxItems);
+
+    }
+
+
+    /*mouvement des entities */
+    private void clearCase(Case c) {
+
+        c.setItem(null);
+        c.setEntity(null);
+        if (c.isPath()) {
+            c.setRepr("P");
+        }
+    }
+
+
+    public boolean move(Entities e, Position p) {
+        Position firstPos = e.getPosition();
+        Position newPos = firstPos.incrementPos(p);
+        Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
+        Case newCase = this.map[newPos.getX()][newPos.getY()];
+        if (newCase.isFreeCase() && newCase.isSalle()) { //mouvement le plus basique
+            System.out.println(newCase.getItem());
+            clearCase(oldCase);
+            newCase.setEntity(e);
+            e.setPos(newPos);
+            return true;
+        }
+        if (e instanceof Player) {
+            if (oldCase.isPath() && newCase.isSalle()) {
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos);
+
+                return true;
+            }
+            if (oldCase.isPath() && newCase.isPath()) {
+                Position newPos2 = findDoor(newPos); // gère les cas où l'on se déplace de chemin en chemin
+                if (newPos2 == null) { //gère les retour en arrière dans un couloir
+                    newPos2 = findDoor(firstPos);
+                }
+                newCase = this.map[newPos2.getX()][newPos2.getY()];
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos2);
+                return true;
+
+            }
+            if (newCase.isPath()) {
+                Position newPos2 = findDoor(newPos);
+                newCase = this.map[newPos2.getX()][newPos2.getY()];
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos2);
+                return true;
+
+            }
+            if (newCase.getItem() != null){
+                System.out.println("item ramassé !!\nstats player:");
+                System.out.println("vie " +((Player) e).getHitPoints()+"\n"+((Player) e).getDamages());
+                System.out.printf("stat item :\n\t"+newCase.getItem().getName()+"\n\tforce: "+newCase.getItem().getDamages()+"\n");
+                clearCase(oldCase);
+                ((Player) e).useItem(newCase);
+                System.out.println("new stat palyer : ");
+                System.out.println("\tvie " +((Player) e).getHitPoints()+"\n\tforce: "+((Player) e).getDamages());
+                newCase.setEntity(e);
+                e.setPos(newPos);
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+
+
+    public void move_old_this_one_is_trash(Entities e, Position p) {
         Position firstPos = e.getPosition();
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
         if (oldCase.isPath() && newCase.isSalle() && e instanceof Player) {
-            oldCase.setItem(null);
+            ///oldCase.setItem(null);
             oldCase.setEntity(null);
             oldCase.setRepr("P");
             newCase.setRepr(e.getRepr());
-            newCase.setItem(e);
+//            newCase.setItem(e);
             newCase.setEntity(e);
             e.setPos(newPos);
-        } else if (oldCase.isPath() && newCase.isPath()&& e instanceof Player) {
+        } else if (oldCase.isPath() && newCase.isPath() && e instanceof Player) {
             Position newPos2 = findDoor(firstPos);
             newCase = this.map[newPos2.getX()][newPos2.getY()];
-            oldCase.setItem(null);
+            ///oldCase.setItem(null);
             oldCase.setRepr("P");
             newCase.setRepr(e.getRepr());
-            newCase.setItem(e);
+//            newCase.setItem(e);
             newCase.setEntity(e);
             e.setPos(newPos2);
 //            System.out.println(getPlayer().getPosition().toString());
 
         } else {
             if (newCase.isFreeCase() && newCase.isSalle()) {
-                oldCase.setItem(null);
+                /// oldCase.setItem(null);
                 oldCase.setEntity(null);
                 newCase.setEntity(e);
                 e.setPos(newPos);
@@ -317,10 +407,10 @@ public class Map {
             if (newCase.isPath() && e instanceof Player) {
                 Position newPos2 = findDoor(newPos);
                 newCase = this.map[newPos2.getX()][newPos2.getY()];
-                oldCase.setItem(null);
+                //oldCase.setItem(null);
                 oldCase.setRepr(" ");
                 newCase.setRepr(e.getRepr());
-                newCase.setItem(e);
+//                newCase.setItem(e);
                 e.setPos(newPos2);
 //                System.out.println(getPlayer().getPosition().toString());
             } else {
