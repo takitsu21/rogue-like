@@ -293,7 +293,7 @@ public class Map {
             newCase.setRepr(e.getRepr());
             newCase.setItem(e);
             newCase.setEntity(e);
-            getPlayer().setPos(newPos);
+            e.setPos(newPos);
         } else if (oldCase.isPath() && newCase.isPath()&& e instanceof Player) {
             Position newPos2 = findDoor(firstPos);
             newCase = this.map[newPos2.getX()][newPos2.getY()];
@@ -302,16 +302,16 @@ public class Map {
             newCase.setRepr(e.getRepr());
             newCase.setItem(e);
             newCase.setEntity(e);
-            getPlayer().setPos(newPos2);
-            System.out.println(getPlayer().getPosition().toString());
+            e.setPos(newPos2);
+//            System.out.println(getPlayer().getPosition().toString());
 
         } else {
             if (newCase.isFreeCase() && newCase.isSalle()) {
                 oldCase.setItem(null);
                 oldCase.setEntity(null);
                 newCase.setEntity(e);
-                getPlayer().setPos(newPos);
-                System.out.println("ok");
+                e.setPos(newPos);
+//                System.out.println("ok");
             }
 
             if (newCase.isPath() && e instanceof Player) {
@@ -321,10 +321,10 @@ public class Map {
                 oldCase.setRepr(" ");
                 newCase.setRepr(e.getRepr());
                 newCase.setItem(e);
-                getPlayer().setPos(newPos2);
-                System.out.println(getPlayer().getPosition().toString());
+                e.setPos(newPos2);
+//                System.out.println(getPlayer().getPosition().toString());
             } else {
-                System.out.println(newPos);
+//                System.out.println(newPos);
             }
         }
 

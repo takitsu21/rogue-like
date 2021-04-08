@@ -1,7 +1,9 @@
 package com.mady;
 
 import com.mady.utils.Map;
+import com.mady.utils.Util;
 import com.mady.utils.entities.Player;
+import com.mady.utils.listener.MoveListener;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +22,7 @@ public abstract class GameLoop {
 
     private Thread gameThread;
 
+
     protected final Logger logger = Logger.getLogger(GameLoop.class.getName());
 
 
@@ -27,13 +30,13 @@ public abstract class GameLoop {
      * Initialize game status to be stopped.
      */
     public GameLoop() {
-        map = new Map(8, 50, 100);
+        map = new Map(5, 24, 100);
         map.createMap();
-
-
         logger.setLevel(Level.ALL);
         controller = new GameController(map.randomPosPlayerInSalle());
         map.addPlayerToMap(controller.getPlayer());
+        map.getFrame().getFrame().addKeyListener(new MoveListener(map));
+        render();
         status = GameStatus.STOPPED;
     }
 
@@ -69,9 +72,9 @@ public abstract class GameLoop {
      */
     protected void processInput() {
         try {
-//            var lag = new SecureRandom().nextInt(200) + 50;
-//            Thread.sleep(lag);
-            System.out.println("processInput method");
+            while (Util.playerTurn) {
+            }
+
         } catch (Exception e) {
             logger.info(e.getMessage());
         }

@@ -99,7 +99,7 @@ public abstract class AbstractEntities implements Entities {
 
 
     public Position nextPos(Entities entitie) {
-        int randomMove = Util.r.nextInt(entitie.getMovement());
+        int randomMove = Util.r.nextInt(entitie.getMovement() + 1);
         Deplacement d = Util.randomDirection();
         return d.pos.multiplyPos(randomMove);
     }
@@ -110,7 +110,7 @@ public abstract class AbstractEntities implements Entities {
 //            attack
             System.out.println("Le monstre attaque");
         } else {
-            System.out.println("on bouge");
+//            System.out.println("on bouge");
             map.move(this,nextPos(this));
         }
         return map;

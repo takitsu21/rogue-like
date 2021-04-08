@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class Util {
     public static final Random r = new Random();
+    public static volatile boolean playerTurn = true;
     public static Deplacement randomDirection() {
         int randomDirection = Util.r.nextInt(4);
         switch (randomDirection) {
