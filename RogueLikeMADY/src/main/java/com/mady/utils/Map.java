@@ -421,8 +421,8 @@ public class Map {
     }
 
     private Position findDoor(Position newPos) {
-        System.out.println(newPos.toString());
-        System.out.println("find door");
+//        System.out.println(newPos.toString());
+//        System.out.println("find door");
         for (PairPos chemin : chemins) {
 
             if (chemin.getP1().equals(newPos)) {
@@ -435,13 +435,27 @@ public class Map {
         return null;
     }
 
-
+    /**
+    Affiche la map
+     */
     @Override
     public String toString() {
+
         StringBuilder sb = new StringBuilder();
+        String playerHud = String.format("HP : %d/%d | MP %d/%d | Lvl %d [%d/%d EXP]",
+                (int)player.getHP(), (int)player.getMaxHp(), (int)player.getMP(), (int)player.getMaxMp(),
+                player.getLvl(), (int)player.getExp(), (int)player.getExpMax());
+        System.out.println(playerHud);
+        player.updateStats();
+
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
-                sb.append(map[i][j].toString());
+                if (i == 0 || j == BASE_WIDTH - 1 || j == 0 || i == BASE_HEIGHT - 1) {
+                    sb.append('\"');
+                }
+                else {
+                    sb.append(map[i][j].toString());
+                }
             }
             sb.append("\n");
         }

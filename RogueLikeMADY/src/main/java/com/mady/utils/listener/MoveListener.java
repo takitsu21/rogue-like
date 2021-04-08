@@ -19,25 +19,18 @@ public class MoveListener implements KeyListener {
     public void keyTyped(KeyEvent e) {
         switch(e.getKeyChar()){
             case 'z':
-                System.out.println("avance");
                 map.move(map.getPlayer(),new Position(-1,0 ));
                 break;
             case 's':
-                System.out.println("descend");
                 map.move(map.getPlayer(),new Position(1, 0));
-
                 break;
             case 'q':
-                System.out.println("gauche");
                 map.move(map.getPlayer(),new Position(0, -1));
                 break;
             case 'd':
-                System.out.println("droite");
                 map.move(map.getPlayer(),new Position(0, 1));
-
                 break;
             default:
-                System.out.println("touche non bindé");
                 return;
 
         }
