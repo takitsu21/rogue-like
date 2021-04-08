@@ -77,7 +77,7 @@ public class Player extends AbstractEntities {
             i.act(this);
         } else if (i.isPickable()) {
            // pickItem(i);
-        }
+        }}
 
     public int getLvl() {
         return lvl;
@@ -181,17 +181,6 @@ public class Player extends AbstractEntities {
         return stuff;
     }
 
-    public void useItem(Case c) {
-        AbstractStuffItem i = (AbstractStuffItem) c.getItem();
-        i.setPos(null);
-        c.setItem(null);
-        if (i.isDrinkable()) {
-            i.act(this);
-        } else if (i.isPickable()) {
-            pickItem(i);
-        }
-
-    }
 
 
 
