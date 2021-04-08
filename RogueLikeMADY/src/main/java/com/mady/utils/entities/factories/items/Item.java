@@ -12,4 +12,5 @@ public interface Item {
     void act(Player player);
     Boolean isDrinkable();
     Boolean isPickable();
+    String getRepresentation();
 }

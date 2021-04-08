@@ -18,4 +18,9 @@ public class PoisonVie extends AbstractItem {
             player.setHitPoints(0);
         }
     }
+    @Override
+    public String getRepresentation() {
+        return "V";
+    }
 }
+

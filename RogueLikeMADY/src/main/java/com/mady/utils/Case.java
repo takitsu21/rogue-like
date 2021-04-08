@@ -3,6 +3,7 @@ package com.mady.utils;
 import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
+import com.mady.utils.entities.factories.items.Item;
 
 public class Case {
     private String repr;
@@ -71,12 +72,13 @@ public class Case {
         this.repr = repr;
     }
 
-    public Object getItem() {
-        return item;
+    public Item getItem() {
+        return (Item) item;
     }
 
-    public void setItem(Object item) {
+    public void setItem(Item item) {
         this.item = item;
+        this.repr = item == null ? " " : item.getRepresentation();
     }
 
     public CaseType getCt() {
@@ -97,7 +99,7 @@ public class Case {
     }
 
     public boolean isFreeCase() {
-        return !(isWall() && isOccupied());
+        return !isWall() && !isOccupied();
     }
 
     public boolean isPath() {
