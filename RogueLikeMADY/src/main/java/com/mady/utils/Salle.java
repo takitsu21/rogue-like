@@ -133,4 +133,12 @@ public class Salle {
         return (position.getX()>=this.pos.getX()-1 && position.getX()<=this.pos.getX()+lignes
                 && position.getY()>=this.pos.getY()-1 && position.getY()<=this.pos.getY()+colonnes);
     }
+
+    public boolean isCorner(Position position){
+        return ((position.getX()==this.pos.getX()-1 && position.getY()==this.pos.getY()-1)
+                || (position.getX()==this.pos.getX()+lignes+1 && position.getY()==this.pos.getY()-1)
+                || (position.getX()==this.pos.getX()-1 && position.getY()==this.pos.getY()+colonnes+1)
+                || (position.getX()==this.pos.getX()+lignes+1 && position.getY()==this.pos.getY()+colonnes+1));
+    }
+
 }

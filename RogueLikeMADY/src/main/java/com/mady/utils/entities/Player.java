@@ -1,7 +1,11 @@
 package com.mady.utils.entities;
 
 import com.mady.utils.Case;
+
+import com.mady.utils.Salle;
+
 import com.mady.utils.entities.factories.items.Item;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,8 +28,9 @@ public class Player extends AbstractEntities {
     private  List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
     private final Stuff stuff;
 
-    public Player(Position pos, int hitPoints, int damages, int movement, String repr) {
-        super(pos, hitPoints, damages, movement, repr, 3);
+
+    public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
+        super(pos, hitPoints, damages, movement, repr, 3, salle);
         this.stuff = new Stuff();
     }
 
@@ -209,4 +214,6 @@ public class Player extends AbstractEntities {
     public boolean isDead() {
         return (getHP() <= 0);
     }
+
+
 }
