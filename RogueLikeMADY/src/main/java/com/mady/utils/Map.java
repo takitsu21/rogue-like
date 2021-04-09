@@ -364,9 +364,9 @@ public class Map {
 
             }
             if (newCase.getItem() != null){
-//                System.out.println("item ramassé !!\nstats player:");
+                System.out.println("item ramassé !!\nstats player:");
 //                System.out.println("vie " +((Player) e).getHitPoints()+"\n"+((Player) e).getDamages());
-//                System.out.printf("stat item :\n\t"+newCase.getItem().getName()+"\n\tforce: "+newCase.getItem().getDamages()+"\n");
+                System.out.printf("stat item :\n\t"+newCase.getItem().getName()+"\n\tforce: "+newCase.getItem().getDamages()+"\n");
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
 //                System.out.println("new stat palyer : ");
