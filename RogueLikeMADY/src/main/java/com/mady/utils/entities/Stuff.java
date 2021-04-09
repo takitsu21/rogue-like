@@ -1,28 +1,43 @@
 package com.mady.utils.entities;
 
-import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.items.AbstractItem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Stuff {
 
-    private static AbstractStuffItem helmet;
-    private static AbstractStuffItem weapon;
-    private static AbstractStuffItem shoes;
-    private static AbstractStuffItem pant;
-    private static AbstractStuffItem chest;
-    private final List<AbstractStuffItem> items = new ArrayList<>(
-            Arrays.asList(helmet, weapon, shoes, pant, chest)
-    );
+    private AbstractStuffItem helmet;
+    private AbstractStuffItem weapon;
+    private AbstractStuffItem shoes;
+    private AbstractStuffItem pant;
+    private AbstractStuffItem chest;
+    private AbstractStuffItem amulet;
+    private AbstractStuffItem gauntlet;
+    //    private final List<AbstractStuffItem> items = new ArrayList<>(
+//            Arrays.asList(helmet, weapon, shoes, pant, chest, amulet, gauntlet)
+//    );
+//    private final Map<String, AbstractStuffItem> items = Stream.of(new Object[][]{
+//            {"helmet", helmet},
+//            {"weapon", weapon},
+//            {"shoes", shoes},
+//            {"pant", pant},
+//            {"amulet", amulet},
+//            {"gauntlet", gauntlet},
+//            {"chest", chest}
+//    }).collect(Collectors.toMap(data -> (String) data[0], data -> (AbstractStuffItem) data[1]));
+    private final Map<String, AbstractStuffItem> items = new HashMap<>();
 
     public AbstractStuffItem getHelmet() {
         return helmet;
     }
 
     public void setHelmet(AbstractStuffItem helmet) {
-        Stuff.helmet = helmet;
+        this.helmet = helmet;
+        items.put(helmet.getName(), helmet);
     }
 
     public AbstractStuffItem getWeapon() {
@@ -30,7 +45,26 @@ public class Stuff {
     }
 
     public void setWeapon(AbstractStuffItem weapon) {
-        Stuff.weapon = weapon;
+        this.weapon = weapon;
+        items.put(weapon.getName(), weapon);
+    }
+
+    public AbstractStuffItem getAmulet() {
+        return amulet;
+    }
+
+    public void setAmulet(AbstractStuffItem amulet) {
+        this.amulet = amulet;
+        items.put(amulet.getName(), amulet);
+    }
+
+    public AbstractStuffItem getGauntlet() {
+        return gauntlet;
+    }
+
+    public void setGauntlet(AbstractStuffItem gauntlet) {
+        this.gauntlet = gauntlet;
+        items.put(gauntlet.getName(), gauntlet);
     }
 
     public AbstractStuffItem getShoes() {
@@ -38,7 +72,8 @@ public class Stuff {
     }
 
     public void setShoes(AbstractStuffItem shoes) {
-        Stuff.shoes = shoes;
+        this.shoes = shoes;
+        items.put(shoes.getName(), shoes);
     }
 
     public AbstractStuffItem getPant() {
@@ -46,7 +81,8 @@ public class Stuff {
     }
 
     public void setPant(AbstractStuffItem pant) {
-        Stuff.pant = pant;
+        this.pant = pant;
+        items.put(pant.getName(), pant);
     }
 
     public AbstractStuffItem getChest() {
@@ -54,10 +90,11 @@ public class Stuff {
     }
 
     public void setChest(AbstractStuffItem chest) {
-        Stuff.chest = chest;
+        this.chest = chest;
+        items.put(chest.getName(), chest);
     }
 
-    public List<AbstractStuffItem> getItems() {
+    public Map<String, AbstractStuffItem> getItems() {
         return items;
     }
 }

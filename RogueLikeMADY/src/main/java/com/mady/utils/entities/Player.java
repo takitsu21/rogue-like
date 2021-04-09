@@ -1,11 +1,10 @@
 package com.mady.utils.entities;
 
 import com.mady.utils.Case;
-
 import com.mady.utils.Salle;
-
+import com.mady.utils.entities.factories.items.Chest;
+import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,16 +21,18 @@ public class Player extends AbstractEntities {
     private double HP = maxHp;
     private double MP = maxMp;
     private double ATK = 3;
-    private  double DEF = 1;
-    private  double AGI = 1;
-    private  double LUK = 1;
-    private  List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
+    private double DEF = 1;
+    private double AGI = 1;
+    private double LUK = 2;
+    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
     private final Stuff stuff;
+    private final Inventory inventory;
 
 
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
         super(pos, hitPoints, damages, movement, repr, 3, salle);
         this.stuff = new Stuff();
+        this.inventory = new Inventory();
     }
 
 
@@ -45,35 +46,87 @@ public class Player extends AbstractEntities {
 
     }
 
-    public void pickItem( AbstractStuffItem i) {
-        this.stuff.getItems().add(i);
+    /**
+     * Ramasse un item et le met dans l'inventaire.
+     * @param i AbstractStuffItem
+     * @return boolean
+     */
+    public boolean pickItem(AbstractStuffItem i) {
+        return inventory.addItem(i);
+//        switch (i.getName()) {
+//            case "helmet":
+//                this.stuff.setHelmet(i);
+//                break;
+//            case "weapon":
+//                this.stuff.setWeapon(i);
+//                break;
+//            case "shoes":
+//                this.stuff.setShoes(i);
+//                break;
+//            case "pant":
+//                this.stuff.setPant(i);
+//                break;
+//            case "chest":
+//                this.stuff.setChest(i);
+//                break;
+//            case "amulet":
+//                this.stuff.setAmulet(i);
+//                break;
+//            case "gauntlet":
+//                this.stuff.setGauntlet(i);
+//                break;
+//        }
     }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    /**
+     * Ramasse un item sur la case en ouvrant le coffre.
+     *
+     * @param c Case de la map.
+     */
     public void pickItem(Case c) {
-        AbstractStuffItem i = (AbstractStuffItem) c.getItem();
-        i.setPos(null);
-        this.stuff.getItems().add(i);
+        AbstractStuffItem i = ((Chest)c.getItem()).openChest(this);
+        i.setPosition(null);
+        pickItem(i);
         c.setItem(null);
     }
 
-    public void equipItem(Case c) {
+    public boolean equipItem(Case c) {
         AbstractStuffItem i = (AbstractStuffItem) c.getItem();
-        i.setPos(null);
+        i.setPosition(null);
         c.setItem(null);
         String n = i.getName();
         switch (n) {
             case "helmet":
                 this.stuff.setHelmet(i);
+                break;
             case "weapon":
                 this.stuff.setWeapon(i);
+                break;
             case "shoes":
                 this.stuff.setShoes(i);
+                break;
             case "pant":
                 this.stuff.setPant(i);
+                break;
             case "chest":
                 this.stuff.setChest(i);
                 break;
+            case "amulet":
+                this.stuff.setAmulet(i);
+                break;
+            case "gauntlet":
+                this.stuff.setGauntlet(i);
+                break;
+            default:
+                return false;
         }
+        return true;
     }
+
     public void useItem(Case c) {
         Item i = c.getItem();
 
@@ -81,8 +134,9 @@ public class Player extends AbstractEntities {
         if (i.isDrinkable()) {
             i.act(this);
         } else if (i.isPickable()) {
-           // pickItem(i);
-        }}
+            // pickItem(i);
+        }
+    }
 
     public int getLvl() {
         return lvl;
@@ -185,8 +239,6 @@ public class Player extends AbstractEntities {
     public Stuff getStuff() {
         return stuff;
     }
-
-
 
 
     public void updateStats() {
