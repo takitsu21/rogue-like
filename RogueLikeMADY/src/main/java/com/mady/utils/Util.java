@@ -22,7 +22,6 @@ public class Util {
     }
     public static String getRandomItem(){
         return "chest";
-    }
 //        int randomIt= Util.r.nextInt(5);
 //        switch (randomIt) {
 //            case 0:
@@ -37,4 +36,15 @@ public class Util {
 //                return "chest";
 //        }
 //    }
+    }
+
+
+    public static String filler(int i ){
+        StringBuilder sb = new StringBuilder();
+        for(int j = 0; j < i ; j++){
+            sb.append(" ");
+
+        }
+        return sb.toString();
+    }
 }

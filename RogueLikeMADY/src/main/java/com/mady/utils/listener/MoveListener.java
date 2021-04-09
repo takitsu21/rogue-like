@@ -33,6 +33,7 @@ public class MoveListener implements KeyListener {
             case 'd':
                 map.move(map.getPlayer(),new Position(0, 1));
                 break;
+
             case 'x':
                 int x = map.getPlayer().getPosition().getX();
                 int y = map.getPlayer().getPosition().getY();
@@ -55,7 +56,6 @@ public class MoveListener implements KeyListener {
 
         }
         Util.playerTurn = false;
-//        System.out.println(Util.playerTurn);
     }
 
     @Override
