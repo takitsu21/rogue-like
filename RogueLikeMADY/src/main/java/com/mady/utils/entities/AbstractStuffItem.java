@@ -115,4 +115,9 @@ public abstract class AbstractStuffItem implements Item {
     public List<Double> getStats() {
         return stats;
     }
+
+    @Override
+    public String toString() {
+       return String.format("HP=%.2f/MP=%.2f/ATK=%.2f/DEF=%.2f/AGI=%.2f/LUK=%.2f",HP, MP, ATK, DEF, AGI, LUK);
+    }
 }

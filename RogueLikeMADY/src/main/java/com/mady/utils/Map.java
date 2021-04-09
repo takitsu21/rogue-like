@@ -436,10 +436,36 @@ public class Map {
             sb.append("\n");
         }
         sb.append('"');
-        sb.append(getPlayer().getStuff().toString());
-//        for(int i = 9 +getPlayer().getStuff().toString().length(); i < BASE_WIDTH; i++  ){
-//            sb.append(" ");
-//        }
+//        sb.append(getPlayer().getStuff().toString());
+        char rph = getPlayer().getStuff().getHelmet() == null ? ' ' : '*';
+        char rpg = getPlayer().getStuff().getGauntlet() == null ? ' ' : '*';
+        char rpc = getPlayer().getStuff().getChest() == null ? ' ' : '*';
+        char rpp = getPlayer().getStuff().getPant() == null ? ' ' : '*';
+        char rps = getPlayer().getStuff().getShoes() == null ? ' ' : '*';
+        char rpa = getPlayer().getStuff().getAmulet() == null ? ' ' : '*';
+        char rpw = getPlayer().getStuff().getWeapon() == null ? ' ' : '*';
+        String HelmetStats = getPlayer().getStuff().getHelmet() == null ? " " : getPlayer().getStuff().getHelmet().toString();
+        String GauntletStats = getPlayer().getStuff().getGauntlet() == null ? " " : getPlayer().getStuff().getGauntlet().toString();
+        String ChestPlateStats = getPlayer().getStuff().getChest()  == null ? " " : getPlayer().getStuff().getChest() .toString();
+        String PantStats = getPlayer().getStuff().getPant() == null ? " " : getPlayer().getStuff().getPant().toString();
+        String AmuletStats = getPlayer().getStuff().getAmulet() == null ? " " : getPlayer().getStuff().getAmulet().toString();
+        String ShoesStats = getPlayer().getStuff().getShoes() == null ? " " : getPlayer().getStuff().getShoes().toString();
+        String WeaponStats = getPlayer().getStuff().getWeapon() == null ? " " : getPlayer().getStuff().getWeapon().toString();
+        String fillerH = Util.filler(BASE_WIDTH-(32+HelmetStats.length()));
+        String fillerW =  Util.filler(BASE_WIDTH-(41+WeaponStats.length()+AmuletStats.length()));
+        String fillerG = Util.filler(BASE_WIDTH-(34+GauntletStats.length()));
+        String fillerC = Util.filler(BASE_WIDTH-(36+ChestPlateStats.length()));
+        String fillerP = Util.filler (BASE_WIDTH - (30+PantStats.length()));
+        String fillerS = Util.filler((BASE_WIDTH - (31+ShoesStats.length())));
+        sb.append("\"\"\"\"\"\"\"\"\"\"\"\"\"");
+        sb.append(" STUFF : ");
+        sb.append(String.format("HElMET: %s%s\"",HelmetStats,fillerH));
+        sb.append("\n\"");
+        sb.append(String.format("    [%c] [%c] \"         WEAPON: %s AMULET: %s%s\"\n\"",rph,rpa,WeaponStats,AmuletStats,fillerW));
+        sb.append(String.format(" [%c][%c][%c]  \"         GAUNTLET: %s%s\"\n\"",rpg,rpc,rpw,GauntletStats,fillerG));
+        sb.append(String.format("    [%c]     \"         CHESTPLATE: %s%s\"\n\"",rpp,ChestPlateStats,fillerC));
+        sb.append(String.format("  [%c] [%c]   \"         PANT: %s%s\"\n\"",rps,rps,PantStats,fillerP));
+        sb.append(String.format("\"\"\"\"\"\"\"\"\"\"\"\"\"         SHOES: %s%s\"",ShoesStats,fillerS));
         sb.append("\n");
         for(int i =  0; i < BASE_WIDTH; i++){
             sb.append('"');
