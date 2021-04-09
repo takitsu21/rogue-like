@@ -20,4 +20,17 @@ public class Util {
                 return Deplacement.DROITE;
         }
     }
+    public static String getRandomItem(){
+        int randomIt= Util.r.nextInt(4);
+        switch (randomIt) {
+            case 0:
+                return "potion_vie";
+            case 1:
+                return "potion_force";
+            case 2:
+                return "poison_vie";
+            default:
+                return "poison_force";
+        }
+    }
 }

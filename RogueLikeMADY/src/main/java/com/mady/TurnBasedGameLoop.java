@@ -16,7 +16,6 @@ public class TurnBasedGameLoop extends GameLoop{
                 stop();
                 System.exit(0);
             }
-            System.out.println(status);
             render();
             Util.playerTurn = true;
         }

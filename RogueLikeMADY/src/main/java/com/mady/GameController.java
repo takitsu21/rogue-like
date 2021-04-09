@@ -1,5 +1,6 @@
 package com.mady;
 
+import com.mady.utils.Salle;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
@@ -10,8 +11,8 @@ public class GameController {
     /**
      * Initialize Player instance.
      */
-    public GameController(Position pos) {
-        player = new Player(pos, 100, 5, 1, "@");
+    public GameController(Position pos, Salle salle) {
+        player = new Player(pos, 100, 5, 1, "@", salle);
     }
 
     /**

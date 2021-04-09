@@ -12,10 +12,15 @@ public class PoisonVie extends AbstractItem {
     @Override
     public void act(Player player) {
         if (player.getHitPoints()-getDamages() >= 0) {
-            player.setHitPoints(player.getHitPoints()-getDamages());
+            player.setHP(player.getHP()-getDamages());
         }
         else{
-            player.setHitPoints(0);
+            player.setHP(0);
         }
     }
+    @Override
+    public String getRepresentation() {
+        return "V";
+    }
 }
+
