@@ -1,30 +1,43 @@
 package com.mady.utils.entities;
 
-import com.mady.utils.Map;
+import com.mady.utils.entities.factories.items.AbstractItem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Stuff {
 
-    private static AbstractStuffItem helmet;
-    private static AbstractStuffItem weapon;
-    private static AbstractStuffItem shoes;
-    private static AbstractStuffItem pant;
-    private static AbstractStuffItem chestPlate;
-    private static AbstractStuffItem amulet;
-    private static AbstractStuffItem gauntlet;
-    private final List<AbstractStuffItem> items = new ArrayList<>(
-            Arrays.asList(helmet, weapon, shoes, pant, chestPlate,amulet,gauntlet)
-    );
+    private AbstractStuffItem helmet;
+    private AbstractStuffItem weapon;
+    private AbstractStuffItem shoes;
+    private AbstractStuffItem pant;
+    private AbstractStuffItem chest;
+    private AbstractStuffItem amulet;
+    private AbstractStuffItem gauntlet;
+    //    private final List<AbstractStuffItem> items = new ArrayList<>(
+//            Arrays.asList(helmet, weapon, shoes, pant, chest, amulet, gauntlet)
+//    );
+//    private final Map<String, AbstractStuffItem> items = Stream.of(new Object[][]{
+//            {"helmet", helmet},
+//            {"weapon", weapon},
+//            {"shoes", shoes},
+//            {"pant", pant},
+//            {"amulet", amulet},
+//            {"gauntlet", gauntlet},
+//            {"chest", chest}
+//    }).collect(Collectors.toMap(data -> (String) data[0], data -> (AbstractStuffItem) data[1]));
+    private final Map<String, AbstractStuffItem> items = new HashMap<>();
 
     public AbstractStuffItem getHelmet() {
         return helmet;
     }
 
     public void setHelmet(AbstractStuffItem helmet) {
-        Stuff.helmet = helmet;
+        this.helmet = helmet;
+        items.put(helmet.getName(), helmet);
     }
 
     public AbstractStuffItem getWeapon() {
@@ -32,7 +45,26 @@ public class Stuff {
     }
 
     public void setWeapon(AbstractStuffItem weapon) {
-        Stuff.weapon = weapon;
+        this.weapon = weapon;
+        items.put(weapon.getName(), weapon);
+    }
+
+    public AbstractStuffItem getAmulet() {
+        return amulet;
+    }
+
+    public void setAmulet(AbstractStuffItem amulet) {
+        this.amulet = amulet;
+        items.put(amulet.getName(), amulet);
+    }
+
+    public AbstractStuffItem getGauntlet() {
+        return gauntlet;
+    }
+
+    public void setGauntlet(AbstractStuffItem gauntlet) {
+        this.gauntlet = gauntlet;
+        items.put(gauntlet.getName(), gauntlet);
     }
 
     public AbstractStuffItem getShoes() {
@@ -40,7 +72,8 @@ public class Stuff {
     }
 
     public void setShoes(AbstractStuffItem shoes) {
-        Stuff.shoes = shoes;
+        this.shoes = shoes;
+        items.put(shoes.getName(), shoes);
     }
 
     public AbstractStuffItem getPant() {
@@ -48,77 +81,20 @@ public class Stuff {
     }
 
     public void setPant(AbstractStuffItem pant) {
-        Stuff.pant = pant;
+        this.pant = pant;
+        items.put(pant.getName(), pant);
     }
 
     public AbstractStuffItem getChest() {
-        return chestPlate;
+        return chest;
     }
 
     public void setChest(AbstractStuffItem chest) {
-        Stuff.chestPlate = chest;
+        this.chest = chest;
+        items.put(chest.getName(), chest);
     }
 
-    public List<AbstractStuffItem> getItems() {
+    public Map<String, AbstractStuffItem> getItems() {
         return items;
-    }
-
-    public static AbstractStuffItem getAmulet() {
-        return amulet;
-    }
-
-    public static void setAmulet(AbstractStuffItem amulet) {
-        Stuff.amulet = amulet;
-    }
-
-    public static AbstractStuffItem getGauntlet() {
-        return gauntlet;
-    }
-
-    public static void setGauntlet(AbstractStuffItem gauntlet) {
-        Stuff.gauntlet = gauntlet;
-    }
-
-
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-//        if (items == null){
-//            sb.append("Empty");
-//        }
-//       else{ for (AbstractStuffItem i : items) {
-//            if( i == null){
-//                sb.append("    ");
-//            }
-//            else {sb.append(String.format("%s : %d ",i.getName(),i.getDamages()));}
-//        char rph = helmet == null ? ' ' : '*';
-//        char rpg = gauntlet == null ? ' ' : '*';
-//        char rpc = chestPlate == null ? ' ' : '*';
-//        char rpp = pant == null ? ' ' : '*';
-//        char rps = shoes == null ? ' ' : '*';
-//        char rpa = amulet == null ? ' ' : '*';
-//        char rpw = weapon == null ? ' ' : '*';
-//        String HelmetStats = helmet == null ? " " : helmet.toString();
-//        String GauntletStats = gauntlet == null ? " " : gauntlet.toString();
-//        String ChestPlateStats = chestPlate == null ? " " : chestPlate.toString();
-//        String PantStats = pant == null ? " " : pant.toString();
-//        String AmuletStats = amulet == null ? " " : amulet.toString();
-//        String ShoesStats = shoes == null ? " " : shoes.toString();
-//        String WeaponStats = weapon == null ? " " : weapon.toString();
-//
-//
-//        sb.append("\"\"\"\"\"\"\"\"\"\"\"\"\"");
-//        sb.append(" STUFF : ");
-//        sb.append(String.format("HElMET: %s",HelmetStats));
-//        sb.append("\n\"");
-//        sb.append(String.format("    [%c] [%c] \"         WEAPON: %s AMULET: %s\n\"",rph,rpa,WeaponStats,AmuletStats));
-//        sb.append(String.format(" [%c][%c][%c]  \"         GAUNTLET: %s\n\"",rpg,rpc,rpw,GauntletStats));
-//        sb.append(String.format("    [%c]     \"         CHESTPLATE: %s\n\"",rpp,ChestPlateStats));
-//        sb.append(String.format("  [%c] [%c]   \"         PANT: %s\n\"",rps,rps,PantStats));
-//        sb.append(String.format("\"\"\"\"\"\"\"\"\"\"\"\"\"         SHOES: %s",ShoesStats));
-
-        return sb.toString();
-
     }
 }

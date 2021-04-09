@@ -5,30 +5,38 @@ import com.mady.utils.entities.factories.items.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class AbstractStuffItem implements Item {
-    private Position pos;
-    private static double HP = 1;
-    private static double MP = 1;
-    private static double ATK = 1;
-    private static double DEF = 1;
-    private static double AGI = 1;
-    private static double LUK = 1;
+    private final String name;
+    private double HP;
+    private double MP;
+    private double ATK;
+    private double DEF;
+    private double AGI;
+    private double LUK;
     private final List<Double> stats = new ArrayList<>(Arrays.asList(HP, MP, ATK, DEF, AGI, LUK));
 
-    public AbstractStuffItem(Position pos) {
-        this.pos = pos;
+
+    public AbstractStuffItem(String name,
+                             double HP,
+                             double MP,
+                             double ATK,
+                             double DEF,
+                             double AGI,
+                             double LUK) {
+        this.name = name;
+        this.HP = HP;
+        this.MP = MP;
+        this.ATK = ATK;
+        this.DEF = DEF;
+        this.AGI = AGI;
+        this.LUK = LUK;
     }
 
-    @Override
-    public Position getPosition() {
-        return pos;
-    }
-
-    @Override
-    public void setPosition(Position position) {
-        pos = position;
+    public AbstractStuffItem(String name) {
+        this(name, 0, 0, 0, 0, 0, 0);
     }
 
     @Override
@@ -43,7 +51,7 @@ public abstract class AbstractStuffItem implements Item {
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
@@ -52,64 +60,57 @@ public abstract class AbstractStuffItem implements Item {
 
     public void setStats(int lvl) {
         for (double stat : stats) {
-            stat = (double)Util.r.nextInt(lvl + 1) * 1.2;
+            stat = (double) Util.r.nextInt(lvl + 1) * 1.2;
         }
     }
 
-    public Position getPos() {
-        return pos;
-    }
 
-    public void setPos(Position pos) {
-        this.pos = pos;
-    }
-
-    public static double getHP() {
+    public double getHP() {
         return HP;
     }
 
-    public static void setHP(double HP) {
-        AbstractStuffItem.HP = HP;
+    public void setHP(double HP) {
+        this.HP = HP;
     }
 
-    public static double getMP() {
+    public double getMP() {
         return MP;
     }
 
-    public static void setMP(double MP) {
-        AbstractStuffItem.MP = MP;
+    public void setMP(double MP) {
+        this.MP = MP;
     }
 
-    public static double getATK() {
+    public double getATK() {
         return ATK;
     }
 
-    public static void setATK(double ATK) {
-        AbstractStuffItem.ATK = ATK;
+    public void setATK(double ATK) {
+        this.ATK = ATK;
     }
 
-    public static double getDEF() {
+    public double getDEF() {
         return DEF;
     }
 
-    public static void setDEF(double DEF) {
-        AbstractStuffItem.DEF = DEF;
+    public void setDEF(double DEF) {
+        this.DEF = DEF;
     }
 
-    public static double getAGI() {
+    public double getAGI() {
         return AGI;
     }
 
-    public static void setAGI(double AGI) {
-        AbstractStuffItem.AGI = AGI;
+    public void setAGI(double AGI) {
+        this.AGI = AGI;
     }
 
-    public static double getLUK() {
+    public double getLUK() {
         return LUK;
     }
 
-    public static void setLUK(double LUK) {
-        AbstractStuffItem.LUK = LUK;
+    public void setLUK(double LUK) {
+        this.LUK = LUK;
     }
 
     public List<Double> getStats() {

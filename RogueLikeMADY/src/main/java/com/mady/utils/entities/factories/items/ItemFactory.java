@@ -1,5 +1,6 @@
 package com.mady.utils.entities.factories.items;
 
+import com.mady.utils.entities.ChestPlate;
 import com.mady.utils.entities.Position;
 
 public class ItemFactory {
@@ -17,7 +18,8 @@ public class ItemFactory {
             case "potion_force": return new PotionForce(position);
             case "poison_vie": return  new PoisonVie(position);
             case "poison_force": return new PoisonForce(position);
-            default: throw new IllegalArgumentException("unknown monster");
+            case "chest": return new Chest(position);
+            default: throw new IllegalArgumentException("unknown item");
         }
     }
 }

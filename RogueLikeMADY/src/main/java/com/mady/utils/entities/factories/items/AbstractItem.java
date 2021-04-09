@@ -10,9 +10,9 @@ public abstract class AbstractItem implements Item {
     private final int damages;
     private final String name;
     private final Boolean drinkable;
-    private final  Boolean pickable;
+    private final Boolean pickable;
 
-    public AbstractItem(Position position, double movement, int damages, String name,Boolean drinkable, Boolean pickable) {
+    public AbstractItem(Position position, double movement, int damages, String name, Boolean drinkable, Boolean pickable) {
         this.position = position;
         this.movement = movement;
         this.damages = damages;
@@ -20,7 +20,6 @@ public abstract class AbstractItem implements Item {
         this.drinkable = drinkable;
         this.pickable = pickable;
     }
-
 
 
     @Override
@@ -43,6 +42,12 @@ public abstract class AbstractItem implements Item {
     public String getName() {
         return name;
     }
-    public Boolean isDrinkable(){return drinkable;}
-    public Boolean isPickable(){return pickable;}
+
+    public Boolean isDrinkable() {
+        return drinkable;
+    }
+
+    public Boolean isPickable() {
+        return pickable;
+    }
 }

@@ -4,6 +4,7 @@ package com.mady.utils;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.ItemFactory;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
@@ -80,8 +81,11 @@ public class Map {
     }
 
 
-    public Case getcase(Position p) {
+    public Case getCase(Position p) {
         return this.map[p.getX()][p.getY()];
+    }
+    public Case getCase(int x, int y) {
+        return this.map[x][y];
     }
 
     public Player getPlayer() {
@@ -271,7 +275,7 @@ public class Map {
 //        addPlayerToMap(player);
         int nbMonstersByRoom;
         for (int i = 0; i < nbSalles; i++) {
-            nbMonstersByRoom = Util.r.nextInt(10);
+            nbMonstersByRoom = Util.r.nextInt(4);
             addEntity(nbMonstersByRoom);
         }
     }
@@ -304,7 +308,7 @@ public class Map {
     }
 
     private void generateItems() {
-        int nbMaxItems = Util.r.nextInt(10);
+        int nbMaxItems = Util.r.nextInt(2) + 5;
         addItems(nbMaxItems);
 
     }
@@ -363,8 +367,8 @@ public class Map {
                 return true;
 
             }
-            if (newCase.getItem() != null){
-                System.out.println("item ramassé !!\nstats player:");
+
+            if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)){
 //                System.out.println("vie " +((Player) e).getHitPoints()+"\n"+((Player) e).getDamages());
                 System.out.printf("stat item :\n\t"+newCase.getItem().getName()+"\n\tforce: "+newCase.getItem().getDamages()+"\n");
                 clearCase(oldCase);
@@ -435,6 +439,7 @@ public class Map {
             }
             sb.append("\n");
         }
+
         sb.append('"');
 //        sb.append(getPlayer().getStuff().toString());
         char rph = getPlayer().getStuff().getHelmet() == null ? ' ' : '*';
@@ -470,6 +475,9 @@ public class Map {
         for(int i =  0; i < BASE_WIDTH; i++){
             sb.append('"');
         }
+
+        sb.append(player.getInventory());
+
         return sb.toString();
     }
 
