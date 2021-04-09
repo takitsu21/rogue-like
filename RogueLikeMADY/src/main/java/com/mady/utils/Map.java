@@ -124,6 +124,7 @@ public class Map {
         return securite>=0;
     }
 
+
     public boolean isInside(int x, int y) {
         return (x >= 0 && x < BASE_HEIGHT)
                 && (y >= 0 && y < BASE_WIDTH);
@@ -143,7 +144,7 @@ public class Map {
         boolean result = true;
         int x = p.getX() > 2 ? p.getX() - 3 : p.getX();
         int y = p.getY() > 2 ? p.getY() - 3 : p.getY();
-        lignes = lignes != BASE_HEIGHT ? lignes + 5 : lignes;
+        lignes = lignes != BASE_HEIGHT ? lignes + 5 : lignes; //pour garantir 3 cases entre les salles + les walls
         colonnes = colonnes != BASE_WIDTH ? colonnes + 5 : colonnes;
 
         if (isInside(lignes + x, colonnes + y)) {
@@ -175,7 +176,7 @@ public class Map {
         while (relier.contains(false)) {
             Double distance = (double) Integer.MAX_VALUE;
             Salle salleselect = s;
-            for (Salle s2 : salles) {
+            for (Salle s2 : salles) { //on cherche la salle la plus proche de s
                 Double distance2 = Math.sqrt(Math.pow(s2.getPos().getX() - s.getPos().getX(), 2)
                         + Math.pow(s2.getPos().getY() - s.getPos().getY(), 2));
                 if (!s.equals(s2) && distance2 < distance && !relier.get(salles.indexOf(s2))) {
@@ -235,7 +236,7 @@ public class Map {
         map[x2 + s2.getPos().getX()][y2 + s2.getPos().getY()] = new Case("'", CaseType.PATH);*/
 
         AStar aStar = new AStar();
-        int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2);
+        int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2); //on cherche un chemin partant du centre des 2 salles
 
         setupPaths(res);
         return res!=null;
@@ -295,7 +296,7 @@ public class Map {
         for (int i = 0; i < nbMonsters; i++) {
             Salle salle=chooseSalle();
             Position pos = randomPosPlayerInSalle(salle);
-            while(nextToDoor(pos)){
+            while(nextToDoor(pos)){ //l'entity ne peux pas etre generé devant une porte
                 pos = randomPosPlayerInSalle(salle);
             }
 
@@ -311,17 +312,17 @@ public class Map {
     private void addItems(int nbItem) {
         for (int i = 0; i < nbItem; i++) {
             Position pos = randomPosPlayerInSalle(chooseSalle());
+            while(nextToDoor(pos)){ //l'item ne peux pas etre generé devant une porte
+                pos = randomPosPlayerInSalle(chooseSalle());
+            }
             Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
             map[pos.getX()][pos.getY()].setItem(item);
         }
     }
 
     private void generateItems() {
-        boolean b=true;
         int nbMaxItems = Util.r.nextInt(10);
         addItems(nbMaxItems);
-
-
     }
 
 
@@ -398,7 +399,7 @@ public class Map {
 
 
 
-
+    //cherche une porte associé a la position newpos
     private Position findDoor(Position newPos) {
 //        System.out.println(newPos.toString());
 //        System.out.println("find door");
