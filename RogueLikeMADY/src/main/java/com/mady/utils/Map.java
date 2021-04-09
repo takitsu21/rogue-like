@@ -6,6 +6,7 @@ import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.ItemFactory;
+import com.mady.utils.entities.factories.monster.AbstractMonster;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
@@ -28,13 +29,11 @@ public class Map {
 
     public static void main(String[] args) {
         Map map = new Map(15, 30, 200);
-
         map.createMap();
         Salle salle= map.chooseSalle();
         Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
         map.addPlayerToMap(player);
         System.out.println(map);
-
     }
 
 
@@ -55,7 +54,6 @@ public class Map {
                 map[i][j] = new Case(" ");
             }
         }
-
         generateRooms();
         selectLien();
         generateEntities();
@@ -110,7 +108,6 @@ public class Map {
         for (int i = 0; i < s.getlignes(); i++) {
             for (int j = 0; j < s.getcolonnes(); j++) {
                 map[i + x][j + y] = s.getRepresentation()[i][j];
-
             }
         }
         salles.add(s);
@@ -135,7 +132,6 @@ public class Map {
         int y = p.getY() > 2 ? p.getY() - 3 : p.getY();
         lignes = lignes != BASE_HEIGHT ? lignes + 5 : lignes;
         colonnes = colonnes != BASE_WIDTH ? colonnes + 5 : colonnes;
-
         if (isInside(lignes + x, colonnes + y)) {
             for (int i = 0; i < lignes; i++) {
                 for (int j = 0; j < colonnes; j++) {
@@ -278,11 +274,11 @@ public class Map {
 
     private void addEntity(int nbMonsters) {
         for (int i = 0; i < nbMonsters; i++) {
-            Salle salle=chooseSalle();
+            Salle salle = chooseSalle();
             Position pos = randomPosPlayerInSalle(salle);
-            System.out.println("ok2");
+            //System.out.println("ok2");
             while(nextToDoor(pos)){
-                System.out.println("ok");
+                //System.out.println("ok");
                 pos = randomPosPlayerInSalle(salle);
             }
 
@@ -311,7 +307,7 @@ public class Map {
 
 
     /*mouvement des entities */
-    private void clearCase(Case c) {
+    public void clearCase(Case c) {
 
         c.setItem(null);
         c.setEntity(null);
@@ -328,7 +324,7 @@ public class Map {
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
         if (newCase.isFreeCase() && newCase.isSalle()) { //mouvement le plus basique
-            System.out.println(newCase.getItem());
+            //System.out.println(newCase.getItem());
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
@@ -440,5 +436,38 @@ public class Map {
 
     public List<Entities> getEntities() {
         return entities;
+    }
+
+    public Entities closeCheckAround(){
+        Position playerPos = getPlayer().getPosition();
+
+        System.out.println(playerPos);
+        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
+            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
+                System.out.printf("%s", new Position(i, j));
+                if (isInside(i, j) && getMap()[i][j].isOccupied() && !getMap()[i][j].isPlayer()) {
+                    return getMap()[i][j].getEntity();
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<Entities> zoneCheckAround(){
+        Position playerPos = getPlayer().getPosition();
+        List<Entities> monstersAround = new ArrayList<>();
+        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
+            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
+                System.out.printf("%s", new Position(i, j));
+                ies
+                if (isInside(i, j) && getMap()[i][j].isOccupied() && !getMap()[i][j].isPlayer()
+                        && !monstersAround.contains(entity)) {
+                    monstersAround.add(getMap()[i][j].getEntity());
+                    System.out.println(getMap()[i][j].getEntity().getPosition());
+                }
+            }
+        }
+
+        return monstersAround;
     }
 }

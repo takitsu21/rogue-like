@@ -8,7 +8,7 @@ public class OrcWarrior extends AbstractMonster{
 
 
     public OrcWarrior(Position pos, Salle salle) {
-        super(pos, 10, 3, 1, "o", 3, salle);
+        super(pos, 10, 1, 1, "o", 3, salle);
     }
 
 

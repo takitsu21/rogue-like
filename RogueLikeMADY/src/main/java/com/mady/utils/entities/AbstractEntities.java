@@ -4,6 +4,7 @@ import com.mady.GameStatus;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
+import com.mady.utils.entities.factories.monster.AbstractMonster;
 
 public abstract class AbstractEntities implements Entities {
     private Position pos;
@@ -63,24 +64,25 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public void setHitPoints(int hitPoints) {
-        this.hitPoints=hitPoints;
+        this.hitPoints = hitPoints;
     }
 
     @Override
     public void takeDamages(int damages) {
         if (this instanceof Player){
-            ((Player) this).setHP(Player.getHP() - damages);
+            ((Player) this).setHP(((Player) this).getHP() - damages);
             if (((Player) this).isDead()) {
-                System.out.println("you dead, end game");
+                System.out.println("you dead, end game\n");
             }
         } else {
             int new_HP = getHitPoints() - damages;
-            if (new_HP <= 0) {
-                System.out.println("monster is dead");
-            } else {
-                setHitPoints(new_HP);
-            }
+            setHitPoints(new_HP);
+            System.out.printf("monster hp remaining : %d \n", getHitPoints());
         }
+    }
+
+    public boolean isDead() {
+        return (getHitPoints() <= 0);
     }
 
     @Override
@@ -100,10 +102,8 @@ public abstract class AbstractEntities implements Entities {
 
 
     private boolean isInPerimeter(Map map) {
-        System.out.println(pos);
         for (int i = pos.getX() - effectiveArea; i < pos.getX() + effectiveArea; i++) {
             for (int j = pos.getY() - effectiveArea; j < pos.getY() + effectiveArea; j++) {
-                System.out.printf("perimeter(%d,%d)\n", i, j);
                 if (map.isInside(i, j) && map.getMap()[i][j].isPlayer()) {
                     return true;
                 }
@@ -121,10 +121,10 @@ public abstract class AbstractEntities implements Entities {
     @Override
     public Map doTurn(Map map) {
         if (isInPerimeter(map)) {
-            this.act(map.getPlayer());
-            //System.out.println("Le monstre attaque");
+            if (this instanceof AbstractMonster) {
+                ((AbstractMonster) this).act(map.getPlayer());
+            }
         } else {
-//            System.out.println("on bouge");
             if (!map.move(this,nextPos(this))){
                 map.move(this,nextPos(this));
             }

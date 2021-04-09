@@ -11,7 +11,6 @@ public class MoveListener implements KeyListener {
     private Map map;
     public MoveListener(Map map) {
         this.map = map;
-
     }
 
 
@@ -29,6 +28,12 @@ public class MoveListener implements KeyListener {
                 break;
             case 'd':
                 map.move(map.getPlayer(),new Position(0, 1));
+                break;
+            case 'a':
+                map.getPlayer().zoneAttack(map.zoneCheckAround(), map);
+                break;
+            case 'e':
+                map.getPlayer().closeAttack(map.closeCheckAround(), map);
                 break;
             default:
                 return;

@@ -42,7 +42,7 @@ public class Case {
     }
 
     public boolean isPlayer() {
-        System.out.println(entity instanceof Player);
+        //System.out.println(entity instanceof Player);
 //        System.out.println(entity.equals(Player));
         return entity instanceof Player;
     }
