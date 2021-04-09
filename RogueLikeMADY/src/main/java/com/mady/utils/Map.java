@@ -314,6 +314,11 @@ public class Map {
         if (c.isPath()) {
             c.setRepr("P");
         }
+
+    }
+
+    public void clearCase(Position pos) {
+        map[pos.getX()][pos.getY()] = new Case(CaseType.SALLE);
     }
 
 
