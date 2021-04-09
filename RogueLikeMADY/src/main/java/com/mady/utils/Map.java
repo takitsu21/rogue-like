@@ -49,17 +49,20 @@ public class Map {
         this(nbSalles, 16, 128);
     }
 
-    public void createMap() {
+    public boolean createMap() {
+        boolean bRoom;
+        boolean bPath;
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
                 map[i][j] = new Case(" ");
             }
         }
 
-        generateRooms();
-        selectLien();
+        bRoom=generateRooms();
+        bPath=selectLien();
         generateEntities();
         generateItems();
+        return !bRoom || !bPath;
     }
 
     public Frame getFrame() {
@@ -97,23 +100,28 @@ public class Map {
         map[player.getPosition().getX()][player.getPosition().getY()].setRepr(player.getRepr());
     }
 
-    private void generateRoom(Position p) {
+    private boolean generateRoom(Position p) {
         int x = p.getX();
         int y = p.getY();
         Salle s = new Salle(p);
-        while (!checkFreeArea(p, s.getlignes(), s.getcolonnes())) {
+        int securite=20;
+        while (securite>=0 && !checkFreeArea(p, s.getlignes(), s.getcolonnes())){
+            securite-=1;
             p = p.getRandomPos(BASE_HEIGHT, BASE_WIDTH);
             s = new Salle(p);
             x = p.getX();
             y = p.getY();
         }
-        for (int i = 0; i < s.getlignes(); i++) {
-            for (int j = 0; j < s.getcolonnes(); j++) {
-                map[i + x][j + y] = s.getRepresentation()[i][j];
+        if(securite>=0) {
+            for (int i = 0; i < s.getlignes(); i++) {
+                for (int j = 0; j < s.getcolonnes(); j++) {
+                    map[i + x][j + y] = s.getRepresentation()[i][j];
 
+                }
             }
+            salles.add(s);
         }
-        salles.add(s);
+        return securite>=0;
     }
 
     public boolean isInside(int x, int y) {
@@ -122,11 +130,13 @@ public class Map {
     }
 
 
-    private void generateRooms() {
+    private boolean generateRooms() {
+        boolean b=true;
         Position p = new Position(0, 0);
         for (int i = 0; i < nbSalles; i++) {
-            generateRoom(p.getRandomPos(BASE_HEIGHT, BASE_WIDTH));
+            b=b && generateRoom(p.getRandomPos(BASE_HEIGHT, BASE_WIDTH));
         }
+        return b;
     }
 
     private boolean checkFreeArea(Position p, int lignes, int colonnes) {
@@ -152,7 +162,8 @@ public class Map {
     }
 
 
-    private void selectLien() {
+    private boolean selectLien() {
+        boolean b=true;
         Salle s = salles.get(0);
         ArrayList<Boolean> relier = new ArrayList<>(salles.size());
         for (int i = 0; i < salles.size(); i++) {
@@ -176,14 +187,15 @@ public class Map {
 //            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
 //            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
 //            System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
-            relie(s, salleselect);
+            b= b && relie(s, salleselect);
             s = salleselect;
             relier.set(salles.indexOf(salleselect), true);
         }
+        return b;
     }
 
 
-    private void relie(Salle s1, Salle s2) {
+    private boolean relie(Salle s1, Salle s2) {
 
         Position pos1 = s1.findMiddle();
         Position pos2 = s2.findMiddle();
@@ -226,6 +238,7 @@ public class Map {
         int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2);
 
         setupPaths(res);
+        return res!=null;
     }
 
     private void setupPaths(int[][] solvedPath) {
@@ -268,21 +281,21 @@ public class Map {
     }
 
     private void generateEntities() {
+
 //        addPlayerToMap(player);
         int nbMonstersByRoom;
         for (int i = 0; i < nbSalles; i++) {
             nbMonstersByRoom = Util.r.nextInt(10);
             addEntity(nbMonstersByRoom);
         }
+
     }
 
     private void addEntity(int nbMonsters) {
         for (int i = 0; i < nbMonsters; i++) {
             Salle salle=chooseSalle();
             Position pos = randomPosPlayerInSalle(salle);
-            System.out.println("ok2");
             while(nextToDoor(pos)){
-                System.out.println("ok");
                 pos = randomPosPlayerInSalle(salle);
             }
 
@@ -304,8 +317,10 @@ public class Map {
     }
 
     private void generateItems() {
+        boolean b=true;
         int nbMaxItems = Util.r.nextInt(10);
         addItems(nbMaxItems);
+
 
     }
 
@@ -328,7 +343,6 @@ public class Map {
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
         if (newCase.isFreeCase() && newCase.isSalle()) { //mouvement le plus basique
-            System.out.println(newCase.getItem());
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);

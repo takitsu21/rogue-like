@@ -32,9 +32,11 @@ public abstract class GameLoop {
      */
     public GameLoop() {
 //        System.setProperty("java.awt.headless", "false");
+        boolean bCreatMap;
+        do{map = new Map(5, 24, 100);
+        bCreatMap=map.createMap();}
+        while(bCreatMap);
 
-        map = new Map(5, 24, 100);
-        map.createMap();
         logger.setLevel(Level.ALL);
         Salle salle= map.chooseSalle();
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
