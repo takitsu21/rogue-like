@@ -2,10 +2,12 @@ package com.mady.utils.listener;
 
 import com.mady.utils.Map;
 import com.mady.utils.Util;
+import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Position;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 public class MoveListener implements KeyListener {
     private Map map;
@@ -30,7 +32,13 @@ public class MoveListener implements KeyListener {
                 map.move(map.getPlayer(),new Position(0, 1));
                 break;
             case 'a':
+                List<Entities> et= map.zoneCheckAround();
+                System.out.printf("dans la zone : ");
+                for (Entities ez : et) {
+                    System.out.printf("repr : %s |  pos : %s HP : %s", ez.getRepr(), ez.getPosition(), ez.getHitPoints());
+                }
                 map.getPlayer().zoneAttack(map.zoneCheckAround(), map);
+                System.out.println(map.zoneCheckAround());
                 break;
             case 'e':
                 map.getPlayer().closeAttack(map.closeCheckAround(), map);

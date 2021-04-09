@@ -120,14 +120,18 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public Map doTurn(Map map) {
-        if (isInPerimeter(map)) {
-            if (this instanceof AbstractMonster) {
-                ((AbstractMonster) this).act(map.getPlayer());
+        if (!this.isDead()) {
+            if (isInPerimeter(map)) {
+                if (this instanceof AbstractMonster) {
+                    ((AbstractMonster) this).act(map.getPlayer());
+                }
+            } else {
+                if (!map.move(this, nextPos(this))) {
+                    map.move(this, nextPos(this));
+                }
             }
         } else {
-            if (!map.move(this,nextPos(this))){
-                map.move(this,nextPos(this));
-            }
+            System.out.println(this.pos);
         }
         return map;
 //        if (isAreaClear(player)) {

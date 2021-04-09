@@ -267,7 +267,7 @@ public class Map {
 //        addPlayerToMap(player);
         int nbMonstersByRoom;
         for (int i = 0; i < nbSalles; i++) {
-            nbMonstersByRoom = Util.r.nextInt(10);
+            nbMonstersByRoom = Util.r.nextInt(4);
             addEntity(nbMonstersByRoom);
         }
     }
@@ -449,7 +449,6 @@ public class Map {
         System.out.println(playerPos);
         for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
             for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
-                System.out.printf("%s", new Position(i, j));
                 if (isInside(i, j) && getMap()[i][j].isOccupied() && !getMap()[i][j].isPlayer()) {
                     return getMap()[i][j].getEntity();
                 }
@@ -463,9 +462,8 @@ public class Map {
         List<Entities> monstersAround = new ArrayList<>();
         for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
             for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
-                System.out.printf("%s", new Position(i, j));
-                ies
-                if (isInside(i, j) && getMap()[i][j].isOccupied() && !getMap()[i][j].isPlayer()
+                Entities entity = getMap()[i][j].getEntity();
+                if (isInside(i, j) && getMap()[i][j].isFreeCase() && !getMap()[i][j].isPlayer()
                         && !monstersAround.contains(entity)) {
                     monstersAround.add(getMap()[i][j].getEntity());
                     System.out.println(getMap()[i][j].getEntity().getPosition());
