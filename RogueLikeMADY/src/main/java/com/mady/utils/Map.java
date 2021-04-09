@@ -297,7 +297,7 @@ public class Map {
 
     private void addItems(int nbItem) {
         for (int i = 0; i < nbItem; i++) {
-            Position pos = randomPosPlayerInSalle();
+            Position pos = randomPosPlayerInSalle(chooseSalle());
             Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
             map[pos.getX()][pos.getY()].setItem(item);
         }
