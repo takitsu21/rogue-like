@@ -70,7 +70,7 @@ public abstract class AbstractEntities implements Entities {
 
         setHitPoints(getHitPoints()-damages);
 
-        /* TODO : gérer la mort */
+        /* TODO : gérer la mort player et monstre */
     }
 
     @Override
