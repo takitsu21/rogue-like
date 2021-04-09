@@ -1,10 +1,11 @@
 package com.mady;
 
 import com.mady.utils.Map;
+import com.mady.utils.Salle;
 import com.mady.utils.Util;
-import com.mady.utils.entities.Player;
 import com.mady.utils.listener.MoveListener;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,10 +31,13 @@ public abstract class GameLoop {
      * Initialize game status to be stopped.
      */
     public GameLoop() {
+//        System.setProperty("java.awt.headless", "false");
+
         map = new Map(5, 24, 100);
         map.createMap();
         logger.setLevel(Level.ALL);
-        controller = new GameController(map.randomPosPlayerInSalle());
+        Salle salle= map.chooseSalle();
+        controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
         map.addPlayerToMap(controller.getPlayer());
         map.getFrame().getFrame().addKeyListener(new MoveListener(map));
         render();
@@ -81,11 +85,29 @@ public abstract class GameLoop {
     }
 
     /**
-     * Render game frames to screen. Here we print bullet position to simulate
-     * this process.
+     * Render game frames to screen. Here we print the map.
      */
     protected void render() {
+        clrscr();
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         System.out.println(map);
+    }
+
+    public static void clrscr() {
+        try {
+
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+            else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (IOException | InterruptedException ex) {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+        }
+
     }
 
     /**

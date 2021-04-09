@@ -4,6 +4,8 @@ package com.mady.utils;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.items.ItemFactory;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
@@ -28,7 +30,8 @@ public class Map {
         Map map = new Map(15, 30, 200);
 
         map.createMap();
-        Player player = new Player(map.randomPosPlayerInSalle(), 10, 5, 1, "@");
+        Salle salle= map.chooseSalle();
+        Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
         map.addPlayerToMap(player);
         System.out.println(map);
 
@@ -56,6 +59,7 @@ public class Map {
         generateRooms();
         selectLien();
         generateEntities();
+        generateItems();
     }
 
     public Frame getFrame() {
@@ -65,9 +69,12 @@ public class Map {
     public void setFrame(Frame frame) {
         this.frame = frame;
     }
-
-    public Position randomPosPlayerInSalle() {
+    public Salle chooseSalle() {
         Salle s = salles.get(Util.r.nextInt(salles.size()));
+        return s;
+    }
+
+    public Position randomPosPlayerInSalle(Salle s) {
         Position pos = s.getFreePlaceInsideRoom();
         return pos.incrementPos(s.getPos());
     }
@@ -264,75 +271,123 @@ public class Map {
 //        addPlayerToMap(player);
         int nbMonstersByRoom;
         for (int i = 0; i < nbSalles; i++) {
-            nbMonstersByRoom = Util.r.nextInt(5);
+            nbMonstersByRoom = Util.r.nextInt(10);
             addEntity(nbMonstersByRoom);
         }
     }
 
     private void addEntity(int nbMonsters) {
         for (int i = 0; i < nbMonsters; i++) {
-            Position pos = randomPosPlayerInSalle();
+            Salle salle=chooseSalle();
+            Position pos = randomPosPlayerInSalle(salle);
+            System.out.println("ok2");
+            while(nextToDoor(pos)){
+                System.out.println("ok");
+                pos = randomPosPlayerInSalle(salle);
+            }
+
             Entities entity = MonsterFactory.getInstance().generate(
-                    Util.r.nextInt(MonsterFactory.nbMonsters), pos);
+                    Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
             map[pos.getX()][pos.getY()].setEntity(entity);
             entities.add(entity);
         }
     }
 
-    /*mouvement des entities */
+    //ajout des items dans les salles de la map
 
-    public void move(Entities e, Position p) {
+    private void addItems(int nbItem) {
+        for (int i = 0; i < nbItem; i++) {
+            Position pos = randomPosPlayerInSalle(chooseSalle());
+            Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
+            map[pos.getX()][pos.getY()].setItem(item);
+        }
+    }
+
+    private void generateItems() {
+        int nbMaxItems = Util.r.nextInt(10);
+        addItems(nbMaxItems);
+
+    }
+
+
+    /*mouvement des entities */
+    private void clearCase(Case c) {
+
+        c.setItem(null);
+        c.setEntity(null);
+        if (c.isPath()) {
+            c.setRepr("P");
+        }
+    }
+
+
+    public boolean move(Entities e, Position p) {
+
         Position firstPos = e.getPosition();
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
-        if (oldCase.isPath() && newCase.isSalle() && e instanceof Player) {
-            oldCase.setItem(null);
-            oldCase.setEntity(null);
-            oldCase.setRepr("P");
-            newCase.setRepr(e.getRepr());
-            newCase.setItem(e);
+        if (newCase.isFreeCase() && newCase.isSalle()) { //mouvement le plus basique
+            System.out.println(newCase.getItem());
+            clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
-        } else if (oldCase.isPath() && newCase.isPath()&& e instanceof Player) {
-            Position newPos2 = findDoor(firstPos);
-            newCase = this.map[newPos2.getX()][newPos2.getY()];
-            oldCase.setItem(null);
-            oldCase.setRepr("P");
-            newCase.setRepr(e.getRepr());
-            newCase.setItem(e);
-            newCase.setEntity(e);
-            e.setPos(newPos2);
-//            System.out.println(getPlayer().getPosition().toString());
-
-        } else {
-            if (newCase.isFreeCase() && newCase.isSalle()) {
-                oldCase.setItem(null);
-                oldCase.setEntity(null);
+            return true;
+        }
+        if (e instanceof Player) {
+            if (oldCase.isPath() && newCase.isSalle()) {
+                clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-//                System.out.println("ok");
-            }
 
-            if (newCase.isPath() && e instanceof Player) {
+                return true;
+            }
+            if (oldCase.isPath() && newCase.isPath()) {
+                Position newPos2 = findDoor(newPos); // gère les cas où l'on se déplace de chemin en chemin
+                if (newPos2 == null) { //gère les retour en arrière dans un couloir
+                    newPos2 = findDoor(firstPos);
+                }
+                newCase = this.map[newPos2.getX()][newPos2.getY()];
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos2);
+                return true;
+
+            }
+            if (newCase.isPath()) {
                 Position newPos2 = findDoor(newPos);
                 newCase = this.map[newPos2.getX()][newPos2.getY()];
-                oldCase.setItem(null);
-                oldCase.setRepr(" ");
-                newCase.setRepr(e.getRepr());
-                newCase.setItem(e);
+                clearCase(oldCase);
+                newCase.setEntity(e);
                 e.setPos(newPos2);
-//                System.out.println(getPlayer().getPosition().toString());
-            } else {
-//                System.out.println(newPos);
+                return true;
+
             }
+            if (newCase.getItem() != null){
+//                System.out.println("item ramassé !!\nstats player:");
+//                System.out.println("vie " +((Player) e).getHitPoints()+"\n"+((Player) e).getDamages());
+//                System.out.printf("stat item :\n\t"+newCase.getItem().getName()+"\n\tforce: "+newCase.getItem().getDamages()+"\n");
+                clearCase(oldCase);
+                ((Player) e).useItem(newCase);
+//                System.out.println("new stat palyer : ");
+//                System.out.println("\tvie " +((Player) e).getHitPoints()+"\n\tforce: "+((Player) e).getDamages());
+                newCase.setEntity(e);
+                e.setPos(newPos);
+                return true;
+            }
+
         }
 
+        return false;
     }
 
+
+
+
+
     private Position findDoor(Position newPos) {
-        System.out.println(newPos.toString());
-        System.out.println("find door");
+//        System.out.println(newPos.toString());
+//        System.out.println("find door");
         for (PairPos chemin : chemins) {
 
             if (chemin.getP1().equals(newPos)) {
@@ -346,12 +401,37 @@ public class Map {
     }
 
 
+        private boolean nextToDoor(Position pos){
+            return findDoor(new Position(pos.getX()-1, pos.getY())) != null
+                    || findDoor(new Position(pos.getX()+1, pos.getY())) != null
+                    || findDoor(new Position(pos.getX(), pos.getY()-1)) != null
+                    || findDoor(new Position(pos.getX(), pos.getY()+1)) != null;
+        }
+
+
+
+    /**
+    Affiche la map
+     */
+
     @Override
     public String toString() {
+
         StringBuilder sb = new StringBuilder();
+        String playerHud = String.format("HP : %d/%d | MP %d/%d | Lvl %d [%d/%d EXP]",
+                (int)player.getHP(), (int)player.getMaxHp(), (int)player.getMP(), (int)player.getMaxMp(),
+                player.getLvl(), (int)player.getExp(), (int)player.getExpMax());
+        System.out.println(playerHud);
+//        player.updateStats();
+
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
-                sb.append(map[i][j].toString());
+                if (i == 0 || j == BASE_WIDTH - 1 || j == 0 || i == BASE_HEIGHT - 1) {
+                    sb.append('\"');
+                }
+                else {
+                    sb.append(map[i][j].toString());
+                }
             }
             sb.append("\n");
         }

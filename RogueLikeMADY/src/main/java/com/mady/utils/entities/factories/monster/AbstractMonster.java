@@ -1,5 +1,6 @@
 package com.mady.utils.entities.factories.monster;
 
+import com.mady.utils.Salle;
 import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Deplacement;
 import com.mady.utils.entities.Player;
@@ -14,8 +15,9 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
                            int damages,
                            int movement,
                            String repr,
-                           int effectiveArea) {
-        super(pos, lifePoints, damages, movement, repr, effectiveArea);
+                           int effectiveArea,
+                           Salle salle) {
+        super(pos, lifePoints, damages, movement, repr, effectiveArea, salle);
 
     }
 

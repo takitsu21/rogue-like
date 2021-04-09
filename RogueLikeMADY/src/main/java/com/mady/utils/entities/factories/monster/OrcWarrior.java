@@ -1,13 +1,14 @@
 package com.mady.utils.entities.factories.monster;
 
+import com.mady.utils.Salle;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
 public class OrcWarrior extends AbstractMonster{
 
 
-    public OrcWarrior(Position pos) {
-        super(pos, 10, 3, 1, "o", 3);
+    public OrcWarrior(Position pos, Salle salle) {
+        super(pos, 10, 3, 1, "o", 3, salle);
     }
 
 

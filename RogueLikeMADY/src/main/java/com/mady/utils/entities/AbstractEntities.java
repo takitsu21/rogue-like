@@ -2,6 +2,7 @@ package com.mady.utils.entities;
 
 import com.mady.GameStatus;
 import com.mady.utils.Map;
+import com.mady.utils.Salle;
 import com.mady.utils.Util;
 
 public abstract class AbstractEntities implements Entities {
@@ -12,13 +13,15 @@ public abstract class AbstractEntities implements Entities {
     private final int movement;
     private final String repr;
     private final int effectiveArea;
+    private Salle salle;
 
     public AbstractEntities(Position pos,
                             int hitPoints,
                             int damages,
                             int movement,
                             String repr,
-                            int effectiveArea) {
+                            int effectiveArea,
+                            Salle salle) {
         this.pos = pos;
         maxHitPoints = hitPoints;
         this.hitPoints = hitPoints;
@@ -26,6 +29,7 @@ public abstract class AbstractEntities implements Entities {
         this.movement = movement;
         this.repr = repr;
         this.effectiveArea = effectiveArea;
+        this.salle=salle;
     }
 
 
@@ -121,7 +125,9 @@ public abstract class AbstractEntities implements Entities {
             //System.out.println("Le monstre attaque");
         } else {
 //            System.out.println("on bouge");
-            map.move(this,nextPos(this));
+            if (!map.move(this,nextPos(this))){
+                map.move(this,nextPos(this));
+            }
         }
         return map;
 //        if (isAreaClear(player)) {
@@ -136,5 +142,12 @@ public abstract class AbstractEntities implements Entities {
 //
 //    }
 
+    public Salle getSalle() {
+        return salle;
+    }
 
+
+    public void setSalle(Salle salle) {
+        this.salle = salle;
+    }
 }

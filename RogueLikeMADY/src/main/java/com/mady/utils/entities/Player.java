@@ -2,26 +2,35 @@ package com.mady.utils.entities;
 
 import com.mady.utils.Case;
 
+import com.mady.utils.Salle;
+
+import com.mady.utils.entities.factories.items.Item;
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Player extends AbstractEntities {
 
-    private static int lvl;
-    private double exp;
-    private static double expMax;
-    private static double HP = 10;
-    private static double MP = 5;
-    private static double ATK = 3;
-    private static double DEF = 1;
-    private static double AGI = 1;
-    private static double LUK = 1;
-    private List<Double> stats = new ArrayList<>(Arrays.asList(expMax, HP, MP, ATK, DEF, AGI, LUK));
+    private int lvl = 1;
+    private double maxMp = 50;
+    private double maxHp = 100;
+
+    private double exp = 0;
+    private double expMax = 1000;
+    private double HP = maxHp;
+    private double MP = maxMp;
+    private double ATK = 3;
+    private  double DEF = 1;
+    private  double AGI = 1;
+    private  double LUK = 1;
+    private  List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
     private final Stuff stuff;
 
-    public Player(Position pos, int hitPoints, int damages, int movement, String repr) {
-        super(pos, hitPoints, damages, movement, repr, 3);
+
+    public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
+        super(pos, hitPoints, damages, movement, repr, 3, salle);
         this.stuff = new Stuff();
     }
 
@@ -70,21 +79,40 @@ public class Player extends AbstractEntities {
                 break;
         }
     }
-
     public void useItem(Case c) {
-        AbstractStuffItem i = (AbstractStuffItem) c.getItem();
-        i.setPos(null);
+        Item i = c.getItem();
+
         c.setItem(null);
         if (i.isDrinkable()) {
             i.act(this);
         } else if (i.isPickable()) {
-            pickItem(i);
-        }
+           // pickItem(i);
+        }}
 
+    public int getLvl() {
+        return lvl;
     }
 
-    public Stuff getStuff() {
-        return stuff;
+    public void setLvl(int lvl) {
+        this.lvl = lvl;
+    }
+
+    public double getMaxMp() {
+        return maxMp;
+    }
+
+    public void setMaxMp(double maxMp) {
+        this.maxMp = maxMp;
+        this.MP = maxMp;
+    }
+
+    public double getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(double maxHp) {
+        this.maxHp = maxHp;
+        this.HP = maxHp;
     }
 
     public double getExp() {
@@ -95,68 +123,60 @@ public class Player extends AbstractEntities {
         this.exp = exp;
     }
 
-    public static int getLvl() {
-        return lvl;
-    }
-
-    public static void setLvl(int lvl) {
-        Player.lvl = lvl;
-    }
-
-    public static double getExpMax() {
+    public double getExpMax() {
         return expMax;
     }
 
-    public static void setExpMax(double expMax) {
-        Player.expMax = expMax;
+    public void setExpMax(double expMax) {
+        this.expMax = expMax;
     }
 
-    public static double getHP() {
+    public double getHP() {
         return HP;
     }
 
-    public static void setHP(double HP) {
-        Player.HP = HP;
+    public void setHP(double HP) {
+        this.HP = HP;
     }
 
-    public static double getMP() {
+    public double getMP() {
         return MP;
     }
 
-    public static void setMP(double MP) {
-        Player.MP = MP;
+    public void setMP(double MP) {
+        this.MP = MP;
     }
 
-    public static double getATK() {
+    public double getATK() {
         return ATK;
     }
 
-    public static void setATK(double ATK) {
-        Player.ATK = ATK;
+    public void setATK(double ATK) {
+        this.ATK = ATK;
     }
 
-    public static double getDEF() {
+    public double getDEF() {
         return DEF;
     }
 
-    public static void setDEF(double DEF) {
-        Player.DEF = DEF;
+    public void setDEF(double DEF) {
+        this.DEF = DEF;
     }
 
-    public static double getAGI() {
+    public double getAGI() {
         return AGI;
     }
 
-    public static void setAGI(double AGI) {
-        Player.AGI = AGI;
+    public void setAGI(double AGI) {
+        this.AGI = AGI;
     }
 
-    public static double getLUK() {
+    public double getLUK() {
         return LUK;
     }
 
-    public static void setLUK(double LUK) {
-        Player.LUK = LUK;
+    public void setLUK(double LUK) {
+        this.LUK = LUK;
     }
 
     public List<Double> getStats() {
@@ -167,12 +187,25 @@ public class Player extends AbstractEntities {
         this.stats = stats;
     }
 
-    public void updateStats() {
-        lvl += 1;
-        for (double stat : stats) {
-            stat = stat * 1.36;
-        }
+    public Stuff getStuff() {
+        return stuff;
     }
+
+
+
+
+    public void updateStats() {
+        double multiplicateur = 1.16;
+        setLvl(getLvl() + 1);
+        setMaxHp(getMaxHp() * multiplicateur);
+        setMaxMp(getMP() * multiplicateur);
+        setATK(getATK() * multiplicateur);
+        setDEF(getDEF() * multiplicateur);
+        setAGI(getAGI() * multiplicateur);
+        setLUK(getLUK() * multiplicateur);
+        setExpMax(getExpMax() * multiplicateur);
+    }
+
 
     public boolean isLevelUp(int expGain) {
         double newExp = (exp + expGain) % expMax;
@@ -186,4 +219,6 @@ public class Player extends AbstractEntities {
     public boolean isDead() {
         return (getHP() <= 0);
     }
+
+
 }
