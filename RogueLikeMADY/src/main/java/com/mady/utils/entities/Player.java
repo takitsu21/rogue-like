@@ -53,29 +53,6 @@ public class Player extends AbstractEntities {
      */
     public boolean pickItem(AbstractStuffItem i) {
         return inventory.addItem(i);
-//        switch (i.getName()) {
-//            case "helmet":
-//                this.stuff.setHelmet(i);
-//                break;
-//            case "weapon":
-//                this.stuff.setWeapon(i);
-//                break;
-//            case "shoes":
-//                this.stuff.setShoes(i);
-//                break;
-//            case "pant":
-//                this.stuff.setPant(i);
-//                break;
-//            case "chest":
-//                this.stuff.setChest(i);
-//                break;
-//            case "amulet":
-//                this.stuff.setAmulet(i);
-//                break;
-//            case "gauntlet":
-//                this.stuff.setGauntlet(i);
-//                break;
-//        }
     }
 
     public Inventory getInventory() {
@@ -87,44 +64,55 @@ public class Player extends AbstractEntities {
      *
      * @param c Case de la map.
      */
-    public void pickItem(Case c) {
+    public boolean pickItem(Case c) {
         AbstractStuffItem i = ((Chest)c.getItem()).openChest(this);
         i.setPosition(null);
-        pickItem(i);
-        c.setItem(null);
+        if (pickItem(i)) {
+            c.setItem(null);
+            setEquipment(i);
+            System.out.println("on équipe un équipement");
+            return true;
+        }
+        return false;
     }
 
-    public boolean equipItem(Case c) {
-        AbstractStuffItem i = (AbstractStuffItem) c.getItem();
-        i.setPosition(null);
-        c.setItem(null);
-        String n = i.getName();
-        switch (n) {
+    public boolean setEquipment(AbstractStuffItem item) {
+        switch (item.getName()) {
             case "helmet":
-                this.stuff.setHelmet(i);
+                stuff.setHelmet(item);
                 break;
             case "weapon":
-                this.stuff.setWeapon(i);
+                stuff.setWeapon(item);
                 break;
             case "shoes":
-                this.stuff.setShoes(i);
+                stuff.setShoes(item);
                 break;
             case "pant":
-                this.stuff.setPant(i);
+                stuff.setPant(item);
                 break;
             case "chest":
-                this.stuff.setChest(i);
+                stuff.setChest(item);
                 break;
             case "amulet":
-                this.stuff.setAmulet(i);
+                stuff.setAmulet(item);
                 break;
             case "gauntlet":
-                this.stuff.setGauntlet(i);
+                stuff.setGauntlet(item);
                 break;
             default:
                 return false;
         }
         return true;
+    }
+
+    public boolean equipItem(int idx) {
+        AbstractStuffItem item = (AbstractStuffItem)inventory.getInventory().get(idx);
+        setEquipment(item);
+        if (setEquipment(item)) {
+            inventory.getInventory().set(idx, null);
+            return true;
+        }
+        return false;
     }
 
     public void useItem(Case c) {
