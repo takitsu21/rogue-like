@@ -1,6 +1,7 @@
 package com.mady;
 
 import com.mady.utils.Map;
+import com.mady.utils.World;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
 import com.mady.utils.listener.MoveListener;
@@ -19,7 +20,8 @@ public abstract class GameLoop {
 
     protected final GameController controller;
 
-    protected Map map;
+    protected World world;
+    protected Map currentMap;
 
     private Thread gameThread;
 
@@ -32,16 +34,16 @@ public abstract class GameLoop {
      */
     public GameLoop() {
 //        System.setProperty("java.awt.headless", "false");
-        boolean bCreatMap;
-        do{map = new Map(5, 24, 100);
-        bCreatMap=map.createMap();}
-        while(bCreatMap);
+        world=new World();
+        world.createWorld();
+        currentMap=world.getCurrentMap();
+
 
         logger.setLevel(Level.ALL);
-        Salle salle= map.chooseSalle();
-        controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
-        map.addPlayerToMap(controller.getPlayer());
-        map.getFrame().getFrame().addKeyListener(new MoveListener(map));
+        Salle salle= currentMap.chooseSalle();
+        controller = new GameController(currentMap.randomPosPlayerInSalle(salle), salle);
+        currentMap.addPlayerToMap(controller.getPlayer());
+        currentMap.getFrame().getFrame().addKeyListener(new MoveListener(currentMap));
         render();
         status = GameStatus.STOPPED;
     }
@@ -93,7 +95,7 @@ public abstract class GameLoop {
         clrscr();
         System.out.print("\033[H\033[2J");
         System.out.flush();
-        System.out.println(map);
+        System.out.println(currentMap);
     }
 
     public static void clrscr() {

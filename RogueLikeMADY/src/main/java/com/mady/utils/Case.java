@@ -105,4 +105,8 @@ public class Case {
     public boolean isPath() {
         return CaseType.PATH == ct;
     }
+
+    public boolean isPortal(){
+        return CaseType.PORTAL==ct;
+    }
 }

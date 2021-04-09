@@ -60,10 +60,12 @@ public class Map {
 
         bRoom=generateRooms();
         bPath=selectLien();
+        generatePortal();
         generateEntities();
         generateItems();
         return !bRoom || !bPath;
     }
+
 
     public Frame getFrame() {
         return frame;
@@ -238,11 +240,11 @@ public class Map {
         AStar aStar = new AStar();
         int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2); //on cherche un chemin partant du centre des 2 salles
 
-        setupPaths(res);
-        return res!=null;
+
+        return setupPaths(res);
     }
 
-    private void setupPaths(int[][] solvedPath) {
+    private boolean setupPaths(int[][] solvedPath) {
         List<Position> portes = new ArrayList<>();
         for (int i = 0; i < solvedPath.length; i++) {
             for (int j = 0; j < solvedPath[i].length; j++) {
@@ -258,7 +260,11 @@ public class Map {
                 }
             }
         }
-        chemins.add(new PairPos(portes.get(0), portes.get(1)));
+        if(portes.size()==2) {
+            chemins.add(new PairPos(portes.get(0), portes.get(1)));
+            return true;
+        }
+        return false;
     }
 
     public int getNbSalles() {
@@ -296,7 +302,7 @@ public class Map {
         for (int i = 0; i < nbMonsters; i++) {
             Salle salle=chooseSalle();
             Position pos = randomPosPlayerInSalle(salle);
-            while(nextToDoor(pos)){ //l'entity ne peux pas etre generé devant une porte
+            while(nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()){ //l'entity ne peux pas etre generé devant une porte
                 pos = randomPosPlayerInSalle(salle);
             }
 
@@ -312,7 +318,7 @@ public class Map {
     private void addItems(int nbItem) {
         for (int i = 0; i < nbItem; i++) {
             Position pos = randomPosPlayerInSalle(chooseSalle());
-            while(nextToDoor(pos)){ //l'item ne peux pas etre generé devant une porte
+            while(nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()){ //l'item ne peux pas etre generé devant une porte
                 pos = randomPosPlayerInSalle(chooseSalle());
             }
             Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
@@ -390,6 +396,12 @@ public class Map {
                 e.setPos(newPos);
                 return true;
             }
+            if(newCase.isPortal()){
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos);
+                return true;
+            }
 
         }
 
@@ -424,6 +436,16 @@ public class Map {
         }
 
 
+
+
+    private void generatePortal() {
+            Position pos = randomPosPlayerInSalle(chooseSalle());
+            while(nextToDoor(pos)){ //l'item ne peux pas etre generé devant une porte
+                pos = randomPosPlayerInSalle(chooseSalle());
+            }
+
+            map[pos.getX()][pos.getY()]=new Case("§",CaseType.PORTAL);
+    }
 
     /**
     Affiche la map
