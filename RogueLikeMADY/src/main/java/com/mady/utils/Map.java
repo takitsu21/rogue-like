@@ -435,6 +435,15 @@ public class Map {
             }
             sb.append("\n");
         }
+        sb.append('"');
+        sb.append(getPlayer().getStuff().toString());
+//        for(int i = 9 +getPlayer().getStuff().toString().length(); i < BASE_WIDTH; i++  ){
+//            sb.append(" ");
+//        }
+        sb.append("\n");
+        for(int i =  0; i < BASE_WIDTH; i++){
+            sb.append('"');
+        }
         return sb.toString();
     }
 
