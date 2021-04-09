@@ -36,6 +36,11 @@ public class Player extends AbstractEntities {
 
     }
 
+    @Override
+    public void act(Player player) {
+        //TODO
+    }
+
     public void pickItem( AbstractStuffItem i) {
         this.stuff.getItems().add(i);
     }

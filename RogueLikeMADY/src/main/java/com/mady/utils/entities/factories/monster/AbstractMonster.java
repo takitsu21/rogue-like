@@ -1,12 +1,12 @@
 package com.mady.utils.entities.factories.monster;
 
 import com.mady.utils.entities.AbstractEntities;
+import com.mady.utils.entities.Deplacement;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
 
-public abstract class AbstractMonster  extends AbstractEntities implements Monster {
-
+public abstract class AbstractMonster extends AbstractEntities implements Monster {
 
 
     public AbstractMonster(Position pos,
@@ -19,27 +19,43 @@ public abstract class AbstractMonster  extends AbstractEntities implements Monst
 
     }
 
-    private double getDistance (Player player) {
+    private double getDistance(Player player) {
         Position monsterPos = getPosition();
         Position playerPos = player.getPosition();
         return monsterPos.getDistance(playerPos);
     }
 
-    private void updatePos(Player player, double distance) {
+    private void updatePos(Player player) {
         Position monsterPos = getPosition();
         Position playerPos = player.getPosition();
-        setPos(monsterPos.moveTo(playerPos, distance));
+        setPos(monsterPos.incrementPos(direction(playerPos).pos));
     }
 
-    public boolean engage(Player player) {
-        boolean toMove = getDistance(player) > 1;
-        if (toMove) {
-            updatePos(player, getMovement());
+    private Deplacement direction(Position playerPos) {
+        if (getPosition().getX() < playerPos.getX()) {
+           return Deplacement.BAS;
+        } else if (getPosition().getY() < playerPos.getY()) {
+            return Deplacement.DROITE;
+        } else if (getPosition().getX() > playerPos.getX()){
+            return Deplacement.HAUT;
         }
-        return toMove;
+        return Deplacement.GAUCHE;
     }
 
-    public void attack(Player player) {
+    @Override
+    public void act(Player player) {
+        System.out.println("acting");
+        double distance_from_player = getDistance(player);
+        if (distance_from_player > 1) {
+            updatePos(player);
+            System.out.println("le monstre se rapproche");
+        } else {
+            attack(player);
+            System.out.println("le monstre vous attaque");
+        }
+    }
+
+    private void attack(Player player) {
         int monsterDamages = getDamages();
         player.takeDamages(monsterDamages);
     }

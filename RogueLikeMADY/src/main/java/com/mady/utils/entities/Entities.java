@@ -26,6 +26,6 @@ public interface Entities {
 
     Map doTurn(Map map);
 
-
+    void act(Player player);
 
 }

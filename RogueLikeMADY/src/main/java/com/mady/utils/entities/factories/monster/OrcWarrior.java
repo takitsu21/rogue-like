@@ -10,12 +10,6 @@ public class OrcWarrior extends AbstractMonster{
         super(pos, 10, 3, 1, "o", 3);
     }
 
-    @Override
-    public void act(Player player) {
-        if (!engage(player)) {
-            attack(player);
-        }
-    }
 
     @Override
     public int getMaxDammages() {

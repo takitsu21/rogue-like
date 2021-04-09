@@ -1,5 +1,6 @@
 package com.mady.utils.entities;
 
+import com.mady.GameStatus;
 import com.mady.utils.Map;
 import com.mady.utils.Util;
 
@@ -63,10 +64,19 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public void takeDamages(int damages) {
-
-        setHitPoints(getHitPoints()-damages);
-
-        /* TODO : gérer la mort */
+        if (this instanceof Player){
+            ((Player) this).setHP(Player.getHP() - damages);
+            if (((Player) this).isDead()) {
+                System.out.println("you dead, end game");
+            }
+        } else {
+            int new_HP = getHitPoints() - damages;
+            if (new_HP <= 0) {
+                System.out.println("monster is dead");
+            } else {
+                setHitPoints(new_HP);
+            }
+        }
     }
 
     @Override
@@ -86,17 +96,17 @@ public abstract class AbstractEntities implements Entities {
 
 
     private boolean isInPerimeter(Map map) {
-        for (int i = pos.getX() - effectiveArea; i < effectiveArea; i++) {
-            for (int j = pos.getY() - effectiveArea; j < effectiveArea; j++) {
-                if (map.getMap()[i][j].isPlayer()) {
+        System.out.println(pos);
+        for (int i = pos.getX() - effectiveArea; i < pos.getX() + effectiveArea; i++) {
+            for (int j = pos.getY() - effectiveArea; j < pos.getY() + effectiveArea; j++) {
+                System.out.printf("perimeter(%d,%d)\n", i, j);
+                if (map.isInside(i, j) && map.getMap()[i][j].isPlayer()) {
                     return true;
                 }
             }
         }
         return false;
     }
-
-
 
     public Position nextPos(Entities entitie) {
         int randomMove = Util.r.nextInt(entitie.getMovement() + 1);
@@ -107,8 +117,8 @@ public abstract class AbstractEntities implements Entities {
     @Override
     public Map doTurn(Map map) {
         if (isInPerimeter(map)) {
-//            attack
-            System.out.println("Le monstre attaque");
+            this.act(map.getPlayer());
+            //System.out.println("Le monstre attaque");
         } else {
 //            System.out.println("on bouge");
             map.move(this,nextPos(this));
