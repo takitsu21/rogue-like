@@ -462,8 +462,8 @@ public class Map {
         List<Entities> monstersAround = new ArrayList<>();
         for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
             for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
-                Entities entity = getMap()[i][j].getEntity();
-                if (isInside(i, j) && getMap()[i][j].isFreeCase() && !getMap()[i][j].isPlayer()
+                Entities entity = map[i][j].getEntity();
+                if (isInside(i, j) && entity instanceof AbstractMonster
                         && !monstersAround.contains(entity)) {
                     monstersAround.add(getMap()[i][j].getEntity());
                     System.out.println(getMap()[i][j].getEntity().getPosition());

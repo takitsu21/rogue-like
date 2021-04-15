@@ -71,13 +71,13 @@ public abstract class AbstractEntities implements Entities {
     public void takeDamages(int damages) {
         if (this instanceof Player){
             ((Player) this).setHP(((Player) this).getHP() - damages);
-            if (((Player) this).isDead()) {
-                System.out.println("you dead, end game\n");
-            }
         } else {
             int new_HP = getHitPoints() - damages;
             setHitPoints(new_HP);
             System.out.printf("monster hp remaining : %d \n", getHitPoints());
+        }
+        if (this.isDead()) {
+            System.out.println("entity dead\n");
         }
     }
 
@@ -111,12 +111,14 @@ public abstract class AbstractEntities implements Entities {
         }
         return false;
     }
+    
 
     public Position nextPos(Entities entitie) {
         int randomMove = Util.r.nextInt(entitie.getMovement() + 1);
         Deplacement d = Util.randomDirection();
         return d.pos.multiplyPos(randomMove);
     }
+
 
     @Override
     public Map doTurn(Map map) {

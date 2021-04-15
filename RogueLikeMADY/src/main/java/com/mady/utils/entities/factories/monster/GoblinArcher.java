@@ -22,4 +22,5 @@ public class GoblinArcher extends AbstractMonster{
 
     }
 
+
 }
