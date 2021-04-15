@@ -8,6 +8,7 @@ import java.util.List;
 public class Inventory {
     private final List<Item> inventory = new ArrayList<>();
     private final int MAX_SIZE = 10;
+    private int selectedItem = 0;
 
     public Inventory() {
     }
@@ -35,6 +36,7 @@ public class Inventory {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        int acc = 0;
         for (Item i : inventory) {
             AbstractStuffItem it = (AbstractStuffItem) i;
             sb.append(i.getName());
@@ -46,6 +48,7 @@ public class Inventory {
             sb.append(it.getLUK());
 
             sb.append("\n");
+            acc++;
         }
         return sb.toString();
     }
