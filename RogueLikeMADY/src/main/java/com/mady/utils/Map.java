@@ -449,11 +449,27 @@ public class Map {
         System.out.println(playerPos);
         for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
             for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
-                if (isInside(i, j) && getMap()[i][j].isOccupied() && !getMap()[i][j].isPlayer()) {
+                if (isInside(i, j) && map[i][j].getEntity() instanceof AbstractMonster) {
                     return getMap()[i][j].getEntity();
                 }
             }
         }
+        /*if (map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX() - 1][playerPos.getY()].getEntity();
+        }
+
+        if (map[playerPos.getX() + 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX() + 1][playerPos.getY()].getEntity();
+        }
+
+        if (map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX()][playerPos.getY()-1].getEntity();
+        }
+
+        if (map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX()][playerPos.getY()+1].getEntity();
+        }*/
+
         return null;
     }
 
@@ -465,8 +481,8 @@ public class Map {
                 Entities entity = map[i][j].getEntity();
                 if (isInside(i, j) && entity instanceof AbstractMonster
                         && !monstersAround.contains(entity)) {
-                    monstersAround.add(getMap()[i][j].getEntity());
-                    System.out.println(getMap()[i][j].getEntity().getPosition());
+                    monstersAround.add(map[i][j].getEntity());
+                    System.out.println(map[i][j].getEntity().getPosition());
                 }
             }
         }

@@ -26,7 +26,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         return monsterPos.getDistance(playerPos);
     }
 
-    private void updatePos(Player player) {
+    private void updatePos(Map map, Player player) {
         Position monsterPos = getPosition();
         Position playerPos = player.getPosition();
         System.out.printf("player pos : %s, and monster pos : %s\n", playerPos, monsterPos);
@@ -44,7 +44,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     private Deplacement direction(Position playerPos) {
         if (getPosition().getX() < playerPos.getX()) {
-           return Deplacement.BAS;
+            return Deplacement.BAS;
         } else if (getPosition().getY() < playerPos.getY()) {
             return Deplacement.DROITE;
         } else if (getPosition().getX() > playerPos.getX()){
@@ -53,16 +53,17 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         return Deplacement.GAUCHE;
     }
 
-    @Override
-    public void act(Player player) {
+
+    public void act(Map map) {
+        Player player = map.getPlayer();
         System.out.println("acting");
-        double distance_from_player = getDistance(player);
-        if (distance_from_player > 1) {
-            updatePos(player);
-            System.out.println("le monstre se rapproche");
-        } else {
-            attack(player);
+
+        if (this.nextTo(map)) {
+            this.attack(player);
             System.out.println("le monstre vous attaque");
+        } else{
+            updatePos(map, player);
+            System.out.println("le monstre se rapproche");
         }
     }
 

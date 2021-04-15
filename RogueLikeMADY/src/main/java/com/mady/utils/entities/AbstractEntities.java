@@ -124,15 +124,19 @@ public abstract class AbstractEntities implements Entities {
     public Map doTurn(Map map) {
         if (!this.isDead()) {
             if (isInPerimeter(map)) {
-                if (this instanceof AbstractMonster) {
-                    ((AbstractMonster) this).act(map.getPlayer());
-                }
+                System.out.println("player in detection area");
+                ((AbstractMonster) this).act(map);
+
+                    //((AbstractMonster) this).act(map.getPlayer());
+                
             } else {
-                if (!map.move(this, nextPos(this))) {
+                System.out.println("pas dans le perimetre");
+                while (!map.move(this, nextPos(this))) {
                     map.move(this, nextPos(this));
                 }
             }
         } else {
+
             System.out.println(this.pos);
         }
         return map;
