@@ -1,6 +1,7 @@
 package com.mady;
 
 import com.mady.utils.Map;
+import com.mady.utils.World;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
 import com.mady.utils.listener.MoveListener;
@@ -19,6 +20,7 @@ public abstract class GameLoop {
 
     protected final GameController controller;
 
+    protected World world;
     protected Map map;
 
     private Thread gameThread;
@@ -32,9 +34,11 @@ public abstract class GameLoop {
      */
     public GameLoop() {
 //        System.setProperty("java.awt.headless", "false");
+        world=new World();
+        world.createWorld();
+        map=world.getCurrentMap();
 
-        map = new Map(5, 24, 100);
-        map.createMap();
+
         logger.setLevel(Level.ALL);
         Salle salle= map.chooseSalle();
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
