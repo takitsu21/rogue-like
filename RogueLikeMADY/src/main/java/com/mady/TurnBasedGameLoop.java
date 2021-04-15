@@ -14,29 +14,24 @@ public class TurnBasedGameLoop extends GameLoop{
         while (isGameRunning()) {
             processInput();
 
-            for (Entities entitie : currentMap.getEntities()) {
-                currentMap = entitie.doTurn(currentMap);
+            for (Entities entitie : map.getEntities()) {
+                map = entitie.doTurn(map);
             }
 
-            if(currentMap.getMap()[currentMap.getPlayer().getPosition().getX()][currentMap.getPlayer().getPosition().getY()].isPortal()){
-                System.out.println("1");
+            if(map.getMap()[map.getPlayer().getPosition().getX()][map.getPlayer().getPosition().getY()].isPortal()){
                 world.addMap();
-                System.out.println("2");
                 Position position=world.getCurrentMap().randomPosPlayerInSalle(world.getCurrentMap().chooseSalle());
-                currentMap.getPlayer().setPos(position);
-                world.getCurrentMap().addPlayerToMap(currentMap.getPlayer());
-                currentMap=world.getCurrentMap();
-                currentMap.getFrame().getFrame().addKeyListener(new MoveListener(currentMap));
-                System.out.println("3");
+                map.getPlayer().setPos(position);
+                world.getCurrentMap().addPlayerToMap(map.getPlayer());
+                map=world.getCurrentMap();
+                map.getFrame().getFrame().addKeyListener(new MoveListener(map));
             }
 
                 if (controller.player.isDead()) {
                     stop();
                     System.exit(0);
                 }
-            System.out.println("4");
             render();
-            System.out.println("5");
             Util.playerTurn = true;
         }
     }
