@@ -3,12 +3,12 @@ package com.mady.utils.entities;
 public class Amulet extends AbstractStuffItem {
     /**
      *
-     * @param HP
-     * @param MP
-     * @param ATK
-     * @param DEF
-     * @param AGI
-     * @param LUK
+     * @param HP double
+     * @param MP double
+     * @param ATK double
+     * @param DEF double
+     * @param AGI double
+     * @param LUK double
      */
     public Amulet(double HP, double MP, double ATK, double DEF, double AGI, double LUK) {
         super("amulet", HP, MP, ATK, DEF, AGI, LUK);

@@ -6,6 +6,7 @@ import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,13 +70,18 @@ public class Player extends AbstractEntities {
         i.setPosition(null);
         if (pickItem(i)) {
             c.setItem(null);
-            setEquipment(i);
+//            setEquipment(i);
             System.out.println("on équipe un équipement");
             return true;
         }
         return false;
     }
 
+    /**
+     * Equipe un item.
+     * @param item item a équipé.
+     * @return true si l'item a bien été équipé.
+     */
     public boolean setEquipment(AbstractStuffItem item) {
         switch (item.getName()) {
             case "helmet":
@@ -105,11 +111,18 @@ public class Player extends AbstractEntities {
         return true;
     }
 
+    /**
+     *
+     * @param idx index de l'item a équipé.
+     * @return true si l'item a bien été équipé.
+     */
     public boolean equipItem(int idx) {
         AbstractStuffItem item = (AbstractStuffItem)inventory.getInventory().get(idx);
         setEquipment(item);
         if (setEquipment(item)) {
-            inventory.getInventory().set(idx, null);
+//            inventory.getInventory().set(idx, null);
+//            inventory.get
+            inventory.getInventory().remove(idx);
             return true;
         }
         return false;

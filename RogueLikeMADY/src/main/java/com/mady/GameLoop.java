@@ -1,5 +1,6 @@
 package com.mady;
 
+import com.mady.utils.KeyboardPressedEnum;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
@@ -39,8 +40,8 @@ public abstract class GameLoop {
         Salle salle= map.chooseSalle();
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
         map.addPlayerToMap(controller.getPlayer());
-        map.getFrame().getFrame().addKeyListener(new MoveListener(map));
         render();
+        map.getFrame().getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.STOPPED;
     }
 
@@ -48,7 +49,8 @@ public abstract class GameLoop {
      * Run game loop.
      */
     public void run() {
-        status = GameStatus.RUNNING;
+
+        status = GameStatus.STARTING;
         gameThread = new Thread(this::processGameLoop);
         gameThread.start();
     }
@@ -69,6 +71,10 @@ public abstract class GameLoop {
         return status == GameStatus.RUNNING;
     }
 
+    public boolean isGamePaused() {
+        return status == GameStatus.PAUSE;
+    }
+
     /**
      * Handle any user input that has happened since the last call. In order to
      * simulate the situation in real-life game, here we add a random time lag.
@@ -77,6 +83,9 @@ public abstract class GameLoop {
     protected void processInput() {
         try {
             while (Util.playerTurn) {
+            }
+            if (Util.keyPressed == KeyboardPressedEnum.I) {
+                status = GameStatus.PAUSE;
             }
 
         } catch (Exception e) {
@@ -89,12 +98,16 @@ public abstract class GameLoop {
      */
     protected void render() {
         clrscr();
-        System.out.println(map);
+        if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.I) {
+            System.out.println(controller.player.getInventory());
+        }
+        else if (isGameRunning()){
+            System.out.println(map);
+        }
     }
 
     public static void clrscr() {
         try {
-
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             }

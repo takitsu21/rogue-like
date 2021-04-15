@@ -1,12 +1,14 @@
 package com.mady.utils;
 
 import com.mady.utils.entities.Deplacement;
-
+import com.diogonunes.jcolor.Ansi;
 import java.util.Random;
 
 public class Util {
     public static final Random r = new Random();
     public static volatile boolean playerTurn = true;
+    public static volatile KeyboardPressedEnum keyPressed = KeyboardPressedEnum.NONE;
+
     public static Deplacement randomDirection() {
         int randomDirection = Util.r.nextInt(4);
         switch (randomDirection) {

@@ -284,9 +284,7 @@ public class Map {
         for (int i = 0; i < nbMonsters; i++) {
             Salle salle=chooseSalle();
             Position pos = randomPosPlayerInSalle(salle);
-            System.out.println("ok2");
             while(nextToDoor(pos)){
-                System.out.println("ok");
                 pos = randomPosPlayerInSalle(salle);
             }
 
@@ -442,6 +440,7 @@ public class Map {
 
         sb.append('"');
 //        sb.append(getPlayer().getStuff().toString());
+
         char rph = getPlayer().getStuff().getHelmet() == null ? ' ' : '*';
         char rpg = getPlayer().getStuff().getGauntlet() == null ? ' ' : '*';
         char rpc = getPlayer().getStuff().getChest() == null ? ' ' : '*';
@@ -475,8 +474,6 @@ public class Map {
         for(int i =  0; i < BASE_WIDTH; i++){
             sb.append('"');
         }
-
-        sb.append(player.getInventory());
 
         return sb.toString();
     }
