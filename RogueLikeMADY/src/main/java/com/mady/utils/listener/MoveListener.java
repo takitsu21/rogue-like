@@ -88,6 +88,7 @@ public class MoveListener implements KeyListener {
                         }
                     }
                 }
+
                 break;
             case KeyEvent.VK_I: // Touche i
 //                System.out.println("On est dans le I");
