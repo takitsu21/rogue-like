@@ -1,10 +1,6 @@
 package com.mady;
 
-import com.mady.utils.KeyboardPressedEnum;
-import com.mady.utils.Map;
-import com.mady.utils.World;
-import com.mady.utils.Salle;
-import com.mady.utils.Util;
+import com.mady.utils.*;
 import com.mady.utils.listener.MoveListener;
 
 import java.io.IOException;
@@ -20,6 +16,7 @@ public abstract class GameLoop {
     protected volatile GameStatus status;
 
     protected final GameController controller;
+    protected Frame frame = new Frame();
 
     protected World world;
     protected Map map;
@@ -35,13 +32,13 @@ public abstract class GameLoop {
      */
     public GameLoop() {
 //        System.setProperty("java.awt.headless", "false");
-        world=new World();
+        world = new World(frame);
         world.createWorld();
-        map=world.getCurrentMap();
+        map = world.getCurrentMap();
 
 
         logger.setLevel(Level.ALL);
-        Salle salle= map.chooseSalle();
+        Salle salle = map.chooseSalle();
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
         map.addPlayerToMap(controller.getPlayer());
         render();
@@ -104,8 +101,7 @@ public abstract class GameLoop {
         clrscr();
         if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.I) {
             System.out.println(controller.player.getInventory());
-        }
-        else if (isGameRunning()){
+        } else if (isGameRunning()) {
             System.out.println(map);
         }
     }
@@ -114,8 +110,7 @@ public abstract class GameLoop {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            }
-            else {
+            } else {
                 Runtime.getRuntime().exec("clear");
             }
         } catch (IOException | InterruptedException ex) {
