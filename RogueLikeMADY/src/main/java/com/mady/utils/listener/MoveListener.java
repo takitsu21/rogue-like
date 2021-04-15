@@ -78,6 +78,7 @@ public class MoveListener implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         System.out.printf("Key pressed : %d\n", e.getKeyCode());
+
         switch (e.getKeyCode()) {
             case KeyEvent.VK_Z: // Touche Z
                 if (Util.keyPressed == KeyboardPressedEnum.I) {
@@ -106,6 +107,18 @@ public class MoveListener implements KeyListener {
 
                 map.move(map.getPlayer(), new Position(0, 1));
 
+                break;
+            case KeyEvent.VK_A:
+//                List<Entities> et= map.zoneCheckAround();
+//                System.out.printf("dans la zone : ");
+//                for (Entities ez : et) {
+//                    System.out.printf("repr : %s |  pos : %s HP : %s", ez.getRepr(), ez.getPosition(), ez.getHitPoints());
+//                }
+                map.getPlayer().zoneAttack(map.zoneCheckAround(), map);
+                System.out.println(map.zoneCheckAround());
+                break;
+            case KeyEvent.VK_E:
+                map.getPlayer().closeAttack(map.closeCheckAround(), map);
                 break;
 
             case KeyEvent.VK_X: // Touche x
