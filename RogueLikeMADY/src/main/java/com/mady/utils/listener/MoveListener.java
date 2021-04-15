@@ -26,7 +26,7 @@ public class MoveListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.printf("Key pressed : %d\n", e.getKeyCode());
+//        System.out.printf("Key pressed : %d\n", e.getKeyCode());
 
         switch (e.getKeyCode()) {
             case KeyEvent.VK_Z: // Touche Z
@@ -90,7 +90,7 @@ public class MoveListener implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_I: // Touche i
-                System.out.println("On est dans le I");
+//                System.out.println("On est dans le I");
                 if (Util.keyPressed == KeyboardPressedEnum.I) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                     break;
@@ -99,7 +99,7 @@ public class MoveListener implements KeyListener {
                 break;
 
             case KeyEvent.VK_ESCAPE: // Touche escape
-                System.out.println("On est dans le esc");
+//                System.out.println("On est dans le esc");
                 if (Util.keyPressed == KeyboardPressedEnum.I) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
