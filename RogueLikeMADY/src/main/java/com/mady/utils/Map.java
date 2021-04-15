@@ -6,6 +6,7 @@ import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.ItemFactory;
+import com.mady.utils.entities.factories.monster.AbstractMonster;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
@@ -29,13 +30,11 @@ public class Map {
     public static void main(String[] args) {
         Frame frame = new Frame();
         Map map = new Map(15, 30, 200, frame);
-
         map.createMap();
         Salle salle= map.chooseSalle();
         Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
         map.addPlayerToMap(player);
         System.out.println(map);
-
     }
 
 
@@ -150,7 +149,6 @@ public class Map {
         int y = p.getY() > 2 ? p.getY() - 3 : p.getY();
         lignes = lignes != BASE_HEIGHT ? lignes + 5 : lignes; //pour garantir 3 cases entre les salles + les walls
         colonnes = colonnes != BASE_WIDTH ? colonnes + 5 : colonnes;
-
         if (isInside(lignes + x, colonnes + y)) {
             for (int i = 0; i < lignes; i++) {
                 for (int j = 0; j < colonnes; j++) {
@@ -294,7 +292,7 @@ public class Map {
 //        addPlayerToMap(player);
         int nbMonstersByRoom;
         for (int i = 0; i < nbSalles; i++) {
-            nbMonstersByRoom = Util.r.nextInt(10);
+            nbMonstersByRoom = Util.r.nextInt(4);
             addEntity(nbMonstersByRoom);
         }
 
@@ -302,7 +300,7 @@ public class Map {
 
     private void addEntity(int nbMonsters) {
         for (int i = 0; i < nbMonsters; i++) {
-            Salle salle=chooseSalle();
+            Salle salle = chooseSalle();
             Position pos = randomPosPlayerInSalle(salle);
             while(nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()){ //l'entity ne peux pas etre generé devant une porte
                 pos = randomPosPlayerInSalle(salle);
@@ -335,13 +333,18 @@ public class Map {
 
 
     /*mouvement des entities */
-    private void clearCase(Case c) {
+    public void clearCase(Case c) {
 
         c.setItem(null);
         c.setEntity(null);
         if (c.isPath()) {
             c.setRepr("P");
         }
+
+    }
+
+    public void clearCase(Position pos) {
+        map[pos.getX()][pos.getY()] = new Case(CaseType.SALLE);
     }
 
 
@@ -479,5 +482,52 @@ public class Map {
 
     public List<Entities> getEntities() {
         return entities;
+    }
+
+    public Entities closeCheckAround(){
+        Position playerPos = getPlayer().getPosition();
+
+        System.out.println(playerPos);
+        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
+            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
+                if (isInside(i, j) && map[i][j].getEntity() instanceof AbstractMonster) {
+                    return getMap()[i][j].getEntity();
+                }
+            }
+        }
+        /*if (map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX() - 1][playerPos.getY()].getEntity();
+        }
+
+        if (map[playerPos.getX() + 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX() + 1][playerPos.getY()].getEntity();
+        }
+
+        if (map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX()][playerPos.getY()-1].getEntity();
+        }
+
+        if (map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX()][playerPos.getY()+1].getEntity();
+        }*/
+
+        return null;
+    }
+
+    public List<Entities> zoneCheckAround(){
+        Position playerPos = getPlayer().getPosition();
+        List<Entities> monstersAround = new ArrayList<>();
+        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
+            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
+                Entities entity = map[i][j].getEntity();
+                if (isInside(i, j) && entity instanceof AbstractMonster
+                        && !monstersAround.contains(entity)) {
+                    monstersAround.add(map[i][j].getEntity());
+                    System.out.println(map[i][j].getEntity().getPosition());
+                }
+            }
+        }
+
+        return monstersAround;
     }
 }

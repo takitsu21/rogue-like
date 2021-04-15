@@ -2,9 +2,11 @@ package com.mady.utils.entities;
 
 import com.mady.utils.Case;
 
+import com.mady.utils.Map;
 import com.mady.utils.Salle;
 
 import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.monster.AbstractMonster;
 
 
 import java.util.ArrayList;
@@ -186,9 +188,6 @@ public class Player extends AbstractEntities {
         return stuff;
     }
 
-
-
-
     public void updateStats() {
         double multiplicateur = 1.16;
         setLvl(getLvl() + 1);
@@ -200,7 +199,6 @@ public class Player extends AbstractEntities {
         setLUK(getLUK() * multiplicateur);
         setExpMax(getExpMax() * multiplicateur);
     }
-
 
     public boolean isLevelUp(int expGain) {
         double newExp = (exp + expGain) % expMax;
@@ -215,5 +213,44 @@ public class Player extends AbstractEntities {
         return (getHP() <= 0);
     }
 
+    public boolean closeAttack(Entities monster, Map map){
+        if (monster == null) {
+            System.out.println("you can't attack now, no monsters around\n");
+            return false;
+        } else {
+            System.out.println("you find a monster near you, you're attacking it\n");
+            attackMonster(monster, map);
+            return true;
+        }
+    }
 
+    public boolean zoneAttack(List<Entities> monsters, Map map){
+        if (monsters.isEmpty()) {
+            System.out.println("you can't attack now, no monsters around\n");
+            return false;
+        } else {
+            System.out.println("you find monsters around you, you're attacking them\n");
+            for (Entities monster : monsters) {
+                attackMonster(monster, map);
+            }
+            return true;
+        }
+    }
+
+    private void attackMonster(Entities monster, Map map) {
+        monster.takeDamages(getDamages());
+        if (monster.isDead()) {
+            //Case monsterCase = map.getcase(monster.getPosition());
+            System.out.printf("player pos : %s\n", map.getPlayer().getPosition());
+            System.out.printf("%s : %s\n", monster.getRepr(), monster.getPosition());
+            Position mPos = monster.getPosition();
+            map.clearCase(monster.getPosition());
+            //map.getMap()[mPos.getX()][mPos.getY()].setEntity(null);
+            System.out.println(map.getEntities());
+            map.getEntities().remove(monster);
+            System.out.println(map.getEntities());
+
+            System.out.println("monster is dead\n");
+        }
+    }
 }
