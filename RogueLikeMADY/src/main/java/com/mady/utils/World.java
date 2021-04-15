@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class World {
+    private Frame frame = new Frame();
     private final List<Map> maps = new ArrayList<>();
     Map currentMap;
 
@@ -26,7 +27,7 @@ public class World {
     public void addMap () {
         boolean bCreatWorld;
         Map map;
-        do{map = new Map(5, 24, 100);
+        do{map = new Map(5, 24, 100, frame);
             bCreatWorld=map.createMap();}
         while(bCreatWorld);
 

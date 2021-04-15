@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
-    private Frame frame = new Frame();
+    private Frame frame;
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
@@ -27,7 +27,8 @@ public class Map {
 
 
     public static void main(String[] args) {
-        Map map = new Map(15, 30, 200);
+        Frame frame = new Frame();
+        Map map = new Map(15, 30, 200, frame);
 
         map.createMap();
         Salle salle= map.chooseSalle();
@@ -38,15 +39,16 @@ public class Map {
     }
 
 
-    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH) {
+    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, Frame frame) {
+        this.frame=frame;
         this.nbSalles = nbSalles;
         this.BASE_HEIGHT = BASE_HEIGHT;
         this.BASE_WIDTH = BASE_WIDTH;
         this.map = new Case[BASE_HEIGHT][BASE_WIDTH];
     }
 
-    public Map(int nbSalles) {
-        this(nbSalles, 16, 128);
+    public Map(int nbSalles, Frame frame) {
+        this(nbSalles, 16, 128, frame);
     }
 
     public boolean createMap() {
