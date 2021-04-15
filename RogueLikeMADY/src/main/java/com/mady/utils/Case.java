@@ -11,7 +11,12 @@ public class Case {
     private CaseType ct;
     private Entities entity;
 
-
+    /**
+     *
+     * @param repr Représentation de  la case.
+     * @param item Item présent en interne à cette case.
+     * @param ct Type de la case (WALL, PATH, etc...)
+     */
     public Case(String repr, Object item, CaseType ct) {
         this.repr = repr;
         this.item = item;
@@ -37,10 +42,18 @@ public class Case {
         this(repr, null, ct);
     }
 
+    /**
+     *
+     * @return true si la case est occupé.
+     */
     public boolean isOccupied() {
         return item != null || entity != null;
     }
 
+    /**
+     *
+     * @return true si l'entité présente sur la case est un joueur.
+     */
     public boolean isPlayer() {
         //System.out.println(entity instanceof Player);
 //        System.out.println(entity.equals(Player));
@@ -52,18 +65,34 @@ public class Case {
         return getRepr();
     }
 
+    /**
+     *
+     * @return true si la case est un mur.
+     */
     public boolean isWall() {
         return CaseType.WALL == ct;
     }
 
+    /**
+     *
+     * @return true si la case est une salle.
+     */
     public boolean isSalle() {
         return CaseType.SALLE == ct;
     }
 
+    /**
+     *
+     * @return true si la case fait partie de la map.
+     */
     public boolean isMap() {
         return CaseType.MAP == ct;
     }
 
+    /**
+     *
+     * @return une représentation de la case.
+     */
     public String getRepr() {
         return repr;
     }
@@ -98,10 +127,18 @@ public class Case {
         this.ct = ct;
     }
 
+    /**
+     *
+     * @return true si la case n'est pas du tout occupé et si ce n'est pas un mur.
+     */
     public boolean isFreeCase() {
         return !isWall() && !isOccupied();
     }
 
+    /**
+     *
+     * @return true si la case est un chemin.
+     */
     public boolean isPath() {
         return CaseType.PATH == ct;
     }

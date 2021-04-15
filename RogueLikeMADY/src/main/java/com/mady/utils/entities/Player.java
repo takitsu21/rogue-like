@@ -1,14 +1,15 @@
 package com.mady.utils.entities;
 
 import com.mady.utils.Case;
-
 import com.mady.utils.Map;
-import com.mady.utils.Salle;
 
+import com.mady.utils.Salle;
+import com.mady.utils.entities.factories.items.Chest;
+import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
 
-
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,16 +25,18 @@ public class Player extends AbstractEntities {
     private double HP = maxHp;
     private double MP = maxMp;
     private double ATK = 3;
-    private  double DEF = 1;
-    private  double AGI = 1;
-    private  double LUK = 1;
-    private  List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
+    private double DEF = 1;
+    private double AGI = 1;
+    private double LUK = 2;
+    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
     private final Stuff stuff;
+    private final Inventory inventory;
 
 
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
         super(pos, hitPoints, damages, movement, repr, 3, salle);
         this.stuff = new Stuff();
+        this.inventory = new Inventory();
     }
 
 
@@ -47,35 +50,87 @@ public class Player extends AbstractEntities {
 
     }
 
-    public void pickItem( AbstractStuffItem i) {
-        this.stuff.getItems().add(i);
-    }
-    public void pickItem(Case c) {
-        AbstractStuffItem i = (AbstractStuffItem) c.getItem();
-        i.setPos(null);
-        this.stuff.getItems().add(i);
-        c.setItem(null);
+    /**
+     * Ramasse un item et le met dans l'inventaire.
+     * @param i AbstractStuffItem
+     * @return boolean
+     */
+    public boolean pickItem(AbstractStuffItem i) {
+        return inventory.addItem(i);
     }
 
-    public void equipItem(Case c) {
-        AbstractStuffItem i = (AbstractStuffItem) c.getItem();
-        i.setPos(null);
-        c.setItem(null);
-        String n = i.getName();
-        switch (n) {
-            case "helmet":
-                this.stuff.setHelmet(i);
-            case "weapon":
-                this.stuff.setWeapon(i);
-            case "shoes":
-                this.stuff.setShoes(i);
-            case "pant":
-                this.stuff.setPant(i);
-            case "chest":
-                this.stuff.setChest(i);
-                break;
-        }
+    public Inventory getInventory() {
+        return inventory;
     }
+
+    /**
+     * Ramasse un item sur la case en ouvrant le coffre.
+     *
+     * @param c Case de la map.
+     */
+    public boolean pickItem(Case c) {
+        AbstractStuffItem i = ((Chest)c.getItem()).openChest(this);
+        i.setPosition(null);
+        if (pickItem(i)) {
+            c.setItem(null);
+//            setEquipment(i);
+            System.out.println("on équipe un équipement");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Equipe un item.
+     * @param item item a équipé.
+     * @return true si l'item a bien été équipé.
+     */
+    public boolean setEquipment(AbstractStuffItem item) {
+        switch (item.getName()) {
+            case "helmet":
+                stuff.setHelmet(item);
+                break;
+            case "weapon":
+                stuff.setWeapon(item);
+                break;
+            case "shoes":
+                stuff.setShoes(item);
+                break;
+            case "pant":
+                stuff.setPant(item);
+                break;
+            case "chest":
+                stuff.setChest(item);
+                break;
+            case "amulet":
+                stuff.setAmulet(item);
+                break;
+            case "gauntlet":
+                stuff.setGauntlet(item);
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param idx index de l'item a équipé.
+     * @return true si l'item a bien été équipé.
+     */
+    public boolean equipItem(int idx) {
+        AbstractStuffItem item = (AbstractStuffItem)inventory.getInventory().get(idx);
+        setEquipment(item);
+        if (setEquipment(item)) {
+//            inventory.getInventory().set(idx, null);
+//            inventory.get
+            inventory.getInventory().remove(idx);
+            return true;
+        }
+        return false;
+    }
+
     public void useItem(Case c) {
         Item i = c.getItem();
 
@@ -83,8 +138,9 @@ public class Player extends AbstractEntities {
         if (i.isDrinkable()) {
             i.act(this);
         } else if (i.isPickable()) {
-           // pickItem(i);
-        }}
+            // pickItem(i);
+        }
+    }
 
     public int getLvl() {
         return lvl;
@@ -187,7 +243,7 @@ public class Player extends AbstractEntities {
     public Stuff getStuff() {
         return stuff;
     }
-
+  
     public void updateStats() {
         double multiplicateur = 1.16;
         setLvl(getLvl() + 1);
