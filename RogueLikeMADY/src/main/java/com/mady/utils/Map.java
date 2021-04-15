@@ -7,13 +7,14 @@ import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.ItemFactory;
+import com.mady.utils.entities.factories.monster.AbstractMonster;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
-    private Frame frame = new Frame();
+    private Frame frame;
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
@@ -28,40 +29,45 @@ public class Map {
 
 
     public static void main(String[] args) {
-        Map map = new Map(15, 30, 200);
-
+        Frame frame = new Frame();
+        Map map = new Map(15, 30, 200, frame);
         map.createMap();
         Salle salle= map.chooseSalle();
         Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
         map.addPlayerToMap(player);
         System.out.println(map);
-
     }
 
 
-    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH) {
+    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, Frame frame) {
+        this.frame=frame;
         this.nbSalles = nbSalles;
         this.BASE_HEIGHT = BASE_HEIGHT;
         this.BASE_WIDTH = BASE_WIDTH;
         this.map = new Case[BASE_HEIGHT][BASE_WIDTH];
     }
 
-    public Map(int nbSalles) {
-        this(nbSalles, 16, 128);
+    public Map(int nbSalles, Frame frame) {
+        this(nbSalles, 16, 128, frame);
     }
 
-    public void createMap() {
+    public boolean createMap() {
+        boolean bRoom;
+        boolean bPath;
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
                 map[i][j] = new Case(" ");
             }
         }
 
-        generateRooms();
-        selectLien();
+        bRoom=generateRooms();
+        bPath=selectLien();
+        generatePortal();
         generateEntities();
         generateItems();
+        return !bRoom || !bPath;
     }
+
 
     public Frame getFrame() {
         return frame;
@@ -101,24 +107,30 @@ public class Map {
         map[player.getPosition().getX()][player.getPosition().getY()].setRepr(player.getRepr());
     }
 
-    private void generateRoom(Position p) {
+    private boolean generateRoom(Position p) {
         int x = p.getX();
         int y = p.getY();
         Salle s = new Salle(p);
-        while (!checkFreeArea(p, s.getlignes(), s.getcolonnes())) {
+        int securite=20;
+        while (securite>=0 && !checkFreeArea(p, s.getlignes(), s.getcolonnes())){
+            securite-=1;
             p = p.getRandomPos(BASE_HEIGHT, BASE_WIDTH);
             s = new Salle(p);
             x = p.getX();
             y = p.getY();
         }
-        for (int i = 0; i < s.getlignes(); i++) {
-            for (int j = 0; j < s.getcolonnes(); j++) {
-                map[i + x][j + y] = s.getRepresentation()[i][j];
+        if(securite>=0) {
+            for (int i = 0; i < s.getlignes(); i++) {
+                for (int j = 0; j < s.getcolonnes(); j++) {
+                    map[i + x][j + y] = s.getRepresentation()[i][j];
 
+                }
             }
+            salles.add(s);
         }
-        salles.add(s);
+        return securite>=0;
     }
+
 
     public boolean isInside(int x, int y) {
         return (x >= 0 && x < BASE_HEIGHT)
@@ -126,20 +138,21 @@ public class Map {
     }
 
 
-    private void generateRooms() {
+    private boolean generateRooms() {
+        boolean b=true;
         Position p = new Position(0, 0);
         for (int i = 0; i < nbSalles; i++) {
-            generateRoom(p.getRandomPos(BASE_HEIGHT, BASE_WIDTH));
+            b=b && generateRoom(p.getRandomPos(BASE_HEIGHT, BASE_WIDTH));
         }
+        return b;
     }
 
     private boolean checkFreeArea(Position p, int lignes, int colonnes) {
         boolean result = true;
         int x = p.getX() > 2 ? p.getX() - 3 : p.getX();
         int y = p.getY() > 2 ? p.getY() - 3 : p.getY();
-        lignes = lignes != BASE_HEIGHT ? lignes + 5 : lignes;
+        lignes = lignes != BASE_HEIGHT ? lignes + 5 : lignes; //pour garantir 3 cases entre les salles + les walls
         colonnes = colonnes != BASE_WIDTH ? colonnes + 5 : colonnes;
-
         if (isInside(lignes + x, colonnes + y)) {
             for (int i = 0; i < lignes; i++) {
                 for (int j = 0; j < colonnes; j++) {
@@ -156,7 +169,8 @@ public class Map {
     }
 
 
-    private void selectLien() {
+    private boolean selectLien() {
+        boolean b=true;
         Salle s = salles.get(0);
         ArrayList<Boolean> relier = new ArrayList<>(salles.size());
         for (int i = 0; i < salles.size(); i++) {
@@ -168,7 +182,7 @@ public class Map {
         while (relier.contains(false)) {
             Double distance = (double) Integer.MAX_VALUE;
             Salle salleselect = s;
-            for (Salle s2 : salles) {
+            for (Salle s2 : salles) { //on cherche la salle la plus proche de s
                 Double distance2 = Math.sqrt(Math.pow(s2.getPos().getX() - s.getPos().getX(), 2)
                         + Math.pow(s2.getPos().getY() - s.getPos().getY(), 2));
                 if (!s.equals(s2) && distance2 < distance && !relier.get(salles.indexOf(s2))) {
@@ -180,14 +194,15 @@ public class Map {
 //            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
 //            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
 //            System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
-            relie(s, salleselect);
+            b= b && relie(s, salleselect);
             s = salleselect;
             relier.set(salles.indexOf(salleselect), true);
         }
+        return b;
     }
 
 
-    private void relie(Salle s1, Salle s2) {
+    private boolean relie(Salle s1, Salle s2) {
 
         Position pos1 = s1.findMiddle();
         Position pos2 = s2.findMiddle();
@@ -227,12 +242,13 @@ public class Map {
         map[x2 + s2.getPos().getX()][y2 + s2.getPos().getY()] = new Case("'", CaseType.PATH);*/
 
         AStar aStar = new AStar();
-        int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2);
+        int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2); //on cherche un chemin partant du centre des 2 salles
 
-        setupPaths(res);
+
+        return setupPaths(res);
     }
 
-    private void setupPaths(int[][] solvedPath) {
+    private boolean setupPaths(int[][] solvedPath) {
         List<Position> portes = new ArrayList<>();
         for (int i = 0; i < solvedPath.length; i++) {
             for (int j = 0; j < solvedPath[i].length; j++) {
@@ -248,7 +264,11 @@ public class Map {
                 }
             }
         }
-        chemins.add(new PairPos(portes.get(0), portes.get(1)));
+        if(portes.size()==2) {
+            chemins.add(new PairPos(portes.get(0), portes.get(1)));
+            return true;
+        }
+        return false;
     }
 
     public int getNbSalles() {
@@ -272,19 +292,21 @@ public class Map {
     }
 
     private void generateEntities() {
+
 //        addPlayerToMap(player);
         int nbMonstersByRoom;
         for (int i = 0; i < nbSalles; i++) {
             nbMonstersByRoom = Util.r.nextInt(4);
             addEntity(nbMonstersByRoom);
         }
+
     }
 
     private void addEntity(int nbMonsters) {
         for (int i = 0; i < nbMonsters; i++) {
-            Salle salle=chooseSalle();
+            Salle salle = chooseSalle();
             Position pos = randomPosPlayerInSalle(salle);
-            while(nextToDoor(pos)){
+            while(nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()){ //l'entity ne peux pas etre generé devant une porte
                 pos = randomPosPlayerInSalle(salle);
             }
 
@@ -300,6 +322,9 @@ public class Map {
     private void addItems(int nbItem) {
         for (int i = 0; i < nbItem; i++) {
             Position pos = randomPosPlayerInSalle(chooseSalle());
+            while(nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()){ //l'item ne peux pas etre generé devant une porte
+                pos = randomPosPlayerInSalle(chooseSalle());
+            }
             Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
             map[pos.getX()][pos.getY()].setItem(item);
         }
@@ -308,18 +333,22 @@ public class Map {
     private void generateItems() {
         int nbMaxItems = Util.r.nextInt(2) + 5;
         addItems(nbMaxItems);
-
     }
 
 
     /*mouvement des entities */
-    private void clearCase(Case c) {
+    public void clearCase(Case c) {
 
         c.setItem(null);
         c.setEntity(null);
         if (c.isPath()) {
             c.setRepr("P");
         }
+
+    }
+
+    public void clearCase(Position pos) {
+        map[pos.getX()][pos.getY()] = new Case(CaseType.SALLE);
     }
 
 
@@ -330,7 +359,6 @@ public class Map {
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
         if (newCase.isFreeCase() && newCase.isSalle()) { //mouvement le plus basique
-            System.out.println(newCase.getItem());
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
@@ -377,6 +405,12 @@ public class Map {
                 e.setPos(newPos);
                 return true;
             }
+            if(newCase.isPortal()){
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos);
+                return true;
+            }
 
         }
 
@@ -386,7 +420,7 @@ public class Map {
 
 
 
-
+    //cherche une porte associé a la position newpos
     private Position findDoor(Position newPos) {
 //        System.out.println(newPos.toString());
 //        System.out.println("find door");
@@ -411,6 +445,16 @@ public class Map {
         }
 
 
+
+
+    private void generatePortal() {
+            Position pos = randomPosPlayerInSalle(chooseSalle());
+            while(nextToDoor(pos)){ //l'item ne peux pas etre generé devant une porte
+                pos = randomPosPlayerInSalle(chooseSalle());
+            }
+
+            map[pos.getX()][pos.getY()]=new Case("§",CaseType.PORTAL);
+    }
 
     /**
     Affiche la map
@@ -480,5 +524,52 @@ public class Map {
 
     public List<Entities> getEntities() {
         return entities;
+    }
+
+    public Entities closeCheckAround(){
+        Position playerPos = getPlayer().getPosition();
+
+        System.out.println(playerPos);
+        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
+            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
+                if (isInside(i, j) && map[i][j].getEntity() instanceof AbstractMonster) {
+                    return getMap()[i][j].getEntity();
+                }
+            }
+        }
+        /*if (map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX() - 1][playerPos.getY()].getEntity();
+        }
+
+        if (map[playerPos.getX() + 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX() + 1][playerPos.getY()].getEntity();
+        }
+
+        if (map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX()][playerPos.getY()-1].getEntity();
+        }
+
+        if (map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster){
+            return map[playerPos.getX()][playerPos.getY()+1].getEntity();
+        }*/
+
+        return null;
+    }
+
+    public List<Entities> zoneCheckAround(){
+        Position playerPos = getPlayer().getPosition();
+        List<Entities> monstersAround = new ArrayList<>();
+        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
+            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
+                Entities entity = map[i][j].getEntity();
+                if (isInside(i, j) && entity instanceof AbstractMonster
+                        && !monstersAround.contains(entity)) {
+                    monstersAround.add(map[i][j].getEntity());
+                    System.out.println(map[i][j].getEntity().getPosition());
+                }
+            }
+        }
+
+        return monstersAround;
     }
 }

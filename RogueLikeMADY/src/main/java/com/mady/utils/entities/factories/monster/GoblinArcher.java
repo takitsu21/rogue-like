@@ -10,10 +10,7 @@ public class GoblinArcher extends AbstractMonster{
         super(pos, 5, 1, 1, "g", 3, salle);
     }
 
-    @Override
-    public void act(Player player) {
 
-    }
 
     @Override
     public int getMaxDammages() {
@@ -24,5 +21,6 @@ public class GoblinArcher extends AbstractMonster{
     public void setMaxDammages(int maxDammages) {
 
     }
+
 
 }

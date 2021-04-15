@@ -27,8 +27,9 @@ public interface Entities {
 
     Map doTurn(Map map);
 
-    Salle getSalle();
+    boolean isDead();
 
+    Salle getSalle();
 
     void setSalle(Salle salle);
 

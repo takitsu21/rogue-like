@@ -55,7 +55,7 @@ public class Case {
      * @return true si l'entité présente sur la case est un joueur.
      */
     public boolean isPlayer() {
-        System.out.println(entity instanceof Player);
+        //System.out.println(entity instanceof Player);
 //        System.out.println(entity.equals(Player));
         return entity instanceof Player;
     }
@@ -141,5 +141,9 @@ public class Case {
      */
     public boolean isPath() {
         return CaseType.PATH == ct;
+    }
+
+    public boolean isPortal(){
+        return CaseType.PORTAL==ct;
     }
 }

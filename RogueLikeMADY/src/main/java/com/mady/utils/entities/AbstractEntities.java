@@ -1,8 +1,10 @@
 package com.mady.utils.entities;
 
+import com.mady.GameStatus;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
+import com.mady.utils.entities.factories.monster.AbstractMonster;
 
 public abstract class AbstractEntities implements Entities {
     private Position pos;
@@ -62,15 +64,25 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public void setHitPoints(int hitPoints) {
-        this.hitPoints=hitPoints;
+        this.hitPoints = hitPoints;
     }
 
     @Override
     public void takeDamages(int damages) {
+        if (this instanceof Player){
+            ((Player) this).setHP(((Player) this).getHP() - damages);
+        } else {
+            int new_HP = getHitPoints() - damages;
+            setHitPoints(new_HP);
+            System.out.printf("monster hp remaining : %d \n", getHitPoints());
+        }
+        if (this.isDead()) {
+            System.out.println("entity dead\n");
+        }
+    }
 
-        setHitPoints(getHitPoints()-damages);
-
-        /* TODO : gérer la mort */
+    public boolean isDead() {
+        return (getHitPoints() <= 0);
     }
 
     @Override
@@ -90,17 +102,16 @@ public abstract class AbstractEntities implements Entities {
 
 
     private boolean isInPerimeter(Map map) {
-        for (int i = pos.getX() - effectiveArea; i < effectiveArea; i++) {
-            for (int j = pos.getY() - effectiveArea; j < effectiveArea; j++) {
-                if (map.getMap()[i][j].isPlayer()) {
+        for (int i = pos.getX() - effectiveArea; i < pos.getX() + effectiveArea; i++) {
+            for (int j = pos.getY() - effectiveArea; j < pos.getY() + effectiveArea; j++) {
+                if (map.isInside(i, j) && map.getMap()[i][j].isPlayer()) {
                     return true;
                 }
             }
         }
         return false;
     }
-
-
+    
 
     public Position nextPos(Entities entitie) {
         int randomMove = Util.r.nextInt(entitie.getMovement() + 1);
@@ -108,16 +119,25 @@ public abstract class AbstractEntities implements Entities {
         return d.pos.multiplyPos(randomMove);
     }
 
+
     @Override
     public Map doTurn(Map map) {
-        if (isInPerimeter(map)) {
-//            attack
-            System.out.println("Le monstre attaque");
-        } else {
-//            System.out.println("on bouge");
-            if (!map.move(this,nextPos(this))){
-                map.move(this,nextPos(this));
+        if (!this.isDead()) {
+            if (isInPerimeter(map)) {
+                System.out.println("player in detection area");
+                ((AbstractMonster) this).act(map);
+
+                    //((AbstractMonster) this).act(map.getPlayer());
+                
+            } else {
+                System.out.println("pas dans le perimetre");
+                while (!map.move(this, nextPos(this))) {
+                    map.move(this, nextPos(this));
+                }
             }
+        } else {
+
+            System.out.println(this.pos);
         }
         return map;
 //        if (isAreaClear(player)) {
