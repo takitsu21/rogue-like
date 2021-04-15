@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Inventory {
     private final List<Item> inventory = new ArrayList<>();
+    private final int MAX_SIZE = 10;
 
     public Inventory() {
     }
@@ -16,7 +17,7 @@ public class Inventory {
     }
 
     public boolean isFull() {
-        return inventory.size() == 10;
+        return inventory.size() == MAX_SIZE;
     }
 
     public boolean addItem(Item i) {
@@ -25,6 +26,10 @@ public class Inventory {
         }
         inventory.add(i);
         return true;
+    }
+
+    public int getMaxSize() {
+        return MAX_SIZE;
     }
 
     @Override
