@@ -119,6 +119,8 @@ public abstract class AbstractStuffItem implements Item {
 
     @Override
     public String toString() {
-       return String.format("HP=%.2f/MP=%.2f/ATK=%.2f/DEF=%.2f/AGI=%.2f/LUK=%.2f",HP, MP, ATK, DEF, AGI, LUK);
+            //une représentation du Stuff item sera différente pour une amulete vu que sa luk est le seul parametre interessant
+       return (name == "amulet") ? String.format("LUK=%d",(int)LUK) :
+               String.format("HP=%d|MP=%d|ATK=%d|DEF=%d|AGI=%d|LUK=%d",(int)HP,(int) MP, (int)ATK,(int) DEF, (int)AGI,(int) LUK);
     }
 }
