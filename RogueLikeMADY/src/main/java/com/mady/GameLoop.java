@@ -21,7 +21,7 @@ public abstract class GameLoop {
     protected final GameController controller;
 
     protected World world;
-    protected Map currentMap;
+    protected Map map;
 
     private Thread gameThread;
 
@@ -36,14 +36,14 @@ public abstract class GameLoop {
 //        System.setProperty("java.awt.headless", "false");
         world=new World();
         world.createWorld();
-        currentMap=world.getCurrentMap();
+        map=world.getCurrentMap();
 
 
         logger.setLevel(Level.ALL);
-        Salle salle= currentMap.chooseSalle();
-        controller = new GameController(currentMap.randomPosPlayerInSalle(salle), salle);
-        currentMap.addPlayerToMap(controller.getPlayer());
-        currentMap.getFrame().getFrame().addKeyListener(new MoveListener(currentMap));
+        Salle salle= map.chooseSalle();
+        controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
+        map.addPlayerToMap(controller.getPlayer());
+        map.getFrame().getFrame().addKeyListener(new MoveListener(map));
         render();
         status = GameStatus.STOPPED;
     }
@@ -95,7 +95,7 @@ public abstract class GameLoop {
         clrscr();
         System.out.print("\033[H\033[2J");
         System.out.flush();
-        System.out.println(currentMap);
+        System.out.println(map);
     }
 
     public static void clrscr() {
