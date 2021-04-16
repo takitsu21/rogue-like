@@ -21,18 +21,18 @@ public class MonsterFactory {
             case 1:
                 return new OrcWarrior(position, salle);
             default:
-                throw new IllegalArgumentException("Unknown monster");
+                return null;
         }
     }
 
     public Monster generate(String id, Position position, Salle salle) {
         switch(id) {
             case "goblinArcher":
-                return new GoblinArcher(position, salle);
+                return generate(0,position,salle);
             case "orcWarrior":
-                return new OrcWarrior(position, salle);
+                return generate(1,position,salle);
             default:
-                throw new IllegalArgumentException("Unknown monster");
+                return null;
         }
     }
 }
