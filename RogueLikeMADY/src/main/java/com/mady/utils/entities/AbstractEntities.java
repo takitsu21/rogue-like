@@ -1,5 +1,7 @@
 package com.mady.utils.entities;
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
 import com.mady.GameStatus;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
@@ -15,6 +17,7 @@ public abstract class AbstractEntities implements Entities {
     private final String repr;
     private final int effectiveArea;
     private Salle salle;
+    private boolean isAggro = false;
 
     public AbstractEntities(Position pos,
                             int hitPoints,
@@ -41,6 +44,22 @@ public abstract class AbstractEntities implements Entities {
     @Override
     public Position getPosition() {
         return pos;
+    }
+
+    public Position getPos() {
+        return pos;
+    }
+
+    public int getEffectiveArea() {
+        return effectiveArea;
+    }
+
+    public boolean isAggro() {
+        return isAggro;
+    }
+
+    public void setAggro(boolean aggro) {
+        isAggro = aggro;
     }
 
     @Override
@@ -77,6 +96,8 @@ public abstract class AbstractEntities implements Entities {
             System.out.printf("monster hp remaining : %d \n", getHitPoints());
         }
         if (this.isDead()) {
+            Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", getRepr()),
+                    Attribute.RED_TEXT()));
             System.out.println("entity dead\n");
         }
     }
@@ -105,10 +126,12 @@ public abstract class AbstractEntities implements Entities {
         for (int i = pos.getX() - effectiveArea; i < pos.getX() + effectiveArea; i++) {
             for (int j = pos.getY() - effectiveArea; j < pos.getY() + effectiveArea; j++) {
                 if (map.isInside(i, j) && map.getMap()[i][j].isPlayer()) {
+                    isAggro = true;
                     return true;
                 }
             }
         }
+        isAggro = false;
         return false;
     }
     
@@ -124,13 +147,12 @@ public abstract class AbstractEntities implements Entities {
     public Map doTurn(Map map) {
         if (!this.isDead()) {
             if (isInPerimeter(map)) {
-                System.out.println("player in detection area");
                 ((AbstractMonster) this).act(map);
+
 
                     //((AbstractMonster) this).act(map.getPlayer());
                 
             } else {
-                System.out.println("pas dans le perimetre");
                 while (!map.move(this, nextPos(this))) {
                     map.move(this, nextPos(this));
                 }

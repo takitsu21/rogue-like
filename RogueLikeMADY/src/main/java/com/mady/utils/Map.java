@@ -18,7 +18,6 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
-//    private final MonsterFactory instance = new MonsterFactory();
 
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
@@ -459,7 +458,6 @@ public class Map {
     /**
     Affiche la map
      */
-
     @Override
     public String toString() {
 
@@ -481,10 +479,8 @@ public class Map {
             }
             sb.append("\n");
         }
-
-//        sb.append('"');
-//        sb.append(getPlayer().getStuff().toString());
-
+        sb.append(Util.currentAction);
+        Util.currentAction = new StringBuilder();
 
         return sb.toString();
     }
@@ -495,8 +491,6 @@ public class Map {
 
     public Entities closeCheckAround(){
         Position playerPos = getPlayer().getPosition();
-
-        System.out.println(playerPos);
         for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
             for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
                 if (isInside(i, j) && map[i][j].getEntity() instanceof AbstractMonster) {

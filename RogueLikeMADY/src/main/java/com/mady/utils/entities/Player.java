@@ -1,9 +1,12 @@
 package com.mady.utils.entities;
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Case;
 import com.mady.utils.Map;
 
 import com.mady.utils.Salle;
+import com.mady.utils.Util;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
@@ -74,7 +77,8 @@ public class Player extends AbstractEntities {
         if (pickItem(i)) {
             c.setItem(null);
 //            setEquipment(i);
-            System.out.println("on équipe un équipement");
+            Util.currentAction.append(Ansi.colorize(String.format("Vous avez récupérer <%s> : %s dans le coffre.\n",
+                    i.getName().substring(0, 1).toUpperCase() + i.getName().substring(1), i), Attribute.MAGENTA_TEXT()));
             return true;
         }
         return false;
@@ -273,9 +277,11 @@ public class Player extends AbstractEntities {
     public boolean closeAttack(Entities monster, Map map){
         if (monster == null) {
             System.out.println("you can't attack now, no monsters around\n");
+            Util.currentAction.append(String.format("Aucune cible atteinte.\n"));
             return false;
         } else {
             System.out.println("you find a monster near you, you're attacking it\n");
+            Util.currentAction.append(String.format("Vous attaqué %s et lui infligé %d dégâts.\n", monster.getRepr(), getDamages()));
             attackMonster(monster, map);
             return true;
         }
