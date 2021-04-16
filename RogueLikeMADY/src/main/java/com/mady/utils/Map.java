@@ -365,7 +365,7 @@ public class Map {
             return true;
         }
         if (e instanceof Player) {
-            if (oldCase.isPath() && newCase.isSalle()) {
+            if (oldCase.isPath() && newCase.isSalle() && !newCase.isOccupied()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
