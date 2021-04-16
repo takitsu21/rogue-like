@@ -300,6 +300,8 @@ public class Player extends AbstractEntities {
         Util.currentAction.append(String.format("Vous attaqué %s et lui infligé %d points de dégâts.\n",
                 monster.getRepr(), getDamages()));
         if (monster.isDead()) {
+            Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", monster.getRepr()),
+                    Attribute.RED_TEXT()));
             winExp();
             map.clearCase(monster.getPosition());
             map.getEntities().remove(monster);

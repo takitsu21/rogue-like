@@ -97,10 +97,6 @@ public abstract class AbstractEntities implements Entities {
             int new_HP = getHitPoints() - damages;
             setHitPoints(new_HP);
         }
-        if (this.isDead()) {
-            Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", getRepr()),
-                    Attribute.RED_TEXT()));
-        }
     }
 
     public boolean isDead() {
