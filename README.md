@@ -25,12 +25,16 @@ son gameplay au tour par tour et la représentation des éléments qui le compos
 
 
 ## <u>Contrôle du Joueur :</u>
- - Dépalcement: ``z q s d ``
+ - Déplacement: 
+    - ``z`` monter
+    - ``s`` descendre
+    - ``q`` gauche
+    - ``d`` droite
  - Attaque: 
     - attaque de zone autour du joueur:``a``
     - attaque un unique monstre:``e``
  - Inventaire: ``i`` (navigation ``z s ``, selection``return``)
- - interraction: ``x``
+ - interaction: ``x``
 
 ## <u>Representation du jeu :</u>
 - Monstre:
