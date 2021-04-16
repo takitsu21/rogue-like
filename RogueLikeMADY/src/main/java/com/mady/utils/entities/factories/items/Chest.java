@@ -1,5 +1,7 @@
 package com.mady.utils.entities.factories.items;
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Util;
 import com.mady.utils.entities.*;
 
@@ -12,7 +14,7 @@ public class Chest extends AbstractItem {
      * @param position du coffre.
      */
     public Chest(Position position) {
-        super(position, 0, 0, "Coffre au trésor", false, true);
+        super("C", position, 0, 0, "Coffre au trésor", false, true);
     }
 
     @Override
@@ -22,7 +24,7 @@ public class Chest extends AbstractItem {
 
     @Override
     public String getRepresentation() {
-        return "C";
+        return Ansi.colorize("C", Attribute.MAGENTA_TEXT());
     }
 
     /**

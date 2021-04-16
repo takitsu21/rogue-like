@@ -29,7 +29,7 @@ public class World {
         boolean bCreatWorld;
         Map map;
         do {
-            map = new Map(5, 24, 100, frame);
+            map = new Map(6, 24, 128, frame);
             bCreatWorld = map.createMap();
         }
         while (bCreatWorld);

@@ -1,14 +1,17 @@
 package com.mady.utils.entities.factories.monster;
 
-import com.mady.utils.Case;
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
-import com.mady.utils.entities.*;
+import com.mady.utils.Util;
+import com.mady.utils.entities.AbstractEntities;
+import com.mady.utils.entities.Deplacement;
+import com.mady.utils.entities.Player;
+import com.mady.utils.entities.Position;
 
 
 public abstract class AbstractMonster extends AbstractEntities implements Monster {
-
-
     public AbstractMonster(Position pos,
                            int lifePoints,
                            int damages,
@@ -27,19 +30,9 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     }
 
     private void updatePos(Map map, Player player) {
-        Position monsterPos = getPosition();
         Position playerPos = player.getPosition();
-        System.out.printf("player pos : %s, and monster pos : %s\n", playerPos, monsterPos);
-
-        /*setPos(monsterPos.incrementPos(direction(playerPos).pos));
-        map.getMap()[getPosition().getX()][getPosition().getY()] = map.getMap()[monsterPos.getX()][monsterPos.getY()];
-        map.clearCase(map.getMap()[monsterPos.getX()][monsterPos.getY()]);*/
-
-        Deplacement dep=direction(playerPos);
-        System.out.println(dep);
-        map.move(this,dep.pos);
-
-        System.out.printf("actual pos : %s\n", getPosition());
+        Deplacement dep = direction(playerPos);
+        map.move(this, dep.pos);
     }
 
     private Deplacement direction(Position playerPos) {
@@ -47,7 +40,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
             return Deplacement.BAS;
         } else if (getPosition().getY() < playerPos.getY()) {
             return Deplacement.DROITE;
-        } else if (getPosition().getX() > playerPos.getX()){
+        } else if (getPosition().getX() > playerPos.getX()) {
             return Deplacement.HAUT;
         }
         return Deplacement.GAUCHE;
@@ -56,22 +49,30 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     public void act(Map map) {
         Player player = map.getPlayer();
-        System.out.println("acting");
-
         if (this.nextTo(map)) {
             this.attack(player);
-            System.out.println("le monstre vous attaque");
-        } else{
+            Util.currentAction.append(String.format("%s<%d/%d HP> vous a infligé %d dégâts.\n",
+                    getRepr(), getHitPoints(), getMaxHitPoints(), getDamages()));
+        } else {
             updatePos(map, player);
-            System.out.println("le monstre se rapproche");
+            Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> se rapproche.\n",
+                    getRepr(), getHitPoints(), getMaxHitPoints()), Util.ORANGE_TEXT));
         }
     }
 
     private void attack(Player player) {
         int monsterDamages = getDamages();
         player.takeDamages(monsterDamages);
+
     }
 
+    @Override
+    public String getRepr() {
+        if (isAggro()) {
+            return Ansi.colorize(super.getRepr(), Util.ORANGE_TEXT);
+        }
+        return super.getRepr();
+    }
 
     private boolean nextTo(Map map) {
         Position monsterPos = this.getPosition();
@@ -86,19 +87,19 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
             }*/
 
 
-        if (map.getMap()[monsterPos.getX() - 1][monsterPos.getY()].getEntity() instanceof Player){
+        if (map.getMap()[monsterPos.getX() - 1][monsterPos.getY()].getEntity() instanceof Player) {
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX() + 1][monsterPos.getY()].getEntity() instanceof Player){
+        if (map.getMap()[monsterPos.getX() + 1][monsterPos.getY()].getEntity() instanceof Player) {
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX()][monsterPos.getY()-1].getEntity() instanceof Player){
+        if (map.getMap()[monsterPos.getX()][monsterPos.getY() - 1].getEntity() instanceof Player) {
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX()][monsterPos.getY()+1].getEntity() instanceof Player){
+        if (map.getMap()[monsterPos.getX()][monsterPos.getY() + 1].getEntity() instanceof Player) {
             return true;
         }
 
