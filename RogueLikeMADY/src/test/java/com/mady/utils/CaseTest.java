@@ -39,7 +39,7 @@ class CaseTest {
         assertFalse(cEmpty.isOccupied());
         assertTrue(cItemNotEmpty.isOccupied());
         assertFalse(cConstructor.isOccupied());
-        assertFalse(cPlayer.isOccupied());
+        assertTrue(cPlayer.isOccupied());
         assertFalse(cPath.isOccupied());
         assertFalse(cPortal.isOccupied());
         assertFalse(cMap.isOccupied());
