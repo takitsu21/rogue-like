@@ -23,6 +23,12 @@ public class Case {
         this.ct = ct;
     }
 
+    public Case(String repr, Entities entity) {
+        this.repr = repr;
+        this.entity = entity;
+        this.ct = CaseType.MAP;
+    }
+
     public Case(String repr, Object item, CaseType ct, Entities entity) {
         this.repr = repr;
         this.item = item;

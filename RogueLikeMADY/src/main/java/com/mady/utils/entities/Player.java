@@ -28,6 +28,7 @@ public class Player extends AbstractEntities {
     private double DEF = 1;
     private double AGI = 1;
     private double LUK = 2;
+    private double maxExpToWin=3;
     private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
     private final Stuff stuff;
     private final Inventory inventory;
@@ -36,7 +37,7 @@ public class Player extends AbstractEntities {
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
         super(pos, hitPoints, damages, movement, repr, 3, salle);
         this.stuff = new Stuff();
-        this.inventory = new Inventory();
+        this.inventory = new Inventory(this.stuff);
     }
 
 
@@ -243,18 +244,27 @@ public class Player extends AbstractEntities {
     public Stuff getStuff() {
         return stuff;
     }
-  
+
+    public double getMaxExpToWin() {
+        return maxExpToWin;
+    }
+
+    public void setMaxExpToWin(double maxExpToWin) {
+        this.maxExpToWin = maxExpToWin;
+    }
+
     public void updateStats() {
         double multiplicateur = 1.16;
-        exp=0;
+        setExp(0);
         setLvl(getLvl() + 1);
         setMaxHp(getMaxHp() * multiplicateur);
-        setMaxMp(getMP() * multiplicateur);
+        setMaxMp(getMaxMp() * multiplicateur);
         setATK(getATK() * multiplicateur);
         setDEF(getDEF() * multiplicateur);
         setAGI(getAGI() * multiplicateur);
         setLUK(getLUK() * multiplicateur);
         setExpMax(getExpMax() * multiplicateur);
+        setMaxExpToWin(getMaxExpToWin() * multiplicateur);
     }
 
     public boolean isLevelUp(int expGain) {
@@ -312,9 +322,13 @@ public class Player extends AbstractEntities {
         }
     }
 
+    private int randomExp(){
+        return (int) (Math.random() * maxExpToWin)+1;
+    }
+
     private void winExp(){
-        exp+=1;
-        if(exp==expMax){
+        exp+=randomExp();
+        if(exp>=expMax){
             updateStats();
         }
     }
