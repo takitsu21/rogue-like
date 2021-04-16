@@ -10,7 +10,6 @@ public class PotionVie extends AbstractItem {
     }
 
 
-
     @Override
     public void act(Player player) {
 //        if (player.getHP()+getDamages() <= player.getMaxHitPoints()) {
