@@ -21,7 +21,7 @@ public class Player extends AbstractEntities {
     private double maxHp = 100;
 
     private double exp = 0;
-    private double expMax = 1000;
+    private double expMax = 10;
     private double HP = maxHp;
     private double MP = maxMp;
     private double ATK = 3;
@@ -246,6 +246,7 @@ public class Player extends AbstractEntities {
   
     public void updateStats() {
         double multiplicateur = 1.16;
+        exp=0;
         setLvl(getLvl() + 1);
         setMaxHp(getMaxHp() * multiplicateur);
         setMaxMp(getMP() * multiplicateur);
@@ -296,6 +297,7 @@ public class Player extends AbstractEntities {
     private void attackMonster(Entities monster, Map map) {
         monster.takeDamages(getDamages());
         if (monster.isDead()) {
+            winExp();
             //Case monsterCase = map.getcase(monster.getPosition());
             System.out.printf("player pos : %s\n", map.getPlayer().getPosition());
             System.out.printf("%s : %s\n", monster.getRepr(), monster.getPosition());
@@ -307,6 +309,13 @@ public class Player extends AbstractEntities {
             System.out.println(map.getEntities());
 
             System.out.println("monster is dead\n");
+        }
+    }
+
+    private void winExp(){
+        exp+=1;
+        if(exp==expMax){
+            updateStats();
         }
     }
 }
