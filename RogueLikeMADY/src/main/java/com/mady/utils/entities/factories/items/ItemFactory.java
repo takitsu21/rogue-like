@@ -19,7 +19,7 @@ public class ItemFactory {
             case "poison_vie": return  new PoisonVie(position);
             case "poison_force": return new PoisonForce(position);
             case "chest": return new Chest(position);
-            default: throw new IllegalArgumentException("unknown item");
+            default: return null;
         }
     }
 }
