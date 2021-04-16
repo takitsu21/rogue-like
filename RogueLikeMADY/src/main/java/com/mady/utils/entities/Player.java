@@ -249,7 +249,7 @@ public class Player extends AbstractEntities {
         exp=0;
         setLvl(getLvl() + 1);
         setMaxHp(getMaxHp() * multiplicateur);
-        setMaxMp(getMP() * multiplicateur);
+        setMaxMp(getMaxMp() * multiplicateur);
         setATK(getATK() * multiplicateur);
         setDEF(getDEF() * multiplicateur);
         setAGI(getAGI() * multiplicateur);
@@ -311,6 +311,7 @@ public class Player extends AbstractEntities {
             System.out.println("monster is dead\n");
         }
     }
+
 
     private void winExp(){
         exp+=1;

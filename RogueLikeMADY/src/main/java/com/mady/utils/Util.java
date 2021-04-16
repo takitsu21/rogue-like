@@ -23,22 +23,21 @@ public class Util {
         }
     }
     public static String getRandomItem(){
-        return "chest";
-//        int randomIt= Util.r.nextInt(5);
-//        switch (randomIt) {
-//            case 0:
-//                return "potion_vie";
-//            case 1:
-//                return "potion_force";
-//            case 2:
-//                return "poison_vie";
-//            case 3:
-//                return "poison_force";
-//            default:
-//                return "chest";
-//        }
-//    }
+        int randomIt= Util.r.nextInt(5);
+        switch (randomIt) {
+            case 0:
+                return "potion_vie";
+            case 1:
+                return "potion_force";
+            case 2:
+                return "poison_vie";
+            case 3:
+                return "poison_force";
+            default:
+                return "chest";
+        }
     }
+
 
 
     public static String filler(int i ){
