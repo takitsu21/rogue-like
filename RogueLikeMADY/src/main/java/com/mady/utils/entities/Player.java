@@ -36,7 +36,7 @@ public class Player extends AbstractEntities {
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
         super(pos, hitPoints, damages, movement, repr, 3, salle);
         this.stuff = new Stuff();
-        this.inventory = new Inventory();
+        this.inventory = new Inventory(this.stuff);
     }
 
 
