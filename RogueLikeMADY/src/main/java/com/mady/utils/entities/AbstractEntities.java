@@ -38,6 +38,9 @@ public abstract class AbstractEntities implements Entities {
 
 
     public String getRepr() {
+        if (this instanceof Player) {
+            return Ansi.colorize(repr, Attribute.BLUE_TEXT());
+        }
         return repr;
     }
 
@@ -93,12 +96,10 @@ public abstract class AbstractEntities implements Entities {
         } else {
             int new_HP = getHitPoints() - damages;
             setHitPoints(new_HP);
-            System.out.printf("monster hp remaining : %d \n", getHitPoints());
         }
         if (this.isDead()) {
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", getRepr()),
                     Attribute.RED_TEXT()));
-            System.out.println("entity dead\n");
         }
     }
 
@@ -134,7 +135,7 @@ public abstract class AbstractEntities implements Entities {
         isAggro = false;
         return false;
     }
-    
+
 
     public Position nextPos(Entities entitie) {
         int randomMove = Util.r.nextInt(entitie.getMovement() + 1);
@@ -148,31 +149,12 @@ public abstract class AbstractEntities implements Entities {
         if (!this.isDead()) {
             if (isInPerimeter(map)) {
                 ((AbstractMonster) this).act(map);
-
-
-                    //((AbstractMonster) this).act(map.getPlayer());
-                
             } else {
-                while (!map.move(this, nextPos(this))) {
-                    map.move(this, nextPos(this));
-                }
+                while (!map.move(this, nextPos(this))) ;
             }
-        } else {
-
-            System.out.println(this.pos);
         }
         return map;
-//        if (isAreaClear(player)) {
-//            double movement = getMovement();
-//            if (getPosition().getX() + movement > //dimension de salle) //idée: mettre la liste des entités
-//            // dans salle.
-//        }
     }
-//
-//    @Override
-//    public void doTurn() {
-//
-//    }
 
     public Salle getSalle() {
         return salle;

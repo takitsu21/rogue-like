@@ -9,7 +9,7 @@ import com.mady.utils.entities.Position;
 
 public class PotionForce extends AbstractItem {
     public PotionForce(Position position) {
-        super(position, 0, (int) (Math.random() * 2) + 1, "Potion de force", true, false);
+        super("F", position, 0, (int) (Math.random() * 2) + 1, "Potion de force", true, false);
     }
 
     @Override
@@ -25,8 +25,4 @@ public class PotionForce extends AbstractItem {
 //        }
     }
 
-    @Override
-    public String getRepresentation() {
-        return "F";
-    }
 }

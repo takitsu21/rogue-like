@@ -32,8 +32,8 @@ public class Salle {
     }
 
     public Salle(Position pos) {
-        this(Util.r.nextInt(16 - 6) + 6,
-                Util.r.nextInt(16 - 6) + 6,
+        this(Util.r.nextInt(14) + 6,
+                Util.r.nextInt(14) + 12,
                 0, 0, pos);
     }
 

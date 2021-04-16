@@ -9,7 +9,7 @@ import com.mady.utils.entities.factories.items.AbstractItem;
 
 public class PoisonVie extends AbstractItem {
     public PoisonVie(Position position) {
-        super(position, 0, (int) (Math.random() * 2)+1 , "Poison de vie",true,false);
+        super("V", position, 0, (int) (Math.random() * 2)+1 , "Poison de vie",true,false);
     }
 
     /**
@@ -28,10 +28,6 @@ public class PoisonVie extends AbstractItem {
         else{
             player.setHP(0);
         }
-    }
-    @Override
-    public String getRepresentation() {
-        return "V";
     }
 }
 

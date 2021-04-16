@@ -1,6 +1,8 @@
 package com.mady.utils;
 
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
@@ -394,12 +396,8 @@ public class Map {
             }
 
             if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)){
-//                System.out.println("vie " +((Player) e).getHitPoints()+"\n"+((Player) e).getDamages());
-                System.out.printf("stat item :\n\t"+newCase.getItem().getName()+"\n\tforce: "+newCase.getItem().getDamages()+"\n");
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
-//                System.out.println("new stat palyer : ");
-//                System.out.println("\tvie " +((Player) e).getHitPoints()+"\n\tforce: "+((Player) e).getDamages());
                 newCase.setEntity(e);
                 e.setPos(newPos);
                 return true;
@@ -452,7 +450,8 @@ public class Map {
                 pos = randomPosPlayerInSalle(chooseSalle());
             }
 
-            map[pos.getX()][pos.getY()]=new Case("§",CaseType.PORTAL);
+            map[pos.getX()][pos.getY()]=new Case(Ansi.colorize("§", Attribute.CYAN_TEXT()),
+                    CaseType.PORTAL);
     }
 
     /**

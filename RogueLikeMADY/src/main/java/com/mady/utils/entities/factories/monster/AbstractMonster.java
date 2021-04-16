@@ -30,19 +30,9 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     }
 
     private void updatePos(Map map, Player player) {
-        Position monsterPos = getPosition();
         Position playerPos = player.getPosition();
-        System.out.printf("player pos : %s, and monster pos : %s\n", playerPos, monsterPos);
-
-        /*setPos(monsterPos.incrementPos(direction(playerPos).pos));
-        map.getMap()[getPosition().getX()][getPosition().getY()] = map.getMap()[monsterPos.getX()][monsterPos.getY()];
-        map.clearCase(map.getMap()[monsterPos.getX()][monsterPos.getY()]);*/
-
         Deplacement dep = direction(playerPos);
-        System.out.println(dep);
         map.move(this, dep.pos);
-
-        System.out.printf("actual pos : %s\n", getPosition());
     }
 
     private Deplacement direction(Position playerPos) {

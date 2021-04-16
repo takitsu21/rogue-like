@@ -76,7 +76,6 @@ public class Player extends AbstractEntities {
         i.setPosition(null);
         if (pickItem(i)) {
             c.setItem(null);
-//            setEquipment(i);
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez récupérer <%s> : %s dans le coffre.\n",
                     i.getName().substring(0, 1).toUpperCase() + i.getName().substring(1), i), Attribute.MAGENTA_TEXT()));
             return true;
@@ -276,12 +275,9 @@ public class Player extends AbstractEntities {
 
     public boolean closeAttack(Entities monster, Map map){
         if (monster == null) {
-            System.out.println("you can't attack now, no monsters around\n");
-            Util.currentAction.append(String.format("Aucune cible atteinte.\n"));
+            Util.currentAction.append("Aucune cible atteinte...\n");
             return false;
         } else {
-            System.out.println("you find a monster near you, you're attacking it\n");
-            Util.currentAction.append(String.format("Vous attaqué %s et lui infligé %d dégâts.\n", monster.getRepr(), getDamages()));
             attackMonster(monster, map);
             return true;
         }
@@ -289,10 +285,9 @@ public class Player extends AbstractEntities {
 
     public boolean zoneAttack(List<Entities> monsters, Map map){
         if (monsters.isEmpty()) {
-            System.out.println("you can't attack now, no monsters around\n");
+            Util.currentAction.append("Aucune cible atteinte...\n");
             return false;
         } else {
-            System.out.println("you find monsters around you, you're attacking them\n");
             for (Entities monster : monsters) {
                 attackMonster(monster, map);
             }
@@ -302,21 +297,15 @@ public class Player extends AbstractEntities {
 
     private void attackMonster(Entities monster, Map map) {
         monster.takeDamages(getDamages());
+        Util.currentAction.append(String.format("Vous attaqué %s et lui infligé %d points de dégâts.\n",
+                monster.getRepr(), getDamages()));
         if (monster.isDead()) {
             winExp();
-            //Case monsterCase = map.getcase(monster.getPosition());
-            System.out.printf("player pos : %s\n", map.getPlayer().getPosition());
-            System.out.printf("%s : %s\n", monster.getRepr(), monster.getPosition());
-            Position mPos = monster.getPosition();
             map.clearCase(monster.getPosition());
-            //map.getMap()[mPos.getX()][mPos.getY()].setEntity(null);
-            System.out.println(map.getEntities());
             map.getEntities().remove(monster);
-            System.out.println(map.getEntities());
-
-            System.out.println("monster is dead\n");
         }
     }
+
 
 
     private void winExp(){

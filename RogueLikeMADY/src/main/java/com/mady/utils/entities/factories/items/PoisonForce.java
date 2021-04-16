@@ -9,7 +9,7 @@ import com.mady.utils.entities.factories.items.AbstractItem;
 
 public class PoisonForce extends AbstractItem {
     public PoisonForce(Position position) {
-        super(position, 0, (int) (Math.random() * 2)+1, "Poison de force",true,false);
+        super("F", position, 0, (int) (Math.random() * 2)+1, "Poison de force",true,false);
     }
 
 
@@ -24,10 +24,5 @@ public class PoisonForce extends AbstractItem {
         else{
             player.setDamages(0);
         }
-    }
-
-    @Override
-    public String getRepresentation() {
-        return "F";
     }
 }
