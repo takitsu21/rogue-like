@@ -47,15 +47,15 @@ class CaseTest {
 
     @Test
     void testToString() {
-        assertEquals(" ", cSalle.toString());
-        assertEquals("#", cWall.toString());
-        assertEquals(" ", cEmpty.toString());
-        assertEquals("C", cItemNotEmpty.toString());
-        assertEquals(".", cConstructor.toString());
-        assertEquals("@", cPlayer.toString());
-        assertEquals("P", cPath.toString());
-        assertEquals("§", cPortal.toString());
-        assertEquals(" ", cMap.toString());
+        assertEquals(" ", cSalle.getRealRepr());
+        assertEquals("#", cWall.getRealRepr());
+        assertEquals(" ", cEmpty.getRealRepr());
+        assertEquals("C", cItemNotEmpty.getRealRepr());
+        assertEquals(".", cConstructor.getRealRepr());
+        assertEquals("@", cPlayer.getRealRepr());
+        assertEquals("P", cPath.getRealRepr());
+        assertEquals("§", cPortal.getRealRepr());
+        assertEquals(" ", cMap.getRealRepr());
     }
 
     @Test

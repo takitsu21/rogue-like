@@ -38,5 +38,7 @@ public interface Entities {
 
     void setSalle(Salle salle);
 
+    String getName();
+
 
 }

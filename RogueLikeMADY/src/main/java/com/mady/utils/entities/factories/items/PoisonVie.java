@@ -22,7 +22,7 @@ public class PoisonVie extends AbstractItem {
             int oldHp = (int) player.getHP();
             player.setHP(player.getHP() - getDamages());
             Util.currentAction.append(Ansi.colorize(String.format("%s vous réduit la vie de %d à %d (-%d)",
-                    getName(), oldHp, (int) player.getHP(), getDamages()), Attribute.RED_TEXT()));
+                    getName(), oldHp, (int) player.getHP(), getDamages()), Attribute.YELLOW_TEXT()));
 
         } else {
             player.setHP(0);

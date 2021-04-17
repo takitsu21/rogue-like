@@ -6,7 +6,7 @@ import com.mady.utils.entities.Position;
 public class GoblinArcher extends AbstractMonster {
 
     public GoblinArcher(Position pos, Salle salle) {
-        super(pos, 5, 1, 1, "g", 3, salle);
+        super("Gobelin", pos, 5, 1, 1, "g", 3, salle);
     }
 
 

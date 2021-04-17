@@ -1,5 +1,8 @@
 package com.mady.utils.entities.factories.items;
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
+import com.mady.utils.Util;
 import com.mady.utils.entities.AbstractStuffItem;
 import com.mady.utils.entities.Stuff;
 
@@ -26,6 +29,7 @@ public class Inventory {
 
     public boolean addItem(Item i) {
         if (isFull()) {
+            Util.currentAction.append(Ansi.colorize("Votre inventaire est plein!\n", Attribute.RED_TEXT()));
             return false;
         }
         inventory.add(i);
@@ -85,26 +89,30 @@ public class Inventory {
         sb.append("\n");
         for (Item i : inventory) {
             AbstractStuffItem it = (AbstractStuffItem) i;
+            StringBuilder sbTmp = new StringBuilder();
+
             if (acc == selectedItem) {
-                sb.append('[');
+                sbTmp.append('[');
             }
-            sb.append('<').append(i.getName().substring(0, 1).toUpperCase()).append(i.getName().substring(1))
+
+            sbTmp.append('<').append(i.getName().substring(0, 1).toUpperCase()).append(i.getName().substring(1))
                     .append('>')
                     .append(" : ")
-                    .append("AGI ")
-                    .append(it.getAGI())
-                    .append(" ATK ")
-                    .append(it.getATK())
-                    .append(" HP ")
-                    .append(it.getHP())
-                    .append(" MP")
-                    .append(it.getMP())
-                    .append(" LUK")
-                    .append(it.getLUK());
+                    .append("|AGI ")
+                    .append((int)it.getAGI())
+                    .append("|ATK ")
+                    .append((int)it.getATK())
+                    .append("|HP ")
+                    .append((int)it.getHP())
+                    .append("|MP ")
+                    .append((int)it.getMP())
+                    .append("|LUK ")
+                    .append((int)it.getLUK());
             if (acc == selectedItem) {
-                sb.append(']');
+                sbTmp.append(']');
+                sbTmp = new StringBuilder(Ansi.colorize(sbTmp.toString(), Attribute.MAGENTA_TEXT()));
             }
-            sb.append("\n");
+            sb.append(sbTmp).append("\n");
             acc++;
         }
         return sb.toString();

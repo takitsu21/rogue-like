@@ -476,8 +476,7 @@ public class Map {
         while (nextToDoor(pos)) {
             pos = randomPosPlayerInSalle(chooseSalle());
         }
-        map[pos.getX()][pos.getY()] = new Case(Ansi.colorize("§", Attribute.CYAN_TEXT()),
-                CaseType.PORTAL);
+        map[pos.getX()][pos.getY()] = new Case("§", CaseType.PORTAL);
     }
 
     /**
@@ -486,19 +485,37 @@ public class Map {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        String playerHud = String.format("HP : %d/%d | MP %d/%d | Lvl %d [%d/%d EXP]",
-                (int) player.getHP(), (int) player.getMaxHp(), (int) player.getMP(), (int) player.getMaxMp(),
-                player.getLvl(), (int) player.getExp(), (int) player.getExpMax());
-        System.out.println(playerHud);
+
+        sb.append(Ansi.colorize(String.format("HP : %d/%d | ", (int) player.getHP(), (int) player.getMaxHp())
+                , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", (int) player.getMP(),
+                (int) player.getMaxMp()), Attribute.BLUE_TEXT()))
+                .append(Ansi.colorize(String.format("Lvl %d ", player.getLvl()), Attribute.YELLOW_TEXT()))
+                .append(Ansi.colorize(String.format("[%d/%d EXP]\n", (int) player.getExp(), (int) player.getExpMax()),
+                        Attribute.MAGENTA_TEXT()));
+
+        for (int i = 0; i <= BASE_WIDTH + 1; i++) {
+            sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
+        }
+        sb.append("\n");
+
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
-                if (i == 0 || j == BASE_WIDTH - 1 || j == 0 || i == BASE_HEIGHT - 1) {
-                    sb.append('\"');
+                if (i == BASE_HEIGHT - 1 && j == 0) {
+                    sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
+                } else if (j == 0) {
+                    sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
+                    sb.append(map[i][j].toString());
+                } else if (i == BASE_HEIGHT - 1) {
+                    sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
                 } else {
                     sb.append(map[i][j].toString());
                 }
             }
-            sb.append("\n");
+            if (i == BASE_HEIGHT - 1) {
+                sb.append(Ansi.colorize("\"\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT())).append("\n");
+            } else {
+                sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT())).append("\n");
+            }
         }
         sb.append(Util.currentAction);
         Util.currentAction = new StringBuilder();
