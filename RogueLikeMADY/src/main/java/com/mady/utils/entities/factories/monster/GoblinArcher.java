@@ -1,12 +1,14 @@
 package com.mady.utils.entities.factories.monster;
 
 import com.mady.utils.Salle;
+import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
 public class GoblinArcher extends AbstractMonster {
 
-    public GoblinArcher(Position pos, Salle salle) {
-        super("Gobelin", pos, 5, 1, 1, "g", 3, salle);
+
+    public GoblinArcher(Position pos, Salle salle, Player player) {
+        super("Gobelin", pos, 5, 1, 1, "g", 3, salle, player);
     }
 
 

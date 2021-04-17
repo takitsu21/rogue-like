@@ -46,18 +46,25 @@ public class Map {
      */
     public boolean createMap() {
         boolean bRoom;
-        boolean bPath;
+        boolean bPath = true;
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
                 map[i][j] = new Case(" ");
             }
         }
         bRoom = generateRooms();
-        bPath = selectLien();
+        if (bRoom){
+            bPath = selectLien();}
+        //generatePortal();
+        //generateEntities();
+        //generateItems();
+        return !bRoom || !bPath;
+    }
+
+    public void addEntityItemPortal(){
         generatePortal();
         generateEntities();
         generateItems();
-        return !bRoom || !bPath;
     }
 
     public Frame getFrame() {
@@ -316,7 +323,7 @@ public class Map {
                 pos = randomPosPlayerInSalle(salle);
             }
             Entities entity = MonsterFactory.getInstance().generate(
-                    Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
+                    Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle, player);
             map[pos.getX()][pos.getY()].setEntity(entity);
             entities.add(entity);
         }

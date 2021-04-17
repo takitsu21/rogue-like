@@ -43,6 +43,7 @@ public class TurnBasedGameLoop extends GameLoop {
                     Position position = world.getCurrentMap().randomPosPlayerInSalle(world.getCurrentMap().chooseSalle());
                     map.getPlayer().setPos(position);
                     world.getCurrentMap().addPlayerToMap(map.getPlayer());
+                    world.getCurrentMap().addEntityItemPortal();
                     map.getFrame().getFrame().removeKeyListener(new MoveListener(map));
                     map = world.getCurrentMap();
                     for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {

@@ -35,6 +35,7 @@ public abstract class GameLoop {
         Salle salle = map.chooseSalle();
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
         map.addPlayerToMap(controller.getPlayer());
+        map.addEntityItemPortal();
         render();
         map.getFrame().getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.STOPPED;
