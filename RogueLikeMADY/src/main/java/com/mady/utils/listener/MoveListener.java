@@ -59,6 +59,18 @@ public class MoveListener implements KeyListener {
             case KeyEvent.VK_E:
                 map.getPlayer().closeAttack(map.closeCheckAround(), map);
                 break;
+            case KeyEvent.VK_BACK_SPACE:
+                if (Util.keyPressed == KeyboardPressedEnum.I && map.getPlayer().getInventory().getInventory().size() >= 1) {
+                    map.getPlayer().getInventory().getInventory().remove( map.getPlayer().getInventory().getSelectedItem());
+                    map.getPlayer().getInventory().setSelectedItem(0);
+                    if (map.getPlayer().getInventory().getInventory().size() == 0) {
+                        Util.keyPressed = KeyboardPressedEnum.NONE;
+                    }
+                }
+                else{
+                    Util.keyPressed = KeyboardPressedEnum.NONE;
+                }
+                break;
 
             case KeyEvent.VK_X: // Touche x
                 int x = map.getPlayer().getPosition().getX();
@@ -87,12 +99,15 @@ public class MoveListener implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_ENTER:
-                if (Util.keyPressed == KeyboardPressedEnum.I) {
+                if (Util.keyPressed == KeyboardPressedEnum.I && map.getPlayer().getInventory().getInventory().size() >= 1) {
                     map.getPlayer().equipItem(map.getPlayer().getInventory().getSelectedItem());
                     map.getPlayer().getInventory().setSelectedItem(0);
                     if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
+                }
+                else{
+                    Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
             default:
