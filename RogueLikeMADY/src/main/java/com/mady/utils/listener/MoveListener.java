@@ -3,6 +3,7 @@ package com.mady.utils.listener;
 import com.mady.utils.KeyboardPressedEnum;
 import com.mady.utils.Map;
 import com.mady.utils.Util;
+import com.mady.utils.entities.Deplacement;
 import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
@@ -39,7 +40,7 @@ public class MoveListener implements KeyListener {
                                     map.getPlayer().getInventory().getInventory().size() - 1 :
                                     (map.getPlayer().getInventory().getSelectedItem() - 1));
                 } else {
-                    map.move(map.getPlayer(), new Position(-1, 0));
+                    map.move(map.getPlayer(), Deplacement.HAUT.pos);
                 }
                 break;
             case KeyEvent.VK_S: // Touche S
@@ -48,16 +49,16 @@ public class MoveListener implements KeyListener {
                             + 1) % ((map.getPlayer().getInventory().getInventory().size() > 0) ?
                             map.getPlayer().getInventory().getInventory().size() : 1));
                 } else {
-                    map.move(map.getPlayer(), new Position(1, 0));
+                    map.move(map.getPlayer(), Deplacement.BAS.pos);
                 }
                 break;
             case KeyEvent.VK_Q: // Touche Q
 
-                map.move(map.getPlayer(), new Position(0, -1));
+                map.move(map.getPlayer(), Deplacement.GAUCHE.pos);
 
                 break;
             case KeyEvent.VK_D: // Touche D
-                map.move(map.getPlayer(), new Position(0, 1));
+                map.move(map.getPlayer(), Deplacement.DROITE.pos);
 
                 break;
             case KeyEvent.VK_A: // Touche A
