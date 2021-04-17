@@ -73,7 +73,7 @@ CMD SHELL
 ```shell
 java -jar RogueLikeMADY-1.0-SNAPSHOT.jar
 ```
-<img src="https://i.imgur.com/d9cDliK.png" alt="Logo" width=48 height=48>
-<img src="https://i.imgur.com/fliRMaY.png" alt="Logo" width=48 height=48>
-<img src="https://i.imgur.com/zaCLOhf.png" alt="Logo" width=48 height=48>
+<img src="https://i.imgur.com/d9cDliK.png" alt="Logo" width=48 height=48> <img src="https://i.imgur.com/fliRMaY.png" alt="Logo" width=48 height=48> <img src="https://i.imgur.com/zaCLOhf.png" alt="Logo" width=48 height=48>
+
+
 
