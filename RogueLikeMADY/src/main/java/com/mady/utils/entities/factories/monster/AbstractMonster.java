@@ -19,9 +19,9 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
                            int effectiveArea,
                            Salle salle, Player player) {
 
-            super(pos,player!= null? (int) (lifePoints * (player.getLvl() - 1) * player.getMultiplicateur()): lifePoints,player!= null? (int) (damages * (player.getLvl() - 1) * player.getMultiplicateur()):damages, movement, repr, effectiveArea, salle);
-        System.out.println(player!=null);
-        System.out.println(player!= null? (int) (lifePoints * (player.getLvl() - 1) * player.getMultiplicateur()): lifePoints);
+        super(pos, player.getLvl() != 1 ? (int) (lifePoints * (player.getLvl() - 1) * player.getMultiplicateur()) : lifePoints,
+                player.getLvl() != 1 ? (int) (damages * (player.getLvl() - 1) * player.getMultiplicateur()) : damages,
+                movement, repr, effectiveArea, salle);
     }
 
 

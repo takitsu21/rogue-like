@@ -269,6 +269,7 @@ public class Player extends AbstractEntities {
         setMaxHp(getMaxHp() * multiplicateur);
         setMaxMp(getMaxMp() * multiplicateur);
         setATK(getATK() * multiplicateur);
+        setDamages((int) (getDamages() * getATK()));
         setDEF(getDEF() * multiplicateur);
         setAGI(getAGI() * multiplicateur);
         setLUK(getLUK() * multiplicateur);

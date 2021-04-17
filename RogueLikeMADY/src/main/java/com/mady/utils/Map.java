@@ -305,7 +305,7 @@ public class Map {
 //        addPlayerToMap(player);
         int nbMonstersByRoom;
         for (int i = 0; i < nbSalles; i++) {
-            nbMonstersByRoom = Util.r.nextInt(4);
+            nbMonstersByRoom = Util.r.nextInt(10);
             addEntity(nbMonstersByRoom);
         }
 
