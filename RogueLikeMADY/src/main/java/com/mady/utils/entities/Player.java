@@ -30,6 +30,7 @@ public class Player extends AbstractEntities {
     private double AGI = 1;
     private double LUK = 2;
     private double maxExpToWin = 3;
+    private double multiplicateur =1.16;
     private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
 
 
@@ -253,8 +254,16 @@ public class Player extends AbstractEntities {
         this.maxExpToWin = maxExpToWin;
     }
 
+    public double getMultiplicateur() {
+        return multiplicateur;
+    }
+
+    public void setMultiplicateur(double multiplicateur) {
+        this.multiplicateur = multiplicateur;
+    }
+
     public void updateStats() {
-        double multiplicateur = 1.16;
+        //double multiplicateur = 1.16;
         setExp(0);
         setLvl(getLvl() + 1);
         setMaxHp(getMaxHp() * multiplicateur);

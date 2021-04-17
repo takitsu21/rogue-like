@@ -47,12 +47,13 @@ public class Map {
         Salle salle = map.chooseSalle();
         Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
         map.addPlayerToMap(player);
+        map.addEntityItemPortal();
         System.out.println(map);
     }
 
     public boolean createMap() {
         boolean bRoom;
-        boolean bPath;
+        boolean bPath = true;
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
                 map[i][j] = new Case(" ");
@@ -60,11 +61,18 @@ public class Map {
         }
 
         bRoom = generateRooms();
-        bPath = selectLien();
+        if (bRoom){
+            bPath = selectLien();}
+        //generatePortal();
+        //generateEntities();
+        //generateItems();
+        return !bRoom || !bPath;
+    }
+
+    public void addEntityItemPortal(){
         generatePortal();
         generateEntities();
         generateItems();
-        return !bRoom || !bPath;
     }
 
 
@@ -312,7 +320,7 @@ public class Map {
             }
 
             Entities entity = MonsterFactory.getInstance().generate(
-                    Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
+                    Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle, player);
             map[pos.getX()][pos.getY()].setEntity(entity);
             entities.add(entity);
         }

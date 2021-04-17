@@ -142,6 +142,8 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public Map doTurn(Map map) {
+        System.out.println(this.hitPoints);
+        System.out.println(this.damages);
         if (!this.isDead()) {
             if (isInPerimeter(map)) {
                 ((AbstractMonster) this).act(map);
