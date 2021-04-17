@@ -324,6 +324,8 @@ public class Player extends AbstractEntities {
         exp += randomExp();
         if (exp >= expMax) {
             updateStats();
+            Util.currentAction.append(Ansi.colorize(String.format("Vous avez atteint le niveau %d, félicitation!\n",
+                    getLvl()), Attribute.YELLOW_TEXT()));
         }
     }
 }

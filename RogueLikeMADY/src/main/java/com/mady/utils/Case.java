@@ -1,5 +1,7 @@
 package com.mady.utils;
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.factories.items.Item;
@@ -23,6 +25,11 @@ public class Case {
         this.ct = ct;
     }
 
+    /**
+     * Représente une case dans la map.
+     * @param repr représentation de la case.
+     * @param entity entité présente sur la case.
+     */
     public Case(String repr, Entities entity) {
         this.repr = repr;
         this.entity = entity;
@@ -92,6 +99,23 @@ public class Case {
      * @return une représentation de la case.
      */
     public String getRepr() {
+        if (repr.equals("P")) {
+            return (Ansi.colorize(repr, Attribute.BRIGHT_WHITE_TEXT(), Attribute.BRIGHT_WHITE_BACK()));
+        } else if (isWall()) {
+            return (Ansi.colorize(repr, Attribute.BRIGHT_BLACK_BACK(), Attribute.BRIGHT_BLACK_TEXT()));
+        } else if (isPath()) {
+            return (Ansi.colorize(repr, Attribute.BRIGHT_WHITE_TEXT(), Attribute.BRIGHT_WHITE_BACK()));
+        } else if (isPortal()) {
+            return Ansi.colorize(repr, Attribute.BRIGHT_CYAN_TEXT());
+        }
+        return repr;
+    }
+
+    /**
+     *
+     * @return représentation réel d'une case sans les couleurs.
+     */
+    public String getRealRepr() {
         return repr;
     }
 

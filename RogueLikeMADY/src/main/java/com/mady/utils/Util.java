@@ -10,7 +10,6 @@ public class Util {
     public static volatile boolean playerTurn = true;
     public static volatile KeyboardPressedEnum keyPressed = KeyboardPressedEnum.NONE;
     public static volatile StringBuilder currentAction = new StringBuilder();
-    public static Attribute ORANGE_TEXT = Attribute.TEXT_COLOR(255, 120, 2);
 
     public static Deplacement randomDirection() {
         int randomDirection = Util.r.nextInt(4);

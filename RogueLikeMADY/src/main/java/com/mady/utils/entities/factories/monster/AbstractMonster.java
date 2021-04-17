@@ -1,6 +1,7 @@
 package com.mady.utils.entities.factories.monster;
 
 import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
@@ -55,7 +56,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         } else {
             updatePos(map, player);
             Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> se rapproche.\n",
-                    getRepr(), getHitPoints(), getMaxHitPoints()), Util.ORANGE_TEXT));
+                    getRepr(), getHitPoints(), getMaxHitPoints()), Attribute.RED_TEXT()));
         }
     }
 
@@ -68,7 +69,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     @Override
     public String getRepr() {
         if (isAggro()) {
-            return Ansi.colorize(super.getRepr(), Util.ORANGE_TEXT);
+            return Ansi.colorize(super.getRepr(), Attribute.RED_TEXT());
         }
         return super.getRepr();
     }
