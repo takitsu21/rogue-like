@@ -280,6 +280,14 @@ public class Player extends AbstractEntities {
         return (getHP() <= 0);
     }
 
+    /**
+     *
+     * @param monster
+     * @param map
+     * @return a bool
+     * attack the first monster you will find around you
+     */
+
     public boolean closeAttack(Entities monster, Map map) {
         if (monster == null) {
             Util.currentAction.append("Aucune cible atteinte...\n");
@@ -289,6 +297,14 @@ public class Player extends AbstractEntities {
             return true;
         }
     }
+
+    /**
+     *
+     * @param monsters
+     * @param map
+     * @return a bool
+     * attack all the monster around you even the diagonals
+     */
 
     public boolean zoneAttack(List<Entities> monsters, Map map) {
         if (monsters.isEmpty()) {
@@ -301,6 +317,13 @@ public class Player extends AbstractEntities {
             return true;
         }
     }
+
+    /**
+     *
+     * @param monster
+     * @param map
+     * the attack procedure. attack first and then looks if the monster's dead
+     */
 
     private void attackMonster(Entities monster, Map map) {
         monster.takeDamages(getDamages());

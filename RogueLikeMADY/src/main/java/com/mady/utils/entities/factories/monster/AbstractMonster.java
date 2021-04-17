@@ -34,6 +34,13 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         map.move(this, dep.pos);
     }
 
+    /**
+     *
+     * @param playerPos
+     * @return a direction
+     * direction will determine where the monster needs to head to to find the player
+     */
+
     private Deplacement direction(Position playerPos) {
         if (getPosition().getX() < playerPos.getX()) {
             return Deplacement.BAS;
@@ -45,6 +52,13 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         return Deplacement.GAUCHE;
     }
 
+    /**
+     *
+     * @param map
+     * the comportment of the monster.
+     * Two possibilities, either he's next to the player and then attacks him, or the mob is away from the player and
+     * moves randomly.
+     */
 
     public void act(Map map) {
         Player player = map.getPlayer();
@@ -73,18 +87,14 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         return super.getRepr();
     }
 
+    /**
+     *
+     * @param map
+     * @return a bool if the player is on one of the four cases around us
+     */
+
     private boolean nextTo(Map map) {
         Position monsterPos = this.getPosition();
-
-        /*for (int i = monsterPos.getX() - 1; i <= monsterPos.getX() + 1; i++) {
-            for (int j = monsterPos.getY() - 1; j <= monsterPos.getY() + 1; j++) {
-                if (i != monsterPos.getX() && j != monsterPos.getY()) {
-                    continue;
-                } else if (map.isInside(i, j) && map.getMap()[i][j].getEntity() instanceof AbstractMonster) {
-                    return true;
-                }
-            }*/
-
 
         if (map.getMap()[monsterPos.getX() - 1][monsterPos.getY()].getEntity() instanceof Player) {
             return true;
@@ -101,14 +111,6 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         if (map.getMap()[monsterPos.getX()][monsterPos.getY() + 1].getEntity() instanceof Player) {
             return true;
         }
-
         return false;
     }
-
-
-//    public boolean isAreaClear(Player player) {
-//        return (getDistance(player) < effectiveArea);
-//    }
-
-
 }
