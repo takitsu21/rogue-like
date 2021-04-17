@@ -52,11 +52,17 @@ public class Inventory {
         return MAX_SIZE;
     }
 
+    /**
+     *
+     * @return the representation of yuor stuff.
+     * each part of your armor plus weapon and amulet got their places.
+     * An equiped item will have a '*' in his place.
+     */
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int acc = 0;
-
         char rph = s.getHelmet() == null ? ' ' : '*';
         char rpg = s.getGauntlet() == null ? ' ' : '*';
         char rpc = s.getChest() == null ? ' ' : '*';
@@ -71,12 +77,6 @@ public class Inventory {
         String AmuletStats = s.getAmulet() == null ? " " : s.getAmulet().toString();
         String ShoesStats = s.getShoes() == null ? " " : s.getShoes().toString();
         String WeaponStats = s.getWeapon() == null ? " " : s.getWeapon().toString();
-//        String fillerH = Util.filler(BASE_WIDTH-(32+HelmetStats.length()));
-//        String fillerW =  Util.filler(BASE_WIDTH-(41+WeaponStats.length()+AmuletStats.length()));
-//        String fillerG = Util.filler(BASE_WIDTH-(34+GauntletStats.length()));
-//        String fillerC = Util.filler(BASE_WIDTH-(36+ChestPlateStats.length()));
-//        String fillerP = Util.filler (BASE_WIDTH - (30+PantStats.length()));
-//        String fillerS = Util.filler((BASE_WIDTH - (31+ShoesStats.length())));
         sb.append("\"\"\"\"\"\"\"\"\"\"\"\"\"");
         sb.append(" STUFF : ");
         sb.append(String.format("HElMET: %s", HelmetStats));
@@ -87,14 +87,10 @@ public class Inventory {
         sb.append(String.format("  [%c] [%c]   \"         PANT: %s\n\"", rps, rps, PantStats));
         sb.append(String.format("\"\"\"\"\"\"\"\"\"\"\"\"\"         SHOES: %s", ShoesStats));
         sb.append("\n");
-//        for(int i =  0; i < BASE_WIDTH; i++){
-//            sb.append('"');
-//        }
-
-
         for (Item i : inventory) {
             AbstractStuffItem it = (AbstractStuffItem) i;
             StringBuilder sbTmp = new StringBuilder();
+
             if (acc == selectedItem) {
                 sbTmp.append('[');
             }
@@ -115,13 +111,7 @@ public class Inventory {
             if (acc == selectedItem) {
                 sbTmp.append(']');
                 sbTmp = new StringBuilder(Ansi.colorize(sbTmp.toString(), Attribute.MAGENTA_TEXT()));
-//                sb.append(Ansi.colorize(sbTmp.toString(), Attribute.RED_TEXT()));
-//                System.out.println();
             }
-//            else {
-//                sb.append(sbTmp);
-//            }
-
             sb.append(sbTmp).append("\n");
             acc++;
         }

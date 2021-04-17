@@ -14,7 +14,7 @@ public class PoisonForce extends AbstractItem {
 
     @Override
     public void act(Player player) {
-        if (player.getDamages() - getDamages() >= 0) {
+        if (player.getDamages() - getDamages() > 1) {
             int oldDamages = player.getDamages();
             player.setDamages(player.getDamages() - getDamages());
             Util.currentAction.append(Ansi.colorize(String.format("%s vous réduit l'ATK de %d à %d (-%d)\n",

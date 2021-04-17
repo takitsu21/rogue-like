@@ -12,6 +12,9 @@ import java.awt.event.KeyListener;
 
 public class TurnBasedGameLoop extends GameLoop {
 
+    /**
+     * control of the turn by turn
+     */
     @Override
     protected void processGameLoop() {
         if (status == GameStatus.STARTING) {
