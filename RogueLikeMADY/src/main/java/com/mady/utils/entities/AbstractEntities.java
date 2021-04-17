@@ -17,16 +17,19 @@ public abstract class AbstractEntities implements Entities {
     private int damages;
     private Salle salle;
     private boolean isAggro = false;
+    private String name;
 
-    public AbstractEntities(Position pos,
+    public AbstractEntities(String name,
+                            Position pos,
                             int hitPoints,
                             int damages,
                             int movement,
                             String repr,
                             int effectiveArea,
                             Salle salle) {
+        this.name = name;
         this.pos = pos;
-        maxHitPoints = hitPoints;
+        this.maxHitPoints = hitPoints;
         this.hitPoints = hitPoints;
         this.damages = damages;
         this.movement = movement;
@@ -35,6 +38,10 @@ public abstract class AbstractEntities implements Entities {
         this.salle = salle;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
 
     public String getRepr() {
         if (this instanceof Player) {

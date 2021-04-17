@@ -12,14 +12,15 @@ import com.mady.utils.entities.Position;
 
 
 public abstract class AbstractMonster extends AbstractEntities implements Monster {
-    public AbstractMonster(Position pos,
+    public AbstractMonster(String name,
+                           Position pos,
                            int lifePoints,
                            int damages,
                            int movement,
                            String repr,
                            int effectiveArea,
                            Salle salle) {
-        super(pos, lifePoints, damages, movement, repr, effectiveArea, salle);
+        super(name, pos, lifePoints, damages, movement, repr, effectiveArea, salle);
 
     }
 
@@ -51,12 +52,12 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         Player player = map.getPlayer();
         if (this.nextTo(map)) {
             this.attack(player);
-            Util.currentAction.append(String.format("%s<%d/%d HP> vous a infligé %d dégâts.\n",
-                    getRepr(), getHitPoints(), getMaxHitPoints(), getDamages()));
+            Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> vous a infligé %d dégâts.\n",
+                    getName(), getHitPoints(), getMaxHitPoints(), getDamages()), Attribute.RED_TEXT()));
         } else {
             updatePos(map, player);
             Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> se rapproche.\n",
-                    getRepr(), getHitPoints(), getMaxHitPoints()), Attribute.RED_TEXT()));
+                    getName(), getHitPoints(), getMaxHitPoints()), Attribute.YELLOW_TEXT()));
         }
     }
 

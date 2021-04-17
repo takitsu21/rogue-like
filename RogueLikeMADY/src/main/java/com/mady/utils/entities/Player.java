@@ -34,7 +34,7 @@ public class Player extends AbstractEntities {
 
 
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
-        super(pos, hitPoints, damages, movement, repr, 3, salle);
+        super("@", pos, hitPoints, damages, movement, repr, 3, salle);
         this.stuff = new Stuff();
         this.inventory = new Inventory(this.stuff);
     }
@@ -304,10 +304,10 @@ public class Player extends AbstractEntities {
 
     private void attackMonster(Entities monster, Map map) {
         monster.takeDamages(getDamages());
-        Util.currentAction.append(String.format("Vous attaquez %s et lui infligé %d points de dégâts.\n",
-                monster.getRepr(), getDamages()));
+        Util.currentAction.append(Ansi.colorize(String.format("Vous attaquez %s<%d/%d HP> et lui infligez %d points de dégâts.\n",
+                monster.getName(), monster.getHitPoints(), monster.getMaxHitPoints(), getDamages()), Attribute.BLUE_TEXT()));
         if (monster.isDead()) {
-            Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", monster.getRepr()),
+            Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", monster.getName()),
                     Attribute.RED_TEXT()));
             winExp();
             map.clearCase(monster.getPosition());
