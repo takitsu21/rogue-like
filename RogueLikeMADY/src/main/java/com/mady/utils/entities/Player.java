@@ -4,25 +4,23 @@ import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Case;
 import com.mady.utils.Map;
-
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
-import com.mady.utils.entities.factories.monster.AbstractMonster;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Player extends AbstractEntities {
 
+    private final Stuff stuff;
+    private final Inventory inventory;
     private int lvl = 1;
     private double maxMp = 50;
     private double maxHp = 100;
-
     private double exp = 0;
     private double expMax = 10;
     private double HP = maxHp;
@@ -31,10 +29,8 @@ public class Player extends AbstractEntities {
     private double DEF = 1;
     private double AGI = 1;
     private double LUK = 2;
-    private double maxExpToWin=3;
+    private double maxExpToWin = 3;
     private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
-    private final Stuff stuff;
-    private final Inventory inventory;
 
 
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
@@ -56,6 +52,7 @@ public class Player extends AbstractEntities {
 
     /**
      * Ramasse un item et le met dans l'inventaire.
+     *
      * @param i AbstractStuffItem
      * @return boolean
      */
@@ -73,7 +70,7 @@ public class Player extends AbstractEntities {
      * @param c Case de la map.
      */
     public boolean pickItem(Case c) {
-        AbstractStuffItem i = ((Chest)c.getItem()).openChest(this);
+        AbstractStuffItem i = ((Chest) c.getItem()).openChest(this);
         i.setPosition(null);
         if (pickItem(i)) {
             c.setItem(null);
@@ -86,6 +83,7 @@ public class Player extends AbstractEntities {
 
     /**
      * Equipe un item.
+     *
      * @param item item a équipé.
      * @return true si l'item a bien été équipé.
      */
@@ -119,12 +117,11 @@ public class Player extends AbstractEntities {
     }
 
     /**
-     *
      * @param idx index de l'item a équipé.
      * @return true si l'item a bien été équipé.
      */
     public boolean equipItem(int idx) {
-        AbstractStuffItem item = (AbstractStuffItem)inventory.getInventory().get(idx);
+        AbstractStuffItem item = (AbstractStuffItem) inventory.getInventory().get(idx);
         setEquipment(item);
         if (setEquipment(item)) {
 //            inventory.getInventory().set(idx, null);
@@ -283,7 +280,7 @@ public class Player extends AbstractEntities {
         return (getHP() <= 0);
     }
 
-    public boolean closeAttack(Entities monster, Map map){
+    public boolean closeAttack(Entities monster, Map map) {
         if (monster == null) {
             Util.currentAction.append("Aucune cible atteinte...\n");
             return false;
@@ -293,7 +290,7 @@ public class Player extends AbstractEntities {
         }
     }
 
-    public boolean zoneAttack(List<Entities> monsters, Map map){
+    public boolean zoneAttack(List<Entities> monsters, Map map) {
         if (monsters.isEmpty()) {
             Util.currentAction.append("Aucune cible atteinte...\n");
             return false;
@@ -318,14 +315,14 @@ public class Player extends AbstractEntities {
         }
     }
 
-    private int randomExp(){
-        return (int) (Math.random() * maxExpToWin)+1;
+    private int randomExp() {
+        return (int) (Math.random() * maxExpToWin) + 1;
     }
 
 
-    private void winExp(){
-        exp+=randomExp();
-        if(exp>=expMax){
+    private void winExp() {
+        exp += randomExp();
+        if (exp >= expMax) {
             updateStats();
         }
     }

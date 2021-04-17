@@ -3,7 +3,6 @@ package com.mady.utils.entities;
 import com.mady.utils.Util;
 
 import java.util.Objects;
-import java.util.Random;
 
 public class Position {
     private int x;
@@ -13,8 +12,6 @@ public class Position {
         this.x = x;
         this.y = y;
     }
-
-
 
 
     public int getX() {
@@ -37,11 +34,12 @@ public class Position {
         return new Position(pos.getX() + getX(), pos.getY() + getY());
     }
 
-    public Position getRandomPos(int maxX, int maxY){
-        return new Position(Util.r.nextInt(maxX) + 1,Util.r.nextInt(maxY) + 1);
+    public Position getRandomPos(int maxX, int maxY) {
+        return new Position(Util.r.nextInt(maxX) + 1, Util.r.nextInt(maxY) + 1);
     }
+
     public Position moveTo(Position playerPos, double distance) {
-        return getRandomPos(64,64);
+        return getRandomPos(64, 64);
     }
 
     @Override
@@ -66,11 +64,11 @@ public class Position {
 
 
     public boolean nextTo(Position pos) {
-        return x==pos.getX()+1 || x==pos.getX()-1 ||
-                y==pos.getY()+1 || y==pos.getY()-1;
+        return x == pos.getX() + 1 || x == pos.getX() - 1 ||
+                y == pos.getY() + 1 || y == pos.getY() - 1;
     }
 
-  
+
     public double getDistance(Position pos) {
         double dx = x - pos.x;
         double dy = y - pos.y;
@@ -78,7 +76,7 @@ public class Position {
     }
 
 
-    public Position multiplyPos(int Mouvement){
-        return new Position(this.getX()*Mouvement, this.getY()*Mouvement);
+    public Position multiplyPos(int Mouvement) {
+        return new Position(this.getX() * Mouvement, this.getY() * Mouvement);
     }
 }

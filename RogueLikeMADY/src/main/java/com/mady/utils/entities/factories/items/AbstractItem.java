@@ -7,13 +7,13 @@ import com.mady.utils.entities.Position;
 
 public abstract class AbstractItem implements Item {
 
-    private Position position;
     private final double movement;
     private final int damages;
     private final String name;
     private final Boolean drinkable;
     private final Boolean pickable;
     private final String repr;
+    private Position position;
 
     public AbstractItem(String repr, Position position, double movement, int damages, String name, Boolean drinkable, Boolean pickable) {
         this.repr = repr;

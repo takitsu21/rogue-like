@@ -10,7 +10,6 @@ public class Chest extends AbstractItem {
     private AbstractStuffItem item;
 
     /**
-     *
      * @param position du coffre.
      */
     public Chest(Position position) {
@@ -28,21 +27,20 @@ public class Chest extends AbstractItem {
     }
 
     /**
-     *
      * @param player
      * @return AbstractStuffItem
      */
     public AbstractStuffItem openChest(Player player) {
         double lvl = player.getLvl();
-        int randomLUK = Util.r.nextInt((int)player.getLUK());
+        int randomLUK = Util.r.nextInt((int) player.getLUK());
         double baseMultiplicator = 2;
         double baseStat = 5;
         double newRandomLUK = randomLUK * lvl * baseMultiplicator;
-        double randomATK = Util.r.nextInt((int)(baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
-        double randomDEF = Util.r.nextInt((int)(baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
-        double randomAGI = Util.r.nextInt((int)(baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
-        double randomHP = Util.r.nextInt((int)(baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
-        double randomMP = Util.r.nextInt((int)(baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        double randomATK = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        double randomDEF = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        double randomAGI = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        double randomHP = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        double randomMP = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
         switch (Util.r.nextInt(7)) {
             case 0:
                 return new Amulet(newRandomLUK);

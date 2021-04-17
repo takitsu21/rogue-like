@@ -1,6 +1,5 @@
 package com.mady.utils;
 
-import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.factories.items.Item;
@@ -13,9 +12,10 @@ public class Case {
 
     /**
      * Représente une case dans la map.
+     *
      * @param repr Représentation de  la case.
      * @param item Item présent en interne à cette case.
-     * @param ct Type de la case (WALL, PATH, etc...)
+     * @param ct   Type de la case (WALL, PATH, etc...)
      */
     public Case(String repr, Object item, CaseType ct) {
         this.repr = repr;
@@ -49,7 +49,6 @@ public class Case {
     }
 
     /**
-     *
      * @return true si la case est occupé.
      */
     public boolean isOccupied() {
@@ -57,7 +56,6 @@ public class Case {
     }
 
     /**
-     *
      * @return true si l'entité présente sur la case est un joueur.
      */
     public boolean isPlayer() {
@@ -70,7 +68,6 @@ public class Case {
     }
 
     /**
-     *
      * @return true si la case est un mur.
      */
     public boolean isWall() {
@@ -78,7 +75,6 @@ public class Case {
     }
 
     /**
-     *
      * @return true si la case est une salle.
      */
     public boolean isSalle() {
@@ -86,7 +82,6 @@ public class Case {
     }
 
     /**
-     *
      * @return true si la case fait partie de la map.
      */
     public boolean isMap() {
@@ -94,7 +89,6 @@ public class Case {
     }
 
     /**
-     *
      * @return une représentation de la case.
      */
     public String getRepr() {
@@ -118,6 +112,10 @@ public class Case {
         return ct;
     }
 
+    public void setCt(CaseType ct) {
+        this.ct = ct;
+    }
+
     public Entities getEntity() {
         return entity;
     }
@@ -127,12 +125,7 @@ public class Case {
         repr = entity == null ? " " : entity.getRepr();
     }
 
-    public void setCt(CaseType ct) {
-        this.ct = ct;
-    }
-
     /**
-     *
      * @return true si la case n'est pas du tout occupé et si ce n'est pas un mur.
      */
     public boolean isFreeCase() {
@@ -140,14 +133,13 @@ public class Case {
     }
 
     /**
-     *
      * @return true si la case est un chemin.
      */
     public boolean isPath() {
         return CaseType.PATH == ct;
     }
 
-    public boolean isPortal(){
-        return CaseType.PORTAL==ct;
+    public boolean isPortal() {
+        return CaseType.PORTAL == ct;
     }
 }

@@ -2,7 +2,7 @@ package com.mady.utils;
 
 import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.entities.Deplacement;
-import com.diogonunes.jcolor.Ansi;
+
 import java.util.Random;
 
 public class Util {
@@ -25,8 +25,9 @@ public class Util {
                 return Deplacement.DROITE;
         }
     }
-    public static String getRandomItem(){
-        int randomIt= Util.r.nextInt(5);
+
+    public static String getRandomItem() {
+        int randomIt = Util.r.nextInt(5);
         switch (randomIt) {
             case 0:
                 return "potion_vie";
@@ -42,10 +43,9 @@ public class Util {
     }
 
 
-
-    public static String filler(int i ){
+    public static String filler(int i) {
         StringBuilder sb = new StringBuilder();
-        for(int j = 0; j < i ; j++){
+        for (int j = 0; j < i; j++) {
             sb.append(" ");
 
         }

@@ -1,7 +1,6 @@
 package com.mady.utils.entities.factories.monster;
 
 import com.diogonunes.jcolor.Ansi;
-import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;

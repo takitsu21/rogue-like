@@ -1,6 +1,5 @@
 package com.mady.utils;
 
-import com.mady.utils.entities.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -84,12 +84,12 @@ public class Salle {
 
             representation[0][i] = new Case("#", null, CaseType.WALL);
             for (int k = 1; k < lignes; k++) {
-                representation[k][i] = new Case(" ", null,CaseType.SALLE);
+                representation[k][i] = new Case(" ", null, CaseType.SALLE);
             }
             representation[lignes - 1][i] = new Case("#", null, CaseType.WALL);
         }
         for (int j = 0; j < lignes; j++) {
-            representation[j][colonnes-1] = new Case("#", null, CaseType.WALL);
+            representation[j][colonnes - 1] = new Case("#", null, CaseType.WALL);
         }
     }
 
@@ -125,20 +125,20 @@ public class Salle {
         return sb.toString();
     }
 
-    public Position findMiddle(){
-        return new Position(pos.getX()+lignes/2, pos.getY()+colonnes/2);
+    public Position findMiddle() {
+        return new Position(pos.getX() + lignes / 2, pos.getY() + colonnes / 2);
     }
 
-    public boolean inSalle(Position position){
-        return (position.getX()>=this.pos.getX()-1 && position.getX()<=this.pos.getX()+lignes
-                && position.getY()>=this.pos.getY()-1 && position.getY()<=this.pos.getY()+colonnes);
+    public boolean inSalle(Position position) {
+        return (position.getX() >= this.pos.getX() - 1 && position.getX() <= this.pos.getX() + lignes
+                && position.getY() >= this.pos.getY() - 1 && position.getY() <= this.pos.getY() + colonnes);
     }
 
-    public boolean isCorner(Position position){
-        return ((position.getX()==this.pos.getX() && position.getY()==this.pos.getY())
-                || (position.getX()==this.pos.getX()+lignes&& position.getY()==this.pos.getY())
-                || (position.getX()==this.pos.getX() && position.getY()==this.pos.getY()+colonnes)
-                || (position.getX()==this.pos.getX()+lignes && position.getY()==this.pos.getY()+colonnes));
+    public boolean isCorner(Position position) {
+        return ((position.getX() == this.pos.getX() && position.getY() == this.pos.getY())
+                || (position.getX() == this.pos.getX() + lignes && position.getY() == this.pos.getY())
+                || (position.getX() == this.pos.getX() && position.getY() == this.pos.getY() + colonnes)
+                || (position.getX() == this.pos.getX() + lignes && position.getY() == this.pos.getY() + colonnes));
     }
 
 }

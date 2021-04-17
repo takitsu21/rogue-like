@@ -2,20 +2,19 @@ package com.mady.utils.entities;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import com.mady.GameStatus;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
 
 public abstract class AbstractEntities implements Entities {
+    private final int movement;
+    private final String repr;
+    private final int effectiveArea;
     private Position pos;
     private int maxHitPoints;
     private int hitPoints;
     private int damages;
-    private final int movement;
-    private final String repr;
-    private final int effectiveArea;
     private Salle salle;
     private boolean isAggro = false;
 
@@ -33,7 +32,7 @@ public abstract class AbstractEntities implements Entities {
         this.movement = movement;
         this.repr = repr;
         this.effectiveArea = effectiveArea;
-        this.salle=salle;
+        this.salle = salle;
     }
 
 
@@ -53,6 +52,11 @@ public abstract class AbstractEntities implements Entities {
         return pos;
     }
 
+    @Override
+    public void setPos(Position position) {
+        this.pos = position;
+    }
+
     public int getEffectiveArea() {
         return effectiveArea;
     }
@@ -66,18 +70,14 @@ public abstract class AbstractEntities implements Entities {
     }
 
     @Override
-    public void setPos(Position position) {
-        this.pos = position;
-    }
-
-    @Override
     public int getMaxHitPoints() {
         return maxHitPoints;
     }
 
     @Override
     public void setMaxHitPoints(int maxHitPoints) {
-        this.maxHitPoints=maxHitPoints;}
+        this.maxHitPoints = maxHitPoints;
+    }
 
     @Override
     public int getHitPoints() {
@@ -91,7 +91,7 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public void takeDamages(int damages) {
-        if (this instanceof Player){
+        if (this instanceof Player) {
             ((Player) this).setHP(((Player) this).getHP() - damages);
         } else {
             int new_HP = getHitPoints() - damages;
@@ -110,7 +110,7 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public void setDamages(int damages) {
-        this.damages=damages;
+        this.damages = damages;
     }
 
     @Override

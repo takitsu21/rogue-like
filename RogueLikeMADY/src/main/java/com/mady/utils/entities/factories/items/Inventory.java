@@ -1,14 +1,10 @@
 package com.mady.utils.entities.factories.items;
 
-import com.diogonunes.jcolor.Ansi;
-import com.diogonunes.jcolor.Attribute;
-import com.mady.utils.Util;
 import com.mady.utils.entities.AbstractStuffItem;
 import com.mady.utils.entities.Stuff;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Inventory {
     private final List<Item> inventory = new ArrayList<>();
@@ -16,7 +12,7 @@ public class Inventory {
     private int selectedItem = 0;
     private Stuff s;
 
-    public Inventory(Stuff s ) {
+    public Inventory(Stuff s) {
         this.s = s;
     }
 
@@ -44,12 +40,12 @@ public class Inventory {
         return selectedItem;
     }
 
-    public int getMAX_SIZE() {
-        return MAX_SIZE;
-    }
-
     public void setSelectedItem(int selectedItem) {
         this.selectedItem = selectedItem;
+    }
+
+    public int getMAX_SIZE() {
+        return MAX_SIZE;
     }
 
     @Override
@@ -66,7 +62,7 @@ public class Inventory {
         char rpw = s.getWeapon() == null ? ' ' : '*';
         String HelmetStats = s.getHelmet() == null ? " " : s.getHelmet().toString();
         String GauntletStats = s.getGauntlet() == null ? " " : s.getGauntlet().toString();
-        String ChestPlateStats = s.getChest()  == null ? " " : s.getChest() .toString();
+        String ChestPlateStats = s.getChest() == null ? " " : s.getChest().toString();
         String PantStats = s.getPant() == null ? " " : s.getPant().toString();
         String AmuletStats = s.getAmulet() == null ? " " : s.getAmulet().toString();
         String ShoesStats = s.getShoes() == null ? " " : s.getShoes().toString();
@@ -79,19 +75,17 @@ public class Inventory {
 //        String fillerS = Util.filler((BASE_WIDTH - (31+ShoesStats.length())));
         sb.append("\"\"\"\"\"\"\"\"\"\"\"\"\"");
         sb.append(" STUFF : ");
-        sb.append(String.format("HElMET: %s",HelmetStats));
+        sb.append(String.format("HElMET: %s", HelmetStats));
         sb.append("\n\"");
-        sb.append(String.format("    [%c] [%c] \"         WEAPON: %s AMULET: %s\n\"",rph,rpa,WeaponStats,AmuletStats));
-        sb.append(String.format(" [%c][%c][%c]  \"         GAUNTLET: %s\n\"",rpg,rpc,rpw,GauntletStats));
-        sb.append(String.format("    [%c]     \"         CHESTPLATE: %s\n\"",rpp,ChestPlateStats));
-        sb.append(String.format("  [%c] [%c]   \"         PANT: %s\n\"",rps,rps,PantStats));
-        sb.append(String.format("\"\"\"\"\"\"\"\"\"\"\"\"\"         SHOES: %s",ShoesStats));
+        sb.append(String.format("    [%c] [%c] \"         WEAPON: %s AMULET: %s\n\"", rph, rpa, WeaponStats, AmuletStats));
+        sb.append(String.format(" [%c][%c][%c]  \"         GAUNTLET: %s\n\"", rpg, rpc, rpw, GauntletStats));
+        sb.append(String.format("    [%c]     \"         CHESTPLATE: %s\n\"", rpp, ChestPlateStats));
+        sb.append(String.format("  [%c] [%c]   \"         PANT: %s\n\"", rps, rps, PantStats));
+        sb.append(String.format("\"\"\"\"\"\"\"\"\"\"\"\"\"         SHOES: %s", ShoesStats));
         sb.append("\n");
 //        for(int i =  0; i < BASE_WIDTH; i++){
 //            sb.append('"');
 //        }
-
-
 
 
         for (Item i : inventory) {

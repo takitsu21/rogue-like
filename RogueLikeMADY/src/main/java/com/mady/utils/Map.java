@@ -16,40 +16,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
-    private Frame frame;
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
-
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
-    private Player player;
-
-    private List<PairPos> chemins = new ArrayList<>();
     private final List<Entities> entities = new ArrayList<>();
-
-
-    public static void main(String[] args) {
-        Frame frame = new Frame();
-        Map map = new Map(15, 30, 200, frame);
-        map.createMap();
-        Salle salle= map.chooseSalle();
-        Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
-        map.addPlayerToMap(player);
-        System.out.println(map);
-    }
+    private Frame frame;
+    private Player player;
+    private List<PairPos> chemins = new ArrayList<>();
 
 
     public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, Frame frame) {
-        this.frame=frame;
+        this.frame = frame;
         this.nbSalles = nbSalles;
         this.BASE_HEIGHT = BASE_HEIGHT;
         this.BASE_WIDTH = BASE_WIDTH;
         this.map = new Case[BASE_HEIGHT][BASE_WIDTH];
     }
 
+
     public Map(int nbSalles, Frame frame) {
         this(nbSalles, 16, 128, frame);
+    }
+
+    public static void main(String[] args) {
+        Frame frame = new Frame();
+        Map map = new Map(15, 30, 200, frame);
+        map.createMap();
+        Salle salle = map.chooseSalle();
+        Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
+        map.addPlayerToMap(player);
+        System.out.println(map);
     }
 
     public boolean createMap() {
@@ -61,8 +59,8 @@ public class Map {
             }
         }
 
-        bRoom=generateRooms();
-        bPath=selectLien();
+        bRoom = generateRooms();
+        bPath = selectLien();
         generatePortal();
         generateEntities();
         generateItems();
@@ -77,6 +75,7 @@ public class Map {
     public void setFrame(Frame frame) {
         this.frame = frame;
     }
+
     public Salle chooseSalle() {
         Salle s = salles.get(Util.r.nextInt(salles.size()));
         return s;
@@ -91,6 +90,7 @@ public class Map {
     public Case getCase(Position p) {
         return this.map[p.getX()][p.getY()];
     }
+
     public Case getCase(int x, int y) {
         return this.map[x][y];
     }
@@ -112,15 +112,15 @@ public class Map {
         int x = p.getX();
         int y = p.getY();
         Salle s = new Salle(p);
-        int securite=20;
-        while (securite>=0 && !checkFreeArea(p, s.getlignes(), s.getcolonnes())){
-            securite-=1;
+        int securite = 20;
+        while (securite >= 0 && !checkFreeArea(p, s.getlignes(), s.getcolonnes())) {
+            securite -= 1;
             p = p.getRandomPos(BASE_HEIGHT, BASE_WIDTH);
             s = new Salle(p);
             x = p.getX();
             y = p.getY();
         }
-        if(securite>=0) {
+        if (securite >= 0) {
             for (int i = 0; i < s.getlignes(); i++) {
                 for (int j = 0; j < s.getcolonnes(); j++) {
                     map[i + x][j + y] = s.getRepresentation()[i][j];
@@ -129,7 +129,7 @@ public class Map {
             }
             salles.add(s);
         }
-        return securite>=0;
+        return securite >= 0;
     }
 
 
@@ -140,10 +140,10 @@ public class Map {
 
 
     private boolean generateRooms() {
-        boolean b=true;
+        boolean b = true;
         Position p = new Position(0, 0);
         for (int i = 0; i < nbSalles; i++) {
-            b=b && generateRoom(p.getRandomPos(BASE_HEIGHT, BASE_WIDTH));
+            b = b && generateRoom(p.getRandomPos(BASE_HEIGHT, BASE_WIDTH));
         }
         return b;
     }
@@ -171,7 +171,7 @@ public class Map {
 
 
     private boolean selectLien() {
-        boolean b=true;
+        boolean b = true;
         Salle s = salles.get(0);
         ArrayList<Boolean> relier = new ArrayList<>(salles.size());
         for (int i = 0; i < salles.size(); i++) {
@@ -195,7 +195,7 @@ public class Map {
 //            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
 //            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
 //            System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
-            b= b && relie(s, salleselect);
+            b = b && relie(s, salleselect);
             s = salleselect;
             relier.set(salles.indexOf(salleselect), true);
         }
@@ -265,7 +265,7 @@ public class Map {
                 }
             }
         }
-        if(portes.size()==2) {
+        if (portes.size() == 2) {
             chemins.add(new PairPos(portes.get(0), portes.get(1)));
             return true;
         }
@@ -307,7 +307,7 @@ public class Map {
         for (int i = 0; i < nbMonsters; i++) {
             Salle salle = chooseSalle();
             Position pos = randomPosPlayerInSalle(salle);
-            while(nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()){ //l'entity ne peux pas etre generé devant une porte
+            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) { //l'entity ne peux pas etre generé devant une porte
                 pos = randomPosPlayerInSalle(salle);
             }
 
@@ -323,7 +323,7 @@ public class Map {
     private void addItems(int nbItem) {
         for (int i = 0; i < nbItem; i++) {
             Position pos = randomPosPlayerInSalle(chooseSalle());
-            while(nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()){ //l'item ne peux pas etre generé devant une porte
+            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) { //l'item ne peux pas etre generé devant une porte
                 pos = randomPosPlayerInSalle(chooseSalle());
             }
             Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
@@ -395,14 +395,14 @@ public class Map {
 
             }
 
-            if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)){
+            if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
                 return true;
             }
-            if(newCase.isPortal()){
+            if (newCase.isPortal()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
@@ -413,8 +413,6 @@ public class Map {
 
         return false;
     }
-
-
 
 
     //cherche une porte associé a la position newpos
@@ -434,36 +432,34 @@ public class Map {
     }
 
 
-        private boolean nextToDoor(Position pos){
-            return findDoor(new Position(pos.getX()-1, pos.getY())) != null
-                    || findDoor(new Position(pos.getX()+1, pos.getY())) != null
-                    || findDoor(new Position(pos.getX(), pos.getY()-1)) != null
-                    || findDoor(new Position(pos.getX(), pos.getY()+1)) != null;
-        }
-
-
+    private boolean nextToDoor(Position pos) {
+        return findDoor(new Position(pos.getX() - 1, pos.getY())) != null
+                || findDoor(new Position(pos.getX() + 1, pos.getY())) != null
+                || findDoor(new Position(pos.getX(), pos.getY() - 1)) != null
+                || findDoor(new Position(pos.getX(), pos.getY() + 1)) != null;
+    }
 
 
     private void generatePortal() {
-            Position pos = randomPosPlayerInSalle(chooseSalle());
-            while(nextToDoor(pos)){ //l'item ne peux pas etre generé devant une porte
-                pos = randomPosPlayerInSalle(chooseSalle());
-            }
+        Position pos = randomPosPlayerInSalle(chooseSalle());
+        while (nextToDoor(pos)) { //l'item ne peux pas etre generé devant une porte
+            pos = randomPosPlayerInSalle(chooseSalle());
+        }
 
-            map[pos.getX()][pos.getY()]=new Case(Ansi.colorize("§", Attribute.CYAN_TEXT()),
-                    CaseType.PORTAL);
+        map[pos.getX()][pos.getY()] = new Case(Ansi.colorize("§", Attribute.CYAN_TEXT()),
+                CaseType.PORTAL);
     }
 
     /**
-    Affiche la map
+     * Affiche la map
      */
     @Override
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
         String playerHud = String.format("HP : %d/%d | MP %d/%d | Lvl %d [%d/%d EXP]",
-                (int)player.getHP(), (int)player.getMaxHp(), (int)player.getMP(), (int)player.getMaxMp(),
-                player.getLvl(), (int)player.getExp(), (int)player.getExpMax());
+                (int) player.getHP(), (int) player.getMaxHp(), (int) player.getMP(), (int) player.getMaxMp(),
+                player.getLvl(), (int) player.getExp(), (int) player.getExpMax());
         System.out.println(playerHud);
 //        player.updateStats();
 
@@ -471,8 +467,7 @@ public class Map {
             for (int j = 0; j < BASE_WIDTH; j++) {
                 if (i == 0 || j == BASE_WIDTH - 1 || j == 0 || i == BASE_HEIGHT - 1) {
                     sb.append('\"');
-                }
-                else {
+                } else {
                     sb.append(map[i][j].toString());
                 }
             }
@@ -488,7 +483,7 @@ public class Map {
         return entities;
     }
 
-    public Entities closeCheckAround(){
+    public Entities closeCheckAround() {
         Position playerPos = getPlayer().getPosition();
         for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
             for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
@@ -516,7 +511,7 @@ public class Map {
         return null;
     }
 
-    public List<Entities> zoneCheckAround(){
+    public List<Entities> zoneCheckAround() {
         Position playerPos = getPlayer().getPosition();
         List<Entities> monstersAround = new ArrayList<>();
         for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {

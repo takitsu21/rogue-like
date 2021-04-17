@@ -3,14 +3,12 @@ package com.mady.utils.listener;
 import com.mady.utils.KeyboardPressedEnum;
 import com.mady.utils.Map;
 import com.mady.utils.Util;
-import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
 
 public class MoveListener implements KeyListener {
     private Map map;
@@ -31,7 +29,7 @@ public class MoveListener implements KeyListener {
                 if (Util.keyPressed == KeyboardPressedEnum.I) {
                     map.getPlayer().getInventory().
                             setSelectedItem(((map.getPlayer().getInventory().getSelectedItem() - 1) < 0) ?
-                            map.getPlayer().getInventory().getInventory().size() - 1 :
+                                    map.getPlayer().getInventory().getInventory().size() - 1 :
                                     (map.getPlayer().getInventory().getSelectedItem() - 1));
                 } else {
                     map.move(map.getPlayer(), new Position(-1, 0));
@@ -92,7 +90,7 @@ public class MoveListener implements KeyListener {
                 if (Util.keyPressed == KeyboardPressedEnum.I) {
                     map.getPlayer().equipItem(map.getPlayer().getInventory().getSelectedItem());
                     map.getPlayer().getInventory().setSelectedItem(0);
-                    if(map.getPlayer().getInventory().getInventory().size() == 0 ){
+                    if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
                 }

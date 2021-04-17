@@ -2,9 +2,8 @@ package com.mady.utils.entities;
 
 public class Amulet extends AbstractStuffItem {
     /**
-     *
-     * @param HP double
-     * @param MP double
+     * @param HP  double
+     * @param MP  double
      * @param ATK double
      * @param DEF double
      * @param AGI double

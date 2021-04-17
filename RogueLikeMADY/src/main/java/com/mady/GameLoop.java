@@ -13,18 +13,13 @@ import java.util.logging.Logger;
  */
 public abstract class GameLoop {
 
-    protected volatile GameStatus status;
-
     protected final GameController controller;
+    protected final Logger logger = Logger.getLogger(GameLoop.class.getName());
+    protected volatile GameStatus status;
     protected Frame frame = new Frame();
-
     protected World world;
     protected Map map;
-
     private Thread gameThread;
-
-
-    protected final Logger logger = Logger.getLogger(GameLoop.class.getName());
 
 
     /**
@@ -43,6 +38,20 @@ public abstract class GameLoop {
         render();
         map.getFrame().getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.STOPPED;
+    }
+
+    public static void clrscr() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (IOException | InterruptedException ex) {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+        }
+
     }
 
     /**
@@ -108,20 +117,6 @@ public abstract class GameLoop {
         } else if (isGameRunning()) {
             System.out.println(map);
         }
-    }
-
-    public static void clrscr() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                Runtime.getRuntime().exec("clear");
-            }
-        } catch (IOException | InterruptedException ex) {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        }
-
     }
 
     /**

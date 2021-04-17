@@ -6,8 +6,8 @@ import java.util.List;
 public class World {
 
     private final List<Map> maps = new ArrayList<>();
-    private Map currentMap;
     private final Frame frame;
+    private Map currentMap;
 
     public World(Frame frame) {
         this.frame = frame;

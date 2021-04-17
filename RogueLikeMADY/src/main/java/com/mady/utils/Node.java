@@ -5,29 +5,29 @@ import com.mady.utils.entities.Position;
 import java.util.Objects;
 
 public class Node {
-    private Node parent ;
+    private Node parent;
     private Position position;
-    private int g ;
-    private int h ;
-    private int f ;
+    private int g;
+    private int h;
+    private int f;
 
 
     public Node(Node parent, Position position) {
         this.parent = parent;
         this.position = position;
         this.f = 0;
-        this.h = 0 ;
-        this.g = 0 ;
+        this.h = 0;
+        this.g = 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(parent,position,g,h,f);
+        return Objects.hash(parent, position, g, h, f);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Node){
+        if (obj instanceof Node) {
             return ((Node) obj).position.equals(this.position);
         }
         return false;

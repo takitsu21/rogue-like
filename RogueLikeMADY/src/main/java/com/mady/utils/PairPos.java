@@ -2,18 +2,14 @@ package com.mady.utils;
 
 import com.mady.utils.entities.Position;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PairPos {
     private Position p1;
     private Position p2;
 
 
-
     public PairPos(Position p1, Position p2) {
-        this.p1=p1;
-        this.p2=p2;
+        this.p1 = p1;
+        this.p2 = p2;
     }
 
     public Position getP1() {

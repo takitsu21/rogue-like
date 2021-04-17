@@ -1,22 +1,10 @@
 package com.mady.utils.entities;
 
-import com.mady.utils.entities.factories.items.AbstractItem;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Stuff {
 
-    private AbstractStuffItem helmet;
-    private AbstractStuffItem weapon;
-    private AbstractStuffItem shoes;
-    private AbstractStuffItem pant;
-    private AbstractStuffItem chest;
-    private AbstractStuffItem amulet;
-    private AbstractStuffItem gauntlet;
     //    private final List<AbstractStuffItem> items = new ArrayList<>(
 //            Arrays.asList(helmet, weapon, shoes, pant, chest, amulet, gauntlet)
 //    );
@@ -30,6 +18,13 @@ public class Stuff {
 //            {"chest", chest}
 //    }).collect(Collectors.toMap(data -> (String) data[0], data -> (AbstractStuffItem) data[1]));
     private final Map<String, AbstractStuffItem> items = new HashMap<>();
+    private AbstractStuffItem helmet;
+    private AbstractStuffItem weapon;
+    private AbstractStuffItem shoes;
+    private AbstractStuffItem pant;
+    private AbstractStuffItem chest;
+    private AbstractStuffItem amulet;
+    private AbstractStuffItem gauntlet;
 
     public AbstractStuffItem getHelmet() {
         return helmet;

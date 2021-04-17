@@ -1,6 +1,5 @@
 package com.mady;
 
-import com.mady.utils.KeyboardPressedEnum;
 import com.mady.utils.Salle;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;

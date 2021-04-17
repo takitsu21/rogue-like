@@ -8,10 +8,7 @@ import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Position;
 import com.mady.utils.listener.MoveListener;
 
-import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-import java.util.EventListener;
 
 public class TurnBasedGameLoop extends GameLoop {
 

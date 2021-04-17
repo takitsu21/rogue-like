@@ -5,12 +5,20 @@ import com.mady.utils.entities.Position;
 
 public interface Item {
     Position getPosition();
+
     void setPosition(Position position);
+
     double getMovement();
+
     int getDamages();
+
     String getName();
+
     void act(Player player);
+
     Boolean isDrinkable();
+
     Boolean isPickable();
+
     String getRepresentation();
 }

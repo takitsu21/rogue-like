@@ -26,7 +26,7 @@ class CaseTest {
         cEmpty = new Case(CaseType.SALLE);
         cItemNotEmpty = new Case("C", new String(""), CaseType.SALLE);
         cConstructor = new Case(".");
-        cPlayer = new Case("@",new Player(new Position (0,0), 0, 0, 0, "@", new Salle(0,0, 0, 0, new Position(0,0))));
+        cPlayer = new Case("@", new Player(new Position(0, 0), 0, 0, 0, "@", new Salle(0, 0, 0, 0, new Position(0, 0))));
         cPath = new Case("P", null, CaseType.PATH);
         cPortal = new Case("§", null, CaseType.PORTAL);
         cMap = new Case(" ", null, CaseType.MAP);
@@ -126,7 +126,7 @@ class CaseTest {
     }
 
     @Test
-    void isFreeCase(){
+    void isFreeCase() {
         assertFalse(cWall.isFreeCase());
         assertTrue(cEmpty.isFreeCase());
         assertTrue(cSalle.isFreeCase());
