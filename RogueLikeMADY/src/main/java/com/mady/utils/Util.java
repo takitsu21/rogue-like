@@ -27,19 +27,20 @@ public class Util {
     }
 
     public static String getRandomItem() {
-        int randomIt = Util.r.nextInt(5);
-        switch (randomIt) {
-            case 0:
-                return "potion_vie";
-            case 1:
-                return "potion_force";
-            case 2:
-                return "poison_vie";
-            case 3:
-                return "poison_force";
-            default:
-                return "chest";
+        int randomIt = Util.r.nextInt(15);
+        if(randomIt < 4) {
+        return "potion_vie";
         }
+        if(randomIt == 4 ){
+            return "poison_vie";}
+        if(randomIt > 4 && randomIt < 9) {
+            return "potion_force";
+        }
+        if(randomIt == 9) {
+            return "poison_force";
+        }
+        else{
+            return "chest";}
     }
 
 
