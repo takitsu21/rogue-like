@@ -31,7 +31,6 @@ public abstract class GameLoop {
      * Initialize game status to be stopped.
      */
     public GameLoop() {
-//        System.setProperty("java.awt.headless", "false");
         world = new World(frame);
         world.createWorld();
         map = world.getCurrentMap();
@@ -61,6 +60,11 @@ public abstract class GameLoop {
      */
     public void stop() {
         status = GameStatus.STOPPED;
+    }
+
+    public void quit() {
+        status = GameStatus.QUITTING;
+        System.exit(0);
     }
 
     /**

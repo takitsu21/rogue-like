@@ -12,7 +12,7 @@ public class Case {
     private Entities entity;
 
     /**
-     *
+     * Représente une case dans la map.
      * @param repr Représentation de  la case.
      * @param item Item présent en interne à cette case.
      * @param ct Type de la case (WALL, PATH, etc...)
@@ -61,8 +61,6 @@ public class Case {
      * @return true si l'entité présente sur la case est un joueur.
      */
     public boolean isPlayer() {
-        //System.out.println(entity instanceof Player);
-//        System.out.println(entity.equals(Player));
         return entity instanceof Player;
     }
 

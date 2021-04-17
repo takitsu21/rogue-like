@@ -25,9 +25,9 @@ class ItemFactoryTest {
         assertTrue(f.generate(p,"poison_force") instanceof PoisonForce);
         assertTrue(f.generate(p, "chest") instanceof Chest);
         assertFalse(f.generate(p,"chest") instanceof PotionVie);
-        assertTrue(f.generate(p, "pomme de terre ") == null);
-        assertFalse(f.generate(p,"goblin Archer") instanceof Item);
-        assertTrue(f.generate(p,"potion_vie") instanceof Item);
+        assertNull(f.generate(p, "pomme de terre "));
+        assertNull(f.generate(p, "goblin Archer"));
+        assertNotNull(f.generate(p, "potion_vie"));
 
     }
 }

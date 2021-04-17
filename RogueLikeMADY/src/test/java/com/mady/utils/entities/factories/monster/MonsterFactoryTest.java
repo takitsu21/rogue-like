@@ -17,12 +17,12 @@ class MonsterFactoryTest {
     void generate() {
         assertTrue(f.generate(0,p,s) instanceof GoblinArcher);
         assertTrue(f.generate(1,p,s) instanceof OrcWarrior);
-        assertTrue(f.generate(  Util.r.nextInt(MonsterFactory.nbMonsters),p,s) instanceof Monster);
-        assertTrue(f.generate(55,p,s) == null);
+        assertNotNull(f.generate(Util.r.nextInt(MonsterFactory.nbMonsters), p, s));
+        assertNull(f.generate(55, p, s));
 
         assertTrue(f.generate("goblinArcher",p,s) instanceof GoblinArcher);
         assertTrue(f.generate("orcWarrior",p,s) instanceof OrcWarrior);
-        assertTrue(f.generate("pomme de terre",p,s) == null);
+        assertNull(f.generate("pomme de terre", p, s));
         assertFalse(f.generate(0,p,s) instanceof OrcWarrior);
 
 

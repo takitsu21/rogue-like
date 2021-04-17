@@ -1,5 +1,7 @@
 package com.mady;
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.KeyboardPressedEnum;
 import com.mady.utils.Util;
 import com.mady.utils.entities.Entities;
@@ -51,7 +53,11 @@ public class TurnBasedGameLoop extends GameLoop {
 
                 if (controller.player.isDead()) {
                     stop();
-                    System.exit(0);
+
+                    System.out.println(Ansi.colorize("Le jeu est fini, vous êtes mort...",
+                            Attribute.RED_TEXT()));
+                    render();
+                    quit();
                 }
                 render();
                 Util.playerTurn = true;

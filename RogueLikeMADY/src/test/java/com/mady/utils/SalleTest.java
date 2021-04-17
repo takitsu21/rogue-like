@@ -17,15 +17,7 @@ public class SalleTest {
         s1 = new Salle(5 ,6,new Position(1,1));
         s2 = new Salle(6,10,new Position(20,1));
         s3 = new Salle(4 ,4,new Position(1,30));
-
-
     }
-
-
-
-
-
-
 
 
     @Test
@@ -39,7 +31,6 @@ public class SalleTest {
         assertTrue(s2.inSalle(s2.getPos()));
         assertFalse(s2.inSalle(new Position(0,0)));
         assertFalse(s2.inSalle(new Position(-1 ,-9)));
-
     }
 
     @Test
@@ -52,7 +43,8 @@ public class SalleTest {
 
     @Test
     void findMiddle() {
-        assertTrue(s1.findMiddle().equals(new Position(s1.getPos().getX()+ s1.getlignes()/2, s1.getPos().getY()+s1.getcolonnes()/2)));
-        assertFalse(s1.findMiddle().equals(s1.getPos()));
+        assertEquals(s1.findMiddle(),
+                new Position(s1.getPos().getX() + s1.getlignes() / 2, s1.getPos().getY() + s1.getcolonnes() / 2));
+        assertNotEquals(s1.findMiddle(), s1.getPos());
     }
 }
