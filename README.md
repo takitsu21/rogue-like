@@ -52,8 +52,8 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
       - Monstres
       - Items
       - Effets visuels
+      - Stats des équipements à ajouter au joueur (ATK, HP, etc...)
     - Official Soundtrack
-    - Et bien plus d'aventures...
 
 ## <u>Conseil de jeu :</u>
 
@@ -65,7 +65,8 @@ portail.
 
 ## <u>Bugs connus</u>
 
-
+- Problème de génération de chemins / portes dans les coins des salles.
+- Problème d'interactions avec le jeu de façon inattendu (on ne peut plus bouger).
 
 ## <u>Pour run l'artefact : </u>
 

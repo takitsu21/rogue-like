@@ -8,7 +8,7 @@ public class GoblinArcher extends AbstractMonster {
 
 
     public GoblinArcher(Position pos, Salle salle, Player player) {
-        super("Gobelin", pos, 5, 1, 1, "g", 3, salle, player);
+        super("Gobelin", pos, 5, 3, 1, "g", 3, salle, player);
     }
 
 

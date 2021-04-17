@@ -319,7 +319,7 @@ public class Map {
         for (int i = 0; i < nbMonsters; i++) {
 
             Position pos = randomPosPlayerInSalle(salle);
-            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) {
+            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()) {
                 pos = randomPosPlayerInSalle(salle);
             }
             Entities entity = MonsterFactory.getInstance().generate(
