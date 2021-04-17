@@ -35,7 +35,7 @@ public class Player extends AbstractEntities {
 
 
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
-        super(pos, hitPoints, damages, movement, repr, 3, salle);
+        super("@", pos, hitPoints, damages, movement, repr, 3, salle);
         this.stuff = new Stuff();
         this.inventory = new Inventory(this.stuff);
     }
@@ -290,6 +290,14 @@ public class Player extends AbstractEntities {
         return (getHP() <= 0);
     }
 
+    /**
+     *
+     * @param monster
+     * @param map
+     * @return a bool
+     * attack the first monster you will find around you
+     */
+
     public boolean closeAttack(Entities monster, Map map) {
         if (monster == null) {
             Util.currentAction.append("Aucune cible atteinte...\n");
@@ -299,6 +307,14 @@ public class Player extends AbstractEntities {
             return true;
         }
     }
+
+    /**
+     *
+     * @param monsters
+     * @param map
+     * @return a bool
+     * attack all the monster around you even the diagonals
+     */
 
     public boolean zoneAttack(List<Entities> monsters, Map map) {
         if (monsters.isEmpty()) {
@@ -312,12 +328,19 @@ public class Player extends AbstractEntities {
         }
     }
 
+    /**
+     *
+     * @param monster
+     * @param map
+     * the attack procedure. attack first and then looks if the monster's dead
+     */
+
     private void attackMonster(Entities monster, Map map) {
         monster.takeDamages(getDamages());
-        Util.currentAction.append(String.format("Vous attaquez %s et lui infligé %d points de dégâts.\n",
-                monster.getRepr(), getDamages()));
+        Util.currentAction.append(Ansi.colorize(String.format("Vous attaquez %s<%d/%d HP> et lui infligez %d points de dégâts.\n",
+                monster.getName(), monster.getHitPoints(), monster.getMaxHitPoints(), getDamages()), Attribute.BLUE_TEXT()));
         if (monster.isDead()) {
-            Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", monster.getRepr()),
+            Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", monster.getName()),
                     Attribute.RED_TEXT()));
             winExp();
             map.clearCase(monster.getPosition());
@@ -334,6 +357,8 @@ public class Player extends AbstractEntities {
         exp += randomExp();
         if (exp >= expMax) {
             updateStats();
+            Util.currentAction.append(Ansi.colorize(String.format("Vous avez atteint le niveau %d, félicitation!\n",
+                    getLvl()), Attribute.YELLOW_TEXT()));
         }
     }
 }

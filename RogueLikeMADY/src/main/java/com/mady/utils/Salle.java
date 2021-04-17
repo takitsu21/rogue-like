@@ -23,8 +23,6 @@ public class Salle {
         this.pos = pos;
         representation = new Case[lignes][colonnes];
         createSalle();
-//        addMonster();
-//        addItem();
     }
 
     public Salle(int lignes, int colonnes, Position pos) {
@@ -51,6 +49,11 @@ public class Salle {
         return new Position(x, y);
     }
 
+    /**
+     *
+     * @return une postion libre dans la salle
+     */
+
     public Position getFreePlaceInsideRoom() {
         int x = Util.r.nextInt(lignes - 2) + 1;
         int y = Util.r.nextInt(colonnes - 2) + 1;
@@ -61,27 +64,15 @@ public class Salle {
         return new Position(x, y);
     }
 
-
-//    private void addMonster() {
-//        for (int i = 0; i < monsterNumber; i++) {
-//            Position pos = getFreePos();
-//            representation[pos.getX()][pos.getY()].setEntity(new Object());
-//        }
-//    }
-//
-//    private void addItem() {
-//        for (int i = 0; i < objectNumber; i++) {
-//            Position pos = getFreePos();
-//            representation[pos.getX()][pos.getY()].setItem(new Object());
-//        }
-//    }
+    /**
+     * fonction de création des nouvelles salles
+     */
 
     private void createSalle() {
         for (int j = 0; j < lignes; j++) {
             representation[j][0] = new Case("#", null, CaseType.WALL);
         }
         for (int i = 1; i < colonnes; i++) {
-
             representation[0][i] = new Case("#", null, CaseType.WALL);
             for (int k = 1; k < lignes; k++) {
                 representation[k][i] = new Case(" ", null, CaseType.SALLE);
@@ -134,11 +125,15 @@ public class Salle {
                 && position.getY() >= this.pos.getY() - 1 && position.getY() <= this.pos.getY() + colonnes);
     }
 
+    /**
+     *
+     * @param position
+     * @return bool en fonction de si une position est un coin ou pas
+     */
     public boolean isCorner(Position position) {
         return ((position.getX() == this.pos.getX() && position.getY() == this.pos.getY())
                 || (position.getX() == this.pos.getX() + lignes && position.getY() == this.pos.getY())
                 || (position.getX() == this.pos.getX() && position.getY() == this.pos.getY() + colonnes)
                 || (position.getX() == this.pos.getX() + lignes && position.getY() == this.pos.getY() + colonnes));
     }
-
 }

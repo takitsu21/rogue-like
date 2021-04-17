@@ -17,16 +17,19 @@ public abstract class AbstractEntities implements Entities {
     private int damages;
     private Salle salle;
     private boolean isAggro = false;
+    private String name;
 
-    public AbstractEntities(Position pos,
+    public AbstractEntities(String name,
+                            Position pos,
                             int hitPoints,
                             int damages,
                             int movement,
                             String repr,
                             int effectiveArea,
                             Salle salle) {
+        this.name = name;
         this.pos = pos;
-        maxHitPoints = hitPoints;
+        this.maxHitPoints = hitPoints;
         this.hitPoints = hitPoints;
         this.damages = damages;
         this.movement = movement;
@@ -35,6 +38,10 @@ public abstract class AbstractEntities implements Entities {
         this.salle = salle;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
 
     public String getRepr() {
         if (this instanceof Player) {
@@ -118,6 +125,14 @@ public abstract class AbstractEntities implements Entities {
         return movement;
     }
 
+    /**
+     *
+     * @param map
+     * @return boolean
+     * this function allows the monster to detect the player if this one enters the effective area of the mob
+     * if he enters the monster goes towards the player
+     * the effective area of a monster moves with him
+     */
 
     private boolean isInPerimeter(Map map) {
         for (int i = pos.getX() - effectiveArea; i < pos.getX() + effectiveArea; i++) {
@@ -139,6 +154,12 @@ public abstract class AbstractEntities implements Entities {
         return d.pos.multiplyPos(randomMove);
     }
 
+    /**
+     *
+     * @param map
+     * @return the map with monster's pose updated
+     * either he moves randomly or towards the player if this one is in the effective area.
+     */
 
     @Override
     public Map doTurn(Map map) {

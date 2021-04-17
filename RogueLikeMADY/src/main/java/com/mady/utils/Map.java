@@ -37,20 +37,13 @@ public class Map {
 
 
     public Map(int nbSalles, Frame frame) {
-        this(nbSalles, 16, 128, frame);
+        this(nbSalles, 24, 128, frame);
     }
 
-    public static void main(String[] args) {
-        Frame frame = new Frame();
-        Map map = new Map(15, 30, 200, frame);
-        map.createMap();
-        Salle salle = map.chooseSalle();
-        Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
-        map.addPlayerToMap(player);
-        map.addEntityItemPortal();
-        System.out.println(map);
-    }
-
+    /**
+     *
+     * @return the map with rooms, paths, entities and items
+     */
     public boolean createMap() {
         boolean bRoom;
         boolean bPath = true;
@@ -59,7 +52,6 @@ public class Map {
                 map[i][j] = new Case(" ");
             }
         }
-
         bRoom = generateRooms();
         if (bRoom){
             bPath = selectLien();}
@@ -75,7 +67,6 @@ public class Map {
         generateItems();
     }
 
-
     public Frame getFrame() {
         return frame;
     }
@@ -89,6 +80,11 @@ public class Map {
         return s;
     }
 
+    /**
+     *
+     * @param s
+     * @return the position of the player in each new map
+     */
     public Position randomPosPlayerInSalle(Salle s) {
         Position pos = s.getFreePlaceInsideRoom();
         return pos.incrementPos(s.getPos());
@@ -111,11 +107,23 @@ public class Map {
         this.player = player;
     }
 
+    /**
+     *@param player
+     * display the player on the map
+     */
     public void addPlayerToMap(Player player) {
         setPlayer(player);
         map[player.getPosition().getX()][player.getPosition().getY()].setRepr(player.getRepr());
     }
 
+    /**
+     *
+     * @param p
+     * @return a bool.
+     * generation of one room in the map.
+     * Security is here to prevent a infinite loop on the research for place for a room on the map.
+     * If the security is exceeded, it indicates that we are in an infinite loop and we need to regenerate all the rooms
+     */
     private boolean generateRoom(Position p) {
         int x = p.getX();
         int y = p.getY();
@@ -132,7 +140,6 @@ public class Map {
             for (int i = 0; i < s.getlignes(); i++) {
                 for (int j = 0; j < s.getcolonnes(); j++) {
                     map[i + x][j + y] = s.getRepresentation()[i][j];
-
                 }
             }
             salles.add(s);
@@ -140,13 +147,22 @@ public class Map {
         return securite >= 0;
     }
 
-
+    /**
+     *
+     * @param x
+     * @param y
+     * @return wether or not the position is in the map.
+     *
+     */
     public boolean isInside(int x, int y) {
         return (x >= 0 && x < BASE_HEIGHT)
                 && (y >= 0 && y < BASE_WIDTH);
     }
 
-
+    /**
+     *
+     * @return if the generation of all the rooms is a success or not.
+     */
     private boolean generateRooms() {
         boolean b = true;
         Position p = new Position(0, 0);
@@ -156,11 +172,19 @@ public class Map {
         return b;
     }
 
+    /**
+     *
+     * @param p
+     * @param lignes
+     * @param colonnes
+     * @return a bool
+     * permet de savoir si on a un espace minimal de 3 entre les salles pour qu'elles ne soient pas côte à côte.
+     */
     private boolean checkFreeArea(Position p, int lignes, int colonnes) {
         boolean result = true;
         int x = p.getX() > 2 ? p.getX() - 3 : p.getX();
         int y = p.getY() > 2 ? p.getY() - 3 : p.getY();
-        lignes = lignes != BASE_HEIGHT ? lignes + 5 : lignes; //pour garantir 3 cases entre les salles + les walls
+        lignes = lignes != BASE_HEIGHT ? lignes + 5 : lignes;
         colonnes = colonnes != BASE_WIDTH ? colonnes + 5 : colonnes;
         if (isInside(lignes + x, colonnes + y)) {
             for (int i = 0; i < lignes; i++) {
@@ -178,6 +202,12 @@ public class Map {
     }
 
 
+    /**
+     *
+     * @return a bool.
+     * fonction qui va permettre de déterminer comment les salles seront reliées. Une salle est reliée à la salle
+     * qui est la plus proche d'elle.
+     */
     private boolean selectLien() {
         boolean b = true;
         Salle s = salles.get(0);
@@ -185,24 +215,18 @@ public class Map {
         for (int i = 0; i < salles.size(); i++) {
             relier.add(false);
         }
-
         relier.set(0, true);
-
         while (relier.contains(false)) {
             Double distance = (double) Integer.MAX_VALUE;
             Salle salleselect = s;
-            for (Salle s2 : salles) { //on cherche la salle la plus proche de s
+            for (Salle s2 : salles) {
                 Double distance2 = Math.sqrt(Math.pow(s2.getPos().getX() - s.getPos().getX(), 2)
                         + Math.pow(s2.getPos().getY() - s.getPos().getY(), 2));
                 if (!s.equals(s2) && distance2 < distance && !relier.get(salles.indexOf(s2))) {
                     distance = distance2;
                     salleselect = s2;
-
                 }
-            }
-//            map[s.getPos().getX()][s.getPos().getY()].setRepr(String.valueOf(salles.indexOf(s)));
-//            map[salleselect.getPos().getX()][salleselect.getPos().getY()].setRepr(String.valueOf(salles.indexOf(salleselect)));
-//            System.out.println(String.valueOf(salles.indexOf(s)) + "-" + String.valueOf(salles.indexOf(salleselect)));
+            };
             b = b && relie(s, salleselect);
             s = salleselect;
             relier.set(salles.indexOf(salleselect), true);
@@ -210,58 +234,32 @@ public class Map {
         return b;
     }
 
-
+    /**
+     *
+     * @param s1
+     * @param s2
+     * @return a bool
+     * fonction qui recherche le chemin le plus optimisé entre 2 salles. La recherche entre une salle A et B, part
+     * du centre de la salle A et arrive au centre de la salle B.
+     */
     private boolean relie(Salle s1, Salle s2) {
-
         Position pos1 = s1.findMiddle();
         Position pos2 = s2.findMiddle();
-        /*if (s1.getPos().getX() < s2.getPos().getX()) {
-            if (s1.getPos().getY() < s2.getPos().getY()) {
-                x1 = s1.getlignes() - 1;
-                y1 = s1.getcolonnes() / 2;
-                x2 = s2.getlignes() / 2;
-                y2 = 0;
-                //gauche+bas
-            } else {
-                x1 = s1.getlignes() / 2;
-                y1 = 0;
-                x2 = 0;
-                y2 = s2.getcolonnes() / 2;
-
-                //gauche+haut
-            }
-        } else {
-            if (s1.getPos().getY() < s2.getPos().getY()) {
-                x1 = s1.getlignes() / 2;
-                y1 = s1.getcolonnes() - 1;
-                x2 = s2.getlignes() - 1;
-                y2 = s2.getcolonnes() / 2;
-
-                //droit+bas
-            } else {
-                x1 = 0;
-                y1 = s1.getcolonnes() / 2;
-                x2 = s2.getlignes() / 2;
-                y2 = s2.getcolonnes() - 1;
-
-                //droit+haut
-            }
-        }
-        map[x1 + s1.getPos().getX()][y1 + s1.getPos().getY()] = new Case("'", CaseType.PATH);
-        map[x2 + s2.getPos().getX()][y2 + s2.getPos().getY()] = new Case("'", CaseType.PATH);*/
-
         AStar aStar = new AStar();
-        int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2); //on cherche un chemin partant du centre des 2 salles
-
-
+        int[][] res = aStar.search(this, 0, pos1, pos2, s1, s2);
         return setupPaths(res);
     }
 
+    /**
+     *
+     * @param solvedPath
+     * @return a bool
+     * impression sur la map des chemins et des portes en fonction des chemins qui ot étré trouvés.
+     */
     private boolean setupPaths(int[][] solvedPath) {
         List<Position> portes = new ArrayList<>();
         for (int i = 0; i < solvedPath.length; i++) {
             for (int j = 0; j < solvedPath[i].length; j++) {
-
                 if (solvedPath[i][j] != -1 && !map[i][j].isSalle()) {
                     if (map[i][j].isWall()) {
                         map[i][j].setRepr("P");
@@ -300,25 +298,30 @@ public class Map {
         return BASE_WIDTH;
     }
 
+    /**
+     * generation des différentes entités selon un nombre pré-défini
+     */
     private void generateEntities() {
-
-//        addPlayerToMap(player);
         int nbMonstersByRoom;
-        for (int i = 0; i < nbSalles; i++) {
-            nbMonstersByRoom = Util.r.nextInt(10);
-            addEntity(nbMonstersByRoom);
+        for (int i = 0; i < salles.size(); i++) {
+            nbMonstersByRoom = Util.r.nextInt(4) + 1;
+            addEntity(nbMonstersByRoom, i);
         }
-
     }
 
-    private void addEntity(int nbMonsters) {
+    /**
+     *
+     * @param nbMonsters
+     * on ajoute à la map les entités générées. Celles-ci ne peuvent pas être placées devant les portes
+     */
+    private void addEntity(int nbMonsters, int idx) {
+        Salle salle = salles.get(idx);
         for (int i = 0; i < nbMonsters; i++) {
-            Salle salle = chooseSalle();
+
             Position pos = randomPosPlayerInSalle(salle);
-            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) { //l'entity ne peux pas etre generé devant une porte
+            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) {
                 pos = randomPosPlayerInSalle(salle);
             }
-
             Entities entity = MonsterFactory.getInstance().generate(
                     Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle, player);
             map[pos.getX()][pos.getY()].setEntity(entity);
@@ -326,12 +329,17 @@ public class Map {
         }
     }
 
-    //ajout des items dans les salles de la map
 
+    /**
+     *
+     * @param nbItem
+     * Ajout à la map des items. Ici aussi le nombre est pré-défini et ceux-ci ne peuvent pas être palcés devant
+     * les portes
+     */
     private void addItems(int nbItem) {
         for (int i = 0; i < nbItem; i++) {
             Position pos = randomPosPlayerInSalle(chooseSalle());
-            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) { //l'item ne peux pas etre generé devant une porte
+            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) {
                 pos = randomPosPlayerInSalle(chooseSalle());
             }
             Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
@@ -345,29 +353,38 @@ public class Map {
     }
 
 
-    /*mouvement des entities */
+    /**
+     *
+     * @param c
+     * nettoyage d'une case après qu'une entité l'est quitée.
+     */
     public void clearCase(Case c) {
-
         c.setItem(null);
         c.setEntity(null);
         if (c.isPath()) {
             c.setRepr("P");
         }
-
     }
 
     public void clearCase(Position pos) {
         map[pos.getX()][pos.getY()] = new Case(CaseType.SALLE);
     }
 
-
+    /**
+     *
+     * @param e
+     * @param p
+     * @return a bool.
+     * implémentation du mouvement des entités.
+     * Gestion du mouvment basique de case à case et gestion des mouvements entre les salles.
+     */
     public boolean move(Entities e, Position p) {
-
         Position firstPos = e.getPosition();
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
-        if (newCase.isFreeCase() && newCase.isSalle()) { //mouvement le plus basique
+        /* Mouvment basique*/
+        if (newCase.isFreeCase() && newCase.isSalle()) {
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
@@ -382,8 +399,9 @@ public class Map {
                 return true;
             }
             if (oldCase.isPath() && newCase.isPath()) {
-                Position newPos2 = findDoor(newPos); // gère les cas où l'on se déplace de chemin en chemin
-                if (newPos2 == null) { //gère les retour en arrière dans un couloir
+                /*Gestion du mouvement de salle à salle*/
+                Position newPos2 = findDoor(newPos);
+                if (newPos2 == null) {
                     newPos2 = findDoor(firstPos);
                 }
                 newCase = this.map[newPos2.getX()][newPos2.getY()];
@@ -391,7 +409,6 @@ public class Map {
                 newCase.setEntity(e);
                 e.setPos(newPos2);
                 return true;
-
             }
             if (newCase.isPath()) {
                 Position newPos2 = findDoor(newPos);
@@ -400,9 +417,7 @@ public class Map {
                 newCase.setEntity(e);
                 e.setPos(newPos2);
                 return true;
-
             }
-
             if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
@@ -416,19 +431,18 @@ public class Map {
                 e.setPos(newPos);
                 return true;
             }
-
         }
-
         return false;
     }
 
-
-    //cherche une porte associé a la position newpos
-    private Position findDoor(Position newPos) {
-//        System.out.println(newPos.toString());
-//        System.out.println("find door");
+    /**
+     *
+     * @param newPos
+     * @return position
+     * cherche une porte associée à une nouvelle position
+     */
+    private Position findDoor(Position newPos) { ;
         for (PairPos chemin : chemins) {
-
             if (chemin.getP1().equals(newPos)) {
                 return chemin.getP2();
             }
@@ -439,7 +453,12 @@ public class Map {
         return null;
     }
 
-
+    /**
+     *
+     * @param pos
+     * @return a bool.
+     * regarde si une postion donnée est à côté d'une porte
+     */
     private boolean nextToDoor(Position pos) {
         return findDoor(new Position(pos.getX() - 1, pos.getY())) != null
                 || findDoor(new Position(pos.getX() + 1, pos.getY())) != null
@@ -447,15 +466,15 @@ public class Map {
                 || findDoor(new Position(pos.getX(), pos.getY() + 1)) != null;
     }
 
-
+    /**
+     * generation des escaliers qui permettent d'évoluer entre salles. Celui-ci ne peut pas être placé devant une porte.
+     */
     private void generatePortal() {
         Position pos = randomPosPlayerInSalle(chooseSalle());
-        while (nextToDoor(pos)) { //l'item ne peux pas etre generé devant une porte
+        while (nextToDoor(pos)) {
             pos = randomPosPlayerInSalle(chooseSalle());
         }
-
-        map[pos.getX()][pos.getY()] = new Case(Ansi.colorize("§", Attribute.CYAN_TEXT()),
-                CaseType.PORTAL);
+        map[pos.getX()][pos.getY()] = new Case("§", CaseType.PORTAL);
     }
 
     /**
@@ -463,27 +482,41 @@ public class Map {
      */
     @Override
     public String toString() {
-
         StringBuilder sb = new StringBuilder();
-        String playerHud = String.format("HP : %d/%d | MP %d/%d | Lvl %d [%d/%d EXP]",
-                (int) player.getHP(), (int) player.getMaxHp(), (int) player.getMP(), (int) player.getMaxMp(),
-                player.getLvl(), (int) player.getExp(), (int) player.getExpMax());
-        System.out.println(playerHud);
-//        player.updateStats();
+
+        sb.append(Ansi.colorize(String.format("HP : %d/%d | ", (int) player.getHP(), (int) player.getMaxHp())
+                , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", (int) player.getMP(),
+                (int) player.getMaxMp()), Attribute.BLUE_TEXT()))
+                .append(Ansi.colorize(String.format("Lvl %d ", player.getLvl()), Attribute.YELLOW_TEXT()))
+                .append(Ansi.colorize(String.format("[%d/%d EXP]\n", (int) player.getExp(), (int) player.getExpMax()),
+                        Attribute.MAGENTA_TEXT()));
+
+        for (int i = 0; i <= BASE_WIDTH + 1; i++) {
+            sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
+        }
+        sb.append("\n");
 
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
-                if (i == 0 || j == BASE_WIDTH - 1 || j == 0 || i == BASE_HEIGHT - 1) {
-                    sb.append('\"');
+                if (i == BASE_HEIGHT - 1 && j == 0) {
+                    sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
+                } else if (j == 0) {
+                    sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
+                    sb.append(map[i][j].toString());
+                } else if (i == BASE_HEIGHT - 1) {
+                    sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
                 } else {
                     sb.append(map[i][j].toString());
                 }
             }
-            sb.append("\n");
+            if (i == BASE_HEIGHT - 1) {
+                sb.append(Ansi.colorize("\"\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT())).append("\n");
+            } else {
+                sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT())).append("\n");
+            }
         }
         sb.append(Util.currentAction);
         Util.currentAction = new StringBuilder();
-
         return sb.toString();
     }
 
@@ -491,6 +524,14 @@ public class Map {
         return entities;
     }
 
+    /**
+     *
+     * @return une entité ou null si pas de mosntres autour.
+     * recherche de monstres autour du player afin de faire une attaque monocible.
+     * l'attaque en diagonale est possible.
+     * la recherche commence sur la diagonale supérieure gauche.
+     * retourne le premier monstre trouvé.
+     */
     public Entities closeCheckAround() {
         Position playerPos = getPlayer().getPosition();
         for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
@@ -500,25 +541,15 @@ public class Map {
                 }
             }
         }
-        /*if (map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
-            return map[playerPos.getX() - 1][playerPos.getY()].getEntity();
-        }
-
-        if (map[playerPos.getX() + 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
-            return map[playerPos.getX() + 1][playerPos.getY()].getEntity();
-        }
-
-        if (map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster){
-            return map[playerPos.getX()][playerPos.getY()-1].getEntity();
-        }
-
-        if (map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster){
-            return map[playerPos.getX()][playerPos.getY()+1].getEntity();
-        }*/
-
         return null;
     }
 
+    /**
+     *
+     * @return une lsite d'entités.
+     * comme pour la recherche de l'attaque unique, on commence avec la diagonle supérieure gauche.
+     * Chaque entité trouvée sera ajoutée à la liste retournée.
+     */
     public List<Entities> zoneCheckAround() {
         Position playerPos = getPlayer().getPosition();
         List<Entities> monstersAround = new ArrayList<>();
@@ -532,7 +563,6 @@ public class Map {
                 }
             }
         }
-
         return monstersAround;
     }
 }

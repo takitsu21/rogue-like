@@ -1,5 +1,8 @@
 package com.mady.utils.entities.factories.items;
 
+import com.diogonunes.jcolor.Ansi;
+import com.diogonunes.jcolor.Attribute;
+import com.mady.utils.Util;
 import com.mady.utils.entities.AbstractStuffItem;
 import com.mady.utils.entities.Stuff;
 
@@ -26,6 +29,7 @@ public class Inventory {
 
     public boolean addItem(Item i) {
         if (isFull()) {
+            Util.currentAction.append(Ansi.colorize("Votre inventaire est plein!\n", Attribute.RED_TEXT()));
             return false;
         }
         inventory.add(i);
@@ -48,11 +52,17 @@ public class Inventory {
         return MAX_SIZE;
     }
 
+    /**
+     *
+     * @return the representation of yuor stuff.
+     * each part of your armor plus weapon and amulet got their places.
+     * An equiped item will have a '*' in his place.
+     */
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int acc = 0;
-
         char rph = s.getHelmet() == null ? ' ' : '*';
         char rpg = s.getGauntlet() == null ? ' ' : '*';
         char rpc = s.getChest() == null ? ' ' : '*';
@@ -67,12 +77,6 @@ public class Inventory {
         String AmuletStats = s.getAmulet() == null ? " " : s.getAmulet().toString();
         String ShoesStats = s.getShoes() == null ? " " : s.getShoes().toString();
         String WeaponStats = s.getWeapon() == null ? " " : s.getWeapon().toString();
-//        String fillerH = Util.filler(BASE_WIDTH-(32+HelmetStats.length()));
-//        String fillerW =  Util.filler(BASE_WIDTH-(41+WeaponStats.length()+AmuletStats.length()));
-//        String fillerG = Util.filler(BASE_WIDTH-(34+GauntletStats.length()));
-//        String fillerC = Util.filler(BASE_WIDTH-(36+ChestPlateStats.length()));
-//        String fillerP = Util.filler (BASE_WIDTH - (30+PantStats.length()));
-//        String fillerS = Util.filler((BASE_WIDTH - (31+ShoesStats.length())));
         sb.append("\"\"\"\"\"\"\"\"\"\"\"\"\"");
         sb.append(" STUFF : ");
         sb.append(String.format("HElMET: %s", HelmetStats));
@@ -83,41 +87,32 @@ public class Inventory {
         sb.append(String.format("  [%c] [%c]   \"         PANT: %s\n\"", rps, rps, PantStats));
         sb.append(String.format("\"\"\"\"\"\"\"\"\"\"\"\"\"         SHOES: %s", ShoesStats));
         sb.append("\n");
-//        for(int i =  0; i < BASE_WIDTH; i++){
-//            sb.append('"');
-//        }
-
-
         for (Item i : inventory) {
             AbstractStuffItem it = (AbstractStuffItem) i;
-//            StringBuilder sbTmp = new StringBuilder();
+            StringBuilder sbTmp = new StringBuilder();
+
             if (acc == selectedItem) {
-                sb.append('[');
+                sbTmp.append('[');
             }
 
-            sb.append('<').append(i.getName().substring(0, 1).toUpperCase()).append(i.getName().substring(1))
+            sbTmp.append('<').append(i.getName().substring(0, 1).toUpperCase()).append(i.getName().substring(1))
                     .append('>')
                     .append(" : ")
-                    .append("AGI ")
-                    .append(it.getAGI())
-                    .append(" ATK ")
-                    .append(it.getATK())
-                    .append(" HP ")
-                    .append(it.getHP())
-                    .append(" MP")
-                    .append(it.getMP())
-                    .append(" LUK")
-                    .append(it.getLUK());
+                    .append("|AGI ")
+                    .append((int)it.getAGI())
+                    .append("|ATK ")
+                    .append((int)it.getATK())
+                    .append("|HP ")
+                    .append((int)it.getHP())
+                    .append("|MP ")
+                    .append((int)it.getMP())
+                    .append("|LUK ")
+                    .append((int)it.getLUK());
             if (acc == selectedItem) {
-                sb.append(']');
-//                sb.append(Ansi.colorize(sbTmp.toString(), Attribute.RED_TEXT()));
-//                System.out.println();
+                sbTmp.append(']');
+                sbTmp = new StringBuilder(Ansi.colorize(sbTmp.toString(), Attribute.MAGENTA_TEXT()));
             }
-//            else {
-//                sb.append(sbTmp);
-//            }
-
-            sb.append("\n");
+            sb.append(sbTmp).append("\n");
             acc++;
         }
         return sb.toString();
