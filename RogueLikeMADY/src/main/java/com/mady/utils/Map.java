@@ -37,17 +37,7 @@ public class Map {
 
 
     public Map(int nbSalles, Frame frame) {
-        this(nbSalles, 16, 128, frame);
-    }
-
-    public static void main(String[] args) {
-        Frame frame = new Frame();
-        Map map = new Map(15, 30, 200, frame);
-        map.createMap();
-        Salle salle = map.chooseSalle();
-        Player player = new Player(map.randomPosPlayerInSalle(salle), 10, 5, 1, "@", salle);
-        map.addPlayerToMap(player);
-        System.out.println(map);
+        this(nbSalles, 24, 128, frame);
     }
 
     /**
@@ -306,9 +296,9 @@ public class Map {
      */
     private void generateEntities() {
         int nbMonstersByRoom;
-        for (int i = 0; i < nbSalles; i++) {
-            nbMonstersByRoom = Util.r.nextInt(4);
-            addEntity(nbMonstersByRoom);
+        for (int i = 0; i < salles.size(); i++) {
+            nbMonstersByRoom = Util.r.nextInt(4) + 1;
+            addEntity(nbMonstersByRoom, i);
         }
     }
 
@@ -317,9 +307,10 @@ public class Map {
      * @param nbMonsters
      * on ajoute à la map les entités générées. Celles-ci ne peuvent pas être placées devant les portes
      */
-    private void addEntity(int nbMonsters) {
+    private void addEntity(int nbMonsters, int idx) {
+        Salle salle = salles.get(idx);
         for (int i = 0; i < nbMonsters; i++) {
-            Salle salle = chooseSalle();
+
             Position pos = randomPosPlayerInSalle(salle);
             while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) {
                 pos = randomPosPlayerInSalle(salle);
