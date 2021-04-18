@@ -70,6 +70,8 @@ portail.
 
 ## <u>Pour run l'artefact : </u>
 
+Si vous êtes sur Windows il vous faudra un serveur X graphique pour lancer le programme.
+
 CMD SHELL
 ```shell
 java -jar RogueLikeMADY-1.0-SNAPSHOT.jar

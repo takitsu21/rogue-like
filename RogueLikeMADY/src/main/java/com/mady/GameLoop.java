@@ -58,7 +58,6 @@ public abstract class GameLoop {
      * Run game loop.
      */
     public void run() {
-
         status = GameStatus.STARTING;
         gameThread = new Thread(this::processGameLoop);
         gameThread.start();
