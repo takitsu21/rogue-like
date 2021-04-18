@@ -63,6 +63,8 @@ des potions vous donnera l'opportunité de gagner des bonus ou des malus de stat
 portes et vous serez téléporté dans la salle relié. Le changement de monde s'effectue lorsque vous marché sur le
 portail.
 
+Il vous faudra cliquer sur la fenêtre swing qui s'ouvrira pour pouvoir utiliser les touches.
+
 ## <u>Bugs connus</u>
 
 - Problème de génération de chemins / portes dans les coins des salles.
