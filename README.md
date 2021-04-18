@@ -7,6 +7,8 @@
 
 <h3 align="center">RogueLike MADY</h3>
 
+![Game](https://i.imgur.com/FDKUPoZ.png)
+
 ## <u>Développeurs :</u>
 
 - NOM : COUSSON Antoine - ID Github : MonsieurCo
@@ -37,6 +39,8 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
     - attaque un unique monstre `e`
 - Inventaire: `i` (navigation `z s`, équiper l'objet `enter`, jeter l'objet `backspace`)
 - interaction: `x` (ouverture d'un coffre)
+
+![Inventaire](https://i.imgur.com/vUfnbbn.png)
 
 ## <u>Representation du jeu :</u>
 
@@ -72,7 +76,7 @@ Il vous faudra cliquer sur la fenêtre swing qui s'ouvrira pour pouvoir utiliser
 
 ## <u>Pour run l'artefact : </u>
 
-Si vous êtes sur Windows il vous faudra un serveur X graphique pour lancer le programme.
+Si vous êtes sur Windows il vous faudra un serveur X graphique (Xming) pour lancer le programme.
 
 CMD SHELL
 ```shell
