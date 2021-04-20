@@ -47,14 +47,19 @@ public abstract class GameLoop {
         String s;
         Process p;
         try {
-            p = Runtime.getRuntime().exec("printf \\33c");
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(p.getInputStream()));
-            while ((s = br.readLine()) != null)
-                System.out.print(s);
-            p.waitFor();
-            p.destroy();
-        } catch (Exception e) {}
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+            else {
+                p = Runtime.getRuntime().exec("printf \\33c");
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(p.getInputStream()));
+                while ((s = br.readLine()) != null)
+                    System.out.print(s);
+                p.waitFor();
+                p.destroy();
+            }
+        } catch (Exception ignored) {}
 
     }
 
