@@ -103,7 +103,7 @@ public class Inventory {
                     .append("|ATK ")
                     .append((int)it.getATK())
                     .append("|HP ")
-                    .append((int)it.getHP())
+                    .append((int)it.getHitPoints())
                     .append("|MP ")
                     .append((int)it.getMP())
                     .append("|LUK ")

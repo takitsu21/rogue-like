@@ -8,8 +8,8 @@ import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
 public class PotionForce extends AbstractItem {
-    public PotionForce(Position position) {
-        super("F", position, 0, (int) (Math.random() * 2) + 1, "Potion de force", true, false);
+    public PotionForce(Position position, int lvl, double multiplicateur) {
+        super("F", position, 0, (int) (Math.random() * 2) + 1, "Potion de force", true, false, lvl, multiplicateur);
     }
 
     @Override

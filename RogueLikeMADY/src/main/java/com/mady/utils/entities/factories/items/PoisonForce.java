@@ -7,8 +7,8 @@ import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
 public class PoisonForce extends AbstractItem {
-    public PoisonForce(Position position) {
-        super("F", position, 0, (int) (Math.random() * 2) + 1, "Poison de force", true, false);
+    public PoisonForce(Position position, int lvl, double multiplicateur) {
+        super("F", position, 0, (int) (Math.random() * 2) + 1, "Poison de force", true, false, lvl, multiplicateur);
     }
 
 
