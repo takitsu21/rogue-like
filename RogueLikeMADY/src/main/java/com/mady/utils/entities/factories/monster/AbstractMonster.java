@@ -5,10 +5,7 @@ import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
-import com.mady.utils.entities.AbstractEntities;
-import com.mady.utils.entities.Deplacement;
-import com.mady.utils.entities.Player;
-import com.mady.utils.entities.Position;
+import com.mady.utils.entities.*;
 
 
 public abstract class AbstractMonster extends AbstractEntities implements Monster {
@@ -81,7 +78,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         }
     }
 
-    private void attack(Player player) {
+    public void attack(Player player) {
         int monsterDamages = getDamages();
         player.takeDamages(monsterDamages);
 
@@ -127,4 +124,6 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         return false;
     }
 
+    @Override
+    public abstract void skill(Entities target);
 }
