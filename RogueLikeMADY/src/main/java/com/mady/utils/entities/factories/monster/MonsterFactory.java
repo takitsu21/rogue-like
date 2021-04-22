@@ -27,6 +27,10 @@ public class MonsterFactory {
                 return new Troll(position, salle);
             case 4:
                 return new Boss(position, salle);
+            case 5:
+                return new DarkDruide(position, salle);
+
+
             default:
                 return null;
         }
@@ -44,6 +48,8 @@ public class MonsterFactory {
                 return generate(3, position, salle);
             case "Boss":
                 return generate(4, position, salle);
+            case "Druide noir":
+                return generate(5, position, salle);
             default:
                 return null;
         }
