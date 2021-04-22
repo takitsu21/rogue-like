@@ -10,6 +10,7 @@ import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.ItemFactory;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
+import com.mady.utils.entities.factories.monster.Boss;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
+    private Salle salleBoss;
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private final List<Entities> entities = new ArrayList<>();
@@ -63,6 +65,7 @@ public class Map {
     }
 
     public void addEntityItemPortal(){
+        salleBoss=chooseSalle();
         generatePortal();
         generateEntities();
         generateItems();
@@ -309,9 +312,23 @@ public class Map {
     private void generateEntities() {
         int nbMonstersByRoom;
         for (int i = 0; i < salles.size(); i++) {
-            nbMonstersByRoom = Util.r.nextInt(10) + 1;
-            addEntity(nbMonstersByRoom, i);
+            if(salles.get(i).equals(salleBoss)){
+                addBoss();
+            }else {
+                nbMonstersByRoom = Util.r.nextInt(10) + 1;
+                addEntity(nbMonstersByRoom, i);
+            }
         }
+    }
+
+    private void addBoss() {
+        Position pos = randomPosPlayerInSalle(salleBoss);
+        while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()) {
+            pos = randomPosPlayerInSalle(salleBoss);
+        }
+        Entities entity = new Boss(pos, salleBoss);
+        map[pos.getX()][pos.getY()].setEntity(entity);
+        entities.add(entity);
     }
 
     /**
@@ -475,7 +492,7 @@ public class Map {
      * generation des escaliers qui permettent d'évoluer entre salles. Celui-ci ne peut pas être placé devant une porte.
      */
     private void generatePortal() {
-        Position pos = randomPosPlayerInSalle(chooseSalle());
+        Position pos = randomPosPlayerInSalle(salleBoss);
         while (nextToDoor(pos)) {
             pos = randomPosPlayerInSalle(chooseSalle());
         }
@@ -591,5 +608,9 @@ public class Map {
             }
         }
         return monstersAround;
+    }
+
+    public Salle getSalleBoss() {
+        return salleBoss;
     }
 }

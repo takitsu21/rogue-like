@@ -1,6 +1,7 @@
 package com.mady.utils.entities.factories.monster;
 
 import com.mady.utils.Salle;
+import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Position;
 
 public class DarkDruide extends AbstractMonster{
@@ -16,6 +17,11 @@ public class DarkDruide extends AbstractMonster{
 
     @Override
     public void setMaxDammages(int maxDammages) {
+
+    }
+
+    @Override
+    public void skill(Entities target) {
 
     }
 }
