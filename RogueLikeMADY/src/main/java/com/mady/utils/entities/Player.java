@@ -31,9 +31,11 @@ public class Player extends AbstractEntities {
     private double AGI = 1;
     private double LUK = 2;
     private double maxExpToWin = 3;
+    private int manaAttack = 2;
+
 
   
-    private double multiplicateur =1.12;
+    //private double multiplicateur =1.12;
     private final HashMap<String, Double> stats = new HashMap<String, Double>() {{
         put("LVL", (double) getLvl());
         put("MAX_HP", (double) getMaxHitPoints());
@@ -282,6 +284,14 @@ public class Player extends AbstractEntities {
     }
 
     public void setMP(double MP) {
+        if(MP<0){
+            MP=0;
+        }
+
+        if(MP>=getMaxMp()){
+            MP=getMaxMp();
+        }
+
         this.MP = MP;
         stats.put("MP", MP);
     }
@@ -345,6 +355,7 @@ public class Player extends AbstractEntities {
         setMaxHitPoints((int) (getMaxHitPoints() * getMultiplicateur()));
         setHitPoints(getMaxHitPoints());
         setMaxMp(getMaxMp() * getMultiplicateur());
+        setMP(getMaxMp());
         setATK(getATK() * getMultiplicateur());
         setDamages((int) (getDamages() + getATK()));
         setDEF(getDEF() * getMultiplicateur());
@@ -376,6 +387,7 @@ public class Player extends AbstractEntities {
      */
 
     public boolean closeAttack(Entities monster, Map map) {
+        setMP(getMP()-manaAttack);
         if (monster == null) {
             Util.currentAction.append("Aucune cible atteinte...\n");
             return false;
@@ -394,6 +406,7 @@ public class Player extends AbstractEntities {
      */
 
     public boolean zoneAttack(List<Entities> monsters, Map map) {
+        setMP(getMP()-manaAttack*4);
         if (monsters.isEmpty()) {
             Util.currentAction.append("Aucune cible atteinte...\n");
             return false;
