@@ -6,6 +6,7 @@ import com.mady.utils.listener.MoveListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLOutput;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -105,7 +106,7 @@ public abstract class GameLoop {
         try {
             while (Util.playerTurn) {
             }
-            if (Util.keyPressed == KeyboardPressedEnum.I) {
+            if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.P) {
                 status = GameStatus.PAUSE;
             }
 
@@ -121,7 +122,11 @@ public abstract class GameLoop {
         clrscr();
         if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.I) {
             System.out.println(Util.showInventoryMenu(controller.player));
-        } else if (isGameRunning()) {
+        }
+        else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.P)){
+            System.out.println(map.getPause().toString(map.getMap()));
+        }
+        else if (isGameRunning()) {
             System.out.println(map);
         }
     }

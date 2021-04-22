@@ -25,6 +25,7 @@ public class Map {
     private Frame frame;
     private Player player;
     private List<PairPos> chemins = new ArrayList<>();
+    private final Pause pause = new Pause();
 
 
     public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, Frame frame) {
@@ -296,6 +297,10 @@ public class Map {
 
     public int getBASE_WIDTH() {
         return BASE_WIDTH;
+    }
+
+    public Pause getPause() {
+        return pause;
     }
 
     /**
