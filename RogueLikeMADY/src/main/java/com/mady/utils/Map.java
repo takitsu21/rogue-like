@@ -517,6 +517,28 @@ public class Map {
         }
         sb.append(Util.currentAction);
         Util.currentAction = new StringBuilder();
+
+//        DEBUGGER
+        for (int i = 0; i < BASE_HEIGHT; i++) {
+            for (int j = 0; j < BASE_WIDTH; j++) {
+                switch (map[i][j].getCt()) {
+                    case WALL:
+                        System.out.print("W ");
+                        break;
+                    case PATH:
+                        System.out.print("P ");
+                        break;
+                    case SALLE:
+                        System.out.print("S ");
+                        break;
+                    default:
+                        System.out.print("  ");
+                        break;
+                }
+            }
+            System.out.println();
+        }
+
         return sb.toString();
     }
 
