@@ -58,4 +58,5 @@ public class Inventory {
      * each part of your armor plus weapon and amulet got their places.
      * An equiped item will have a '*' in his place.
      */
+
 }

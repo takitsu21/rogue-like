@@ -19,11 +19,14 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
                            int movement,
                            String repr,
                            int effectiveArea,
-                           Salle salle, Player player) {
+                           Salle salle) {
 
-        super(name,pos, player.getLvl() != 1 ? (int) (lifePoints * (player.getLvl() - 1) * player.getMultiplicateur()) : lifePoints,
-                player.getLvl() != 1 ? (int) (damages * (player.getLvl() - 1) * player.getMultiplicateur()) : damages,
-                movement, repr, effectiveArea, salle);
+        super(name,pos, lifePoints, damages, movement, repr, effectiveArea, salle);
+        if(getLvl() != 1){
+            setMaxHitPoints((int) (lifePoints * (getLvl() - 1) * getMultiplicateur()));
+            setHitPoints((int) (lifePoints * (getLvl() - 1) * getMultiplicateur()));
+            setDamages((int) (damages * (getLvl() - 1) * getMultiplicateur()));
+        }
     }
 
 
@@ -86,9 +89,14 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     @Override
     public String getRepr() {
+        if (isAttack()) {
+            setIsAttack(false);
+            return Ansi.colorize(super.getRepr(), Attribute.RED_BACK());
+        }
         if (isAggro()) {
             return Ansi.colorize(super.getRepr(), Attribute.RED_TEXT());
         }
+
         return super.getRepr();
     }
 
@@ -118,4 +126,5 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         }
         return false;
     }
+
 }

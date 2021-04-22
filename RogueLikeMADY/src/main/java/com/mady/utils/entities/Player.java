@@ -19,18 +19,20 @@ public class Player extends AbstractEntities {
 
     private final Stuff stuff;
     private final Inventory inventory;
-    private int lvl = 1;
+    //private int lvl = 1;
     private double maxMp = 50;
-    private double maxHp = 100;
+    private double maxHp = getMaxHitPoints();
     private double exp = 0;
     private double expMax = 10;
-    private double HP = maxHp;
+    private double HP = getHitPoints();
     private double MP = maxMp;
     private double ATK = 3;
     private double DEF = 1;
     private double AGI = 1;
     private double LUK = 2;
     private double maxExpToWin = 3;
+
+  
     private double multiplicateur =1.12;
     private final HashMap<String, Double> stats = new HashMap<String, Double>() {{
         put("LVL", (double) lvl);
@@ -44,6 +46,7 @@ public class Player extends AbstractEntities {
         put("LUK", LUK);
     }};
 //    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
+
 
 
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
@@ -210,14 +213,14 @@ public class Player extends AbstractEntities {
         }
     }
 
-    public int getLvl() {
-        return lvl;
-    }
+
+  
 
     public void setLvl(int lvl) {
         this.lvl = lvl;
         stats.put("LVL", (double)lvl);
     }
+
 
     public double getMaxMp() {
         return maxMp;
@@ -229,15 +232,14 @@ public class Player extends AbstractEntities {
         stats.put("MP", maxMp);
     }
 
-    public double getMaxHp() {
-        return maxHp;
-    }
+
 
     public void setMaxHp(double maxHp) {
         this.maxHp = maxHp;
         stats.put("MAX_HP", maxHp);
         stats.put("HP", maxHp);
     }
+
 
     public double getExp() {
         return exp;
@@ -257,6 +259,7 @@ public class Player extends AbstractEntities {
         stats.put("EXP_MAX", expMax);
     }
 
+
     public double getHP() {
         return HP;
     }
@@ -265,6 +268,7 @@ public class Player extends AbstractEntities {
         this.HP = HP;
         stats.put("HP", HP);
     }
+
 
     public double getMP() {
         return MP;
@@ -327,27 +331,20 @@ public class Player extends AbstractEntities {
         this.maxExpToWin = maxExpToWin;
     }
 
-    public double getMultiplicateur() {
-        return multiplicateur;
-    }
-
-    public void setMultiplicateur(double multiplicateur) {
-        this.multiplicateur = multiplicateur;
-    }
-
     public void updateStats() {
         //double multiplicateur = 1.16;
         setExp(0);
         setLvl(getLvl() + 1);
-        setMaxHp(getMaxHp() * multiplicateur);
-        setMaxMp(getMaxMp() * multiplicateur);
-        setATK(getATK() * multiplicateur);
+        setMaxHitPoints((int) (getMaxHitPoints() * getMultiplicateur()));
+        setHitPoints(getMaxHitPoints());
+        setMaxMp(getMaxMp() * getMultiplicateur());
+        setATK(getATK() * getMultiplicateur());
         setDamages((int) (getDamages() + getATK()));
-        setDEF(getDEF() * multiplicateur);
-        setAGI(getAGI() * multiplicateur);
-        setLUK(getLUK() * multiplicateur);
-        setExpMax(getExpMax() * multiplicateur + getExpMax());
-        setMaxExpToWin(getMaxExpToWin() * multiplicateur);
+        setDEF(getDEF() * getMultiplicateur());
+        setAGI(getAGI() * getMultiplicateur());
+        setLUK(getLUK() * getMultiplicateur());
+        setExpMax(getExpMax() * getMultiplicateur() + getExpMax());
+        setMaxExpToWin(getMaxExpToWin() * getMultiplicateur());
     }
 
     public boolean isLevelUp(int expGain) {
@@ -360,7 +357,7 @@ public class Player extends AbstractEntities {
     }
 
     public boolean isDead() {
-        return (getHP() <= 0);
+        return (getHitPoints() <= 0);
     }
 
     /**
@@ -412,6 +409,7 @@ public class Player extends AbstractEntities {
         monster.takeDamages(getDamages());
         Util.currentAction.append(Ansi.colorize(String.format("Vous attaquez %s<%d/%d HP> et lui infligez %d points de dégâts.\n",
                 monster.getName(), monster.getHitPoints(), monster.getMaxHitPoints(), getDamages()), Attribute.BLUE_TEXT()));
+
         if (monster.isDead()) {
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", monster.getName()),
                     Attribute.RED_TEXT()));
