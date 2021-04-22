@@ -415,8 +415,6 @@ public class Map {
             newCase.setEntity(e);
             e.setPos(newPos);
             success=true;
-            e.setNbDeplacement(e.getNbDeplacement()+1);
-
         }
         if (e instanceof Player) {
             if (oldCase.isPath() && newCase.isSalle() && !newCase.isOccupied()) {
@@ -424,8 +422,6 @@ public class Map {
                 newCase.setEntity(e);
                 e.setPos(newPos);
                 success=true;
-                e.setNbDeplacement(e.getNbDeplacement()+1);
-
             }
             if (oldCase.isPath() && newCase.isPath()) {
                 /*Gestion du mouvement de salle à salle*/
@@ -439,8 +435,6 @@ public class Map {
                 e.setPos(newPos2);
                 newPos=newPos2;
                 success=true;
-                e.setNbDeplacement(e.getNbDeplacement()+1);
-
             }
             if (newCase.isPath()) {
                 Position newPos2 = findDoor(newPos);
@@ -450,8 +444,6 @@ public class Map {
                 e.setPos(newPos2);
                 newPos=newPos2;
                 success=true;
-                e.setNbDeplacement(e.getNbDeplacement()+1);
-
             }
             if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
                 clearCase(oldCase);
@@ -459,18 +451,17 @@ public class Map {
                 newCase.setEntity(e);
                 e.setPos(newPos);
                 success=true;
-                e.setNbDeplacement(e.getNbDeplacement()+1);
             }
             if (newCase.isPortal()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
                 success=true;
-                e.setNbDeplacement(e.getNbDeplacement()+1);
             }
         }
         if(success){
             if(boss!=null && e instanceof Player && this.map[newPos.getX()][newPos.getY()].isAttackBoss()){
+                e.setNbDeplacement(e.getNbDeplacement()+1);
                 boss.attack((Player) e);
             }
         }

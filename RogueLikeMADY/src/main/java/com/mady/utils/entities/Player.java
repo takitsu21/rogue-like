@@ -365,6 +365,7 @@ public class Player extends AbstractEntities {
         setLUK(getLUK() * getMultiplicateur());
         setExpMax(getExpMax() * getMultiplicateur() + getExpMax());
         setMaxExpToWin(getMaxExpToWin() * getMultiplicateur());
+        manaAttack*=getMultiplicateur();
     }
 
     public boolean isLevelUp(int expGain) {
