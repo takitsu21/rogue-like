@@ -22,6 +22,7 @@ public abstract class AbstractEntities implements Entities {
     private String name;
     private int lvl=1;
     private double multiplicateur=1.12;
+    private int nbDeplacement=0;
 
 
 
@@ -214,4 +215,15 @@ public abstract class AbstractEntities implements Entities {
 
     }
 
+    public int getNbDeplacement() {
+        return nbDeplacement;
+    }
+
+    public void setNbDeplacement(int nbDeplacement) {
+        this.nbDeplacement = nbDeplacement;
+        if(this instanceof Player && nbDeplacement%5==0){
+            this.nbDeplacement=0;
+            ((Player) this).setMP(((Player) this).getMP()+3);
+        }
+    }
 }

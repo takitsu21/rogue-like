@@ -40,4 +40,9 @@ public interface Entities {
 
     String getName();
 
+    int getNbDeplacement();
+
+    void setNbDeplacement(int nbDeplacement);
+
+
 }

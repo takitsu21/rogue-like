@@ -21,7 +21,7 @@ public class PoisonVie extends AbstractItem {
         if (player.getHitPoints() - getDamages() >= 0) {
             int oldHp = (int) player.getHitPoints();
             player.setHitPoints(player.getHitPoints() - getDamages());
-            Util.currentAction.append(Ansi.colorize(String.format("%s vous réduit la vie de %d à %d (-%d)",
+            Util.currentAction.append(Ansi.colorize(String.format("%s vous réduit la vie de %d à %d (-%d)\n",
                     getName(), oldHp, (int) player.getHitPoints(), getDamages()), Attribute.YELLOW_TEXT()));
 
         } else {

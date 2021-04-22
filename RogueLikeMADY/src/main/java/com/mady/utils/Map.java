@@ -409,11 +409,14 @@ public class Map {
         Case newCase = this.map[newPos.getX()][newPos.getY()];
         boolean success=false;
         /* Mouvment basique*/
+
         if (newCase.isFreeCase() && newCase.isSalle()) {
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
             success=true;
+            e.setNbDeplacement(e.getNbDeplacement()+1);
+
         }
         if (e instanceof Player) {
             if (oldCase.isPath() && newCase.isSalle() && !newCase.isOccupied()) {
@@ -421,6 +424,8 @@ public class Map {
                 newCase.setEntity(e);
                 e.setPos(newPos);
                 success=true;
+                e.setNbDeplacement(e.getNbDeplacement()+1);
+
             }
             if (oldCase.isPath() && newCase.isPath()) {
                 /*Gestion du mouvement de salle à salle*/
@@ -432,9 +437,10 @@ public class Map {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
-
                 newPos=newPos2;
                 success=true;
+                e.setNbDeplacement(e.getNbDeplacement()+1);
+
             }
             if (newCase.isPath()) {
                 Position newPos2 = findDoor(newPos);
@@ -442,24 +448,25 @@ public class Map {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
-
                 newPos=newPos2;
                 success=true;
+                e.setNbDeplacement(e.getNbDeplacement()+1);
+
             }
             if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-
                 success=true;
+                e.setNbDeplacement(e.getNbDeplacement()+1);
             }
             if (newCase.isPortal()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-
                 success=true;
+                e.setNbDeplacement(e.getNbDeplacement()+1);
             }
         }
         if(success){
@@ -592,13 +599,32 @@ public class Map {
      */
     public Entities closeCheckAround() {
         Position playerPos = getPlayer().getPosition();
-        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
-            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
-                if (isInside(i, j) && map[i][j].getEntity() instanceof AbstractMonster) {
-                    return getMap()[i][j].getEntity();
-                }
-            }
+//        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
+//            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
+//                if (isInside(i, j) && map[i][j].getEntity() instanceof AbstractMonster) {
+//                    return getMap()[i][j].getEntity();
+//                }
+//            }
+//        }
+
+
+        if (isInside(playerPos.getX() - 1, playerPos.getY()) && map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX() - 1][playerPos.getY()].getEntity();
         }
+
+        if (isInside(playerPos.getX() + 1, playerPos.getY()) && map[playerPos.getX() + 1][playerPos.getY()].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX() + 1][playerPos.getY()].getEntity();
+        }
+
+        if (isInside(playerPos.getX(), playerPos.getY()-1) && map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX()][playerPos.getY()-1].getEntity();
+        }
+
+        if (isInside(playerPos.getX(), playerPos.getY()+1) && map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX()][playerPos.getY()+1].getEntity();
+        }
+
+
         return null;
     }
 
@@ -611,16 +637,41 @@ public class Map {
     public List<Entities> zoneCheckAround() {
         Position playerPos = getPlayer().getPosition();
         List<Entities> monstersAround = new ArrayList<>();
-        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
-            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
-                Entities entity = map[i][j].getEntity();
-                if (isInside(i, j) && entity instanceof AbstractMonster
-                        && !monstersAround.contains(entity)) {
-                    monstersAround.add(map[i][j].getEntity());
-                    System.out.println(map[i][j].getEntity().getPosition());
-                }
-            }
+//        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
+//            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
+//                Entities entity = map[i][j].getEntity();
+//                if (isInside(i, j) && entity instanceof AbstractMonster
+//                        && !monstersAround.contains(entity)) {
+//                    monstersAround.add(map[i][j].getEntity());
+//                    System.out.println(map[i][j].getEntity().getPosition());
+//                }
+//            }
+//        }
+
+        if (isInside(playerPos.getX() - 1, playerPos.getY())
+                && map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster
+                && !monstersAround.contains(map[playerPos.getX() - 1][playerPos.getY()].getEntity())) {
+            monstersAround.add(map[playerPos.getX() - 1][playerPos.getY()].getEntity());
         }
+
+        if (isInside(playerPos.getX() + 1, playerPos.getY())
+                && map[playerPos.getX() + 1][playerPos.getY()].getEntity() instanceof AbstractMonster
+                && !monstersAround.contains(map[playerPos.getX() + 1][playerPos.getY()].getEntity())) {
+            monstersAround.add(map[playerPos.getX() + 1][playerPos.getY()].getEntity());
+        }
+
+        if (isInside(playerPos.getX(), playerPos.getY()-1)
+                && map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster
+                && !monstersAround.contains(map[playerPos.getX()][playerPos.getY()-1].getEntity())) {
+            monstersAround.add(map[playerPos.getX()][playerPos.getY()-1].getEntity());
+        }
+
+        if (isInside(playerPos.getX(), playerPos.getY()+1)
+                && map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster
+                && !monstersAround.contains(map[playerPos.getX()][playerPos.getY()+1].getEntity())) {
+            monstersAround.add(map[playerPos.getX()][playerPos.getY()+1].getEntity());
+        }
+
         return monstersAround;
     }
 
