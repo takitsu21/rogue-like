@@ -11,6 +11,7 @@ import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.ItemFactory;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
 import com.mady.utils.entities.factories.monster.Boss;
+import com.mady.utils.entities.factories.monster.Monster;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class Map {
     private Player player;
     private List<PairPos> chemins = new ArrayList<>();
     private final Pause pause = new Pause();
+    private Boss boss;
 
 
     public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, Frame frame) {
@@ -326,9 +328,9 @@ public class Map {
         while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()) {
             pos = randomPosPlayerInSalle(salleBoss);
         }
-        Entities entity = new Boss(pos, salleBoss);
-        map[pos.getX()][pos.getY()].setEntity(entity);
-        entities.add(entity);
+        Boss boss = new Boss(pos, salleBoss);
+        map[pos.getX()][pos.getY()].setEntity(boss);
+        entities.add(boss);
     }
 
     /**
@@ -405,20 +407,20 @@ public class Map {
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
+        boolean success=false;
         /* Mouvment basique*/
         if (newCase.isFreeCase() && newCase.isSalle()) {
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
-            return true;
+            success=true;
         }
         if (e instanceof Player) {
             if (oldCase.isPath() && newCase.isSalle() && !newCase.isOccupied()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-
-                return true;
+                success=true;
             }
             if (oldCase.isPath() && newCase.isPath()) {
                 /*Gestion du mouvement de salle à salle*/
@@ -430,7 +432,9 @@ public class Map {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
-                return true;
+
+                newPos=newPos2;
+                success=true;
             }
             if (newCase.isPath()) {
                 Position newPos2 = findDoor(newPos);
@@ -438,23 +442,33 @@ public class Map {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
-                return true;
+
+                newPos=newPos2;
+                success=true;
             }
             if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-                return true;
+
+                success=true;
             }
             if (newCase.isPortal()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-                return true;
+
+                success=true;
             }
         }
-        return false;
+        if(success){
+            if(boss!=null && e instanceof Player && this.map[newPos.getX()][newPos.getY()].isAttackBoss()){
+                boss.attack((Player) e);
+            }
+        }
+
+        return success;
     }
 
     /**
