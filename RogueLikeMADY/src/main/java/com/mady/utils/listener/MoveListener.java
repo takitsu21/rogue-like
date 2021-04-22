@@ -1,5 +1,6 @@
 package com.mady.utils.listener;
 
+import com.mady.GameLoop;
 import com.mady.utils.KeyboardPressedEnum;
 import com.mady.utils.Map;
 import com.mady.utils.Pause;
@@ -40,9 +41,9 @@ public class MoveListener implements KeyListener {
                                     map.getPlayer().getInventory().getInventory().size() - 1 :
                                     (map.getPlayer().getInventory().getSelectedItem() - 1));
                 }
-                else if (Util.keyPressed == KeyboardPressedEnum.P){
+                else if (Util.keyPressed == KeyboardPressedEnum.ESC){
                     pause.setSelection(
-                            ((pause.getSelection() -1) -1 < 0 ) ?
+                            ((pause.getSelection() -1) < 0 ) ?
                                     pause.getListe().size() -1 :
                                     pause.getSelection() -1 );
 
@@ -57,7 +58,7 @@ public class MoveListener implements KeyListener {
                             + 1) % ((map.getPlayer().getInventory().getInventory().size() > 0) ?
                             map.getPlayer().getInventory().getInventory().size() : 1));
                 }
-                else if(Util.keyPressed == KeyboardPressedEnum.P) {
+                else if(Util.keyPressed == KeyboardPressedEnum.ESC) {
                     pause.setSelection((pause.getSelection() +1 ) % pause.getListe().size());
 
             }
@@ -113,20 +114,23 @@ public class MoveListener implements KeyListener {
                 }
                 Util.keyPressed = KeyboardPressedEnum.I;
                 break;
-
-            case KeyEvent.VK_P: // touche P pour pause
-                if (Util.keyPressed == KeyboardPressedEnum.P) {
-                    Util.keyPressed = KeyboardPressedEnum.NONE;
-                    break;
-                }
-                if(Util.keyPressed != KeyboardPressedEnum.I){
-                Util.keyPressed =  KeyboardPressedEnum.P;
-                }
-                break;
+//
+//            case KeyEvent.VK_P: // touche P pour pause
+//                if (Util.keyPressed == KeyboardPressedEnum.P) {
+//                    Util.keyPressed = KeyboardPressedEnum.NONE;
+//                    break;
+//                }
+//                if(Util.keyPressed != KeyboardPressedEnum.I){
+//                Util.keyPressed =  KeyboardPressedEnum.P;
+//                }
+//                break;
 
             case KeyEvent.VK_ESCAPE: // Touche Escape
-                if (Util.keyPressed == KeyboardPressedEnum.I|| Util.keyPressed == KeyboardPressedEnum.P) {
+                if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
+                }
+                else if(Util.keyPressed == KeyboardPressedEnum.NONE){
+                    Util.keyPressed = KeyboardPressedEnum.ESC;
                 }
                 break;
             case KeyEvent.VK_ENTER: // Touche Enter
@@ -136,8 +140,25 @@ public class MoveListener implements KeyListener {
                     if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
-                } else {
+                }
+                else if (Util.keyPressed == KeyboardPressedEnum.ESC){
+                    switch (pause.getListe().get(pause.getSelection())){
+                        case "Resume":
+                            Util.keyPressed = KeyboardPressedEnum.NONE;
+                            break;
+                        case "Restart":
+                            //toDO
+                            break;
+                        case  "Quit":
+                            GameLoop.clrscr();
+                            GameLoop.quit();
+                            break;
+
+                    }
+                }
+                else {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
+                    System.out.println(Util.keyPressed);
                 }
                 break;
             default:
