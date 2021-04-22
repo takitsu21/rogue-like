@@ -2,6 +2,7 @@ package com.mady.utils.listener;
 
 import com.mady.utils.KeyboardPressedEnum;
 import com.mady.utils.Map;
+import com.mady.utils.Pause;
 import com.mady.utils.Util;
 import com.mady.utils.entities.Deplacement;
 import com.mady.utils.entities.Position;
@@ -13,9 +14,11 @@ import java.awt.event.KeyListener;
 
 public class MoveListener implements KeyListener {
     private Map map;
+    private Pause pause;
 
     public MoveListener(Map map) {
         this.map = map;
+        this.pause = map.getPause();
     }
 
 
@@ -24,22 +27,27 @@ public class MoveListener implements KeyListener {
     }
 
     /**
-     *
-     * @param e
-     * switch case for each key that the player can use and actions performed.
-     *
+     * @param e switch case for each key that the player can use and actions performed.
      */
 
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_Z: // Touche Z
-                if (Util.keyPressed == KeyboardPressedEnum.I) {
+                if (Util.keyPressed == KeyboardPressedEnum.I) {   // si l'on se trouve dans l'inventaire
                     map.getPlayer().getInventory().
                             setSelectedItem(((map.getPlayer().getInventory().getSelectedItem() - 1) < 0) ?
                                     map.getPlayer().getInventory().getInventory().size() - 1 :
                                     (map.getPlayer().getInventory().getSelectedItem() - 1));
-                } else {
+                }
+                else if (Util.keyPressed == KeyboardPressedEnum.P){
+                    pause.setSelection(
+                            ((pause.getSelection() -1) -1 < 0 ) ?
+                                    pause.getListe().size() -1 :
+                                    pause.getSelection() -1 );
+
+                }
+                else {
                     map.move(map.getPlayer(), Deplacement.HAUT.pos);
                 }
                 break;
@@ -48,7 +56,13 @@ public class MoveListener implements KeyListener {
                     map.getPlayer().getInventory().setSelectedItem((map.getPlayer().getInventory().getSelectedItem()
                             + 1) % ((map.getPlayer().getInventory().getInventory().size() > 0) ?
                             map.getPlayer().getInventory().getInventory().size() : 1));
-                } else {
+                }
+                else if(Util.keyPressed == KeyboardPressedEnum.P) {
+                    pause.setSelection((pause.getSelection() +1 ) % pause.getListe().size());
+
+            }
+
+                else {
                     map.move(map.getPlayer(), Deplacement.BAS.pos);
                 }
                 break;
@@ -69,13 +83,12 @@ public class MoveListener implements KeyListener {
                 break;
             case KeyEvent.VK_BACK_SPACE:
                 if (Util.keyPressed == KeyboardPressedEnum.I && map.getPlayer().getInventory().getInventory().size() >= 1) {
-                    map.getPlayer().getInventory().getInventory().remove( map.getPlayer().getInventory().getSelectedItem());
+                    map.getPlayer().getInventory().getInventory().remove(map.getPlayer().getInventory().getSelectedItem());
                     map.getPlayer().getInventory().setSelectedItem(0);
                     if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
-                }
-                else{
+                } else {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
@@ -101,8 +114,18 @@ public class MoveListener implements KeyListener {
                 Util.keyPressed = KeyboardPressedEnum.I;
                 break;
 
+            case KeyEvent.VK_P: // touche P pour pause
+                if (Util.keyPressed == KeyboardPressedEnum.P) {
+                    Util.keyPressed = KeyboardPressedEnum.NONE;
+                    break;
+                }
+                if(Util.keyPressed != KeyboardPressedEnum.I){
+                Util.keyPressed =  KeyboardPressedEnum.P;
+                }
+                break;
+
             case KeyEvent.VK_ESCAPE: // Touche Escape
-                if (Util.keyPressed == KeyboardPressedEnum.I) {
+                if (Util.keyPressed == KeyboardPressedEnum.I|| Util.keyPressed == KeyboardPressedEnum.P) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
@@ -113,8 +136,7 @@ public class MoveListener implements KeyListener {
                     if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
-                }
-                else{
+                } else {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
