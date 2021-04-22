@@ -3,7 +3,9 @@ package com.mady;
 import com.mady.utils.*;
 import com.mady.utils.listener.MoveListener;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,16 +44,23 @@ public abstract class GameLoop {
     }
 
     public static void clrscr() {
+        String s;
+        Process p;
         try {
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                Runtime.getRuntime().exec("clear");
             }
-        } catch (IOException | InterruptedException ex) {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        }
+            else {
+                p = Runtime.getRuntime().exec("printf \\33c");
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(p.getInputStream()));
+                while ((s = br.readLine()) != null)
+                    System.out.print(s);
+                p.waitFor();
+                p.destroy();
+            }
+        } catch (Exception ignored) {}
+
     }
 
     /**

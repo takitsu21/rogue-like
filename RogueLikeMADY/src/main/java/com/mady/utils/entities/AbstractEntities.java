@@ -9,7 +9,7 @@ import com.mady.utils.entities.factories.monster.AbstractMonster;
 
 public abstract class AbstractEntities implements Entities {
     private final int movement;
-    private final String repr;
+    private String repr;
     private final int effectiveArea;
     private Position pos;
     private int maxHitPoints;
@@ -18,8 +18,8 @@ public abstract class AbstractEntities implements Entities {
     private Salle salle;
     private boolean isAggro = false;
     private String name;
-    private final double multiplicateur=1.12;
-    private int lvl=1;
+    private boolean isAttack=false;
+
 
     public AbstractEntities(String name,
                             Position pos,
@@ -78,6 +78,14 @@ public abstract class AbstractEntities implements Entities {
         isAggro = aggro;
     }
 
+    public boolean isAttack() {
+        return isAttack;
+    }
+
+    public void setIsAttack(boolean attack) {
+        isAttack = attack;
+    }
+
     @Override
     public int getMaxHitPoints() {
         return maxHitPoints;
@@ -106,6 +114,7 @@ public abstract class AbstractEntities implements Entities {
             int new_HP = getHitPoints() - damages;
             setHitPoints(new_HP);
         }
+        isAttack=true;
     }
 
     public boolean isDead() {
@@ -184,6 +193,7 @@ public abstract class AbstractEntities implements Entities {
         this.salle = salle;
     }
 
+
     public Double getMultiplicateur() {
         return multiplicateur;
     }
@@ -195,4 +205,5 @@ public abstract class AbstractEntities implements Entities {
     public void setLvl(int lvl) {
         this.lvl = lvl;
     }
+
 }

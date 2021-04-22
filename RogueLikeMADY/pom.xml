@@ -54,7 +54,10 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <includes>
-                        <include>com.mady.utils.*Test</include>
+                        <include>*.*Test</include>
+<!--                        <include>com.mady.utils.*.*Test</include>-->
+<!--                        <include>com.mady.utils.entities.factories.items.*Test</include>-->
+<!--                        <include>com.mady.utils.entities.factories.monster.*Test</include>-->
                     </includes>
                 </configuration>
             </plugin>

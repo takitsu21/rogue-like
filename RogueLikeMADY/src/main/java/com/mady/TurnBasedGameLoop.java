@@ -36,6 +36,7 @@ public class TurnBasedGameLoop extends GameLoop {
             } else {
                 for (Entities entitie : world.getCurrentMap().getEntities()) {
                     map = entitie.doTurn(world.getCurrentMap());
+
                 }
 
                 if (map.getMap()[map.getPlayer().getPosition().getX()][map.getPlayer().getPosition().getY()].isPortal()) {
