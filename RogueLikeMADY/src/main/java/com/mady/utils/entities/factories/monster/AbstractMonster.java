@@ -86,9 +86,14 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     @Override
     public String getRepr() {
+        if (isAttack()) {
+            setIsAttack(false);
+            return Ansi.colorize(super.getRepr(), Attribute.RED_BACK());
+        }
         if (isAggro()) {
             return Ansi.colorize(super.getRepr(), Attribute.RED_TEXT());
         }
+
         return super.getRepr();
     }
 
@@ -118,4 +123,5 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         }
         return false;
     }
+
 }
