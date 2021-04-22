@@ -36,6 +36,9 @@ public abstract class GameLoop {
 
         logger.setLevel(Level.ALL);
         Salle salle = map.chooseSalle();
+        while(salle.equals(map.getSalleBoss())){
+            salle = map.chooseSalle();
+        }
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
         map.addPlayerToMap(controller.getPlayer());
         map.addEntityItemPortal();

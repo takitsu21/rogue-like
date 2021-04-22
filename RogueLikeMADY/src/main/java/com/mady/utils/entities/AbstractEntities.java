@@ -6,6 +6,7 @@ import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
+import com.mady.utils.entities.factories.monster.Boss;
 
 public abstract class AbstractEntities implements Entities {
     private final int movement;
@@ -183,6 +184,9 @@ public abstract class AbstractEntities implements Entities {
                 ((AbstractMonster) this).act(map);
             } else {
                 while (!map.move(this, nextPos(this))) ;
+            }
+            if(this instanceof Boss){
+                ((Boss) this).skill(map);
             }
         }
         return map;

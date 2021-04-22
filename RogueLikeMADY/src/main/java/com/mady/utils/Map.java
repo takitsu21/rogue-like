@@ -10,6 +10,8 @@ import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.ItemFactory;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
+import com.mady.utils.entities.factories.monster.Boss;
+import com.mady.utils.entities.factories.monster.Monster;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
+    private Salle salleBoss;
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private final List<Entities> entities = new ArrayList<>();
@@ -26,6 +29,7 @@ public class Map {
     private Player player;
     private List<PairPos> chemins = new ArrayList<>();
     private final Pause pause = new Pause();
+    private Boss boss;
 
 
     public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, Frame frame) {
@@ -63,6 +67,7 @@ public class Map {
     }
 
     public void addEntityItemPortal(){
+        salleBoss=chooseSalle();
         generatePortal();
         generateEntities();
         generateItems();
@@ -309,9 +314,23 @@ public class Map {
     private void generateEntities() {
         int nbMonstersByRoom;
         for (int i = 0; i < salles.size(); i++) {
-            nbMonstersByRoom = Util.r.nextInt(10) + 1;
-            addEntity(nbMonstersByRoom, i);
+            if(salles.get(i).equals(salleBoss)){
+                addBoss();
+            }else {
+                nbMonstersByRoom = Util.r.nextInt(10) + 1;
+                addEntity(nbMonstersByRoom, i);
+            }
         }
+    }
+
+    private void addBoss() {
+        Position pos = randomPosPlayerInSalle(salleBoss);
+        while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()) {
+            pos = randomPosPlayerInSalle(salleBoss);
+        }
+        Boss boss = new Boss(pos, salleBoss);
+        map[pos.getX()][pos.getY()].setEntity(boss);
+        entities.add(boss);
     }
 
     /**
@@ -388,21 +407,25 @@ public class Map {
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
-        /* Mouvement basique*/
+        boolean success=false;
+        /* Mouvment basique*/
+
         if (newCase.isFreeCase() && newCase.isSalle()) {
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
+            success=true;
             e.setNbDeplacement(e.getNbDeplacement()+1);
-            return true;
+
         }
         if (e instanceof Player) {
             if (oldCase.isPath() && newCase.isSalle() && !newCase.isOccupied()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
+                success=true;
                 e.setNbDeplacement(e.getNbDeplacement()+1);
-                return true;
+
             }
             if (oldCase.isPath() && newCase.isPath()) {
                 /*Gestion du mouvement de salle à salle*/
@@ -414,8 +437,10 @@ public class Map {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
+                newPos=newPos2;
+                success=true;
                 e.setNbDeplacement(e.getNbDeplacement()+1);
-                return true;
+
             }
             if (newCase.isPath()) {
                 Position newPos2 = findDoor(newPos);
@@ -423,26 +448,34 @@ public class Map {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
+                newPos=newPos2;
+                success=true;
                 e.setNbDeplacement(e.getNbDeplacement()+1);
-                return true;
+
             }
             if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
+                success=true;
                 e.setNbDeplacement(e.getNbDeplacement()+1);
-                return true;
             }
             if (newCase.isPortal()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
+                success=true;
                 e.setNbDeplacement(e.getNbDeplacement()+1);
-                return true;
             }
         }
-        return false;
+        if(success){
+            if(boss!=null && e instanceof Player && this.map[newPos.getX()][newPos.getY()].isAttackBoss()){
+                boss.attack((Player) e);
+            }
+        }
+
+        return success;
     }
 
     /**
@@ -480,7 +513,7 @@ public class Map {
      * generation des escaliers qui permettent d'évoluer entre salles. Celui-ci ne peut pas être placé devant une porte.
      */
     private void generatePortal() {
-        Position pos = randomPosPlayerInSalle(chooseSalle());
+        Position pos = randomPosPlayerInSalle(salleBoss);
         while (nextToDoor(pos)) {
             pos = randomPosPlayerInSalle(chooseSalle());
         }
@@ -640,5 +673,9 @@ public class Map {
         }
 
         return monstersAround;
+    }
+
+    public Salle getSalleBoss() {
+        return salleBoss;
     }
 }
