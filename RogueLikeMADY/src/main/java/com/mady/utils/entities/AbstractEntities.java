@@ -17,8 +17,11 @@ public abstract class AbstractEntities implements Entities {
     private int damages;
     private Salle salle;
     private boolean isAggro = false;
+    private boolean isAttack = false;
     private String name;
-    private boolean isAttack=false;
+    private int lvl=1;
+    private double multiplicateur=1.12;
+
 
 
     public AbstractEntities(String name,
