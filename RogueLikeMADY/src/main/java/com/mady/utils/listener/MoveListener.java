@@ -18,7 +18,7 @@ public class MoveListener implements KeyListener {
 
     public MoveListener(Map map) {
         this.map = map;
-        this.pause = new Pause();
+        this.pause = map.getPause();
     }
 
 
@@ -116,7 +116,7 @@ public class MoveListener implements KeyListener {
 
             case KeyEvent.VK_P: // touche P pour pause
                 if (Util.keyPressed == KeyboardPressedEnum.P) {
-                    Util.keyPressed = KeyboardPressedEnum.P;
+                    Util.keyPressed = KeyboardPressedEnum.NONE;
                     break;
                 }
                 if(Util.keyPressed != KeyboardPressedEnum.I){
@@ -125,7 +125,7 @@ public class MoveListener implements KeyListener {
                 break;
 
             case KeyEvent.VK_ESCAPE: // Touche Escape
-                if (Util.keyPressed == KeyboardPressedEnum.I) {
+                if (Util.keyPressed == KeyboardPressedEnum.I|| Util.keyPressed == KeyboardPressedEnum.P) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
