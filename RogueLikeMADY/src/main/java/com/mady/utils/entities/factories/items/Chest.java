@@ -12,8 +12,9 @@ public class Chest extends AbstractItem {
     /**
      * @param position du coffre.
      */
-    public Chest(Position position) {
-        super("C", position, 0, 0, "Coffre au trésor", false, true);
+    public Chest(Position position, int lvl, double multiplicateur) {
+
+        super("C", position, 0, 0, "Coffre au trésor", false, true, lvl, multiplicateur);
     }
 
     @Override
@@ -32,8 +33,8 @@ public class Chest extends AbstractItem {
      */
     public AbstractStuffItem openChest(Player player) {
         double lvl = player.getLvl();
-        int randomLUK = Util.r.nextInt((int) player.getLUK());
-        double baseMultiplicator = 2;
+        int randomLUK = Util.r.nextInt((int) player.getLUK())+1;
+        double baseMultiplicator = player.getMultiplicateur();
         double baseStat = 5;
         double newRandomLUK = randomLUK * lvl * baseMultiplicator;
         double randomATK = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;

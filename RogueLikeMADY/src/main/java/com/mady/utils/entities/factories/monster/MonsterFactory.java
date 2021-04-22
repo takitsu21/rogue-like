@@ -15,23 +15,23 @@ public class MonsterFactory {
         return instance;
     }
 
-    public Monster generate(int id, Position position, Salle salle, Player player) {
+    public Monster generate(int id, Position position, Salle salle) {
         switch (id) {
             case 0:
-                return new GoblinArcher(position, salle, player);
+                return new GoblinArcher(position, salle);
             case 1:
-                return new OrcWarrior(position, salle, player);
+                return new OrcWarrior(position, salle);
             default:
                 return null;
         }
     }
 
-    public Monster generate(String id, Position position, Salle salle, Player player) {
+    public Monster generate(String id, Position position, Salle salle) {
         switch (id) {
             case "goblinArcher":
-                return generate(0, position, salle, player);
+                return generate(0, position, salle);
             case "orcWarrior":
-                return generate(1, position, salle, player);
+                return generate(1, position, salle);
             default:
                 return null;
         }

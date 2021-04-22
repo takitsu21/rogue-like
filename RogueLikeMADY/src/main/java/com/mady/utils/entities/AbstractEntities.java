@@ -20,6 +20,7 @@ public abstract class AbstractEntities implements Entities {
     private String name;
     private boolean isAttack=false;
 
+
     public AbstractEntities(String name,
                             Position pos,
                             int hitPoints,
@@ -108,7 +109,7 @@ public abstract class AbstractEntities implements Entities {
     @Override
     public void takeDamages(int damages) {
         if (this instanceof Player) {
-            ((Player) this).setHP(((Player) this).getHP() - damages);
+            ((Player) this).setHitPoints(((Player) this).getHitPoints() - damages);
         } else {
             int new_HP = getHitPoints() - damages;
             setHitPoints(new_HP);
@@ -192,5 +193,17 @@ public abstract class AbstractEntities implements Entities {
         this.salle = salle;
     }
 
+
+    public Double getMultiplicateur() {
+        return multiplicateur;
+    }
+
+    public int getLvl() {
+        return lvl;
+    }
+
+    public void setLvl(int lvl) {
+        this.lvl = lvl;
+    }
 
 }
