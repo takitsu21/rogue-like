@@ -19,10 +19,10 @@ public class PoisonVie extends AbstractItem {
     @Override
     public void act(Player player) {
         if (player.getHitPoints() - getDamages() >= 0) {
-            int oldHp = (int) player.getHitPoints();
+            int oldHp = player.getHitPoints();
             player.setHitPoints(player.getHitPoints() - getDamages());
             Util.currentAction.append(Ansi.colorize(String.format("%s vous réduit la vie de %d à %d (-%d)\n",
-                    getName(), oldHp, (int) player.getHitPoints(), getDamages()), Attribute.YELLOW_TEXT()));
+                    getName(), oldHp, player.getHitPoints(), getDamages()), Attribute.YELLOW_TEXT()));
 
         } else {
             player.setHitPoints(0);

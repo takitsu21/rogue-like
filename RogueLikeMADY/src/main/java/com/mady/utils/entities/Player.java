@@ -10,8 +10,7 @@ import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,9 +18,8 @@ public class Player extends AbstractEntities {
 
     private final Stuff stuff;
     private final Inventory inventory;
-    //private int lvl = 1;
     private double maxMp = 50;
-    private double maxHp = getMaxHitPoints();
+    //private double maxHp = getMaxHitPoints();
     private double exp = 0;
     private double expMax = 10;
     private double HP = getHitPoints();
@@ -37,7 +35,7 @@ public class Player extends AbstractEntities {
 
   
     //private double multiplicateur =1.12;
-    private final HashMap<String, Double> stats = new HashMap<String, Double>() {{
+    private final HashMap<String, Double> stats = new HashMap<>() {{
         put("LVL", (double) getLvl());
         put("MAX_HP", (double) getMaxHitPoints());
         put("HP", (double) getHitPoints());
@@ -58,16 +56,6 @@ public class Player extends AbstractEntities {
         this.inventory = new Inventory(this.stuff);
     }
 
-
-    @Override
-    public int getMaxDammages() {
-        return 0;
-    }
-
-    @Override
-    public void setMaxDammages(int maxDammages) {
-
-    }
 
     /**
      * Ramasse un item et le met dans l'inventaire.
@@ -102,21 +90,19 @@ public class Player extends AbstractEntities {
      *
      * @param c Case de la map.
      */
-    public boolean pickItem(Case c) {
+    public void pickItem(Case c) {
         AbstractStuffItem i = ((Chest) c.getItem()).openChest(this);
         i.setPosition(null);
         if (pickItem(i)) {
             c.setItem(null);
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez récupérer <%s> : %s dans le coffre.\n",
                     i.getName().substring(0, 1).toUpperCase() + i.getName().substring(1), i), Attribute.MAGENTA_TEXT()));
-            return true;
         }
-        return false;
     }
 
     /**
      * Enlève les stats au joueur par rapport à l'item.
-     * @param item
+     * @param item item qui va modiifer les statistiques du joueur
      */
     private void removeStats(AbstractStuffItem item) {
         if (item == null) {
@@ -134,7 +120,7 @@ public class Player extends AbstractEntities {
 
     /**
      * Ajoute les stats au joueur par rapport à l'item.
-     * @param item
+     * @param item item qui a va modifier les statistiques du joueur
      */
     private void addStats(AbstractStuffItem item) {
         setLUK(getLUK() + item.getLUK());
@@ -192,17 +178,14 @@ public class Player extends AbstractEntities {
 
     /**
      * @param idx index de l'item a équipé.
-     * @return true si l'item a bien été équipé.
      */
-    public boolean equipItem(int idx) {
+    public void equipItem(int idx) {
         AbstractStuffItem item = (AbstractStuffItem) inventory.getInventory().get(idx);
         if (setEquipment(item)) {
 //            inventory.getInventory().set(idx, null);
 //            inventory.get
             inventory.getInventory().remove(idx);
-            return true;
         }
-        return false;
     }
 
     public void useItem(Case c) {
@@ -368,71 +351,52 @@ public class Player extends AbstractEntities {
         manaAttack*=getMultiplicateur();
     }
 
-    public boolean isLevelUp(int expGain) {
-        double newExp = (exp + expGain) % expMax;
-        if (newExp < exp) {
-            exp = newExp;
-            return true;
-        }
-        return false;
-    }
-
     public boolean isDead() {
         return (getHitPoints() <= 0);
     }
 
     /**
      *
-     * @param monster
-     * @param map
-     * @return a bool
-     * attack the first monster you will find around you
+     * @param monster monstre a attaquer
+     * @param map map sur laquelle ce trouve le joueur
      */
 
-    public boolean closeAttack(Entities monster, Map map) {
+    public void closeAttack(Entities monster, Map map) {
         if(setMP(getMP()-manaAttack)) {
             if (monster == null) {
                 Util.currentAction.append("Aucune cible atteinte...\n");
-                return false;
             } else {
                 attackMonster(monster, map);
-                return true;
             }
         }else{
             Util.currentAction.append("Pas assez de mana...\n");
-            return false;
         }
     }
 
     /**
      *
-     * @param monsters
-     * @param map
-     * @return a bool
-     * attack all the monster around you even the diagonals
+     * @param monsters liste des monstres a attaquer
+     * @param map map sur laquelle ce trouve le joueur
      */
 
-    public boolean zoneAttack(List<Entities> monsters, Map map) {
+    public void zoneAttack(List<Entities> monsters, Map map) {
         if(setMP(getMP()-manaAttack*4)) {
             if (monsters.isEmpty()) {
                 Util.currentAction.append("Aucune cible atteinte...\n");
-                return false;
             } else {
                 for (Entities monster : monsters) {
                     attackMonster(monster, map);
                 }
-                return true;
             }
         }else{
             Util.currentAction.append("Pas assez de mana...\n");
-            return false;
         }
     }
 
     /**
      *
-     * @param monster
-     * @param map
+     * @param monster monstre a attaquer
+     * @param map map sur laquelle ce trouve le joueur
      * the attack procedure. attack first and then looks if the monster's dead
      */
 

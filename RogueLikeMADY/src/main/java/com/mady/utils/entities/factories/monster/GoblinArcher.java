@@ -14,17 +14,6 @@ public class GoblinArcher extends AbstractMonster {
 
 
     @Override
-    public int getMaxDammages() {
-        return 0;
-    }
-
-    @Override
-    public void setMaxDammages(int maxDammages) {
-
-    }
-
-
-    @Override
     public void skill(Entities target) {
         Position monsterPos = getPosition();
         Position targetPos = target.getPosition();

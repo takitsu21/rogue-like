@@ -37,13 +37,6 @@ public class Case {
         this.ct = CaseType.MAP;
     }
 
-    public Case(String repr, Object item, CaseType ct, Entities entity) {
-        this.repr = repr;
-        this.item = item;
-        this.ct = ct;
-        this.entity = entity;
-    }
-
     public Case(String repr) {
         this(repr, null, CaseType.MAP);
     }

@@ -24,10 +24,6 @@ public interface Entities {
 
     int getMovement();
 
-    int getMaxDammages();
-
-    void setMaxDammages(int maxDammages);
-
     String getRepr();
 
     Map doTurn(Map map);

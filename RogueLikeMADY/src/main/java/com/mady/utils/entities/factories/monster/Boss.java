@@ -13,16 +13,6 @@ public class Boss extends AbstractMonster{
     }
 
 
-    @Override
-    public int getMaxDammages() {
-        return 0;
-    }
-
-    @Override
-    public void setMaxDammages(int maxDammages) {
-
-    }
-
 
     public void skill(Map map) {
         Player player=map.getPlayer();

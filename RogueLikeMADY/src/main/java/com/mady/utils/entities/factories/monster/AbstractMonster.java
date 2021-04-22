@@ -27,12 +27,6 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     }
 
 
-    private double getDistance(Player player) {
-        Position monsterPos = getPosition();
-        Position playerPos = player.getPosition();
-        return monsterPos.getDistance(playerPos);
-    }
-
     private void updatePos(Map map, Player player) {
         Position playerPos = player.getPosition();
         Deplacement dep = direction(playerPos);
@@ -41,7 +35,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     /**
      *
-     * @param playerPos
+     * @param playerPos position du player
      * @return a direction
      * direction will determine where the monster needs to head to to find the player
      */
@@ -98,7 +92,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     /**
      *
-     * @param map
+     * @param map map sur laquelle ce trouve le monstre
      * @return a bool if the player is on one of the four cases around us
      */
 
@@ -117,12 +111,10 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX()][monsterPos.getY() + 1].getEntity() instanceof Player) {
-            return true;
-        }
-        return false;
+        return map.getMap()[monsterPos.getX()][monsterPos.getY() + 1].getEntity() instanceof Player;
     }
 
     @Override
     public abstract void skill(Entities target);
+
 }

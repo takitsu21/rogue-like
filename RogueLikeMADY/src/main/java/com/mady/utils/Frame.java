@@ -3,7 +3,7 @@ package com.mady.utils;
 import javax.swing.*;
 
 public class Frame {
-    private JFrame frame;
+    private final JFrame frame;
 
     public Frame() {
         this.frame = new JFrame("MADY");
@@ -17,10 +17,6 @@ public class Frame {
 
     public JFrame getFrame() {
         return frame;
-    }
-
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
     }
 
 
