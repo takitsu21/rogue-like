@@ -57,11 +57,11 @@ public abstract class AbstractStuffItem implements Item {
     public void act(Player player) {
     }
 
-    public double getHitPoints() {
+    public double getHP() {
         return HP;
     }
 
-    public void setHitPoints(double HP) {
+    public void setHP(double HP) {
         this.HP = HP;
     }
 

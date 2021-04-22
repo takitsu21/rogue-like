@@ -23,4 +23,10 @@ public class Pause {
     public List<String> getListe() {
         return liste;
     }
+
+    public String toString(Case[][] map) {
+        int height = map.length;
+        int width = map[0].length;
+        return "Pause";
+    }
 }

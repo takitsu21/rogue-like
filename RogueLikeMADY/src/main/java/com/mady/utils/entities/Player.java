@@ -35,9 +35,9 @@ public class Player extends AbstractEntities {
   
     private double multiplicateur =1.12;
     private final HashMap<String, Double> stats = new HashMap<String, Double>() {{
-        put("LVL", (double) lvl);
-        put("MAX_HP", maxHp);
-        put("HP", HP);
+        put("LVL", (double) getLvl());
+        put("MAX_HP", (double) getMaxHitPoints());
+        put("HP", (double) getHitPoints());
         put("MAX_MP", maxMp);
         put("MP", MP);
         put("ATK", ATK);
@@ -215,9 +215,9 @@ public class Player extends AbstractEntities {
 
 
   
-
+    @Override
     public void setLvl(int lvl) {
-        this.lvl = lvl;
+        super.setLvl(lvl);
         stats.put("LVL", (double)lvl);
     }
 
@@ -233,11 +233,18 @@ public class Player extends AbstractEntities {
     }
 
 
+    @Override
+    public void setMaxHitPoints(int maxHp) {
+        super.setMaxHitPoints(maxHp);
+        stats.put("MAX_HP", (double) maxHp);
+        //stats.put("HP", maxHp);
+    }
 
-    public void setMaxHp(double maxHp) {
-        this.maxHp = maxHp;
-        stats.put("MAX_HP", maxHp);
-        stats.put("HP", maxHp);
+    @Override
+    public void setHitPoints(int Hp) {
+        super.setHitPoints(Hp);
+        stats.put("HP", (double) Hp);
+        //stats.put("HP", maxHp);
     }
 
 

@@ -207,6 +207,7 @@ public abstract class AbstractEntities implements Entities {
 
     public void setLvl(int lvl) {
         this.lvl = lvl;
+
     }
 
 }
