@@ -34,6 +34,7 @@ public class Player extends AbstractEntities {
     private int manaAttack = 2;
 
 
+
   
     //private double multiplicateur =1.12;
     private final HashMap<String, Double> stats = new HashMap<String, Double>() {{
@@ -283,9 +284,9 @@ public class Player extends AbstractEntities {
         return MP;
     }
 
-    public void setMP(double MP) {
+    public boolean setMP(double MP) {
         if(MP<0){
-            MP=0;
+            return false;
         }
 
         if(MP>=getMaxMp()){
@@ -294,6 +295,7 @@ public class Player extends AbstractEntities {
 
         this.MP = MP;
         stats.put("MP", MP);
+        return true;
     }
 
     public double getATK() {
@@ -387,13 +389,17 @@ public class Player extends AbstractEntities {
      */
 
     public boolean closeAttack(Entities monster, Map map) {
-        setMP(getMP()-manaAttack);
-        if (monster == null) {
-            Util.currentAction.append("Aucune cible atteinte...\n");
+        if(setMP(getMP()-manaAttack)) {
+            if (monster == null) {
+                Util.currentAction.append("Aucune cible atteinte...\n");
+                return false;
+            } else {
+                attackMonster(monster, map);
+                return true;
+            }
+        }else{
+            Util.currentAction.append("Pas assez de mana...\n");
             return false;
-        } else {
-            attackMonster(monster, map);
-            return true;
         }
     }
 
@@ -406,15 +412,19 @@ public class Player extends AbstractEntities {
      */
 
     public boolean zoneAttack(List<Entities> monsters, Map map) {
-        setMP(getMP()-manaAttack*4);
-        if (monsters.isEmpty()) {
-            Util.currentAction.append("Aucune cible atteinte...\n");
-            return false;
-        } else {
-            for (Entities monster : monsters) {
-                attackMonster(monster, map);
+        if(setMP(getMP()-manaAttack*4)) {
+            if (monsters.isEmpty()) {
+                Util.currentAction.append("Aucune cible atteinte...\n");
+                return false;
+            } else {
+                for (Entities monster : monsters) {
+                    attackMonster(monster, map);
+                }
+                return true;
             }
-            return true;
+        }else{
+            Util.currentAction.append("Pas assez de mana...\n");
+            return false;
         }
     }
 
