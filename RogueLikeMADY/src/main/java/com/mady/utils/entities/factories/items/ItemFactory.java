@@ -1,5 +1,6 @@
 package com.mady.utils.entities.factories.items;
 
+import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
 public class ItemFactory {
@@ -12,18 +13,18 @@ public class ItemFactory {
         return INSTANCE;
     }
 
-    public Item generate(Position position, String id) {
+    public Item generate(Position position, String id, Player player) {
         switch (id) {
             case "potion_vie":
-                return new PotionVie(position);
+                return new PotionVie(position, player.getLvl(),player.getMultiplicateur());
             case "potion_force":
-                return new PotionForce(position);
+                return new PotionForce(position, player.getLvl(),player.getMultiplicateur());
             case "poison_vie":
-                return new PoisonVie(position);
+                return new PoisonVie(position, player.getLvl(),player.getMultiplicateur());
             case "poison_force":
-                return new PoisonForce(position);
+                return new PoisonForce(position, player.getLvl(),player.getMultiplicateur());
             case "chest":
-                return new Chest(position);
+                return new Chest (position, player.getLvl(),player.getMultiplicateur());
             default:
                 return null;
         }

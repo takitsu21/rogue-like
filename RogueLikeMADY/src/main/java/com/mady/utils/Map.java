@@ -309,7 +309,7 @@ public class Map {
     private void generateEntities() {
         int nbMonstersByRoom;
         for (int i = 0; i < salles.size(); i++) {
-            nbMonstersByRoom = Util.r.nextInt(4) + 1;
+            nbMonstersByRoom = Util.r.nextInt(10) + 1;
             addEntity(nbMonstersByRoom, i);
         }
     }
@@ -328,7 +328,7 @@ public class Map {
                 pos = randomPosPlayerInSalle(salle);
             }
             Entities entity = MonsterFactory.getInstance().generate(
-                    Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle, player);
+                    Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
             map[pos.getX()][pos.getY()].setEntity(entity);
             entities.add(entity);
         }
@@ -347,7 +347,7 @@ public class Map {
             while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) {
                 pos = randomPosPlayerInSalle(chooseSalle());
             }
-            Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem());
+            Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem(), player);
             map[pos.getX()][pos.getY()].setItem(item);
         }
     }
@@ -489,7 +489,7 @@ public class Map {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Ansi.colorize(String.format("HP : %d/%d | ", (int) player.getHP(), (int) player.getMaxHp())
+        sb.append(Ansi.colorize(String.format("HP : %d/%d | ", (int) player.getHitPoints(), (int) player.getMaxHitPoints())
                 , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", (int) player.getMP(),
                 (int) player.getMaxMp()), Attribute.BLUE_TEXT()))
                 .append(Ansi.colorize(String.format("Lvl %d ", player.getLvl()), Attribute.YELLOW_TEXT()))

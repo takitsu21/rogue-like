@@ -7,8 +7,8 @@ import com.mady.utils.entities.Position;
 public class GoblinArcher extends AbstractMonster {
 
 
-    public GoblinArcher(Position pos, Salle salle, Player player) {
-        super("Gobelin", pos, 5, 3, 1, "g", 3, salle, player);
+    public GoblinArcher(Position pos, Salle salle) {
+        super("Gobelin", pos, 5, 3, 1, "g", 3, salle);
     }
 
 

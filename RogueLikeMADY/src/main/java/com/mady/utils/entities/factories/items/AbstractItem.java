@@ -8,14 +8,17 @@ import com.mady.utils.entities.Position;
 public abstract class AbstractItem implements Item {
 
     private final double movement;
-    private final int damages;
+    private int damages;
     private final String name;
     private final Boolean drinkable;
     private final Boolean pickable;
     private final String repr;
     private Position position;
+    private int lvl;
+    private double multiplicateur;
 
-    public AbstractItem(String repr, Position position, double movement, int damages, String name, Boolean drinkable, Boolean pickable) {
+    public AbstractItem(String repr, Position position, double movement, int damages, String name, Boolean drinkable,
+                        Boolean pickable, int lvl, double multiplicateur) {
         this.repr = repr;
         this.position = position;
         this.movement = movement;
@@ -23,6 +26,11 @@ public abstract class AbstractItem implements Item {
         this.name = name;
         this.drinkable = drinkable;
         this.pickable = pickable;
+        this.lvl=lvl;
+        this.multiplicateur=multiplicateur;
+        if(getLvl() != 1){
+            setDamages((int) (damages * (getLvl() - 1) * getMultiplicateur()));
+        }
     }
 
 
@@ -43,6 +51,10 @@ public abstract class AbstractItem implements Item {
         return damages;
     }
 
+    public void setDamages(int damages) {
+        this.damages = damages;
+    }
+
     public String getName() {
         return name;
     }
@@ -59,4 +71,22 @@ public abstract class AbstractItem implements Item {
     public String getRepresentation() {
         return Ansi.colorize(repr, Attribute.YELLOW_TEXT());
     }
+
+    public int getLvl() {
+        return lvl;
+    }
+
+    public void setLvl(int lvl) {
+        this.lvl = lvl;
+    }
+
+    public double getMultiplicateur() {
+        return multiplicateur;
+    }
+
+    public void setMultiplicateur(int multiplicateur) {
+        this.multiplicateur = multiplicateur;
+    }
+
+
 }
