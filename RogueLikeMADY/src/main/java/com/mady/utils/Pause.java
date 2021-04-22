@@ -24,6 +24,7 @@ public class Pause {
         return liste;
     }
 
+
     public String toString(Case[][] map) {
         int height = map.length;
         int width = map[0].length;
