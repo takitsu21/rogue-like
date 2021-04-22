@@ -126,6 +126,9 @@ public abstract class GameLoop {
         else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.P)){
             System.out.println(map.getPause().toString(map.getMap()));
         }
+//        else if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.PLUS) {
+//            Util.showShop()
+//        }
         else if (isGameRunning()) {
             System.out.println(map);
         }

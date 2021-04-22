@@ -2,15 +2,18 @@ package com.mady.utils;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
+import com.mady.GameStatus;
 import com.mady.utils.entities.AbstractStuffItem;
 import com.mady.utils.entities.Deplacement;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Stuff;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.items.Price;
+import com.mady.utils.entities.factories.items.Shop;
 
+import java.util.*;
 import java.util.Map;
-import java.util.Random;
 
 public class Util {
     public static final Random r = new Random();
@@ -33,19 +36,23 @@ public class Util {
     }
 
     public static String getRandomItem() {
-        int randomIt = Util.r.nextInt(15);
+        int randomIt = Util.r.nextInt(25);
         if (randomIt < 4) {
             return "potion_vie";
         }
         if (randomIt == 4) {
             return "poison_vie";
         }
-        if (randomIt > 4 && randomIt < 9) {
+        if (randomIt < 9) {
             return "potion_force";
         }
         if (randomIt == 9) {
             return "poison_force";
-        } else {
+        }
+        if (randomIt < 19) {
+            return "coin";
+        }
+        else {
             return "chest";
         }
     }
@@ -148,6 +155,22 @@ public class Util {
         return sb.toString();
     }
 
+
+    public static String showShop(Player player) {
+        Shop shop = new Shop();
+        shop.generateItems(player);
+        if (shop.isEmpty()) {
+            return Ansi.colorize("Aucun objet dans le shop!", Attribute.BRIGHT_RED_TEXT());
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(Ansi.colorize("SHOP\n", Attribute.MAGENTA_TEXT()));
+        for (Map.Entry<AbstractStuffItem, Price> entry : shop.getItems().entrySet()) {
+            sb.append(String.format("%s : ", entry.getKey()))
+                    .append(Ansi.colorize(String.format("%s MADY Coins.\n", entry.getValue()),
+                            Attribute.BRIGHT_YELLOW_TEXT()));
+        }
+        return sb.toString();
+    }
 
     public static String filler(int i) {
         StringBuilder sb = new StringBuilder();

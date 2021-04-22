@@ -71,6 +71,9 @@ public class Case {
 
     @Override
     public String toString() {
+        if (entity != null) {
+            return entity.getRepr();
+        }
         return getRepr();
     }
 

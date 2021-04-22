@@ -42,7 +42,6 @@ public class Map {
     }
 
     /**
-     *
      * @return the map with rooms, paths, entities and items
      */
     public boolean createMap() {
@@ -54,15 +53,16 @@ public class Map {
             }
         }
         bRoom = generateRooms();
-        if (bRoom){
-            bPath = selectLien();}
+        if (bRoom) {
+            bPath = selectLien();
+        }
         //generatePortal();
         //generateEntities();
         //generateItems();
         return !bRoom || !bPath;
     }
 
-    public void addEntityItemPortal(){
+    public void addEntityItemPortal() {
         generatePortal();
         generateEntities();
         generateItems();
@@ -82,7 +82,6 @@ public class Map {
     }
 
     /**
-     *
      * @param s
      * @return the position of the player in each new map
      */
@@ -109,8 +108,7 @@ public class Map {
     }
 
     /**
-     *@param player
-     * display the player on the map
+     * @param player display the player on the map
      */
     public void addPlayerToMap(Player player) {
         setPlayer(player);
@@ -118,7 +116,6 @@ public class Map {
     }
 
     /**
-     *
      * @param p
      * @return a bool.
      * generation of one room in the map.
@@ -149,11 +146,9 @@ public class Map {
     }
 
     /**
-     *
      * @param x
      * @param y
      * @return wether or not the position is in the map.
-     *
      */
     public boolean isInside(int x, int y) {
         return (x >= 0 && x < BASE_HEIGHT)
@@ -161,7 +156,6 @@ public class Map {
     }
 
     /**
-     *
      * @return if the generation of all the rooms is a success or not.
      */
     private boolean generateRooms() {
@@ -174,7 +168,6 @@ public class Map {
     }
 
     /**
-     *
      * @param p
      * @param lignes
      * @param colonnes
@@ -204,7 +197,6 @@ public class Map {
 
 
     /**
-     *
      * @return a bool.
      * fonction qui va permettre de déterminer comment les salles seront reliées. Une salle est reliée à la salle
      * qui est la plus proche d'elle.
@@ -227,7 +219,8 @@ public class Map {
                     distance = distance2;
                     salleselect = s2;
                 }
-            };
+            }
+            ;
             b = b && relie(s, salleselect);
             s = salleselect;
             relier.set(salles.indexOf(salleselect), true);
@@ -236,7 +229,6 @@ public class Map {
     }
 
     /**
-     *
      * @param s1
      * @param s2
      * @return a bool
@@ -252,7 +244,6 @@ public class Map {
     }
 
     /**
-     *
      * @param solvedPath
      * @return a bool
      * impression sur la map des chemins et des portes en fonction des chemins qui ot étré trouvés.
@@ -309,15 +300,13 @@ public class Map {
     private void generateEntities() {
         int nbMonstersByRoom;
         for (int i = 0; i < salles.size(); i++) {
-            nbMonstersByRoom = Util.r.nextInt(10) + 1;
+            nbMonstersByRoom = Util.r.nextInt(6) + 1;
             addEntity(nbMonstersByRoom, i);
         }
     }
 
     /**
-     *
-     * @param nbMonsters
-     * on ajoute à la map les entités générées. Celles-ci ne peuvent pas être placées devant les portes
+     * @param nbMonsters on ajoute à la map les entités générées. Celles-ci ne peuvent pas être placées devant les portes
      */
     private void addEntity(int nbMonsters, int idx) {
         Salle salle = salles.get(idx);
@@ -336,10 +325,8 @@ public class Map {
 
 
     /**
-     *
-     * @param nbItem
-     * Ajout à la map des items. Ici aussi le nombre est pré-défini et ceux-ci ne peuvent pas être palcés devant
-     * les portes
+     * @param nbItem Ajout à la map des items. Ici aussi le nombre est pré-défini et ceux-ci ne peuvent pas être palcés devant
+     *               les portes
      */
     private void addItems(int nbItem) {
         for (int i = 0; i < nbItem; i++) {
@@ -359,9 +346,7 @@ public class Map {
 
 
     /**
-     *
-     * @param c
-     * nettoyage d'une case après qu'une entité l'est quitée.
+     * @param c nettoyage d'une case après qu'une entité l'est quitée.
      */
     public void clearCase(Case c) {
         c.setItem(null);
@@ -376,7 +361,6 @@ public class Map {
     }
 
     /**
-     *
      * @param e
      * @param p
      * @return a bool.
@@ -441,12 +425,12 @@ public class Map {
     }
 
     /**
-     *
      * @param newPos
      * @return position
      * cherche une porte associée à une nouvelle position
      */
-    private Position findDoor(Position newPos) { ;
+    private Position findDoor(Position newPos) {
+        ;
         for (PairPos chemin : chemins) {
             if (chemin.getP1().equals(newPos)) {
                 return chemin.getP2();
@@ -459,7 +443,6 @@ public class Map {
     }
 
     /**
-     *
      * @param pos
      * @return a bool.
      * regarde si une postion donnée est à côté d'une porte
@@ -493,8 +476,10 @@ public class Map {
                 , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", (int) player.getMP(),
                 (int) player.getMaxMp()), Attribute.BLUE_TEXT()))
                 .append(Ansi.colorize(String.format("Lvl %d ", player.getLvl()), Attribute.YELLOW_TEXT()))
-                .append(Ansi.colorize(String.format("[%d/%d EXP]\n", (int) player.getExp(), (int) player.getExpMax()),
-                        Attribute.MAGENTA_TEXT()));
+                .append(Ansi.colorize(String.format("[%d/%d EXP] | ", (int) player.getExp(), (int) player.getExpMax()),
+                        Attribute.MAGENTA_TEXT()))
+                .append(Ansi.colorize(String.format("%d MADY Coins\n", player.getCoins()),
+                        Attribute.BRIGHT_YELLOW_TEXT()));
 
         for (int i = 0; i <= BASE_WIDTH + 1; i++) {
             sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
@@ -522,28 +507,6 @@ public class Map {
         }
         sb.append(Util.currentAction);
         Util.currentAction = new StringBuilder();
-
-//        DEBUGGER
-        for (int i = 0; i < BASE_HEIGHT; i++) {
-            for (int j = 0; j < BASE_WIDTH; j++) {
-                switch (map[i][j].getCt()) {
-                    case WALL:
-                        System.out.print("W ");
-                        break;
-                    case PATH:
-                        System.out.print("P ");
-                        break;
-                    case SALLE:
-                        System.out.print("S ");
-                        break;
-                    default:
-                        System.out.print("  ");
-                        break;
-                }
-            }
-            System.out.println();
-        }
-
         return sb.toString();
     }
 
@@ -552,7 +515,6 @@ public class Map {
     }
 
     /**
-     *
      * @return une entité ou null si pas de mosntres autour.
      * recherche de monstres autour du player afin de faire une attaque monocible.
      * l'attaque en diagonale est possible.
@@ -572,7 +534,6 @@ public class Map {
     }
 
     /**
-     *
      * @return une lsite d'entités.
      * comme pour la recherche de l'attaque unique, on commence avec la diagonle supérieure gauche.
      * Chaque entité trouvée sera ajoutée à la liste retournée.

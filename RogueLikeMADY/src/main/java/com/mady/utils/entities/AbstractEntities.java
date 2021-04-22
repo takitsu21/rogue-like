@@ -149,8 +149,8 @@ public abstract class AbstractEntities implements Entities {
      */
 
     private boolean isInPerimeter(Map map) {
-        for (int i = pos.getX() - effectiveArea; i < pos.getX() + effectiveArea; i++) {
-            for (int j = pos.getY() - effectiveArea; j < pos.getY() + effectiveArea; j++) {
+        for (int i = pos.getX() - effectiveArea; i <= pos.getX() + effectiveArea; i++) {
+            for (int j = pos.getY() - effectiveArea; j <= pos.getY() + effectiveArea; j++) {
                 if (map.isInside(i, j) && map.getMap()[i][j].isPlayer()) {
                     isAggro = true;
                     return true;
