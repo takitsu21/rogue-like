@@ -61,7 +61,6 @@ public abstract class GameLoop {
                 p.destroy();
             }
         } catch (Exception ignored) {}
-
     }
 
     /**
@@ -122,7 +121,7 @@ public abstract class GameLoop {
     protected void render() {
         clrscr();
         if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.I) {
-            System.out.println(controller.player.getInventory());
+            System.out.println(Util.showInventoryMenu(controller.player));
         }
         else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.P)){
             System.out.println(map.getPause().toString(map.getMap()));

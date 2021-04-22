@@ -12,6 +12,7 @@ import com.mady.utils.entities.factories.items.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Player extends AbstractEntities {
@@ -31,7 +32,18 @@ public class Player extends AbstractEntities {
     private double LUK = 2;
     private double maxExpToWin = 3;
     private double multiplicateur =1.12;
-    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
+    private final HashMap<String, Double> stats = new HashMap<String, Double>() {{
+        put("LVL", (double) lvl);
+        put("MAX_HP", maxHp);
+        put("HP", HP);
+        put("MAX_MP", maxMp);
+        put("MP", MP);
+        put("ATK", ATK);
+        put("DEF", DEF);
+        put("AGI", AGI);
+        put("LUK", LUK);
+    }};
+//    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
 
 
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
@@ -65,6 +77,20 @@ public class Player extends AbstractEntities {
         return inventory;
     }
 
+
+//    public void applyStats() {
+//        for (java.util.Map.Entry<String, AbstractStuffItem> pair : stuff.getItems().entrySet()) {
+//            setMaxHitPoints((int) (getMaxHitPoints() + pair.getValue().getHP()));
+//            setHitPoints((int) (getHitPoints() + pair.getValue().getHP()));
+//            setAGI(getAGI() + pair.getValue().getAGI());
+//            setDEF(getDEF() + pair.getValue().getDEF());
+//            setATK(getATK() + pair.getValue().getATK());
+//            setMaxMp(getMaxMp() + pair.getValue().getMP());
+//            setMP(getMP() + pair.getValue().getMP());
+//            setAGI(getAGI() + pair.getValue().getAGI());
+//            setLUK(getLUK() + pair.getValue().getLUK());
+//        }
+//    }
     /**
      * Ramasse un item sur la case en ouvrant le coffre.
      *
@@ -83,6 +109,39 @@ public class Player extends AbstractEntities {
     }
 
     /**
+     * Enlève les stats au joueur par rapport à l'item.
+     * @param item
+     */
+    private void removeStats(AbstractStuffItem item) {
+        if (item == null) {
+            return; // Si aucun item n'est encore équipé
+        }
+        setLUK(getLUK() - item.getLUK());
+        setAGI(getAGI() - item.getAGI());
+        setDEF(getDEF() - item.getDEF());
+        setMaxMp(getMaxMp() - item.getMP());
+        setMP(getMP() - item.getMP());
+        setMaxHitPoints((int) (getMaxHitPoints() - item.getHP()));
+        setHitPoints((int) (getHitPoints() - item.getHP()));
+        setATK(getATK() - item.getATK());
+    }
+
+    /**
+     * Ajoute les stats au joueur par rapport à l'item.
+     * @param item
+     */
+    private void addStats(AbstractStuffItem item) {
+        setLUK(getLUK() + item.getLUK());
+        setAGI(getAGI() + item.getAGI());
+        setDEF(getDEF() + item.getDEF());
+        setMaxMp(getMaxMp() + item.getMP());
+        setMP(getMP());
+        setMaxHitPoints((int) (getMaxHitPoints() + item.getHP()));
+        setHitPoints((int) (getHitPoints() + item.getHP()));
+        setATK(getATK() + item.getATK());
+    }
+
+    /**
      * Equipe un item.
      *
      * @param item item a équipé.
@@ -91,29 +150,37 @@ public class Player extends AbstractEntities {
     public boolean setEquipment(AbstractStuffItem item) {
         switch (item.getName()) {
             case "helmet":
+                removeStats(stuff.getHelmet());
                 stuff.setHelmet(item);
                 break;
             case "weapon":
+                removeStats(stuff.getWeapon());
                 stuff.setWeapon(item);
                 break;
             case "shoes":
+                removeStats(stuff.getShoes());
                 stuff.setShoes(item);
                 break;
             case "pant":
+                removeStats(stuff.getPant());
                 stuff.setPant(item);
                 break;
             case "chest":
+                removeStats(stuff.getChest());
                 stuff.setChest(item);
                 break;
             case "amulet":
+                removeStats(stuff.getAmulet());
                 stuff.setAmulet(item);
                 break;
             case "gauntlet":
+                removeStats(stuff.getGauntlet());
                 stuff.setGauntlet(item);
                 break;
             default:
                 return false;
         }
+        addStats(item);
         return true;
     }
 
@@ -123,7 +190,6 @@ public class Player extends AbstractEntities {
      */
     public boolean equipItem(int idx) {
         AbstractStuffItem item = (AbstractStuffItem) inventory.getInventory().get(idx);
-        setEquipment(item);
         if (setEquipment(item)) {
 //            inventory.getInventory().set(idx, null);
 //            inventory.get
@@ -150,6 +216,7 @@ public class Player extends AbstractEntities {
 
     public void setLvl(int lvl) {
         this.lvl = lvl;
+        stats.put("LVL", (double)lvl);
     }
 
     public double getMaxMp() {
@@ -158,7 +225,8 @@ public class Player extends AbstractEntities {
 
     public void setMaxMp(double maxMp) {
         this.maxMp = maxMp;
-        this.MP = maxMp;
+        stats.put("MAX_MP", maxMp);
+        stats.put("MP", maxMp);
     }
 
     public double getMaxHp() {
@@ -167,7 +235,8 @@ public class Player extends AbstractEntities {
 
     public void setMaxHp(double maxHp) {
         this.maxHp = maxHp;
-        this.HP = maxHp;
+        stats.put("MAX_HP", maxHp);
+        stats.put("HP", maxHp);
     }
 
     public double getExp() {
@@ -176,6 +245,7 @@ public class Player extends AbstractEntities {
 
     public void setExp(double exp) {
         this.exp = exp;
+        stats.put("EXP", exp);
     }
 
     public double getExpMax() {
@@ -184,6 +254,7 @@ public class Player extends AbstractEntities {
 
     public void setExpMax(double expMax) {
         this.expMax = expMax;
+        stats.put("EXP_MAX", expMax);
     }
 
     public double getHP() {
@@ -192,6 +263,7 @@ public class Player extends AbstractEntities {
 
     public void setHP(double HP) {
         this.HP = HP;
+        stats.put("HP", HP);
     }
 
     public double getMP() {
@@ -200,6 +272,7 @@ public class Player extends AbstractEntities {
 
     public void setMP(double MP) {
         this.MP = MP;
+        stats.put("MP", MP);
     }
 
     public double getATK() {
@@ -208,6 +281,7 @@ public class Player extends AbstractEntities {
 
     public void setATK(double ATK) {
         this.ATK = ATK;
+        stats.put("ATK", ATK);
     }
 
     public double getDEF() {
@@ -216,6 +290,7 @@ public class Player extends AbstractEntities {
 
     public void setDEF(double DEF) {
         this.DEF = DEF;
+        stats.put("DEF", DEF);
     }
 
     public double getAGI() {
@@ -224,6 +299,7 @@ public class Player extends AbstractEntities {
 
     public void setAGI(double AGI) {
         this.AGI = AGI;
+        stats.put("AGI", AGI);
     }
 
     public double getLUK() {
@@ -232,14 +308,11 @@ public class Player extends AbstractEntities {
 
     public void setLUK(double LUK) {
         this.LUK = LUK;
+        stats.put("LUK", LUK);
     }
 
-    public List<Double> getStats() {
+    public HashMap<String, Double> getStats() {
         return stats;
-    }
-
-    public void setStats(List<Double> stats) {
-        this.stats = stats;
     }
 
     public Stuff getStuff() {
