@@ -45,7 +45,6 @@ public class TurnBasedGameLoop extends GameLoop {
                     map.getPlayer().setPos(position);
                     world.getCurrentMap().addPlayerToMap(map.getPlayer());
                     world.getCurrentMap().addEntityItemPortal();
-                    map.getFrame().getFrame().removeKeyListener(new MoveListener(map));
                     map = world.getCurrentMap();
                     for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {
                         frame.getFrame().removeKeyListener(c);
