@@ -41,7 +41,7 @@ public abstract class GameLoop {
         map.addPlayerToMap(controller.getPlayer());
         map.addEntityItemPortal();
         render();
-        map.getFrame().getFrame().addKeyListener(new MoveListener(map));
+        frame.getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.STOPPED;
     }
 

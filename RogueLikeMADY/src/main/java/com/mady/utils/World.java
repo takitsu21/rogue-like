@@ -25,7 +25,7 @@ public class World {
         boolean bCreatWorld;
         Map map;
         do {
-            map = new Map(6, 24, 128, frame);
+            map = new Map(6, 24, 128);
             bCreatWorld = map.createMap();
         }
         while (bCreatWorld);

@@ -20,10 +20,9 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
-    private final int BASE_HEIGHT;
-    private final int BASE_WIDTH;
+    protected final int BASE_HEIGHT;
+    protected final int BASE_WIDTH;
     private final List<Entities> entities = new ArrayList<>();
-    private final Frame frame;
     private final List<PairPos> chemins = new ArrayList<>();
     private final Pause pause = new Pause();
     private Salle salleBoss;
@@ -31,8 +30,7 @@ public class Map {
     private Boss boss;
 
 
-    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, Frame frame) {
-        this.frame = frame;
+    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH) {
         this.nbSalles = nbSalles;
         this.BASE_HEIGHT = BASE_HEIGHT;
         this.BASE_WIDTH = BASE_WIDTH;
@@ -40,8 +38,8 @@ public class Map {
     }
 
 
-    public Map(int nbSalles, Frame frame) {
-        this(nbSalles, 24, 128, frame);
+    public Map(int nbSalles) {
+        this(nbSalles, 24, 128);
     }
 
     /**
@@ -70,9 +68,6 @@ public class Map {
         generateItems();
     }
 
-    public Frame getFrame() {
-        return frame;
-    }
 
     public Salle chooseSalle() {
         return salles.get(Util.r.nextInt(salles.size()));
