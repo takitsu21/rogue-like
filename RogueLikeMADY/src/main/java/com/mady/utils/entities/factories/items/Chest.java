@@ -17,24 +17,13 @@ public class Chest extends AbstractItem {
         super("C", position, 0, 0, "Coffre au trésor", false, true, lvl, multiplicateur);
     }
 
-    @Override
-    public void act(Player player) {
-
-    }
-
-    @Override
-    public String getRepresentation() {
-        return Ansi.colorize("C", Attribute.MAGENTA_TEXT());
-    }
-
     /**
-     *
      * @param player joueur a partir duquel vont etre changer les statistiques de l'item
      * @return AbstractStuffItem Item créer quand on ouvre le coffre.
      */
     public static AbstractStuffItem openChest(Player player) {
         double lvl = player.getLvl();
-        int randomLUK = Util.r.nextInt((int) player.getLUK())+1;
+        int randomLUK = Util.r.nextInt((int) player.getLUK()) + 1;
         double baseMultiplicator = player.getMultiplicateur();
         double baseStat = 5;
         double newRandomLUK = randomLUK * lvl * baseMultiplicator;
@@ -61,5 +50,15 @@ public class Chest extends AbstractItem {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public void act(Player player) {
+
+    }
+
+    @Override
+    public String getRepresentation() {
+        return Ansi.colorize("C", Attribute.MAGENTA_TEXT());
     }
 }

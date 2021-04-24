@@ -20,14 +20,14 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
-    private Salle salleBoss;
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private final List<Entities> entities = new ArrayList<>();
     private final Frame frame;
-    private Player player;
     private final List<PairPos> chemins = new ArrayList<>();
     private final Pause pause = new Pause();
+    private Salle salleBoss;
+    private Player player;
     private Boss boss;
 
 
@@ -63,8 +63,8 @@ public class Map {
     }
 
 
-    public void addEntityItemPortal(){
-        salleBoss=chooseSalle();
+    public void addEntityItemPortal() {
+        salleBoss = chooseSalle();
         generatePortal();
         generateEntities();
         generateItems();
@@ -139,7 +139,6 @@ public class Map {
     }
 
     /**
-     *
      * @param x position en x
      * @param y position en y
      * @return wether or not the position is in the map.
@@ -162,9 +161,8 @@ public class Map {
     }
 
     /**
-     *
-     * @param p position de la salle a verifier
-     * @param lignes nb lignes de la salle
+     * @param p        position de la salle a verifier
+     * @param lignes   nb lignes de la salle
      * @param colonnes nb de colonnes de la salle
      * @return a bool
      * permet de savoir si on a un espace minimal de 3 entre les salles pour qu'elles ne soient pas côte à côte.
@@ -223,7 +221,6 @@ public class Map {
     }
 
     /**
-     *
      * @param s1 salle de depart
      * @param s2 salle d'arrivé
      * @return a bool
@@ -239,7 +236,6 @@ public class Map {
     }
 
     /**
-     *
      * @param solvedPath chemin a implementer
      * @return a bool
      * impression sur la map des chemins et des portes en fonction des chemins qui ont été trouvés.
@@ -292,9 +288,9 @@ public class Map {
     private void generateEntities() {
         int nbMonstersByRoom;
         for (int i = 0; i < salles.size(); i++) {
-            if(salles.get(i).equals(salleBoss)){
+            if (salles.get(i).equals(salleBoss)) {
                 addBoss();
-            }else {
+            } else {
                 nbMonstersByRoom = Util.r.nextInt(6) + 1;
                 addEntity(nbMonstersByRoom, i);
             }
@@ -367,7 +363,6 @@ public class Map {
     }
 
     /**
-     *
      * @param e l'entité a déplacer
      * @param p la position où deplacer l'entité
      * @return a bool.
@@ -379,21 +374,21 @@ public class Map {
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
-        boolean success=false;
+        boolean success = false;
         /* Mouvment basique*/
 
         if (newCase.isFreeCase() && newCase.isSalle()) {
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
-            success=true;
+            success = true;
         }
         if (e instanceof Player) {
             if (oldCase.isPath() && newCase.isSalle() && !newCase.isOccupied()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-                success=true;
+                success = true;
             }
             if (oldCase.isPath() && newCase.isPath()) {
                 /*Gestion du mouvement de salle à salle*/
@@ -406,8 +401,8 @@ public class Map {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
-                newPos=newPos2;
-                success=true;
+                newPos = newPos2;
+                success = true;
             }
             if (newCase.isPath()) {
                 Position newPos2 = findDoor(newPos);
@@ -416,26 +411,26 @@ public class Map {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
-                newPos=newPos2;
-                success=true;
+                newPos = newPos2;
+                success = true;
             }
             if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-                success=true;
+                success = true;
             }
             if (newCase.isPortal()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-                success=true;
+                success = true;
             }
         }
-        if(success){
-            if(boss!=null && e instanceof Player && this.map[newPos.getX()][newPos.getY()].isAttackBoss()){
-                e.setNbDeplacement(e.getNbDeplacement()+1);
+        if (success) {
+            e.setNbDeplacement(e.getNbDeplacement() + 1);
+            if (boss != null && e instanceof Player && this.map[newPos.getX()][newPos.getY()].isAttackBoss()) {
                 boss.attack((Player) e);
             }
         }
@@ -444,7 +439,6 @@ public class Map {
     }
 
     /**
-     *
      * @param newPos recherche la porte associer a cette position
      * @return position
      * cherche une porte associée à une nouvelle position
@@ -462,7 +456,6 @@ public class Map {
     }
 
     /**
-     *
      * @param pos la position a tester
      * @return a bool.
      * regarde si une postion donnée est à côté d'une porte
@@ -552,12 +545,12 @@ public class Map {
             return map[playerPos.getX() + 1][playerPos.getY()].getEntity();
         }
 
-        if (isInside(playerPos.getX(), playerPos.getY()-1) && map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster) {
-            return map[playerPos.getX()][playerPos.getY()-1].getEntity();
+        if (isInside(playerPos.getX(), playerPos.getY() - 1) && map[playerPos.getX()][playerPos.getY() - 1].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX()][playerPos.getY() - 1].getEntity();
         }
 
-        if (isInside(playerPos.getX(), playerPos.getY()+1) && map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster) {
-            return map[playerPos.getX()][playerPos.getY()+1].getEntity();
+        if (isInside(playerPos.getX(), playerPos.getY() + 1) && map[playerPos.getX()][playerPos.getY() + 1].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX()][playerPos.getY() + 1].getEntity();
         }
 
 
@@ -574,8 +567,8 @@ public class Map {
         List<Entities> monstersAround = new ArrayList<>();
 
         if (isInside(playerPos.getX() - 1, playerPos.getY())
-                && map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
-                //&& !monstersAround.contains(map[playerPos.getX() - 1][playerPos.getY()].getEntity())) {
+                && map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster) {
+            //&& !monstersAround.contains(map[playerPos.getX() - 1][playerPos.getY()].getEntity())) {
             monstersAround.add(map[playerPos.getX() - 1][playerPos.getY()].getEntity());
         }
 
@@ -585,16 +578,16 @@ public class Map {
             monstersAround.add(map[playerPos.getX() + 1][playerPos.getY()].getEntity());
         }
 
-        if (isInside(playerPos.getX(), playerPos.getY()-1)
-                && map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster
-                && !monstersAround.contains(map[playerPos.getX()][playerPos.getY()-1].getEntity())) {
-            monstersAround.add(map[playerPos.getX()][playerPos.getY()-1].getEntity());
+        if (isInside(playerPos.getX(), playerPos.getY() - 1)
+                && map[playerPos.getX()][playerPos.getY() - 1].getEntity() instanceof AbstractMonster
+                && !monstersAround.contains(map[playerPos.getX()][playerPos.getY() - 1].getEntity())) {
+            monstersAround.add(map[playerPos.getX()][playerPos.getY() - 1].getEntity());
         }
 
-        if (isInside(playerPos.getX(), playerPos.getY()+1)
-                && map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster
-                && !monstersAround.contains(map[playerPos.getX()][playerPos.getY()+1].getEntity())) {
-            monstersAround.add(map[playerPos.getX()][playerPos.getY()+1].getEntity());
+        if (isInside(playerPos.getX(), playerPos.getY() + 1)
+                && map[playerPos.getX()][playerPos.getY() + 1].getEntity() instanceof AbstractMonster
+                && !monstersAround.contains(map[playerPos.getX()][playerPos.getY() + 1].getEntity())) {
+            monstersAround.add(map[playerPos.getX()][playerPos.getY() + 1].getEntity());
         }
 
         return monstersAround;

@@ -14,14 +14,13 @@ import java.util.logging.Logger;
  */
 public abstract class GameLoop {
 
+    protected static volatile GameStatus status;
     protected final GameController controller;
     protected final Logger logger = Logger.getLogger(GameLoop.class.getName());
-    protected static volatile GameStatus status;
     protected Frame frame = new Frame();
     protected World world;
     protected Map map;
     private Thread gameThread;
-
 
 
     /**
@@ -35,7 +34,7 @@ public abstract class GameLoop {
 
         logger.setLevel(Level.ALL);
         Salle salle = map.chooseSalle();
-        while(salle.equals(map.getSalleBoss())){
+        while (salle.equals(map.getSalleBoss())) {
             salle = map.chooseSalle();
         }
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
@@ -45,7 +44,8 @@ public abstract class GameLoop {
         map.getFrame().getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.STOPPED;
     }
-    public static void restart(){
+
+    public static void restart() {
         TurnBasedGameLoop gameLoop = new TurnBasedGameLoop();
         gameLoop.run();
     }
@@ -56,8 +56,7 @@ public abstract class GameLoop {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            }
-            else {
+            } else {
                 p = Runtime.getRuntime().exec("printf \\33c");
                 BufferedReader br = new BufferedReader(
                         new InputStreamReader(p.getInputStream()));
@@ -66,7 +65,13 @@ public abstract class GameLoop {
                 p.waitFor();
                 p.destroy();
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
+    }
+
+    public static void quit() {
+        status = GameStatus.QUITTING;
+        System.exit(0);
     }
 
     /**
@@ -83,11 +88,6 @@ public abstract class GameLoop {
      */
     public void stop() {
         status = GameStatus.STOPPED;
-    }
-
-    public static void quit() {
-        status = GameStatus.QUITTING;
-        System.exit(0);
     }
 
     /**
@@ -128,8 +128,7 @@ public abstract class GameLoop {
         clrscr();
         if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.I) {
             System.out.println(Util.showInventoryMenu(controller.player));
-        }
-        else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)){
+        } else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)) {
             System.out.println(map.getPause().toString(map.getMap()));
         }
 //        else if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.PLUS) {

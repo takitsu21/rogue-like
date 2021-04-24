@@ -10,8 +10,10 @@ import com.mady.utils.entities.factories.monster.Boss;
 
 public abstract class AbstractEntities implements Entities {
     private final int movement;
-    private String repr;
     private final int effectiveArea;
+    private final String name;
+    private final double multiplicateur = 1.12;
+    private String repr;
     private Position pos;
     private int maxHitPoints;
     private int hitPoints;
@@ -19,11 +21,8 @@ public abstract class AbstractEntities implements Entities {
     private Salle salle;
     private boolean isAggro = false;
     private boolean isAttack = false;
-    private final String name;
-    private int lvl=1;
-    private final double multiplicateur=1.12;
-    private int nbDeplacement=0;
-
+    private int lvl = 1;
+    private int nbDeplacement = 0;
 
 
     public AbstractEntities(String name,
@@ -115,7 +114,7 @@ public abstract class AbstractEntities implements Entities {
             int new_HP = getHitPoints() - damages;
             setHitPoints(new_HP);
         }
-        isAttack=true;
+        isAttack = true;
     }
 
     public boolean isDead() {
@@ -138,7 +137,6 @@ public abstract class AbstractEntities implements Entities {
     }
 
     /**
-     *
      * @param map map sur laquelle ce trouve le monstre
      * @return boolean
      * this function allows the monster to detect the player if this one enters the effective area of the mob
@@ -167,7 +165,6 @@ public abstract class AbstractEntities implements Entities {
     }
 
     /**
-     *
      * @param map map sur laquelle ce trouve le monstre
      * @return the map with monster's pose updated
      * either he moves randomly or towards the player if this one is in the effective area.
@@ -181,7 +178,7 @@ public abstract class AbstractEntities implements Entities {
             } else {
                 while (!map.move(this, nextPos(this))) ;
             }
-            if(this instanceof Boss){
+            if (this instanceof Boss) {
                 ((Boss) this).skill(map);
             }
         }
@@ -217,9 +214,9 @@ public abstract class AbstractEntities implements Entities {
 
     public void setNbDeplacement(int nbDeplacement) {
         this.nbDeplacement = nbDeplacement;
-        if(this instanceof Player && nbDeplacement%5==0){
-            this.nbDeplacement=0;
-            ((Player) this).setMP(((Player) this).getMP()+3);
+        if (this instanceof Player && nbDeplacement % 5 == 0) {
+            this.nbDeplacement = 0;
+            ((Player) this).setMP(((Player) this).getMP() + 3);
         }
     }
 }

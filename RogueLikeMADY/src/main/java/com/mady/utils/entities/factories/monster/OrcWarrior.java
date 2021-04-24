@@ -13,8 +13,6 @@ public class OrcWarrior extends AbstractMonster {
     }
 
 
-
-
     @Override
     public void skill(Entities target, Map map) {
 

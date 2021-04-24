@@ -23,7 +23,7 @@ public class Salle {
     public Salle(Position pos) {
         this(Util.r.nextInt(14) + 6,
                 Util.r.nextInt(14) + 12,
-                 pos);
+                pos);
     }
 
     public Case[][] getRepresentation() {
@@ -41,7 +41,6 @@ public class Salle {
     }
 
     /**
-     *
      * @return une postion libre dans la salle
      */
 
@@ -109,7 +108,6 @@ public class Salle {
     }
 
     /**
-     *
      * @param position position a verifier
      * @return bool en fonction de si une position est un coin ou pas
      */

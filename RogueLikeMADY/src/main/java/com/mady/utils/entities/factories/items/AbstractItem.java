@@ -8,11 +8,11 @@ import com.mady.utils.entities.Position;
 public abstract class AbstractItem implements Item {
 
     private final double movement;
-    private int damages;
     private final String name;
     private final Boolean drinkable;
     private final Boolean pickable;
     private final String repr;
+    private int damages;
     private Position position;
     private int lvl;
     private double multiplicateur;
@@ -26,9 +26,9 @@ public abstract class AbstractItem implements Item {
         this.name = name;
         this.drinkable = drinkable;
         this.pickable = pickable;
-        this.lvl=lvl;
-        this.multiplicateur=multiplicateur;
-        if(getLvl() != 1){
+        this.lvl = lvl;
+        this.multiplicateur = multiplicateur;
+        if (getLvl() != 1) {
             setDamages((int) (damages * (getLvl() - 1) * getMultiplicateur()));
         }
     }

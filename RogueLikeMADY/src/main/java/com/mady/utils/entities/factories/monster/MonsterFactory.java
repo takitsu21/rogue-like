@@ -4,7 +4,7 @@ import com.mady.utils.Salle;
 import com.mady.utils.entities.Position;
 
 public class MonsterFactory {
-    public static final int nbMonsters = 2;
+    public static final int nbMonsters = 5;
     private static final MonsterFactory instance = new MonsterFactory();
 
     private MonsterFactory() {
@@ -25,8 +25,6 @@ public class MonsterFactory {
             case 3:
                 return new Troll(position, salle);
             case 4:
-                return new Boss(position, salle);
-            case 5:
                 return new DarkDruide(position, salle);
 
 
@@ -45,10 +43,8 @@ public class MonsterFactory {
                 return generate(2, position, salle);
             case "Troll":
                 return generate(3, position, salle);
-            case "Boss":
-                return generate(4, position, salle);
             case "Druide noir":
-                return generate(5, position, salle);
+                return generate(4, position, salle);
             default:
                 return null;
         }

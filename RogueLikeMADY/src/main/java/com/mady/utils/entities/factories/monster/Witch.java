@@ -6,13 +6,11 @@ import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
-public class Witch extends AbstractMonster{
+public class Witch extends AbstractMonster {
 
     public Witch(Position pos, Salle salle) {
         super("Sorcière", pos, 8, 3, 1, "w", 5, salle);
     }
-
-
 
 
     @Override

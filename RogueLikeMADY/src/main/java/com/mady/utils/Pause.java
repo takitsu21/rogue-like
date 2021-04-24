@@ -8,19 +8,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Pause {
-    private int selection;
     private final List<String> liste = new ArrayList<>(Arrays.asList("Resume", "Restart", "Quit"));
+    private int selection;
 
     public Pause() {
         selection = 0;
     }
 
-    public void setSelection(int selection) {
-        this.selection = selection;
-    }
-
     public int getSelection() {
         return selection;
+    }
+
+    public void setSelection(int selection) {
+        this.selection = selection;
     }
 
     public List<String> getListe() {
@@ -46,17 +46,16 @@ public class Pause {
         String resRep = "RESUME";
         String restartREp = "RESTART";
         String quitrep = "QUIT";
-        System.out.println(resRep.length());
         switch (selection) {
             case 0:
                 resRep = String.format(">%s<", resRep);
                 break;
             case 1:
-                restartREp = String.format(">%s<",  restartREp);
+                restartREp = String.format(">%s<", restartREp);
 
                 break;
             case 2:
-                quitrep = String.format(">%s<",  quitrep);
+                quitrep = String.format(">%s<", quitrep);
 
                 break;
             default:
@@ -67,7 +66,6 @@ public class Pause {
         int positionResume = (widthPause - resRep.length()) / 2;
         int positionRestart = (widthPause - restartREp.length()) / 2;
         int positionQuit = (widthPause - quitrep.length()) / 2;
-        System.out.println(resRep.length());
 
         //création du carré au milieu de la map
         for (int i = 0; i < heightPause; i++) {
@@ -81,8 +79,7 @@ public class Pause {
                 if (i == 1) {
                     if (j >= positionPause && j < pREp.length() + positionPause) {
 
-                            pause_rep[i][j] = String.valueOf(pREp.charAt(j - (positionPause - 1) - 1));
-
+                        pause_rep[i][j] = String.valueOf(pREp.charAt(j - (positionPause - 1) - 1));
 
 
                     } else {
@@ -96,9 +93,9 @@ public class Pause {
                 if (i == 2) {
                     if (j >= positionResume && j < resRep.length() + positionResume) {
                         String text = String.valueOf(resRep.charAt(j - (positionResume - 1) - 1));
-                        if(selection == 0){
-                            pause_rep[i][j] = Ansi.colorize(text,Attribute.BLUE_TEXT());}
-                        else {
+                        if (selection == 0) {
+                            pause_rep[i][j] = Ansi.colorize(text, Attribute.BLUE_TEXT());
+                        } else {
                             pause_rep[i][j] = text;
 
                         }
@@ -114,9 +111,9 @@ public class Pause {
                 if (i == 3) {
                     if (j >= positionRestart && j < restartREp.length() + positionRestart) {
                         String text = String.valueOf(restartREp.charAt(j - (positionRestart - 1) - 1));
-                        if(selection == 1){
-                            pause_rep[i][j] = Ansi.colorize(text,Attribute.BLUE_TEXT());}
-                        else {
+                        if (selection == 1) {
+                            pause_rep[i][j] = Ansi.colorize(text, Attribute.BLUE_TEXT());
+                        } else {
                             pause_rep[i][j] = text;
 
                         }
@@ -132,9 +129,9 @@ public class Pause {
                 if (i == 4) {
                     if (j >= positionQuit && j < quitrep.length() + positionQuit) {
                         String text = String.valueOf(quitrep.charAt(j - (positionQuit - 1) - 1));
-                        if(selection == 2){
-                            pause_rep[i][j] = Ansi.colorize(text,Attribute.BLUE_TEXT());}
-                        else {
+                        if (selection == 2) {
+                            pause_rep[i][j] = Ansi.colorize(text, Attribute.BLUE_TEXT());
+                        } else {
                             pause_rep[i][j] = text;
 
                         }
@@ -146,7 +143,6 @@ public class Pause {
 
                 }
                 pause_rep[i][j] = " ";
-
 
 
             }

@@ -10,7 +10,6 @@ import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
 
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,12 +27,6 @@ public class Player extends AbstractEntities {
     private double DEF = 1;
     private double AGI = 1;
     private double LUK = 2;
-    private double maxExpToWin = 3;
-    private int coins = 0;
-    private int manaAttack = 2;
-
-
-  
     //private double multiplicateur =1.12;
     private final HashMap<String, Double> stats = new HashMap<>() {{
         put("LVL", (double) getLvl());
@@ -46,8 +39,10 @@ public class Player extends AbstractEntities {
         put("AGI", AGI);
         put("LUK", LUK);
     }};
+    private double maxExpToWin = 3;
+    private int coins = 0;
+    private int manaAttack = 2;
 //    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
-
 
 
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
@@ -78,6 +73,7 @@ public class Player extends AbstractEntities {
     public void setCoins(int coins) {
         this.coins = coins;
     }
+
     /**
      * Ramasse un item sur la case en ouvrant le coffre.
      *
@@ -95,6 +91,7 @@ public class Player extends AbstractEntities {
 
     /**
      * Enlève les stats au joueur par rapport à l'item.
+     *
      * @param item item qui va modiifer les statistiques du joueur
      */
     private void removeStats(AbstractStuffItem item) {
@@ -113,6 +110,7 @@ public class Player extends AbstractEntities {
 
     /**
      * Ajoute les stats au joueur par rapport à l'item.
+     *
      * @param item item qui a va modifier les statistiques du joueur
      */
     private void addStats(AbstractStuffItem item) {
@@ -191,11 +189,10 @@ public class Player extends AbstractEntities {
     }
 
 
-  
     @Override
     public void setLvl(int lvl) {
         super.setLvl(lvl);
-        stats.put("LVL", (double)lvl);
+        stats.put("LVL", (double) lvl);
     }
 
 
@@ -257,12 +254,12 @@ public class Player extends AbstractEntities {
     }
 
     public boolean setMP(double MP) {
-        if(MP<0){
+        if (MP < 0) {
             return false;
         }
 
-        if(MP>=getMaxMp()){
-            MP=getMaxMp();
+        if (MP >= getMaxMp()) {
+            MP = getMaxMp();
         }
 
         this.MP = MP;
@@ -336,7 +333,7 @@ public class Player extends AbstractEntities {
         setLUK(getLUK() * getMultiplicateur());
         setExpMax(getExpMax() * getMultiplicateur() + getExpMax());
         setMaxExpToWin(getMaxExpToWin() * getMultiplicateur());
-        manaAttack*=getMultiplicateur();
+        manaAttack *= getMultiplicateur();
     }
 
     public boolean isDead() {
@@ -344,31 +341,29 @@ public class Player extends AbstractEntities {
     }
 
     /**
-     *
      * @param monster monstre a attaquer
-     * @param map map sur laquelle ce trouve le joueur
+     * @param map     map sur laquelle ce trouve le joueur
      */
 
     public void closeAttack(Entities monster, Map map) {
-        if(setMP(getMP()-manaAttack)) {
+        if (setMP(getMP() - manaAttack)) {
             if (monster == null) {
                 Util.currentAction.append("Aucune cible atteinte...\n");
             } else {
                 attackMonster(monster, map);
             }
-        }else{
+        } else {
             Util.currentAction.append("Pas assez de mana...\n");
         }
     }
 
     /**
-     *
      * @param monsters liste des monstres a attaquer
-     * @param map map sur laquelle ce trouve le joueur
+     * @param map      map sur laquelle ce trouve le joueur
      */
 
     public void zoneAttack(List<Entities> monsters, Map map) {
-        if(setMP(getMP()-manaAttack*4)) {
+        if (setMP(getMP() - manaAttack * 4)) {
             if (monsters.isEmpty()) {
                 Util.currentAction.append("Aucune cible atteinte...\n");
             } else {
@@ -376,16 +371,15 @@ public class Player extends AbstractEntities {
                     attackMonster(monster, map);
                 }
             }
-        }else{
+        } else {
             Util.currentAction.append("Pas assez de mana...\n");
         }
     }
 
     /**
-     *
      * @param monster monstre a attaquer
-     * @param map map sur laquelle ce trouve le joueur
-     * the attack procedure. attack first and then looks if the monster's dead
+     * @param map     map sur laquelle ce trouve le joueur
+     *                the attack procedure. attack first and then looks if the monster's dead
      */
 
     private void attackMonster(Entities monster, Map map) {

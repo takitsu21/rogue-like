@@ -55,9 +55,6 @@
                 <configuration>
                     <includes>
                         <include>*.*Test</include>
-<!--                        <include>com.mady.utils.*.*Test</include>-->
-<!--                        <include>com.mady.utils.entities.factories.items.*Test</include>-->
-<!--                        <include>com.mady.utils.entities.factories.monster.*Test</include>-->
                     </includes>
                 </configuration>
             </plugin>

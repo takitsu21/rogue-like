@@ -18,8 +18,8 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
                            int effectiveArea,
                            Salle salle) {
 
-        super(name,pos, lifePoints, damages, movement, repr, effectiveArea, salle);
-        if(getLvl() != 1){
+        super(name, pos, lifePoints, damages, movement, repr, effectiveArea, salle);
+        if (getLvl() != 1) {
             setMaxHitPoints((int) (lifePoints * (getLvl() - 1) * getMultiplicateur()));
             setHitPoints((int) (lifePoints * (getLvl() - 1) * getMultiplicateur()));
             setDamages((int) (damages * (getLvl() - 1) * getMultiplicateur()));
@@ -34,7 +34,6 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     }
 
     /**
-     *
      * @param playerPos position du player
      * @return a direction
      * direction will determine where the monster needs to head to to find the player
@@ -52,11 +51,9 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     }
 
     /**
-     *
-     * @param map
-     * the comportment of the monster.
-     * Two possibilities, either he's next to the player and then attacks him, or the mob is away from the player and
-     * moves randomly.
+     * @param map the comportment of the monster.
+     *            Two possibilities, either he's next to the player and then attacks him, or the mob is away from the player and
+     *            moves randomly.
      */
 
     public void act(Map map) {
@@ -91,7 +88,6 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     }
 
     /**
-     *
      * @param map map sur laquelle ce trouve le monstre
      * @return a bool if the player is on one of the four cases around us
      */

@@ -1,4 +1,4 @@
-# Travail Encadré d'études, de Recherches et de Developpement 
+# Travail Encadré d'études, de Recherches et de Developpement
 
 <p align="center">
   <a href="https://example.com/">
@@ -22,8 +22,8 @@ Le but de ce projet est de développer en groupe un jeu de type <b>RogueLike</b>
 utilisées en entreprise telle que la methode agile, pour developper le jeu nous nous somme aidé
 de <i>[MAVEN](https://maven.apache.org/). </i>
 
-Un Rogue Like est un sous-genre de jeu vidéo de rôle dans lequel le joueur explore un donjon infesté de monstres
-qu’il doit combattre pour gagner de l’expérience et des trésors. Le genre se caractérise notamment par la génération
+Un Rogue Like est un sous-genre de jeu vidéo de rôle dans lequel le joueur explore un donjon infesté de monstres qu’il
+doit combattre pour gagner de l’expérience et des trésors. Le genre se caractérise notamment par la génération
 procédurale de ses niveaux, son système de mort permanente, son gameplay au tour par tour et la représentation des
 éléments qui le composent par des symboles ASCII sur une carte constituée de tuiles.
 
@@ -53,19 +53,19 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
 - Portail <span style="color:cyan">§</span>, vous téléporte à la prochaine map.
 - Coming soon...
     - Nouveaux :
-      - Monstres
-      - Items
-      - Effets visuels
-      - Stats des équipements à ajouter au joueur (ATK, HP, etc...)
+        - Monstres
+        - Items
+        - Effets visuels
+        - Stats des équipements à ajouter au joueur (ATK, HP, etc...)
     - Official Soundtrack
 
 ## <u>Conseil de jeu :</u>
 
-Pour gagner de l'expérience vous devrez tuer des monstres. Cela vous permettra de monter en niveau et d'augmenter vos statistiques.
-Ouvrir des coffres vous permet d'obtenir des équipements que vous pourrez visualiser dans l'inventaire. Marcher sur
-des potions vous donnera l'opportunité de gagner des bonus ou des malus de statistiques. Pour changer de salle déplacer vous sur les
-portes et vous serez téléporté dans la salle relié. Le changement de monde s'effectue lorsque vous marché sur le
-portail.
+Pour gagner de l'expérience vous devrez tuer des monstres. Cela vous permettra de monter en niveau et d'augmenter vos
+statistiques. Ouvrir des coffres vous permet d'obtenir des équipements que vous pourrez visualiser dans l'inventaire.
+Marcher sur des potions vous donnera l'opportunité de gagner des bonus ou des malus de statistiques. Pour changer de
+salle déplacer vous sur les portes et vous serez téléporté dans la salle relié. Le changement de monde s'effectue
+lorsque vous marché sur le portail.
 
 Il vous faudra cliquer sur la fenêtre swing qui s'ouvrira pour pouvoir utiliser les touches.
 
@@ -79,9 +79,11 @@ Il vous faudra cliquer sur la fenêtre swing qui s'ouvrira pour pouvoir utiliser
 Si vous êtes sur Windows il vous faudra un serveur X graphique (Xming) pour lancer le programme.
 
 CMD SHELL
+
 ```shell
 java -jar RogueLikeMADY-1.0-SNAPSHOT.jar
 ```
+
 <img src="https://i.imgur.com/d9cDliK.png" alt="Logo" width=48 height=48> <img src="https://i.imgur.com/fliRMaY.png" alt="Logo" width=48 height=48> <img src="https://i.imgur.com/zaCLOhf.png" alt="Logo" width=48 height=48>
 
 

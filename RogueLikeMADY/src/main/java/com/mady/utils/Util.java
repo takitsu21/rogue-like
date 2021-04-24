@@ -2,7 +2,6 @@ package com.mady.utils;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import com.mady.GameStatus;
 import com.mady.utils.entities.AbstractStuffItem;
 import com.mady.utils.entities.Deplacement;
 import com.mady.utils.entities.Player;
@@ -12,8 +11,8 @@ import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.Price;
 import com.mady.utils.entities.factories.items.Shop;
 
-import java.util.*;
 import java.util.Map;
+import java.util.Random;
 
 public class Util {
     public static final Random r = new Random();
@@ -51,8 +50,7 @@ public class Util {
         }
         if (randomIt < 19) {
             return "coin";
-        }
-        else {
+        } else {
             return "chest";
         }
     }
@@ -80,17 +78,16 @@ public class Util {
         String AmuletStats = s.getAmulet() == null ? " " : s.getAmulet().toString();
         String ShoesStats = s.getShoes() == null ? " " : s.getShoes().toString();
         String WeaponStats = s.getWeapon() == null ? " " : s.getWeapon().toString();
-        sb.append(Ansi.colorize("\"\"\"\"\"\"\"\"\"\"\"\"\"", Attribute.BRIGHT_BLACK_BACK(),
-                Attribute.BRIGHT_BLACK_TEXT()));
+//        sb.append(Ansi.colorize("\"\"\"\"\"\"\"\"\"\"\"\"\"", Attribute.BRIGHT_BLACK_BACK(),
+//                Attribute.BRIGHT_BLACK_TEXT()));
         sb.append(" STUFF : ");
-        sb.append(String.format("HElMET: %s", HelmetStats));
-        sb.append("\n\"");
-        sb.append(String.format("    [%c] [%c] \"         WEAPON: %s AMULET: %s\n\"", rph, rpa, WeaponStats, AmuletStats));
-        sb.append(String.format(" [%c][%c][%c]  \"         GAUNTLET: %s\n\"", rpg, rpc, rpw, GauntletStats));
-        sb.append(String.format("    [%c]     \"         CHESTPLATE: %s\n\"", rpp, ChestPlateStats));
-        sb.append(String.format("  [%c] [%c]   \"         PANT: %s\n\"", rps, rps, PantStats));
-        sb.append(String.format("\"\"\"\"\"\"\"\"\"\"\"\"\"         SHOES: %s", ShoesStats));
-        sb.append("\n");
+        sb.append(String.format("           HElMET: %s\n", HelmetStats));
+//        sb.append("\n\"");
+        sb.append(String.format("    [%c] [%c]          WEAPON: %s AMULET: %s\n", rph, rpa, WeaponStats, AmuletStats));
+        sb.append(String.format(" [%c][%c][%c]           GAUNTLET: %s\n", rpg, rpc, rpw, GauntletStats));
+        sb.append(String.format("    [%c]              CHESTPLATE: %s\n", rpp, ChestPlateStats));
+        sb.append(String.format("  [%c] [%c]            PANT: %s\n", rps, rps, PantStats));
+        sb.append(String.format("                     SHOES: %s\n\n", ShoesStats));
         for (Map.Entry<String, AbstractStuffItem> pair : s.getItems().entrySet()) {
             AbstractStuffItem it = pair.getValue();
             totalLuk += it.getLUK();
@@ -99,6 +96,7 @@ public class Util {
             totalHp += it.getHP();
             totalMp += it.getMP();
         }
+        sb.append("\tInventory \n");
         for (Item i : inventory.getInventory()) {
             AbstractStuffItem it = (AbstractStuffItem) i;
             StringBuilder sbTmp = new StringBuilder();
@@ -126,6 +124,7 @@ public class Util {
             sb.append(sbTmp).append("\n");
             acc++;
         }
+        sb.append("\n").append("\tStats\n");
         for (Map.Entry<String, Double> stat : player.getStats().entrySet()) {
             sb.append(String.format("%s : %d ", stat.getKey(), stat.getValue().intValue()));
             switch (stat.getKey()) {
