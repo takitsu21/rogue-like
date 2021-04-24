@@ -16,15 +16,17 @@ public class ItemFactory {
     public Item generate(Position position, String id, Player player) {
         switch (id) {
             case "potion_vie":
-                return new PotionVie(position, player.getLvl(),player.getMultiplicateur());
+                return new PotionVie(position, player.getLvl(), player.getMultiplicateur());
             case "potion_force":
-                return new PotionForce(position, player.getLvl(),player.getMultiplicateur());
+                return new PotionForce(position, player.getLvl(), player.getMultiplicateur());
             case "poison_vie":
-                return new PoisonVie(position, player.getLvl(),player.getMultiplicateur());
+                return new PoisonVie(position, player.getLvl(), player.getMultiplicateur());
             case "poison_force":
-                return new PoisonForce(position, player.getLvl(),player.getMultiplicateur());
+                return new PoisonForce(position, player.getLvl(), player.getMultiplicateur());
             case "chest":
-                return new Chest (position, player.getLvl(),player.getMultiplicateur());
+                return new Chest(position, player.getLvl(), player.getMultiplicateur());
+            case "coin":
+                return new Coins(position);
             default:
                 return null;
         }

@@ -1,9 +1,11 @@
 package com.mady.utils.entities;
 
 import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.items.Price;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class AbstractStuffItem implements Item {
@@ -95,6 +97,7 @@ public abstract class AbstractStuffItem implements Item {
     public String toString() {
         //une représentation du Stuff item sera différente pour une amulete vu que sa luk est le seul parametre interessant
         return (name.equals("amulet")) ? String.format("|LUK=%d|", (int) LUK) :
-                String.format("|HP=%d|MP=%d|ATK=%d|DEF=%d|AGI=%d|", (int) HP, (int) MP, (int) ATK, (int) DEF, (int) AGI);
+                String.format("|HP=%d|MP=%d|ATK=%d|DEF=%d|AGI=%d|",(int) HP, (int) MP, (int) ATK, (int) DEF, (int) AGI);
     }
+
 }

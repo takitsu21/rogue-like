@@ -7,6 +7,7 @@ import com.mady.utils.Salle;
 import com.mady.utils.Util;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.Shop;
 import com.mady.utils.listener.MoveListener;
 
 import java.awt.event.KeyListener;
@@ -55,6 +56,11 @@ public class TurnBasedGameLoop extends GameLoop {
                         frame.getFrame().removeKeyListener(c);
                     }
                     frame.getFrame().addKeyListener(new MoveListener(map));
+                    render();
+                    System.out.println(Util.showShop(controller.player));
+                    status = GameStatus.PAUSE;
+                    Util.keyPressed = KeyboardPressedEnum.PLUS;
+                    continue;
                 }
 
                 if (controller.player.isDead()) {

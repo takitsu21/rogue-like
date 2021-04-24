@@ -28,10 +28,11 @@ public class Chest extends AbstractItem {
     }
 
     /**
+     *
      * @param player joueur a partir duquel vont etre changer les statistiques de l'item
-     * @return AbstractStuffItem
+     * @return AbstractStuffItem Item créer quand on ouvre le coffre.
      */
-    public AbstractStuffItem openChest(Player player) {
+    public static AbstractStuffItem openChest(Player player) {
         double lvl = player.getLvl();
         int randomLUK = Util.r.nextInt((int) player.getLUK())+1;
         double baseMultiplicator = player.getMultiplicateur();

@@ -29,8 +29,8 @@ public class Player extends AbstractEntities {
     private double AGI = 1;
     private double LUK = 2;
     private double maxExpToWin = 3;
+    private int coins = 0;
     private int manaAttack = 2;
-
 
 
   
@@ -71,20 +71,13 @@ public class Player extends AbstractEntities {
         return inventory;
     }
 
+    public int getCoins() {
+        return coins;
+    }
 
-//    public void applyStats() {
-//        for (java.util.Map.Entry<String, AbstractStuffItem> pair : stuff.getItems().entrySet()) {
-//            setMaxHitPoints((int) (getMaxHitPoints() + pair.getValue().getHP()));
-//            setHitPoints((int) (getHitPoints() + pair.getValue().getHP()));
-//            setAGI(getAGI() + pair.getValue().getAGI());
-//            setDEF(getDEF() + pair.getValue().getDEF());
-//            setATK(getATK() + pair.getValue().getATK());
-//            setMaxMp(getMaxMp() + pair.getValue().getMP());
-//            setMP(getMP() + pair.getValue().getMP());
-//            setAGI(getAGI() + pair.getValue().getAGI());
-//            setLUK(getLUK() + pair.getValue().getLUK());
-//        }
-//    }
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
     /**
      * Ramasse un item sur la case en ouvrant le coffre.
      *
@@ -127,7 +120,7 @@ public class Player extends AbstractEntities {
         setAGI(getAGI() + item.getAGI());
         setDEF(getDEF() + item.getDEF());
         setMaxMp(getMaxMp() + item.getMP());
-        setMP(getMP());
+        setMP(getMP() + item.getMP());
         setMaxHitPoints((int) (getMaxHitPoints() + item.getHP()));
         setHitPoints((int) (getHitPoints() + item.getHP()));
         setATK(getATK() + item.getATK());
@@ -182,8 +175,6 @@ public class Player extends AbstractEntities {
     public void equipItem(int idx) {
         AbstractStuffItem item = (AbstractStuffItem) inventory.getInventory().get(idx);
         if (setEquipment(item)) {
-//            inventory.getInventory().set(idx, null);
-//            inventory.get
             inventory.getInventory().remove(idx);
         }
     }
@@ -223,14 +214,12 @@ public class Player extends AbstractEntities {
     public void setMaxHitPoints(int maxHp) {
         super.setMaxHitPoints(maxHp);
         stats.put("MAX_HP", (double) maxHp);
-        //stats.put("HP", maxHp);
     }
 
     @Override
     public void setHitPoints(int Hp) {
         super.setHitPoints(Hp);
         stats.put("HP", (double) Hp);
-        //stats.put("HP", maxHp);
     }
 
 
@@ -334,7 +323,6 @@ public class Player extends AbstractEntities {
     }
 
     public void updateStats() {
-        //double multiplicateur = 1.16;
         setExp(0);
         setLvl(getLvl() + 1);
         setMaxHitPoints((int) (getMaxHitPoints() * getMultiplicateur()));
