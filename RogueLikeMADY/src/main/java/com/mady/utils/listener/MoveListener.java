@@ -149,7 +149,6 @@ public class MoveListener implements KeyListener {
                             //toDO
                             break;
                         case  "Quit":
-                            GameLoop.clrscr();
                             GameLoop.quit();
                             break;
 

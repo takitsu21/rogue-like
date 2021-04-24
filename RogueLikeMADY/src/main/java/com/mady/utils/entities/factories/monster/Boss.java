@@ -33,7 +33,7 @@ public class Boss extends AbstractMonster{
     }
 
     @Override
-    public void skill(Entities target) {
+    public void skill(Entities target, Map map) {
 
     }
 }

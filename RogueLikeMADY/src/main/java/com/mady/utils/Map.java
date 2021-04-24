@@ -59,17 +59,9 @@ public class Map {
         if (bRoom) {
             bPath = selectLien();
         }
-        //generatePortal();
-        //generateEntities();
-        //generateItems();
         return !bRoom || !bPath;
     }
 
-    public void addEntityItemPortal() {
-        if (bRoom){
-            bPath = selectLien();}
-        return !bRoom || !bPath;
-    }
 
     public void addEntityItemPortal(){
         salleBoss=chooseSalle();

@@ -12,10 +12,6 @@ public class DarkDruide extends AbstractMonster{
     }
 
 
-    @Override
-    public void skill(Entities target) {
-
-    }
 
     @Override
     public void skill(Entities target, Map map) {
