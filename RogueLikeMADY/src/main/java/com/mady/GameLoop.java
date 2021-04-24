@@ -18,11 +18,12 @@ public abstract class GameLoop {
 
     protected final GameController controller;
     protected final Logger logger = Logger.getLogger(GameLoop.class.getName());
-    protected volatile GameStatus status;
+    protected static volatile GameStatus status;
     protected Frame frame = new Frame();
     protected World world;
     protected Map map;
     private Thread gameThread;
+
 
 
     /**
@@ -42,6 +43,10 @@ public abstract class GameLoop {
         render();
         map.getFrame().getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.STOPPED;
+    }
+    public static void restart(){
+        TurnBasedGameLoop gameLoop = new TurnBasedGameLoop();
+        gameLoop.run();
     }
 
     public static void clrscr() {
@@ -79,7 +84,7 @@ public abstract class GameLoop {
         status = GameStatus.STOPPED;
     }
 
-    public void quit() {
+    public static void quit() {
         status = GameStatus.QUITTING;
         System.exit(0);
     }
@@ -106,7 +111,7 @@ public abstract class GameLoop {
         try {
             while (Util.playerTurn) {
             }
-            if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.P) {
+            if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC) {
                 status = GameStatus.PAUSE;
             }
 
@@ -123,7 +128,7 @@ public abstract class GameLoop {
         if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.I) {
             System.out.println(Util.showInventoryMenu(controller.player));
         }
-        else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.P)){
+        else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)){
             System.out.println(map.getPause().toString(map.getMap()));
         }
         else if (isGameRunning()) {
