@@ -1,5 +1,6 @@
 package com.mady.utils.entities.factories.monster;
 
+import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
@@ -11,14 +12,10 @@ public class GoblinArcher extends AbstractMonster {
     public GoblinArcher(Position pos, Salle salle) {
         super("Gobelin", pos, 5, 3, 1, "g", 3, salle);
     }
-
-
+  
     @Override
-    public void skill(Entities target) {
-        Position monsterPos = getPosition();
-        Position targetPos = target.getPosition();
-        int shootDistance = getEffectiveArea() - 1;
-        if (monsterPos.getDistance(targetPos) == shootDistance) {
+    public void skill(Entities target, Map map) {
+        if (checkDistanceShoot(map)) {
             attack((Player) target);
         }
     }

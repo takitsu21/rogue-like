@@ -115,6 +115,27 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     }
 
     @Override
-    public abstract void skill(Entities target);
+    public abstract void skill(Entities target, Map map);
+
+    public boolean checkDistanceShoot(Map map) {
+        Position monsterPos = this.getPosition();
+
+        if (map.getMap()[monsterPos.getX() - getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player) {
+            return true;
+        }
+
+        if (map.getMap()[monsterPos.getX() + getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player) {
+            return true;
+        }
+
+        if (map.getMap()[monsterPos.getX()][monsterPos.getY() - getEffectiveArea()].getEntity() instanceof Player) {
+            return true;
+        }
+
+        if (map.getMap()[monsterPos.getX()][monsterPos.getY() + getEffectiveArea()].getEntity() instanceof Player) {
+            return true;
+        }
+        return false;
+    }
 
 }
