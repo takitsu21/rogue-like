@@ -21,10 +21,6 @@ public class World {
         return currentMap;
     }
 
-    public void setCurrentMap(Map map) {
-        currentMap = map;
-    }
-
     public void addMap() {
         boolean bCreatWorld;
         Map map;
@@ -35,9 +31,6 @@ public class World {
         while (bCreatWorld);
 
 
-        /*if(maps.size()==2){
-            maps.remove(0);
-        }*/
         maps.add(map);
         currentMap = map;
 

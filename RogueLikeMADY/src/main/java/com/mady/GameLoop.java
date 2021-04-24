@@ -4,9 +4,7 @@ import com.mady.utils.*;
 import com.mady.utils.listener.MoveListener;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLOutput;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +35,9 @@ public abstract class GameLoop {
 
         logger.setLevel(Level.ALL);
         Salle salle = map.chooseSalle();
+        while(salle.equals(map.getSalleBoss())){
+            salle = map.chooseSalle();
+        }
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
         map.addPlayerToMap(controller.getPlayer());
         map.addEntityItemPortal();

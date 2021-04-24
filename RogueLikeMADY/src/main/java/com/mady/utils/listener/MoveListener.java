@@ -6,7 +6,6 @@ import com.mady.utils.Map;
 import com.mady.utils.Pause;
 import com.mady.utils.Util;
 import com.mady.utils.entities.Deplacement;
-import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
 
@@ -14,8 +13,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class MoveListener implements KeyListener {
-    private Map map;
-    private Pause pause;
+    private final Map map;
+    private final Pause pause;
 
     public MoveListener(Map map) {
         this.map = map;

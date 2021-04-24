@@ -5,12 +5,13 @@ import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
-public class GoblinArcher extends AbstractMonster {
+public class Witch extends AbstractMonster{
 
-
-    public GoblinArcher(Position pos, Salle salle) {
-        super("Gobelin", pos, 5, 3, 1, "g", 3, salle);
+    public Witch(Position pos, Salle salle) {
+        super("Sorcière", pos, 8, 3, 1, "w", 5, salle);
     }
+
+
 
 
     @Override

@@ -11,7 +11,7 @@ class ItemFactoryTest {
     ItemFactory f = ItemFactory.getInstance();
     Salle s = new Salle(new Position(1, 1));
     Position p = new Position(1, 1);
-    Player player=new Player(new Position(0, 0), 0, 0, 0, "@", new Salle(0, 0, 0, 0, new Position(0, 0)));
+    Player player=new Player(new Position(0, 0), 0, 0, 0, "@", new Salle(0, 0, new Position(0, 0)));
 
 
     @Test

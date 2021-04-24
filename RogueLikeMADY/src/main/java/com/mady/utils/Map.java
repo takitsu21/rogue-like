@@ -10,6 +10,7 @@ import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.ItemFactory;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
+import com.mady.utils.entities.factories.monster.Boss;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
 
 import java.util.ArrayList;
@@ -19,13 +20,15 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
+    private Salle salleBoss;
     private final int BASE_HEIGHT;
     private final int BASE_WIDTH;
     private final List<Entities> entities = new ArrayList<>();
-    private Frame frame;
+    private final Frame frame;
     private Player player;
-    private List<PairPos> chemins = new ArrayList<>();
+    private final List<PairPos> chemins = new ArrayList<>();
     private final Pause pause = new Pause();
+    private Boss boss;
 
 
     public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, Frame frame) {
@@ -56,13 +59,11 @@ public class Map {
         bRoom = generateRooms();
         if (bRoom){
             bPath = selectLien();}
-        //generatePortal();
-        //generateEntities();
-        //generateItems();
         return !bRoom || !bPath;
     }
 
     public void addEntityItemPortal(){
+        salleBoss=chooseSalle();
         generatePortal();
         generateEntities();
         generateItems();
@@ -72,18 +73,12 @@ public class Map {
         return frame;
     }
 
-    public void setFrame(Frame frame) {
-        this.frame = frame;
-    }
-
     public Salle chooseSalle() {
-        Salle s = salles.get(Util.r.nextInt(salles.size()));
-        return s;
+        return salles.get(Util.r.nextInt(salles.size()));
     }
 
     /**
      *
-     * @param s
      * @return the position of the player in each new map
      */
     public Position randomPosPlayerInSalle(Salle s) {
@@ -91,10 +86,6 @@ public class Map {
         return pos.incrementPos(s.getPos());
     }
 
-
-    public Case getCase(Position p) {
-        return this.map[p.getX()][p.getY()];
-    }
 
     public Case getCase(int x, int y) {
         return this.map[x][y];
@@ -119,7 +110,6 @@ public class Map {
 
     /**
      *
-     * @param p
      * @return a bool.
      * generation of one room in the map.
      * Security is here to prevent a infinite loop on the research for place for a room on the map.
@@ -150,8 +140,8 @@ public class Map {
 
     /**
      *
-     * @param x
-     * @param y
+     * @param x position en x
+     * @param y position en y
      * @return wether or not the position is in the map.
      *
      */
@@ -175,9 +165,9 @@ public class Map {
 
     /**
      *
-     * @param p
-     * @param lignes
-     * @param colonnes
+     * @param p position de la salle a verifier
+     * @param lignes nb lignes de la salle
+     * @param colonnes nb de colonnes de la salle
      * @return a bool
      * permet de savoir si on a un espace minimal de 3 entre les salles pour qu'elles ne soient pas côte à côte.
      */
@@ -218,16 +208,16 @@ public class Map {
         }
         relier.set(0, true);
         while (relier.contains(false)) {
-            Double distance = (double) Integer.MAX_VALUE;
+            double distance = Integer.MAX_VALUE;
             Salle salleselect = s;
             for (Salle s2 : salles) {
-                Double distance2 = Math.sqrt(Math.pow(s2.getPos().getX() - s.getPos().getX(), 2)
+                double distance2 = Math.sqrt(Math.pow(s2.getPos().getX() - s.getPos().getX(), 2)
                         + Math.pow(s2.getPos().getY() - s.getPos().getY(), 2));
                 if (!s.equals(s2) && distance2 < distance && !relier.get(salles.indexOf(s2))) {
                     distance = distance2;
                     salleselect = s2;
                 }
-            };
+            }
             b = b && relie(s, salleselect);
             s = salleselect;
             relier.set(salles.indexOf(salleselect), true);
@@ -237,8 +227,8 @@ public class Map {
 
     /**
      *
-     * @param s1
-     * @param s2
+     * @param s1 salle de depart
+     * @param s2 salle d'arrivé
      * @return a bool
      * fonction qui recherche le chemin le plus optimisé entre 2 salles. La recherche entre une salle A et B, part
      * du centre de la salle A et arrive au centre de la salle B.
@@ -253,9 +243,9 @@ public class Map {
 
     /**
      *
-     * @param solvedPath
+     * @param solvedPath chemin a implementer
      * @return a bool
-     * impression sur la map des chemins et des portes en fonction des chemins qui ot étré trouvés.
+     * impression sur la map des chemins et des portes en fonction des chemins qui ont été trouvés.
      */
     private boolean setupPaths(int[][] solvedPath) {
         List<Position> portes = new ArrayList<>();
@@ -287,10 +277,6 @@ public class Map {
         return map;
     }
 
-    public List<Salle> getSalles() {
-        return salles;
-    }
-
     public int getBASE_HEIGHT() {
         return BASE_HEIGHT;
     }
@@ -309,9 +295,23 @@ public class Map {
     private void generateEntities() {
         int nbMonstersByRoom;
         for (int i = 0; i < salles.size(); i++) {
-            nbMonstersByRoom = Util.r.nextInt(10) + 1;
-            addEntity(nbMonstersByRoom, i);
+            if(salles.get(i).equals(salleBoss)){
+                addBoss();
+            }else {
+                nbMonstersByRoom = Util.r.nextInt(10) + 1;
+                addEntity(nbMonstersByRoom, i);
+            }
         }
+    }
+
+    private void addBoss() {
+        Position pos = randomPosPlayerInSalle(salleBoss);
+        while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()) {
+            pos = randomPosPlayerInSalle(salleBoss);
+        }
+        boss = new Boss(pos, salleBoss);
+        map[pos.getX()][pos.getY()].setEntity(boss);
+        entities.add(boss);
     }
 
     /**
@@ -377,8 +377,8 @@ public class Map {
 
     /**
      *
-     * @param e
-     * @param p
+     * @param e l'entité a déplacer
+     * @param p la position où deplacer l'entité
      * @return a bool.
      * implémentation du mouvement des entités.
      * Gestion du mouvment basique de case à case et gestion des mouvements entre les salles.
@@ -388,20 +388,21 @@ public class Map {
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
         Case newCase = this.map[newPos.getX()][newPos.getY()];
+        boolean success=false;
         /* Mouvment basique*/
+
         if (newCase.isFreeCase() && newCase.isSalle()) {
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
-            return true;
+            success=true;
         }
         if (e instanceof Player) {
             if (oldCase.isPath() && newCase.isSalle() && !newCase.isOccupied()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-
-                return true;
+                success=true;
             }
             if (oldCase.isPath() && newCase.isPath()) {
                 /*Gestion du mouvement de salle à salle*/
@@ -409,44 +410,55 @@ public class Map {
                 if (newPos2 == null) {
                     newPos2 = findDoor(firstPos);
                 }
+                assert newPos2 != null;
                 newCase = this.map[newPos2.getX()][newPos2.getY()];
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
-                return true;
+                newPos=newPos2;
+                success=true;
             }
             if (newCase.isPath()) {
                 Position newPos2 = findDoor(newPos);
+                assert newPos2 != null;
                 newCase = this.map[newPos2.getX()][newPos2.getY()];
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos2);
-                return true;
+                newPos=newPos2;
+                success=true;
             }
             if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-                return true;
+                success=true;
             }
             if (newCase.isPortal()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
-                return true;
+                success=true;
             }
         }
-        return false;
+        if(success){
+            if(boss!=null && e instanceof Player && this.map[newPos.getX()][newPos.getY()].isAttackBoss()){
+                e.setNbDeplacement(e.getNbDeplacement()+1);
+                boss.attack((Player) e);
+            }
+        }
+
+        return success;
     }
 
     /**
      *
-     * @param newPos
+     * @param newPos recherche la porte associer a cette position
      * @return position
      * cherche une porte associée à une nouvelle position
      */
-    private Position findDoor(Position newPos) { ;
+    private Position findDoor(Position newPos) {
         for (PairPos chemin : chemins) {
             if (chemin.getP1().equals(newPos)) {
                 return chemin.getP2();
@@ -460,7 +472,7 @@ public class Map {
 
     /**
      *
-     * @param pos
+     * @param pos la position a tester
      * @return a bool.
      * regarde si une postion donnée est à côté d'une porte
      */
@@ -475,7 +487,7 @@ public class Map {
      * generation des escaliers qui permettent d'évoluer entre salles. Celui-ci ne peut pas être placé devant une porte.
      */
     private void generatePortal() {
-        Position pos = randomPosPlayerInSalle(chooseSalle());
+        Position pos = randomPosPlayerInSalle(salleBoss);
         while (nextToDoor(pos)) {
             pos = randomPosPlayerInSalle(chooseSalle());
         }
@@ -489,7 +501,7 @@ public class Map {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Ansi.colorize(String.format("HP : %d/%d | ", (int) player.getHitPoints(), (int) player.getMaxHitPoints())
+        sb.append(Ansi.colorize(String.format("HP : %d/%d | ", player.getHitPoints(), player.getMaxHitPoints())
                 , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", (int) player.getMP(),
                 (int) player.getMaxMp()), Attribute.BLUE_TEXT()))
                 .append(Ansi.colorize(String.format("Lvl %d ", player.getLvl()), Attribute.YELLOW_TEXT()))
@@ -561,13 +573,24 @@ public class Map {
      */
     public Entities closeCheckAround() {
         Position playerPos = getPlayer().getPosition();
-        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
-            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
-                if (isInside(i, j) && map[i][j].getEntity() instanceof AbstractMonster) {
-                    return getMap()[i][j].getEntity();
-                }
-            }
+
+        if (isInside(playerPos.getX() - 1, playerPos.getY()) && map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX() - 1][playerPos.getY()].getEntity();
         }
+
+        if (isInside(playerPos.getX() + 1, playerPos.getY()) && map[playerPos.getX() + 1][playerPos.getY()].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX() + 1][playerPos.getY()].getEntity();
+        }
+
+        if (isInside(playerPos.getX(), playerPos.getY()-1) && map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX()][playerPos.getY()-1].getEntity();
+        }
+
+        if (isInside(playerPos.getX(), playerPos.getY()+1) && map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster) {
+            return map[playerPos.getX()][playerPos.getY()+1].getEntity();
+        }
+
+
         return null;
     }
 
@@ -580,16 +603,35 @@ public class Map {
     public List<Entities> zoneCheckAround() {
         Position playerPos = getPlayer().getPosition();
         List<Entities> monstersAround = new ArrayList<>();
-        for (int i = playerPos.getX() - 1; i <= playerPos.getX() + 1; i++) {
-            for (int j = playerPos.getY() - 1; j <= playerPos.getY() + 1; j++) {
-                Entities entity = map[i][j].getEntity();
-                if (isInside(i, j) && entity instanceof AbstractMonster
-                        && !monstersAround.contains(entity)) {
-                    monstersAround.add(map[i][j].getEntity());
-                    System.out.println(map[i][j].getEntity().getPosition());
-                }
-            }
+
+        if (isInside(playerPos.getX() - 1, playerPos.getY())
+                && map[playerPos.getX() - 1][playerPos.getY()].getEntity() instanceof AbstractMonster){
+                //&& !monstersAround.contains(map[playerPos.getX() - 1][playerPos.getY()].getEntity())) {
+            monstersAround.add(map[playerPos.getX() - 1][playerPos.getY()].getEntity());
         }
+
+        if (isInside(playerPos.getX() + 1, playerPos.getY())
+                && map[playerPos.getX() + 1][playerPos.getY()].getEntity() instanceof AbstractMonster
+                && !monstersAround.contains(map[playerPos.getX() + 1][playerPos.getY()].getEntity())) {
+            monstersAround.add(map[playerPos.getX() + 1][playerPos.getY()].getEntity());
+        }
+
+        if (isInside(playerPos.getX(), playerPos.getY()-1)
+                && map[playerPos.getX()][playerPos.getY()-1].getEntity() instanceof AbstractMonster
+                && !monstersAround.contains(map[playerPos.getX()][playerPos.getY()-1].getEntity())) {
+            monstersAround.add(map[playerPos.getX()][playerPos.getY()-1].getEntity());
+        }
+
+        if (isInside(playerPos.getX(), playerPos.getY()+1)
+                && map[playerPos.getX()][playerPos.getY()+1].getEntity() instanceof AbstractMonster
+                && !monstersAround.contains(map[playerPos.getX()][playerPos.getY()+1].getEntity())) {
+            monstersAround.add(map[playerPos.getX()][playerPos.getY()+1].getEntity());
+        }
+
         return monstersAround;
+    }
+
+    public Salle getSalleBoss() {
+        return salleBoss;
     }
 }

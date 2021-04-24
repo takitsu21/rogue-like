@@ -6,6 +6,7 @@ import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
+import com.mady.utils.entities.factories.monster.Boss;
 
 public abstract class AbstractEntities implements Entities {
     private final int movement;
@@ -18,9 +19,10 @@ public abstract class AbstractEntities implements Entities {
     private Salle salle;
     private boolean isAggro = false;
     private boolean isAttack = false;
-    private String name;
+    private final String name;
     private int lvl=1;
-    private double multiplicateur=1.12;
+    private final double multiplicateur=1.12;
+    private int nbDeplacement=0;
 
 
 
@@ -77,10 +79,6 @@ public abstract class AbstractEntities implements Entities {
         return isAggro;
     }
 
-    public void setAggro(boolean aggro) {
-        isAggro = aggro;
-    }
-
     public boolean isAttack() {
         return isAttack;
     }
@@ -112,7 +110,7 @@ public abstract class AbstractEntities implements Entities {
     @Override
     public void takeDamages(int damages) {
         if (this instanceof Player) {
-            ((Player) this).setHitPoints(((Player) this).getHitPoints() - damages);
+            this.setHitPoints(this.getHitPoints() - damages);
         } else {
             int new_HP = getHitPoints() - damages;
             setHitPoints(new_HP);
@@ -141,7 +139,7 @@ public abstract class AbstractEntities implements Entities {
 
     /**
      *
-     * @param map
+     * @param map map sur laquelle ce trouve le monstre
      * @return boolean
      * this function allows the monster to detect the player if this one enters the effective area of the mob
      * if he enters the monster goes towards the player
@@ -170,7 +168,7 @@ public abstract class AbstractEntities implements Entities {
 
     /**
      *
-     * @param map
+     * @param map map sur laquelle ce trouve le monstre
      * @return the map with monster's pose updated
      * either he moves randomly or towards the player if this one is in the effective area.
      */
@@ -182,6 +180,9 @@ public abstract class AbstractEntities implements Entities {
                 ((AbstractMonster) this).act(map);
             } else {
                 while (!map.move(this, nextPos(this))) ;
+            }
+            if(this instanceof Boss){
+                ((Boss) this).skill(map);
             }
         }
         return map;
@@ -210,4 +211,15 @@ public abstract class AbstractEntities implements Entities {
 
     }
 
+    public int getNbDeplacement() {
+        return nbDeplacement;
+    }
+
+    public void setNbDeplacement(int nbDeplacement) {
+        this.nbDeplacement = nbDeplacement;
+        if(this instanceof Player && nbDeplacement%5==0){
+            this.nbDeplacement=0;
+            ((Player) this).setMP(((Player) this).getMP()+3);
+        }
+    }
 }

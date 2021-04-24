@@ -2,7 +2,6 @@ package com.mady.utils.entities.factories.monster;
 
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
-import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 import org.junit.jupiter.api.Test;
 

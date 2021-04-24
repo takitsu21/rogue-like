@@ -43,10 +43,6 @@ public abstract class AbstractItem implements Item {
         this.position = position;
     }
 
-    public double getMovement() {
-        return movement;
-    }
-
     public int getDamages() {
         return damages;
     }
@@ -76,16 +72,8 @@ public abstract class AbstractItem implements Item {
         return lvl;
     }
 
-    public void setLvl(int lvl) {
-        this.lvl = lvl;
-    }
-
     public double getMultiplicateur() {
         return multiplicateur;
-    }
-
-    public void setMultiplicateur(int multiplicateur) {
-        this.multiplicateur = multiplicateur;
     }
 
 
