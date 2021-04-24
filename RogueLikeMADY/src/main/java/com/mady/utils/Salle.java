@@ -6,33 +6,24 @@ public class Salle {
     private final int lignes;
     private final int colonnes;
     private final Position pos;
-    private final int monsterNumber;
-    private final int objectNumber;
-    private Case[][] representation;
+    private final Case[][] representation;
 
 
     public Salle(int lignes,
                  int colonnes,
-                 int monsterNumber,
-                 int objectNumber,
                  Position pos) {
         this.lignes = lignes;
         this.colonnes = colonnes;
-        this.monsterNumber = monsterNumber;
-        this.objectNumber = objectNumber;
         this.pos = pos;
         representation = new Case[lignes][colonnes];
         createSalle();
     }
 
-    public Salle(int lignes, int colonnes, Position pos) {
-        this(lignes, colonnes, 0, 0, pos);
-    }
 
     public Salle(Position pos) {
         this(Util.r.nextInt(14) + 6,
                 Util.r.nextInt(14) + 12,
-                0, 0, pos);
+                 pos);
     }
 
     public Case[][] getRepresentation() {
@@ -96,14 +87,6 @@ public class Salle {
         return colonnes;
     }
 
-    public int getmonsterNumber() {
-        return monsterNumber;
-    }
-
-    public int getobjectNumber() {
-        return objectNumber;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -127,7 +110,7 @@ public class Salle {
 
     /**
      *
-     * @param position
+     * @param position position a verifier
      * @return bool en fonction de si une position est un coin ou pas
      */
     public boolean isCorner(Position position) {

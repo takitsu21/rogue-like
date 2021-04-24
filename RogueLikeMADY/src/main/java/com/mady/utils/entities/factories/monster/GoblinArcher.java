@@ -12,19 +12,7 @@ public class GoblinArcher extends AbstractMonster {
     public GoblinArcher(Position pos, Salle salle) {
         super("Gobelin", pos, 5, 3, 1, "g", 3, salle);
     }
-
-
-    @Override
-    public int getMaxDammages() {
-        return 0;
-    }
-
-    @Override
-    public void setMaxDammages(int maxDammages) {
-
-    }
-
-
+  
     @Override
     public void skill(Entities target, Map map) {
         if (checkDistanceShoot(map)) {

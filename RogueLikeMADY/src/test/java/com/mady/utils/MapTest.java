@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapTest {
-    private Frame frame = new Frame();
+    private final Frame frame = new Frame();
     private Map map1;
     private Map map2;
 

@@ -27,12 +27,6 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     }
 
 
-    private double getDistance(Player player) {
-        Position monsterPos = getPosition();
-        Position playerPos = player.getPosition();
-        return monsterPos.getDistance(playerPos);
-    }
-
     private void updatePos(Map map, Player player) {
         Position playerPos = player.getPosition();
         Deplacement dep = direction(playerPos);
@@ -41,7 +35,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     /**
      *
-     * @param playerPos
+     * @param playerPos position du player
      * @return a direction
      * direction will determine where the monster needs to head to to find the player
      */
@@ -69,8 +63,6 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         Player player = map.getPlayer();
         if (this.nextTo(map)) {
             this.attack(player);
-            Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> vous a infligé %d dégâts.\n",
-                    getName(), getHitPoints(), getMaxHitPoints(), getDamages()), Attribute.RED_TEXT()));
         } else {
             updatePos(map, player);
             Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> se rapproche.\n",
@@ -81,7 +73,8 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     public void attack(Player player) {
         int monsterDamages = getDamages();
         player.takeDamages(monsterDamages);
-
+        Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> vous a infligé %d dégâts.\n",
+                getName(), getHitPoints(), getMaxHitPoints(), getDamages()), Attribute.RED_TEXT()));
     }
 
     @Override
@@ -99,7 +92,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     /**
      *
-     * @param map
+     * @param map map sur laquelle ce trouve le monstre
      * @return a bool if the player is on one of the four cases around us
      */
 
@@ -118,10 +111,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX()][monsterPos.getY() + 1].getEntity() instanceof Player) {
-            return true;
-        }
-        return false;
+        return map.getMap()[monsterPos.getX()][monsterPos.getY() + 1].getEntity() instanceof Player;
     }
 
     @Override
@@ -147,4 +137,5 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         }
         return false;
     }
+
 }

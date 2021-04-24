@@ -40,7 +40,7 @@ public class Util {
         if (randomIt == 4) {
             return "poison_vie";
         }
-        if (randomIt > 4 && randomIt < 9) {
+        if (randomIt < 9) {
             return "potion_force";
         }
         if (randomIt == 9) {
@@ -150,11 +150,6 @@ public class Util {
 
 
     public static String filler(int i) {
-        StringBuilder sb = new StringBuilder();
-        for (int j = 0; j < i; j++) {
-            sb.append(" ");
-
-        }
-        return sb.toString();
+        return " ".repeat(Math.max(0, i));
     }
 }

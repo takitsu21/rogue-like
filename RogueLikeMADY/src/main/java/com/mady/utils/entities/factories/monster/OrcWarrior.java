@@ -3,7 +3,6 @@ package com.mady.utils.entities.factories.monster;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.entities.Entities;
-import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
 public class OrcWarrior extends AbstractMonster {
@@ -14,15 +13,7 @@ public class OrcWarrior extends AbstractMonster {
     }
 
 
-    @Override
-    public int getMaxDammages() {
-        return 0;
-    }
 
-    @Override
-    public void setMaxDammages(int maxDammages) {
-
-    }
 
     @Override
     public void skill(Entities target, Map map) {

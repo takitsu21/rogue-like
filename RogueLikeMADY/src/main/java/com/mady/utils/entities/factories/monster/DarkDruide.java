@@ -11,13 +11,9 @@ public class DarkDruide extends AbstractMonster{
         super("Druide noir", pos, 20, 2, 1, "D", 3, salle);
     }
 
-    @Override
-    public int getMaxDammages() {
-        return 0;
-    }
 
     @Override
-    public void setMaxDammages(int maxDammages) {
+    public void skill(Entities target) {
 
     }
 

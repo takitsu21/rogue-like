@@ -1,6 +1,5 @@
 package com.mady.utils.entities;
 
-import com.mady.utils.Util;
 import com.mady.utils.entities.factories.items.Item;
 
 import java.util.ArrayList;
@@ -36,11 +35,6 @@ public abstract class AbstractStuffItem implements Item {
 
     public AbstractStuffItem(String name) {
         this(name, 0, 0, 0, 0, 0, 0);
-    }
-
-    @Override
-    public double getMovement() {
-        return 0;
     }
 
     @Override
@@ -85,34 +79,16 @@ public abstract class AbstractStuffItem implements Item {
         return DEF;
     }
 
-    public void setDEF(double DEF) {
-        this.DEF = DEF;
-    }
-
     public double getAGI() {
         return AGI;
-    }
-
-    public void setAGI(double AGI) {
-        this.AGI = AGI;
     }
 
     public double getLUK() {
         return LUK;
     }
 
-    public void setLUK(double LUK) {
-        this.LUK = LUK;
-    }
-
     public List<Double> getStats() {
         return stats;
-    }
-
-    public void setStats(int lvl) {
-        for (double stat : stats) {
-            stat = (double) Util.r.nextInt(lvl + 1) * 1.2;
-        }
     }
 
     @Override
