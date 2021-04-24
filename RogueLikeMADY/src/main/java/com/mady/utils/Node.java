@@ -37,10 +37,6 @@ public class Node {
         return parent;
     }
 
-    public void setParent(Node parent) {
-        this.parent = parent;
-    }
-
     public Position getPosition() {
         return position;
     }

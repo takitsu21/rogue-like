@@ -11,6 +11,7 @@ public class Case {
     private Object item; // objet qui representera l'objet associé a cette case (monstre, coffre etc...)
     private CaseType ct;
     private Entities entity;
+    private boolean attackBoss=false;
 
     /**
      * Représente une case dans la map.
@@ -34,13 +35,6 @@ public class Case {
         this.repr = repr;
         this.entity = entity;
         this.ct = CaseType.MAP;
-    }
-
-    public Case(String repr, Object item, CaseType ct, Entities entity) {
-        this.repr = repr;
-        this.item = item;
-        this.ct = ct;
-        this.entity = entity;
     }
 
     public Case(String repr) {
@@ -110,6 +104,9 @@ public class Case {
             return (Ansi.colorize(repr, Attribute.BRIGHT_WHITE_TEXT(), Attribute.BRIGHT_WHITE_BACK()));
         } else if (isPortal()) {
             return Ansi.colorize(repr, Attribute.BRIGHT_CYAN_TEXT());
+        }else if (attackBoss) {
+            attackBoss=false;
+            return Ansi.colorize(repr, Attribute.RED_BACK());
         }
         return repr;
     }
@@ -168,5 +165,13 @@ public class Case {
 
     public boolean isPortal() {
         return CaseType.PORTAL == ct;
+    }
+
+    public boolean isAttackBoss() {
+        return attackBoss;
+    }
+
+    public void setAttackBoss(boolean attackBoss) {
+        this.attackBoss = attackBoss;
     }
 }

@@ -173,11 +173,6 @@ public class Util {
     }
 
     public static String filler(int i) {
-        StringBuilder sb = new StringBuilder();
-        for (int j = 0; j < i; j++) {
-            sb.append(" ");
-
-        }
-        return sb.toString();
+        return " ".repeat(Math.max(0, i));
     }
 }

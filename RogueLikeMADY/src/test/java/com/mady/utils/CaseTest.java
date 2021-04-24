@@ -17,6 +17,7 @@ class CaseTest {
     private Case cPortal;
     private Case cItemNotEmpty;
     private Case cConstructor;
+    private Case cAttackBoss;
 
 
     @BeforeEach
@@ -24,12 +25,14 @@ class CaseTest {
         cWall = new Case("#", null, CaseType.WALL);
         cSalle = new Case(" ", null, CaseType.SALLE);
         cEmpty = new Case(CaseType.SALLE);
-        cItemNotEmpty = new Case("C", new String(""), CaseType.SALLE);
+        cItemNotEmpty = new Case("C", "", CaseType.SALLE);
         cConstructor = new Case(".");
-        cPlayer = new Case("@", new Player(new Position(0, 0), 0, 0, 0, "@", new Salle(0, 0, 0, 0, new Position(0, 0))));
+        cPlayer = new Case("@", new Player(new Position(0, 0), 0, 0, 0, "@", new Salle(0, 0, new Position(0, 0))));
         cPath = new Case("P", null, CaseType.PATH);
         cPortal = new Case("§", null, CaseType.PORTAL);
         cMap = new Case(" ", null, CaseType.MAP);
+        cAttackBoss = new Case(CaseType.SALLE);
+        cAttackBoss.setAttackBoss(true);
     }
 
     @Test
@@ -43,6 +46,7 @@ class CaseTest {
         assertFalse(cPath.isOccupied());
         assertFalse(cPortal.isOccupied());
         assertFalse(cMap.isOccupied());
+        assertFalse(cAttackBoss.isOccupied());
     }
 
     @Test
@@ -56,6 +60,7 @@ class CaseTest {
         assertEquals("P", cPath.getRealRepr());
         assertEquals("§", cPortal.getRealRepr());
         assertEquals(" ", cMap.getRealRepr());
+        assertEquals(" ", cAttackBoss.getRealRepr());
     }
 
     @Test
@@ -67,7 +72,7 @@ class CaseTest {
         assertFalse(cPath.isWall());
         assertFalse(cPortal.isWall());
         assertFalse(cMap.isWall());
-
+        assertFalse(cAttackBoss.isWall());
     }
 
     @Test
@@ -79,6 +84,7 @@ class CaseTest {
         assertFalse(cPath.isSalle());
         assertFalse(cPortal.isSalle());
         assertFalse(cMap.isSalle());
+        assertTrue(cAttackBoss.isSalle());
     }
 
     @Test
@@ -90,6 +96,7 @@ class CaseTest {
         assertFalse(cPath.isPlayer());
         assertFalse(cPortal.isPlayer());
         assertFalse(cMap.isPlayer());
+        assertFalse(cAttackBoss.isPlayer());
     }
 
     @Test
@@ -101,6 +108,7 @@ class CaseTest {
         assertFalse(cPath.isMap());
         assertFalse(cPortal.isMap());
         assertTrue(cMap.isMap());
+        assertFalse(cAttackBoss.isMap());
     }
 
     @Test
@@ -112,6 +120,7 @@ class CaseTest {
         assertTrue(cPath.isPath());
         assertFalse(cPortal.isPath());
         assertFalse(cMap.isPath());
+        assertFalse(cAttackBoss.isPath());
     }
 
     @Test
@@ -123,6 +132,7 @@ class CaseTest {
         assertFalse(cPath.isPortal());
         assertTrue(cPortal.isPortal());
         assertFalse(cMap.isPortal());
+        assertFalse(cAttackBoss.isPortal());
     }
 
     @Test
@@ -134,7 +144,19 @@ class CaseTest {
         assertTrue(cPath.isFreeCase());
         assertTrue(cPortal.isFreeCase());
         assertTrue(cMap.isFreeCase());
+        assertTrue(cAttackBoss.isFreeCase());
     }
 
+    @Test
+    void isAttackBoss() {
+        assertFalse(cWall.isAttackBoss());
+        assertFalse(cEmpty.isAttackBoss());
+        assertFalse(cSalle.isAttackBoss());
+        assertFalse(cPlayer.isAttackBoss());
+        assertFalse(cPath.isAttackBoss());
+        assertFalse(cPortal.isAttackBoss());
+        assertFalse(cMap.isAttackBoss());
+        assertTrue(cAttackBoss.isAttackBoss());
+    }
 
 }

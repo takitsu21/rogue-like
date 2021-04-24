@@ -28,7 +28,8 @@ public class Chest extends AbstractItem {
     }
 
     /**
-     * @param player
+     *
+     * @param player joueur a partir duquel vont etre changer les statistiques de l'item
      * @return AbstractStuffItem Item créer quand on ouvre le coffre.
      */
     public static AbstractStuffItem openChest(Player player) {

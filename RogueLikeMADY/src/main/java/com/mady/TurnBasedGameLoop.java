@@ -3,6 +3,7 @@ package com.mady;
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.KeyboardPressedEnum;
+import com.mady.utils.Salle;
 import com.mady.utils.Util;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Position;
@@ -42,7 +43,11 @@ public class TurnBasedGameLoop extends GameLoop {
 
                 if (map.getMap()[map.getPlayer().getPosition().getX()][map.getPlayer().getPosition().getY()].isPortal()) {
                     world.addMap();
-                    Position position = world.getCurrentMap().randomPosPlayerInSalle(world.getCurrentMap().chooseSalle());
+                    Salle salle=world.getCurrentMap().chooseSalle();
+                    while(salle.equals(map.getSalleBoss())){
+                        salle = map.chooseSalle();
+                    }
+                    Position position = world.getCurrentMap().randomPosPlayerInSalle(salle);
                     map.getPlayer().setPos(position);
                     world.getCurrentMap().addPlayerToMap(map.getPlayer());
                     world.getCurrentMap().addEntityItemPortal();

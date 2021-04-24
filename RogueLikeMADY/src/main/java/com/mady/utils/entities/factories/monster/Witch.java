@@ -3,13 +3,13 @@ package com.mady.utils.entities.factories.monster;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.entities.Entities;
+import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 
-public class OrcWarrior extends AbstractMonster {
+public class Witch extends AbstractMonster{
 
-
-    public OrcWarrior(Position pos, Salle salle) {
-        super("Orc", pos, 10, 2, 1, "o", 3, salle);
+    public Witch(Position pos, Salle salle) {
+        super("Sorcière", pos, 8, 3, 1, "w", 5, salle);
     }
 
 
@@ -17,6 +17,8 @@ public class OrcWarrior extends AbstractMonster {
 
     @Override
     public void skill(Entities target, Map map) {
-
+        if (checkDistanceShoot(map)) {
+            attack((Player) target);
+        }
     }
 }
