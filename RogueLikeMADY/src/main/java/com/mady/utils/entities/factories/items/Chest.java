@@ -57,6 +57,14 @@ public class Chest extends AbstractItem {
 
     }
 
+    public void setItem(AbstractStuffItem item) {
+        this.item = item;
+    }
+
+    public AbstractStuffItem getItem() {
+        return item;
+    }
+
     @Override
     public String getRepresentation() {
         return Ansi.colorize("C", Attribute.MAGENTA_TEXT());
