@@ -35,7 +35,7 @@ public class Boss extends AbstractMonster {
     }
 
     @Override
-    public boolean isDead() {
+    public boolean isDead(Map map) {
         if(map!=null && getHitPoints() <= 0) {
             map.clearCase(map.getMap()[this.getPosition().getX()][this.getPosition().getY()]);
             map.getMap()[this.getPosition().getX()][this.getPosition().getY()].setItem(new Chest(this.getPosition(), getLvl(), getMultiplicateur()));

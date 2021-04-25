@@ -118,7 +118,10 @@ public abstract class AbstractEntities implements Entities {
         isAttack = true;
     }
 
-    public boolean isDead() {
+    public boolean isDead(Map map) {
+        if(getHitPoints() <= 0) {
+            map.clearCase(getPosition());
+        }
         return (getHitPoints() <= 0);
     }
 
@@ -173,7 +176,7 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public Map doTurn(Map map) {
-        if (!this.isDead()) {
+        if (!this.isDead(map)) {
             if (isInPerimeter(map)) {
                 ((AbstractMonster) this).act(map);
             } else {
