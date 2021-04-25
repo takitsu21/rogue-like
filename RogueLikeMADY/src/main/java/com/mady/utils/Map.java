@@ -63,6 +63,9 @@ public class Map {
 
     public void addEntityItemPortal() {
         salleBoss = chooseSalle();
+        while(salleBoss.equals(player.getSalle())){
+            salleBoss = chooseSalle();
+        }
         generatePortal();
         generateEntities();
         generateItems();
@@ -311,7 +314,8 @@ public class Map {
         for (int i = 0; i < nbMonsters; i++) {
 
             Position pos = randomPosPlayerInSalle(salle);
-            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()) {
+            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()
+                    || map[pos.getX()][pos.getY()].isPlayer()) {
                 pos = randomPosPlayerInSalle(salle);
             }
             Entities entity = MonsterFactory.getInstance().generate(
@@ -347,6 +351,7 @@ public class Map {
      * @param c nettoyage d'une case après qu'une entité l'est quitée.
      */
     public void clearCase(Case c) {
+        c.setAttackBoss(false);
         c.setItem(null);
         c.setEntity(null);
         if (c.isPath()) {
@@ -380,14 +385,14 @@ public class Map {
             e.setPos(newPos);
             success = true;
         }
-        if (e instanceof Player) {
+        else if (e instanceof Player) {
             if (oldCase.isPath() && newCase.isSalle() && !newCase.isOccupied()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
                 success = true;
             }
-            if (oldCase.isPath() && newCase.isPath()) {
+            else if (oldCase.isPath() && newCase.isPath()) {
                 /*Gestion du mouvement de salle à salle*/
                 Position newPos2 = findDoor(newPos);
                 if (newPos2 == null) {
@@ -401,7 +406,7 @@ public class Map {
                 newPos = newPos2;
                 success = true;
             }
-            if (newCase.isPath()) {
+            else if (newCase.isPath()) {
                 Position newPos2 = findDoor(newPos);
                 assert newPos2 != null;
                 newCase = this.map[newPos2.getX()][newPos2.getY()];
@@ -411,14 +416,15 @@ public class Map {
                 newPos = newPos2;
                 success = true;
             }
-            if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
+            else if (newCase.getItem() != null && !(newCase.getItem() instanceof Chest)) {
                 clearCase(oldCase);
                 ((Player) e).useItem(newCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
                 success = true;
             }
-            if (newCase.isPortal() ||newCase.isShop() ||newCase.isShopLeave()) {
+
+           else if (newCase.isPortal() ||newCase.isShop() ||newCase.isShopLeave()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);

@@ -20,8 +20,16 @@ public class TurnBasedGameLoop extends GameLoop {
     @Override
     protected void processGameLoop() {
         if (status == GameStatus.STARTING) {
-            status = GameStatus.RUNNING;
+            status = GameStatus.WELCOME_SCREEN;
             render();
+        }
+        while (isWelcomeScreen()) {
+            processInput();
+            if (Util.keyPressed == KeyboardPressedEnum.NONE) {
+                status = GameStatus.RUNNING;
+            }
+            render();
+            Util.playerTurn = true;
         }
         while (isGameRunning()) {
 
@@ -80,7 +88,7 @@ public class TurnBasedGameLoop extends GameLoop {
                     frame.getFrame().addKeyListener(new MoveListener(map));
                 }
 
-                if (controller.player.isDead()) {
+                if (controller.player.isDead(map)) {
                     stop();
 
                     System.out.println(Ansi.colorize("Le jeu est fini, vous êtes mort...",

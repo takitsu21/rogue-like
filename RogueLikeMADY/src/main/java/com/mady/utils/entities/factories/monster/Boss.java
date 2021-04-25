@@ -5,8 +5,10 @@ import com.mady.utils.Salle;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.Chest;
 
 public class Boss extends AbstractMonster {
+    Map map;
 
     public Boss(Position pos, Salle salle) {
         super("Boss", pos, 50, 5, 1, "B", 5, salle);
@@ -14,6 +16,7 @@ public class Boss extends AbstractMonster {
 
 
     public void skill(Map map) {
+        this.map=map;
         Player player = map.getPlayer();
         Position posSalle = this.getSalle().getPos();
         for (int i = posSalle.getX(); i < posSalle.getX() + this.getSalle().getlignes(); i++) {
@@ -29,6 +32,17 @@ public class Boss extends AbstractMonster {
             }
         }
         map.getMap()[this.getPosition().getX()][this.getPosition().getY()].setAttackBoss(false);
+    }
+
+    @Override
+    public boolean isDead(Map map) {
+        if(map!=null && getHitPoints() <= 0) {
+            map.clearCase(map.getMap()[this.getPosition().getX()][this.getPosition().getY()]);
+            map.getMap()[this.getPosition().getX()][this.getPosition().getY()].setItem(new Chest(this.getPosition(), getLvl(), getMultiplicateur()));
+            System.out.println(map.getMap()[this.getPosition().getX()][this.getPosition().getY()]);
+        }
+
+        return (getHitPoints() <= 0);
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.Random;
 public class Util {
     public static final Random r = new Random();
     public static volatile boolean playerTurn = true;
-    public static volatile KeyboardPressedEnum keyPressed = KeyboardPressedEnum.NONE;
+    public static volatile KeyboardPressedEnum keyPressed = KeyboardPressedEnum.WELCOME;
     public static volatile StringBuilder currentAction = new StringBuilder();
 
     public static Deplacement randomDirection() {
@@ -169,6 +169,11 @@ public class Util {
                             Attribute.BRIGHT_YELLOW_TEXT()));
         }
         return sb.toString();
+    }
+
+    public static void showWelcomeScreen() {
+        WelcomeMenu wm = new WelcomeMenu();
+        System.out.println(wm);
     }
 
     public static String filler(int i) {
