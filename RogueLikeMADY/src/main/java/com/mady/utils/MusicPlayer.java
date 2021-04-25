@@ -8,8 +8,11 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class MusicPlayer {
@@ -46,14 +49,25 @@ public class MusicPlayer {
 //                        "/The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav");
 //                audioInputStream =
 //                        AudioSystem.getAudioInputStream(is);
+//                InputStream is = getClass().getResourceAsStream("/The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav");
+                URI uri = getClass().getResource("/The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav").toURI();
 
-                URL url = getClass().getResource("/The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav");
+//                URI uri = getClass().getResource("The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav").toURI();
+//                System.out.println(uri);
 //                URI uri = new URI("jar:file:" + root + "/RogueLikeMADY-1.0-SNAPSHOT.jar!/The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav");
-                Path p = Paths.get(new URI(url.toURI().toString()));
-                File f = new File(p.toUri());
-                System.out.println(f.getAbsoluteFile());
+//                Path p = Paths.get(new URI(url.toURI().toString()));
+//                File f = new File(p.toUri());
+//                System.out.println(f.getAbsoluteFile());
+//                Path p = FileSystems.getDefault().getPath(uri.toString()).toAbsolutePath();
+//                Path p = Paths.get(uri);
+
+//                System.out.println(p.toString().replace("!", ""));
+//                System.out.println(p.toString());
+                URI url = new URI("jar:file:/The%20Legend%20Of%20Zelda%20-%20The%20Minish%20Cap%20-%20Minish%20Village%20Arrangement%20(cut%20version).wav");
+                System.out.println(url);
                 audioInputStream =
-                        AudioSystem.getAudioInputStream(f.getAbsoluteFile());
+                        AudioSystem.getAudioInputStream(new File("jar:file:/The%20Legend%20Of%20Zelda%20-%20The%20Minish%20Cap%20-%20Minish%20Village%20Arrangement%20(cut%20version).wav").
+                                getAbsoluteFile());
 //                System.out.println(url);
 //                MediaLocator loc = new MediaLocator(url);
 //                Player player = Manager.createPlayer(loc);
@@ -61,13 +75,13 @@ public class MusicPlayer {
 
 
                 // create clip reference
-//                clip = AudioSystem.getClip();
-//
-//                // open audioInputStream to the clip
-//                clip.open(audioInputStream);
-//
-//                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } catch (IOException | UnsupportedAudioFileException | URISyntaxException ign) {
+                clip = AudioSystem.getClip();
+
+                // open audioInputStream to the clip
+                clip.open(audioInputStream);
+
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (IOException | UnsupportedAudioFileException | URISyntaxException | LineUnavailableException ign) {
                 ign.printStackTrace();
             }
         }

@@ -45,7 +45,6 @@ public abstract class GameLoop {
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
         map.addPlayerToMap(controller.getPlayer());
         map.addEntityItemPortal();
-        render();
         frame.getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.STOPPED;
     }
@@ -85,7 +84,6 @@ public abstract class GameLoop {
     public void run() {
         status = GameStatus.STARTING;
         gameThread = new Thread(this::processGameLoop);
-        System.out.println(audioPlayer.getFilePath());
         musicThread = new Thread(audioPlayer::play);
         musicThread.start();
         gameThread.start();
