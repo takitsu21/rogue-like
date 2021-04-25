@@ -5,6 +5,7 @@ import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
+import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
 import com.mady.utils.entities.factories.monster.Boss;
 
