@@ -1,182 +1,41 @@
 package com.mady.utils;
 
-import javax.media.*;
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Scanner;
 
 public class MusicPlayer {
 
-    // to store current position
     private Long currentFrame;
     private Clip clip;
 
-    // current status of clip
     private String status;
 
     private AudioInputStream audioInputStream;
-    private String root = System.getProperty("user.dir");
-    private String filePath = root + "\\RogueLikeMADY\\src\\main\\resources\\The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav";
+    private final String root = System.getProperty("user.dir");
+    private final String fileName = "/soundtrack.wav";
+    private String filePath = root + "/RogueLikeMADY/src/main/resources" + fileName;
 
-    // constructor to initialize streams and clip
     public MusicPlayer() {
-        // create AudioInputStream object
         try {
-            filePath = Paths.get(filePath).toString();
-            audioInputStream =
-                    AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
-
-            // create clip reference
+            InputStream is = getClass().getResourceAsStream("/soundtrack.wav");
+            InputStream bufferedIn = new BufferedInputStream(is);
+            audioInputStream = AudioSystem.getAudioInputStream(bufferedIn);
             clip = AudioSystem.getClip();
-
-            // open audioInputStream to the clip
             clip.open(audioInputStream);
-
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ignored) {
-            try {
-//                InputStream is = ClassLoader.getSystemResourceAsStream(
-//                        "/The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav");
-//                audioInputStream =
-//                        AudioSystem.getAudioInputStream(is);
-//                InputStream is = getClass().getResourceAsStream("/The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav");
-                URI uri = getClass().getResource("/The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav").toURI();
-
-//                URI uri = getClass().getResource("The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav").toURI();
-//                System.out.println(uri);
-//                URI uri = new URI("jar:file:" + root + "/RogueLikeMADY-1.0-SNAPSHOT.jar!/The Legend Of Zelda - The Minish Cap - Minish Village Arrangement (cut version).wav");
-//                Path p = Paths.get(new URI(url.toURI().toString()));
-//                File f = new File(p.toUri());
-//                System.out.println(f.getAbsoluteFile());
-//                Path p = FileSystems.getDefault().getPath(uri.toString()).toAbsolutePath();
-//                Path p = Paths.get(uri);
-
-//                System.out.println(p.toString().replace("!", ""));
-//                System.out.println(p.toString());
-                URI url = new URI("jar:file:/The%20Legend%20Of%20Zelda%20-%20The%20Minish%20Cap%20-%20Minish%20Village%20Arrangement%20(cut%20version).wav");
-                System.out.println(url);
-                audioInputStream =
-                        AudioSystem.getAudioInputStream(new File("jar:file:/The%20Legend%20Of%20Zelda%20-%20The%20Minish%20Cap%20-%20Minish%20Village%20Arrangement%20(cut%20version).wav").
-                                getAbsoluteFile());
-//                System.out.println(url);
-//                MediaLocator loc = new MediaLocator(url);
-//                Player player = Manager.createPlayer(loc);
-//                player.start();
-
-
-                // create clip reference
-                clip = AudioSystem.getClip();
-
-                // open audioInputStream to the clip
-                clip.open(audioInputStream);
-
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } catch (IOException | UnsupportedAudioFileException | URISyntaxException | LineUnavailableException ign) {
-                ign.printStackTrace();
-            }
         }
-        System.exit(0);
     }
 
-
-    public Long getCurrentFrame() {
-        return currentFrame;
-    }
-
-    public void setCurrentFrame(Long currentFrame) {
-        this.currentFrame = currentFrame;
-    }
-
-    public Clip getClip() {
-        return clip;
-    }
-
-    public void setClip(Clip clip) {
-        this.clip = clip;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public AudioInputStream getAudioInputStream() {
-        return audioInputStream;
-    }
-
-    public void setAudioInputStream(AudioInputStream audioInputStream) {
-        this.audioInputStream = audioInputStream;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    private void gotoChoice(int c)
-            throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-        switch (c) {
-            case 1:
-                pause();
-                break;
-            case 2:
-                resumeAudio();
-                break;
-            case 3:
-                restart();
-                break;
-            case 4:
-                stop();
-                break;
-            case 5:
-                System.out.println("Enter time (" + 0 +
-                        ", " + clip.getMicrosecondLength() + ")");
-                Scanner sc = new Scanner(System.in);
-                long c1 = sc.nextLong();
-                jump(c1);
-                break;
-
-        }
-
-    }
-
-    // Method to play the audio
     public void play() {
-        //start the clip
         clip.start();
-
         status = "play";
     }
 
-    // Method to pause the audio
-    public void pause() {
-        if (status.equals("paused")) {
-            System.out.println("audio is already paused");
-            return;
-        }
-        this.currentFrame =
-                this.clip.getMicrosecondPosition();
-        clip.stop();
-        status = "paused";
-    }
 
-    // Method to resume the audio
     public void resumeAudio() throws UnsupportedAudioFileException,
             IOException, LineUnavailableException {
         if (status.equals("play")) {
@@ -190,7 +49,6 @@ public class MusicPlayer {
         this.play();
     }
 
-    // Method to restart the audio
     public void restart() throws IOException, LineUnavailableException,
             UnsupportedAudioFileException {
         clip.stop();
@@ -201,15 +59,12 @@ public class MusicPlayer {
         this.play();
     }
 
-    // Method to stop the audio
-    public void stop() throws UnsupportedAudioFileException,
-            IOException, LineUnavailableException {
+    public void stop() {
         currentFrame = 0L;
         clip.stop();
         clip.close();
     }
 
-    // Method to jump over a specific part
     public void jump(long c) throws UnsupportedAudioFileException, IOException,
             LineUnavailableException {
         if (c > 0 && c < clip.getMicrosecondLength()) {
