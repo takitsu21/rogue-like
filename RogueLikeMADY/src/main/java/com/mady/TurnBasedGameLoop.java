@@ -19,8 +19,16 @@ public class TurnBasedGameLoop extends GameLoop {
     @Override
     protected void processGameLoop() {
         if (status == GameStatus.STARTING) {
-            status = GameStatus.RUNNING;
+            status = GameStatus.WELCOME_SCREEN;
             render();
+        }
+        while (isWelcomeScreen()) {
+            processInput();
+            if (Util.keyPressed == KeyboardPressedEnum.NONE) {
+                status = GameStatus.RUNNING;
+            }
+            render();
+            Util.playerTurn = true;
         }
         while (isGameRunning()) {
 

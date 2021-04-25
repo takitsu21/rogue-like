@@ -1,10 +1,7 @@
 package com.mady.utils.listener;
 
 import com.mady.GameLoop;
-import com.mady.utils.KeyboardPressedEnum;
-import com.mady.utils.Map;
-import com.mady.utils.Pause;
-import com.mady.utils.Util;
+import com.mady.utils.*;
 import com.mady.utils.entities.Deplacement;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
@@ -45,7 +42,10 @@ public class MoveListener implements KeyListener {
                                     pause.getListe().size() - 1 :
                                     pause.getSelection() - 1);
 
-                } else {
+                } else if (Util.keyPressed == KeyboardPressedEnum.WELCOME) {
+                    WelcomeMenu.CURSOR = Math.abs((WelcomeMenu.CURSOR - 1) % 3);
+                }
+                else {
                     map.move(map.getPlayer(), Deplacement.HAUT.pos);
                 }
                 break;
@@ -56,8 +56,10 @@ public class MoveListener implements KeyListener {
                             map.getPlayer().getInventory().getInventory().size() : 1));
                 } else if (Util.keyPressed == KeyboardPressedEnum.ESC) {
                     pause.setSelection((pause.getSelection() + 1) % pause.getListe().size());
-
-                } else {
+                } else if (Util.keyPressed == KeyboardPressedEnum.WELCOME) {
+                    WelcomeMenu.CURSOR = (WelcomeMenu.CURSOR + 1) % 3;
+                }
+                else {
                     map.move(map.getPlayer(), Deplacement.BAS.pos);
                 }
                 break;
@@ -108,17 +110,6 @@ public class MoveListener implements KeyListener {
                 }
                 Util.keyPressed = KeyboardPressedEnum.I;
                 break;
-//
-//            case KeyEvent.VK_P: // touche P pour pause
-//                if (Util.keyPressed == KeyboardPressedEnum.P) {
-//                    Util.keyPressed = KeyboardPressedEnum.NONE;
-//                    break;
-//                }
-//                if(Util.keyPressed != KeyboardPressedEnum.I){
-//                Util.keyPressed =  KeyboardPressedEnum.P;
-//                }
-//                break;
-
             case KeyEvent.VK_ESCAPE: // Touche Escape
                 if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
@@ -146,13 +137,18 @@ public class MoveListener implements KeyListener {
                             break;
 
                     }
+                } else if (Util.keyPressed == KeyboardPressedEnum.WELCOME) {
+                    if (WelcomeMenu.CURSOR == 0) {
+                        Util.keyPressed = KeyboardPressedEnum.NONE;
+                    } else if (WelcomeMenu.CURSOR == 2) {
+                        GameLoop.quit();
+                    }
                 } else {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
             default:
                 return;
-
         }
         Util.playerTurn = false;
     }
