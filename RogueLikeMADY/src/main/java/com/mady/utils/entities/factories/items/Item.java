@@ -18,5 +18,5 @@ public interface Item {
 
     Boolean isPickable();
 
-    String getRepresentation();
+    String getRepr();
 }

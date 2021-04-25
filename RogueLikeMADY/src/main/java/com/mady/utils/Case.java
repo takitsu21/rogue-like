@@ -8,7 +8,7 @@ import com.mady.utils.entities.factories.items.Item;
 
 public class Case {
     private String repr;
-    private Object item; // objet qui representera l'objet associé a cette case (monstre, coffre etc...)
+    private Item item; // objet qui representera l'objet associé a cette case (monstre, coffre etc...)
     private CaseType ct;
     private Entities entity;
     private boolean attackBoss = false;
@@ -20,7 +20,7 @@ public class Case {
      * @param item Item présent en interne à cette case.
      * @param ct   Type de la case (WALL, PATH, etc...)
      */
-    public Case(String repr, Object item, CaseType ct) {
+    public Case(String repr, Item item, CaseType ct) {
         this.repr = repr;
         this.item = item;
         this.ct = ct;
@@ -108,8 +108,14 @@ public class Case {
         } else if (attackBoss) {
             attackBoss = false;
             return Ansi.colorize(repr, Attribute.RED_BACK());
+        } else if(isShop() ||  isShopLeave()) {
+            return Ansi.colorize(repr, Attribute.BRIGHT_MAGENTA_TEXT());
+        }else if (entity!=null){
+            return entity.getRepr();
+        }else if (item!=null){
+            return item.getRepr();
         }
-        else if(isShop() ||  isShopLeave()) { return Ansi.colorize(repr, Attribute.BRIGHT_MAGENTA_TEXT());}
+
         return repr;
     }
 
@@ -130,7 +136,7 @@ public class Case {
 
     public void setItem(Item item) {
         this.item = item;
-        this.repr = item == null ? " " : item.getRepresentation();
+        //this.repr = item == null ? " " : item.getRepresentation();
     }
 
     public CaseType getCt() {
@@ -147,7 +153,7 @@ public class Case {
 
     public void setEntity(Entities entity) {
         this.entity = entity;
-        repr = entity == null ? " " : entity.getRepr();
+        //repr = entity == null ? " " : entity.getRepr();
     }
 
     /**
@@ -179,4 +185,9 @@ public class Case {
     public void setAttackBoss(boolean attackBoss) {
         this.attackBoss = attackBoss;
     }
+
+    public boolean isPrice() {
+        return CaseType.PRICE == ct;
+    }
+
 }

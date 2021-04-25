@@ -108,12 +108,7 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public void takeDamages(int damages) {
-        if (this instanceof Player) {
-            this.setHitPoints(this.getHitPoints() - damages);
-        } else {
-            int new_HP = getHitPoints() - damages;
-            setHitPoints(new_HP);
-        }
+        this.setHitPoints(this.getHitPoints() - damages);
         isAttack = true;
     }
 

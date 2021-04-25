@@ -36,21 +36,21 @@ public class Util {
 
     public static String getRandomItem() {
         int randomIt = Util.r.nextInt(25);
-        if (randomIt < 4) {
+        if (randomIt < 4) {  //4
             return "potion_vie";
         }
-        if (randomIt == 4) {
+        if (randomIt == 4) {  //1
             return "poison_vie";
         }
-        if (randomIt < 9) {
+        if (randomIt < 9) {  //4
             return "potion_force";
         }
-        if (randomIt == 9) {
+        if (randomIt == 9) { //1
             return "poison_force";
         }
-        if (randomIt < 19) {
+        if (randomIt < 19) {  //9
             return "coin";
-        } else {
+        } else { //5
             return "chest";
         }
     }

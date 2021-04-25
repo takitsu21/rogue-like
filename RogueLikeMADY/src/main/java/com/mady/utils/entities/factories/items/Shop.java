@@ -4,6 +4,7 @@ import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.*;
 import com.mady.utils.entities.AbstractStuffItem;
+import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.monster.Seller;
@@ -50,8 +51,6 @@ public class Shop extends Map {
     }
     private void GeneratePortal(){
         super.getMap()[17][63] = new Case("$", CaseType.SHOPLEAVE);
-
-
     }
 
 
@@ -81,18 +80,23 @@ public class Shop extends Map {
     private void placePrice(Chest c) {
         Price p = items.get(c.getItem());
         int prix = p.getPrice();
+        c.setPrice(prix);
         int[] repesentation = new int[]{prix / 100, (prix % 100) / 10, prix % 10 };
         Position pos = c.getPosition();
-        super.getMap()[pos.getX()-1][pos.getY()-1].setRepr(Ansi.colorize((String.valueOf(repesentation[0])),Attribute.BRIGHT_YELLOW_TEXT()));
-        super.getMap()[pos.getX()-1][pos.getY()].setRepr(Ansi.colorize((String.valueOf(repesentation[1])),Attribute.BRIGHT_YELLOW_TEXT()));
-        super.getMap()[pos.getX()-1][pos.getY()+1].setRepr(Ansi.colorize((String.valueOf(repesentation[2])),Attribute.BRIGHT_YELLOW_TEXT()));
+        super.getMap()[pos.getX()-1][pos.getY()-1] = new Case(Ansi.colorize((String.valueOf(repesentation[0])),Attribute.BRIGHT_YELLOW_TEXT()), CaseType.PRICE);
+        super.getMap()[pos.getX()-1][pos.getY()] = new Case(Ansi.colorize((String.valueOf(repesentation[1])),Attribute.BRIGHT_YELLOW_TEXT()), CaseType.PRICE);
+        super.getMap()[pos.getX()-1][pos.getY()+1] = new Case(Ansi.colorize((String.valueOf(repesentation[2])),Attribute.BRIGHT_YELLOW_TEXT()), CaseType.PRICE);
+
+        //super.getMap()[pos.getX()-1][pos.getY()-1].setRepr(Ansi.colorize((String.valueOf(repesentation[0])),Attribute.BRIGHT_YELLOW_TEXT()));
+        //super.getMap()[pos.getX()-1][pos.getY()].setRepr(Ansi.colorize((String.valueOf(repesentation[1])),Attribute.BRIGHT_YELLOW_TEXT()));
+        //super.getMap()[pos.getX()-1][pos.getY()+1].setRepr(Ansi.colorize((String.valueOf(repesentation[2])),Attribute.BRIGHT_YELLOW_TEXT()));
     }
 
 
     private void placeSeller() {
-        Position posSeller = new Position(posHautsalle + 3, posSalle + (smallLine / 2));
+        Position posSeller = new Position(posHautsalle + 2, posSalle + (smallLine / 2));
         Seller s = new Seller(posSeller);
-        super.getMap()[posHautsalle + 2][posSalle + (smallLine / 2)].setEntity(s);
+        super.getMap()[posSeller.getX()][posSeller.getY()].setEntity(s);
 
 
     }
@@ -154,5 +158,6 @@ public class Shop extends Map {
         it.add(item);
         items.put(item, price);
     }
+
 
 }

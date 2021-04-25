@@ -33,7 +33,6 @@ public abstract class AbstractItem implements Item {
         }
     }
 
-
     @Override
     public Position getPosition() {
         return position;
@@ -64,7 +63,7 @@ public abstract class AbstractItem implements Item {
     }
 
     @Override
-    public String getRepresentation() {
+    public String getRepr() {
         return Ansi.colorize(repr, Attribute.YELLOW_TEXT());
     }
 

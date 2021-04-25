@@ -17,7 +17,7 @@ public class Gauntlet extends AbstractStuffItem {
     }
 
     @Override
-    public String getRepresentation() {
+    public String getRepr() {
         return null;
     }
 

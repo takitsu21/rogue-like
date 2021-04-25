@@ -40,7 +40,7 @@ public class Player extends AbstractEntities {
         put("LUK", LUK);
     }};
     private double maxExpToWin = 3;
-    private int coins = 0;
+    private int coins = 1;
     private int manaAttack = 2;
 //    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
 
@@ -80,13 +80,19 @@ public class Player extends AbstractEntities {
      * @param c Case de la map.
      */
     public void pickItem(Case c) {
-        AbstractStuffItem i = ((Chest) c.getItem()).openChest(this);
+        Item chest =c.getItem();
+        AbstractStuffItem i = ((Chest) chest).openChest(this);
         i.setPosition(null);
-        if (pickItem(i)) {
+        if (((Chest)chest).getPrice()>this.getCoins()) {
+            //c.setItem(null);
+            Util.currentAction.append(Ansi.colorize(String.format("Vous n'avez pas assez de MADY coins pour ouvrir le coffre.\n")));
+        }else if (pickItem(i)) {
+            setCoins(getCoins()-((Chest) chest).getPrice());
             c.setItem(null);
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez récupérer <%s> : %s dans le coffre.\n",
                     i.getName().substring(0, 1).toUpperCase() + i.getName().substring(1), i), Attribute.MAGENTA_TEXT()));
         }
+
     }
 
     /**

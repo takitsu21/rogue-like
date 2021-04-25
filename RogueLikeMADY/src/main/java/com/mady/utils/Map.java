@@ -101,7 +101,7 @@ public class Map {
      */
     public void addPlayerToMap(Player player) {
         setPlayer(player);
-        map[player.getPosition().getX()][player.getPosition().getY()].setRepr(player.getRepr());
+        map[player.getPosition().getX()][player.getPosition().getY()].setEntity(player);
     }
 
     /**
@@ -374,7 +374,7 @@ public class Map {
         boolean success = false;
         /* Mouvment basique*/
 
-        if (newCase.isFreeCase() && newCase.isSalle()) {
+        if (newCase.isFreeCase() && (newCase.isSalle() || newCase.isPrice())) {
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
@@ -470,7 +470,7 @@ public class Map {
     private void generatePortal() {
         Position pos = randomPosPlayerInSalle(salleBoss);
         while (nextToDoor(pos)) {
-            pos = randomPosPlayerInSalle(chooseSalle());
+            pos = randomPosPlayerInSalle(salleBoss);
         }
         map[pos.getX()][pos.getY()] = new Case("§", CaseType.PORTAL);
     }
@@ -479,9 +479,16 @@ public class Map {
      * generation des escaliers qui permettent d'entrer dans un SHOP. Celui-ci ne peut pas être placé devant une porte.
      */
      private void generatePortalshop(){
-         Position pos = randomPosPlayerInSalle(chooseSalle());
+         Salle salle;
+         do {
+             salle = chooseSalle();
+         }
+         while (salle.equals(salleBoss));
+
+         Position pos = randomPosPlayerInSalle(salle);
+
          while (nextToDoor(pos)) {
-             pos = randomPosPlayerInSalle(chooseSalle());
+             pos = randomPosPlayerInSalle(salle);
          }
          map[pos.getX()][pos.getY()] = new Case("$", CaseType.SHOPPORTAL);
 
