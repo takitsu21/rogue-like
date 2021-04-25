@@ -41,7 +41,7 @@ public abstract class GameLoop {
         map.addPlayerToMap(controller.getPlayer());
         map.addEntityItemPortal();
         render();
-        map.getFrame().getFrame().addKeyListener(new MoveListener(map));
+        frame.getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.STOPPED;
     }
 
@@ -103,6 +103,10 @@ public abstract class GameLoop {
         return status == GameStatus.PAUSE;
     }
 
+    public boolean isWelcomeScreen() {
+        return status == GameStatus.WELCOME_SCREEN;
+    }
+
     /**
      * Handle any user input that has happened since the last call. In order to
      * simulate the situation in real-life game, here we add a random time lag.
@@ -134,6 +138,10 @@ public abstract class GameLoop {
 //        else if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.PLUS) {
 //            Util.showShop()
 //        }
+//        else ()
+        else if (isWelcomeScreen()) {
+            Util.showWelcomeScreen();
+        }
         else if (isGameRunning()) {
             System.out.println(map);
         }
