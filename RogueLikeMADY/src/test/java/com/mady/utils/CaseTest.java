@@ -25,7 +25,7 @@ class CaseTest {
         cWall = new Case("#", null, CaseType.WALL);
         cSalle = new Case(" ", null, CaseType.SALLE);
         cEmpty = new Case(CaseType.SALLE);
-        cItemNotEmpty = new Case("C", "", CaseType.SALLE);
+        cItemNotEmpty = new Case("C", null, CaseType.SALLE);
         cConstructor = new Case(".");
         cPlayer = new Case("@", new Player(new Position(0, 0), 0, 0, 0, "@", new Salle(0, 0, new Position(0, 0))));
         cPath = new Case("P", null, CaseType.PATH);

@@ -20,10 +20,9 @@ public class Map {
     private final int nbSalles;
     private final Case[][] map;
     private final List<Salle> salles = new ArrayList<>();
-    private final int BASE_HEIGHT;
-    private final int BASE_WIDTH;
+    protected final int BASE_HEIGHT;
+    protected final int BASE_WIDTH;
     private final List<Entities> entities = new ArrayList<>();
-    private final Frame frame;
     private final List<PairPos> chemins = new ArrayList<>();
     private final Pause pause = new Pause();
     private Salle salleBoss;
@@ -31,8 +30,7 @@ public class Map {
     private Boss boss;
 
 
-    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, Frame frame) {
-        this.frame = frame;
+    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH) {
         this.nbSalles = nbSalles;
         this.BASE_HEIGHT = BASE_HEIGHT;
         this.BASE_WIDTH = BASE_WIDTH;
@@ -40,8 +38,8 @@ public class Map {
     }
 
 
-    public Map(int nbSalles, Frame frame) {
-        this(nbSalles, 24, 128, frame);
+    public Map(int nbSalles) {
+        this(nbSalles, 24, 128);
     }
 
     /**
@@ -71,11 +69,9 @@ public class Map {
         generatePortal();
         generateEntities();
         generateItems();
+        generatePortalshop();
     }
 
-    public Frame getFrame() {
-        return frame;
-    }
 
     public Salle chooseSalle() {
         return salles.get(Util.r.nextInt(salles.size()));
@@ -108,7 +104,7 @@ public class Map {
      */
     public void addPlayerToMap(Player player) {
         setPlayer(player);
-        map[player.getPosition().getX()][player.getPosition().getY()].setRepr(player.getRepr());
+        map[player.getPosition().getX()][player.getPosition().getY()].setEntity(player);
     }
 
     /**
@@ -375,6 +371,7 @@ public class Map {
      * Gestion du mouvment basique de case à case et gestion des mouvements entre les salles.
      */
     public boolean move(Entities e, Position p) {
+//        System.out.printf("test move");
         Position firstPos = e.getPosition();
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];
@@ -382,7 +379,7 @@ public class Map {
         boolean success = false;
         /* Mouvment basique*/
 
-        if (newCase.isFreeCase() && newCase.isSalle()) {
+        if (newCase.isFreeCase() && (newCase.isSalle() || newCase.isPrice())) {
             clearCase(oldCase);
             newCase.setEntity(e);
             e.setPos(newPos);
@@ -426,7 +423,8 @@ public class Map {
                 e.setPos(newPos);
                 success = true;
             }
-            else if (newCase.isPortal()) {
+
+           else if (newCase.isPortal() ||newCase.isShop() ||newCase.isShopLeave()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
@@ -478,10 +476,32 @@ public class Map {
     private void generatePortal() {
         Position pos = randomPosPlayerInSalle(salleBoss);
         while (nextToDoor(pos)) {
-            pos = randomPosPlayerInSalle(chooseSalle());
+            pos = randomPosPlayerInSalle(salleBoss);
         }
         map[pos.getX()][pos.getY()] = new Case("§", CaseType.PORTAL);
     }
+
+    /**
+     * generation des escaliers qui permettent d'entrer dans un SHOP. Celui-ci ne peut pas être placé devant une porte.
+     */
+     private void generatePortalshop(){
+         Salle salle;
+         do {
+             salle = chooseSalle();
+         }
+         while (salle.equals(salleBoss));
+
+         Position pos = randomPosPlayerInSalle(salle);
+
+         while (nextToDoor(pos)) {
+             pos = randomPosPlayerInSalle(salle);
+         }
+         map[pos.getX()][pos.getY()] = new Case("$", CaseType.SHOPPORTAL);
+
+
+     }
+
+
 
     /**
      * Affiche la map

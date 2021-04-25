@@ -16,7 +16,7 @@ public class Helmet extends AbstractStuffItem {
     }
 
     @Override
-    public String getRepresentation() {
+    public String getRepr() {
         return null;
     }
 

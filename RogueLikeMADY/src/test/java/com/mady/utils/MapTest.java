@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapTest {
-    private final Frame frame = new Frame();
+
     private Map map1;
     private Map map2;
 
     @BeforeEach
     void setUp() {
-        map1 = new Map(5, 32, 16, frame);
-        map2 = new Map(6, 16, 64, frame);
+        map1 = new Map(5, 32, 16);
+        map2 = new Map(6, 16, 64);
     }
 
     @Test

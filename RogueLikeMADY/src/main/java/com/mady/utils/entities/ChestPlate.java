@@ -16,7 +16,7 @@ public class ChestPlate extends AbstractStuffItem {
     }
 
     @Override
-    public String getRepresentation() {
+    public String getRepr() {
         return null;
     }
 
