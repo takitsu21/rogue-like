@@ -3,7 +3,10 @@ package com.mady;
 import com.mady.utils.*;
 import com.mady.utils.listener.MoveListener;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +24,8 @@ public abstract class GameLoop {
     protected World world;
     protected Map map;
     private Thread gameThread;
+    private Thread musicThread;
+    private final MusicPlayer audioPlayer = new MusicPlayer();
 
 
     /**
@@ -80,6 +85,9 @@ public abstract class GameLoop {
     public void run() {
         status = GameStatus.STARTING;
         gameThread = new Thread(this::processGameLoop);
+        System.out.println(audioPlayer.getFilePath());
+        musicThread = new Thread(audioPlayer::play);
+        musicThread.start();
         gameThread.start();
     }
 
