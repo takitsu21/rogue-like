@@ -40,11 +40,7 @@ public class Price {
             default:
                 newPrice = 999;
         }
-        if(this.price == 0){
-            this.price = 1;
-        }
-        this.price = newPrice;
-
+      this.price = newPrice == 0 ? 1 : newPrice;
 
     }
 

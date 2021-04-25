@@ -366,7 +366,7 @@ public class Map {
      * Gestion du mouvment basique de case à case et gestion des mouvements entre les salles.
      */
     public boolean move(Entities e, Position p) {
-        System.out.printf("test move");
+//        System.out.printf("test move");
         Position firstPos = e.getPosition();
         Position newPos = firstPos.incrementPos(p);
         Case oldCase = this.map[firstPos.getX()][firstPos.getY()];

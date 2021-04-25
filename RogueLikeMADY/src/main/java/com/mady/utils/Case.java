@@ -109,6 +109,7 @@ public class Case {
             attackBoss = false;
             return Ansi.colorize(repr, Attribute.RED_BACK());
         }
+        else if(isShop() ||  isShopLeave()) { return Ansi.colorize(repr, Attribute.BRIGHT_MAGENTA_TEXT());}
         return repr;
     }
 

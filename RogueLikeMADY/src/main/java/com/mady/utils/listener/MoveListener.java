@@ -32,8 +32,6 @@ public class MoveListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.printf("hello world ");
-        System.out.println(map);
         switch (e.getKeyCode()) {
             case KeyEvent.VK_Z: // Touche Z
                 if (Util.keyPressed == KeyboardPressedEnum.I) {   // si l'on se trouve dans l'inventaire

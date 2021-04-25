@@ -77,14 +77,15 @@ public class Shop extends Map {
 
     }
 
+
     private void placePrice(Chest c) {
         Price p = items.get(c.getItem());
         int prix = p.getPrice();
         int[] repesentation = new int[]{prix / 100, (prix % 100) / 10, prix % 10 };
         Position pos = c.getPosition();
-        super.getMap()[pos.getX()-1][pos.getY()-1].setRepr(String.valueOf(repesentation[0]));
-        super.getMap()[pos.getX()-1][pos.getY()].setRepr(String.valueOf(repesentation[1]));
-        super.getMap()[pos.getX()-1][pos.getY()+1].setRepr(String.valueOf(repesentation[2]));
+        super.getMap()[pos.getX()-1][pos.getY()-1].setRepr(Ansi.colorize((String.valueOf(repesentation[0])),Attribute.BRIGHT_YELLOW_TEXT()));
+        super.getMap()[pos.getX()-1][pos.getY()].setRepr(Ansi.colorize((String.valueOf(repesentation[1])),Attribute.BRIGHT_YELLOW_TEXT()));
+        super.getMap()[pos.getX()-1][pos.getY()+1].setRepr(Ansi.colorize((String.valueOf(repesentation[2])),Attribute.BRIGHT_YELLOW_TEXT()));
     }
 
 

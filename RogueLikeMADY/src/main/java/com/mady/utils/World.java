@@ -40,6 +40,7 @@ public class World {
         else{
             oldPos = m.chooseSalle().getFreePos();
         }
+        m.getMap()[oldPos.getX()][oldPos.getY()] = new Case(" ",CaseType.SALLE);
         m.setPlayer(currentMap.getPlayer());
         m.getPlayer().setPos(oldPos);
         maps.remove(currentMap);
