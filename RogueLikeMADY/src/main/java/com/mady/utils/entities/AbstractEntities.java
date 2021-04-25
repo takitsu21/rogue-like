@@ -180,7 +180,10 @@ public abstract class AbstractEntities implements Entities {
             if (isInPerimeter(map)) {
                 ((AbstractMonster) this).act(map);
             } else {
-                while (!map.move(this, nextPos(this))) ;
+                int security=10;
+                while (security>=0 && !map.move(this, nextPos(this))){
+                    security-=1;
+                }
             }
             if (this instanceof Boss) {
                 ((Boss) this).skill(map);
