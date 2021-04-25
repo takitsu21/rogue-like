@@ -62,6 +62,7 @@ public class TurnBasedGameLoop extends GameLoop {
 //                    continue;
                 }
                 if(map.getMap()[map.getPlayer().getPosition().getX()][map.getPlayer().getPosition().getY()].isShop()){
+
                     world.addShop();
                     map = world.getCurrentMap();
                     for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {

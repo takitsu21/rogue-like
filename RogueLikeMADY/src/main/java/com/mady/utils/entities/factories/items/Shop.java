@@ -39,6 +39,7 @@ public class Shop extends Map {
     public Shop(Player p) {
         super(1);
         this.player = p;
+
         createShop();
         placeSeller();
         p.setPos(new Position(16, 63));
@@ -95,7 +96,7 @@ public class Shop extends Map {
 //            return false;   //assure que la map soit assé grande pour generer le shop
         int posHautsalle = (BASE_HEIGHT - hauteurSalle) / 2;
         int posSalle = (BASE_WIDTH - smallLine) / 2;
-        System.out.println(posHautsalle);
+//        System.out.println(posHautsalle);
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
                 if ((j >= posSalle && j < posSalle + smallLine && i >= posHautsalle && i < posHautsalle + 2)
