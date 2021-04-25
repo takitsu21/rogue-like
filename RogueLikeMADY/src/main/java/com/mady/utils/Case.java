@@ -167,6 +167,8 @@ public class Case {
         return CaseType.PORTAL == ct;
     }
 
+    public boolean isShop() {return CaseType.SHOPPORTAL == ct; }
+
     public boolean isAttackBoss() {
         return attackBoss;
     }

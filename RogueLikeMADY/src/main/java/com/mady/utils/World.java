@@ -1,5 +1,7 @@
 package com.mady.utils;
 
+import com.mady.utils.entities.factories.items.Shop;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,17 @@ public class World {
 
     public Map getCurrentMap() {
         return currentMap;
+    }
+
+    public void addShop() {
+        Shop s;
+        s = new Shop(getCurrentMap().getPlayer());
+        maps.add(s);
+        currentMap = s;
+
+    }
+    public void LeaveShop(){
+        Map m = maps.get(maps.indexOf(currentMap)-1);
     }
 
     public void addMap() {

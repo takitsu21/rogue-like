@@ -66,6 +66,7 @@ public class Map {
         generatePortal();
         generateEntities();
         generateItems();
+        generatePortalshop();
     }
 
 
@@ -422,6 +423,12 @@ public class Map {
                 e.setPos(newPos);
                 success = true;
             }
+            if (newCase.isShop()) {
+                clearCase(oldCase);
+                newCase.setEntity(e);
+                e.setPos(newPos);
+                success = true;
+            }
         }
         if (success) {
             e.setNbDeplacement(e.getNbDeplacement() + 1);
@@ -472,6 +479,21 @@ public class Map {
         }
         map[pos.getX()][pos.getY()] = new Case("§", CaseType.PORTAL);
     }
+
+    /**
+     * generation des escaliers qui permettent d'entrer dans un SHOP. Celui-ci ne peut pas être placé devant une porte.
+     */
+     private void generatePortalshop(){
+         Position pos = randomPosPlayerInSalle(chooseSalle());
+         while (nextToDoor(pos)) {
+             pos = randomPosPlayerInSalle(chooseSalle());
+         }
+         map[pos.getX()][pos.getY()] = new Case("$", CaseType.SHOPPORTAL);
+
+
+     }
+
+
 
     /**
      * Affiche la map

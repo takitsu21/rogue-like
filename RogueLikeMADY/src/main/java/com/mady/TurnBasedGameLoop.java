@@ -61,6 +61,14 @@ public class TurnBasedGameLoop extends GameLoop {
 //                    Util.keyPressed = KeyboardPressedEnum.PLUS;
 //                    continue;
                 }
+                if(map.getMap()[map.getPlayer().getPosition().getX()][map.getPlayer().getPosition().getY()].isShop()){
+                    world.addShop();
+                    map = world.getCurrentMap();
+                    for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {
+                        frame.getFrame().removeKeyListener(c);
+                    }
+                    frame.getFrame().addKeyListener(new MoveListener(map));
+                }
 
                 if (controller.player.isDead()) {
                     stop();

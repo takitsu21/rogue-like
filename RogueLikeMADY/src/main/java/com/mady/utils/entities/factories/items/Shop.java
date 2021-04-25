@@ -41,6 +41,7 @@ public class Shop extends Map {
         this.player = p;
         createShop();
         placeSeller();
+        p.setPos(new Position(16, 63));
         super.addPlayerToMap(p);
         placeItems();
 
