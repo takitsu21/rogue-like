@@ -62,7 +62,7 @@ public class TurnBasedGameLoop extends GameLoop {
 //                    continue;
                 }
 
-                if (controller.player.isDead()) {
+                if (controller.player.isDead(map)) {
                     stop();
 
                     System.out.println(Ansi.colorize("Le jeu est fini, vous êtes mort...",

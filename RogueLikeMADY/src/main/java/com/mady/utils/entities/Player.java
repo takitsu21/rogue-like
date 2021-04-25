@@ -336,7 +336,7 @@ public class Player extends AbstractEntities {
         manaAttack *= getMultiplicateur();
     }
 
-    public boolean isDead() {
+    public boolean isDead(Map map) {
         return (getHitPoints() <= 0);
     }
 
@@ -387,11 +387,10 @@ public class Player extends AbstractEntities {
         Util.currentAction.append(Ansi.colorize(String.format("Vous attaquez %s<%d/%d HP> et lui infligez %d points de dégâts.\n",
                 monster.getName(), monster.getHitPoints(), monster.getMaxHitPoints(), getDamages()), Attribute.BLUE_TEXT()));
 
-        if (monster.isDead()) {
+        if (monster.isDead(map)) {
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", monster.getName()),
                     Attribute.RED_TEXT()));
             winExp();
-            map.clearCase(monster.getPosition());
             map.getEntities().remove(monster);
         }
     }

@@ -5,6 +5,7 @@ import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Map;
 import com.mady.utils.Salle;
 import com.mady.utils.Util;
+import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
 import com.mady.utils.entities.factories.monster.Boss;
 
@@ -117,7 +118,10 @@ public abstract class AbstractEntities implements Entities {
         isAttack = true;
     }
 
-    public boolean isDead() {
+    public boolean isDead(Map map) {
+        if(getHitPoints() <= 0) {
+            map.clearCase(getPosition());
+        }
         return (getHitPoints() <= 0);
     }
 
@@ -172,11 +176,14 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public Map doTurn(Map map) {
-        if (!this.isDead()) {
+        if (!this.isDead(map)) {
             if (isInPerimeter(map)) {
                 ((AbstractMonster) this).act(map);
             } else {
-                while (!map.move(this, nextPos(this))) ;
+                int security=10;
+                while (security>=0 && !map.move(this, nextPos(this))){
+                    security-=1;
+                }
             }
             if (this instanceof Boss) {
                 ((Boss) this).skill(map);
