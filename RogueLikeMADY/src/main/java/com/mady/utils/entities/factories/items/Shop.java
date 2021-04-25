@@ -2,10 +2,7 @@ package com.mady.utils.entities.factories.items;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import com.mady.utils.Case;
-import com.mady.utils.Frame;
-import com.mady.utils.Map;
-import com.mady.utils.Salle;
+import com.mady.utils.*;
 import com.mady.utils.entities.AbstractStuffItem;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
@@ -28,26 +25,36 @@ public class Shop extends Map {
     private int hauteurSalle = 13;
     private int posHautsalle = (BASE_HEIGHT - hauteurSalle) / 2;
     private int posSalle = (BASE_WIDTH - smallLine) / 2;
+    private Position oldPos;
 
-    public static void main(String[] args) {
-        Position p = new Position(16, 63);
-        Shop s = new Shop(new Player(p, 100, 5, 1, "@", new Salle(p)));
+//    public static void main(String[] args) {
+//        Position p = new Position(16, 63);
+//        Shop s = new Shop(new Player(p, 100, 5, 1, "@", new Salle(p)));
+//
+//        System.out.println(s);
+//    }
 
-        System.out.println(s);
-    }
-
-    public Shop(Player p) {
+    public Shop(Player p,Position oldPos) {
         super(1);
         this.player = p;
+        this.oldPos = oldPos;
 
         createShop();
         placeSeller();
         p.setPos(new Position(16, 63));
         super.addPlayerToMap(p);
         placeItems();
+        GeneratePortal();
 
 
     }
+    private void GeneratePortal(){
+        super.getMap()[17][63] = new Case("$", CaseType.SHOPLEAVE);
+
+
+    }
+
+
 
     private void placeItems() {
         generateItems();
@@ -104,7 +111,7 @@ public class Shop extends Map {
                         || ((j >= posSalle - 8 && j < posSalle + smallLine + 8 && i >= posHautsalle + 3 && i <= posHautsalle + 9))
                         || (j >= posSalle - 4 && j < posSalle + smallLine + 4 && i == posHautsalle + 10)
                         || (j >= posSalle && j < posSalle + smallLine && i >= posHautsalle + 11 && i < posHautsalle + 13)) {
-                    super.getMap()[i][j] = new Case(" ");
+                    super.getMap()[i][j] = new Case(" ", CaseType.SALLE);
                 } else {
                     super.getMap()[i][j] = new Case(Ansi.colorize("#", Attribute.BRIGHT_BLACK_BACK(), Attribute.BRIGHT_BLACK_TEXT()));
                 }
@@ -112,6 +119,14 @@ public class Shop extends Map {
         }
 
 
+    }
+
+    public Position getOldPos() {
+        return oldPos;
+    }
+
+    public void setOldPos(Position oldPos) {
+        this.oldPos = oldPos;
     }
 
     public void generateItems() {

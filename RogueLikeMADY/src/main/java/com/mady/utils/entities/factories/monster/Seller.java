@@ -9,7 +9,7 @@ import com.mady.utils.entities.Position;
 
 public class Seller extends AbstractMonster{
     public Seller(Position p) {
-        super("Seller",p,1,0,0, Ansi.colorize("!", Attribute.YELLOW_TEXT()),0,null);
+        super("Henry",p,1,0,0, Ansi.colorize("!", Attribute.YELLOW_TEXT()),0,null);
 
     }
 

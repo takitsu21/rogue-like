@@ -7,6 +7,7 @@ import com.mady.utils.Salle;
 import com.mady.utils.Util;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.Shop;
 import com.mady.utils.listener.MoveListener;
 
 import java.awt.event.KeyListener;
@@ -64,6 +65,14 @@ public class TurnBasedGameLoop extends GameLoop {
                 if(map.getMap()[map.getPlayer().getPosition().getX()][map.getPlayer().getPosition().getY()].isShop()){
 
                     world.addShop();
+                    map = world.getCurrentMap();
+                    for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {
+                        frame.getFrame().removeKeyListener(c);
+                    }
+                    frame.getFrame().addKeyListener(new MoveListener(map));
+                }
+                if(map.getMap()[map.getPlayer().getPosition().getX()][map.getPlayer().getPosition().getY()].isShopLeave()){
+                    world.LeaveShop();
                     map = world.getCurrentMap();
                     for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {
                         frame.getFrame().removeKeyListener(c);

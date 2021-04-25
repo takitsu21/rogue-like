@@ -156,7 +156,7 @@ public class Util {
 
 
     public static String showShop(Player player) {
-        Shop shop = new Shop(player);
+        Shop shop = new Shop(player,player.getPosition());
         shop.generateItems();
         if (shop.isEmpty()) {
             return Ansi.colorize("Aucun objet dans le shop!", Attribute.BRIGHT_RED_TEXT());

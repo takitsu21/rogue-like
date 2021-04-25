@@ -1,5 +1,6 @@
 package com.mady.utils;
 
+import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Shop;
 
 import java.util.ArrayList;
@@ -25,13 +26,24 @@ public class World {
 
     public void addShop() {
         Shop s;
-        s = new Shop(getCurrentMap().getPlayer());
+        s = new Shop(getCurrentMap().getPlayer(),getCurrentMap().getPlayer().getPosition());
         maps.add(s);
         currentMap = s;
 
     }
     public void LeaveShop(){
         Map m = maps.get(maps.indexOf(currentMap)-1);
+        Position oldPos;
+        if( currentMap instanceof Shop){
+            oldPos = ((Shop) currentMap).getOldPos();
+        }
+        else{
+            oldPos = m.chooseSalle().getFreePos();
+        }
+        m.setPlayer(currentMap.getPlayer());
+        m.getPlayer().setPos(oldPos);
+        maps.remove(currentMap);
+        currentMap = m;
     }
 
     public void addMap() {

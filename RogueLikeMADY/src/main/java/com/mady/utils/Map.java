@@ -418,13 +418,7 @@ public class Map {
                 e.setPos(newPos);
                 success = true;
             }
-            if (newCase.isPortal()) {
-                clearCase(oldCase);
-                newCase.setEntity(e);
-                e.setPos(newPos);
-                success = true;
-            }
-            if (newCase.isShop()) {
+            if (newCase.isPortal() ||newCase.isShop() ||newCase.isShopLeave()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
