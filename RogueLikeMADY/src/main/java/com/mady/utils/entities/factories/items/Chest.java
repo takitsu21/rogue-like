@@ -6,15 +6,19 @@ import com.mady.utils.Util;
 import com.mady.utils.entities.*;
 
 public class Chest extends AbstractItem {
+    private int price;
 
     private AbstractStuffItem item;
 
     /**
      * @param position du coffre.
      */
-    public Chest(Position position, int lvl, double multiplicateur) {
-
+    public Chest(Position position, int lvl, double multiplicateur, int price) {
         super("C", position, 0, 0, "Coffre au trésor", false, true, lvl, multiplicateur);
+        this.price = price;
+    }
+    public Chest(Position position, int lvl, double multiplicateur) {
+        this(position, lvl, multiplicateur, 0);
     }
 
     /**
@@ -57,8 +61,24 @@ public class Chest extends AbstractItem {
 
     }
 
+    public void setItem(AbstractStuffItem item) {
+        this.item = item;
+    }
+
+    public AbstractStuffItem getItem() {
+        return item;
+    }
+
     @Override
-    public String getRepresentation() {
+    public String getRepr() {
         return Ansi.colorize("C", Attribute.MAGENTA_TEXT());
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

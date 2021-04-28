@@ -3,11 +3,15 @@ package com.mady;
 import com.mady.utils.*;
 import com.mady.utils.listener.MoveListener;
 
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,6 +49,8 @@ public abstract class GameLoop {
         controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
         map.addPlayerToMap(controller.getPlayer());
         map.addEntityItemPortal();
+        ImageIcon img = new ImageIcon(Objects.requireNonNull(getClass().getResource("/MAD16x16.png")));
+        frame.getFrame().setIconImage(img.getImage());
         frame.getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.STOPPED;
     }
@@ -141,10 +147,6 @@ public abstract class GameLoop {
         } else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)) {
             System.out.println(map.getPause().toString(map.getMap()));
         }
-//        else if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.PLUS) {
-//            Util.showShop()
-//        }
-//        else ()
         else if (isWelcomeScreen()) {
             Util.showWelcomeScreen();
         }
