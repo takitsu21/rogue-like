@@ -14,13 +14,16 @@ public class MusicPlayer {
     private String status;
 
     private AudioInputStream audioInputStream;
-    private final String root = System.getProperty("user.dir");
-    private final String fileName = "/soundtrack.wav";
-    private String filePath = root + "/RogueLikeMADY/src/main/resources" + fileName;
+    private String filePath = "/soundtrack.wav";
+    private InputStream is;
 
     public MusicPlayer() {
+        initAudio();
+    }
+
+    private void initAudio() {
         try {
-            InputStream is = getClass().getResourceAsStream("/soundtrack.wav");
+            is = getClass().getResourceAsStream("/soundtrack.wav");
             InputStream bufferedIn = new BufferedInputStream(is);
             audioInputStream = AudioSystem.getAudioInputStream(bufferedIn);
             clip = AudioSystem.getClip();
@@ -80,9 +83,6 @@ public class MusicPlayer {
     // Method to reset audio stream
     public void resetAudioStream() throws UnsupportedAudioFileException, IOException,
             LineUnavailableException {
-        audioInputStream = AudioSystem.getAudioInputStream(
-                new File(filePath).getAbsoluteFile());
-        clip.open(audioInputStream);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        initAudio();
     }
 }

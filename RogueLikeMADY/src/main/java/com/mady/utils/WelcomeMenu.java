@@ -13,10 +13,6 @@ public class WelcomeMenu {
     );
     public static int CURSOR = 0;
 
-    public static void main(String[] args) {
-
-    }
-
     public List<String> getSelector() {
         return selector;
     }
