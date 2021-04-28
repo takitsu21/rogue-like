@@ -2,6 +2,7 @@ package com.mady.utils;
 
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
+import com.mady.utils.entities.factories.items.Chest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ class CaseTest {
         cWall = new Case("#", null, CaseType.WALL);
         cSalle = new Case(" ", null, CaseType.SALLE);
         cEmpty = new Case(CaseType.SALLE);
-        cItemNotEmpty = new Case("C", null, CaseType.SALLE);
+        cItemNotEmpty = new Case("C", new Chest(new Position(0,0),0,0), CaseType.SALLE);
         cConstructor = new Case(".");
         cPlayer = new Case("@", new Player(new Position(0, 0), 0, 0, 0, "@", new Salle(0, 0, new Position(0, 0))));
         cPath = new Case("P", null, CaseType.PATH);

@@ -8,7 +8,7 @@ import com.mady.utils.entities.Position;
 
 public class Coins extends AbstractItem {
     public Coins(Position position) {
-        super("€", position, 0, 0, "MADY Coins", true, false, 0, 1);
+        super("*", position, 0, 0, "MADY Coins", true, false, 0, 1);
     }
 
     @Override

@@ -64,7 +64,7 @@ public abstract class AbstractItem implements Item {
 
     @Override
     public String getRepr() {
-        return Ansi.colorize(repr, Attribute.YELLOW_TEXT());
+        return Ansi.colorize(repr, Attribute.BRIGHT_YELLOW_TEXT());
     }
 
     public int getLvl() {
