@@ -188,7 +188,7 @@ public class MoveListener implements KeyListener {
 
     private void move(Deplacement d, KeyEvent e) {
         if (e.isShiftDown()) {
-            double nextMp = map.getPlayer().getMP() - map.getPlayer().getDASH_MP_COST();
+            int nextMp = map.getPlayer().getMP() - map.getPlayer().getDASH_MP_COST();
             if (nextMp < 0) {
                 map.move(map.getPlayer(), nextDirection(d.pos, false));
             } else {
