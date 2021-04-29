@@ -130,7 +130,8 @@ public class MoveListener implements KeyListener {
                             Util.keyPressed = KeyboardPressedEnum.NONE;
                             break;
                         case "Restart":
-                            //toDO
+                            Util.keyPressed = KeyboardPressedEnum.NONE;
+                            GameLoop.restart();
                             break;
                         case "Quit":
                             GameLoop.quit();

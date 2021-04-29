@@ -40,7 +40,7 @@ public class Player extends AbstractEntities {
         put("LUK", LUK);
     }};
     private double maxExpToWin = 3;
-    private int coins = 1;
+    private int coins = 0;
     private int manaAttack = 2;
 //    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
 
