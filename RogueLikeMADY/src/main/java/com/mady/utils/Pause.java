@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Pause {
-    private final List<String> liste = new ArrayList<>(Arrays.asList("Resume", "Restart", "Quit"));
+    private final List<String> liste = new ArrayList<>(Arrays.asList("Resume", "Restart","Help","Quit"));
     private int selection;
 
     public Pause() {
@@ -45,6 +45,7 @@ public class Pause {
         String pREp = "--PAUSE--";
         String resRep = "RESUME";
         String restartREp = "RESTART";
+        String repHelp = "HELP";
         String quitrep = "QUIT";
         switch (selection) {
             case 0:
@@ -55,9 +56,10 @@ public class Pause {
 
                 break;
             case 2:
-                quitrep = String.format(">%s<", quitrep);
-
+                repHelp = String.format(">%s<", repHelp);
                 break;
+            case 3:
+                quitrep = String.format(">%s<", quitrep);
             default:
                 break;
 
@@ -66,6 +68,7 @@ public class Pause {
         int positionResume = (widthPause - resRep.length()) / 2;
         int positionRestart = (widthPause - restartREp.length()) / 2;
         int positionQuit = (widthPause - quitrep.length()) / 2;
+        int positionHelp = (widthPause - repHelp.length()) / 2;
 
         //création du carré au milieu de la map
         for (int i = 0; i < heightPause; i++) {
@@ -128,9 +131,27 @@ public class Pause {
 
                 }
                 if (i == 4) {
+                    if (j >= positionHelp && j < repHelp.length() + positionHelp) {
+                        String text = String.valueOf(repHelp.charAt(j - (positionHelp - 1) - 1));
+                        if (selection == 2) {
+                            pause_rep[i][j] = Ansi.colorize(text, Attribute.BLUE_TEXT());
+                        } else {
+                            pause_rep[i][j] = text;
+
+                        }
+
+                    } else {
+                        pause_rep[i][j] = " ";
+
+                    }
+                    continue;
+
+
+                }
+                if (i == 5) {
                     if (j >= positionQuit && j < quitrep.length() + positionQuit) {
                         String text = String.valueOf(quitrep.charAt(j - (positionQuit - 1) - 1));
-                        if (selection == 2) {
+                        if (selection == 3) {
                             pause_rep[i][j] = Ansi.colorize(text, Attribute.BLUE_TEXT());
                         } else {
                             pause_rep[i][j] = text;

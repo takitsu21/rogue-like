@@ -23,15 +23,9 @@ public class TurnBasedGameLoop extends GameLoop {
             status = GameStatus.WELCOME_SCREEN;
             render();
         }
-        while (isWelcomeScreen()) {
-            processInput();
-            if (Util.keyPressed == KeyboardPressedEnum.NONE) {
-                status = GameStatus.RUNNING;
-            }
-            render();
-            Util.playerTurn = true;
-        }
+        Welcome();
         while (isGameRunning()) {
+
 
             processInput();
             if (isGamePaused()) {
@@ -40,9 +34,14 @@ public class TurnBasedGameLoop extends GameLoop {
                     if (Util.keyPressed == KeyboardPressedEnum.NONE) {
                         status = GameStatus.RUNNING;
                     }
+                    else if(Util.keyPressed == KeyboardPressedEnum.HELP){
+                        Util.printHELP();
+
+                    }
                     render();
                     Util.playerTurn = true;
                 }
+                Welcome();
             } else {
                 for (Entities entitie : world.getCurrentMap().getEntities()) {
                     map = entitie.doTurn(world.getCurrentMap());
@@ -99,6 +98,21 @@ public class TurnBasedGameLoop extends GameLoop {
                 render();
                 Util.playerTurn = true;
             }
+        }
+    }
+
+    private void Welcome() {
+        while (isWelcomeScreen()) {
+            processInput();
+            if (Util.keyPressed == KeyboardPressedEnum.NONE) {
+                status = GameStatus.RUNNING;
+            }
+            else if(Util.keyPressed == KeyboardPressedEnum.HELP){
+                Util.printHELP();
+            }
+            else{
+            render();
+            Util.playerTurn = true;}
         }
     }
 }

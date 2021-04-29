@@ -4,6 +4,7 @@ import com.mady.utils.*;
 import com.mady.utils.listener.MoveListener;
 
 import javax.swing.*;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Objects;
@@ -17,11 +18,11 @@ import java.util.logging.Logger;
 public abstract class GameLoop {
 
     protected static volatile GameStatus status;
-    protected final GameController controller;
+    protected static volatile GameController controller;
     protected final Logger logger = Logger.getLogger(GameLoop.class.getName());
-    protected Frame frame = new Frame();
-    protected World world;
-    protected Map map;
+    protected static volatile Frame frame = new Frame();
+    protected static volatile World world;
+    protected static volatile Map map;
     private Thread gameThread;
     private Thread musicThread;
     private final MusicPlayer audioPlayer = new MusicPlayer();
@@ -51,8 +52,30 @@ public abstract class GameLoop {
     }
 
     public static void restart() {
-        TurnBasedGameLoop gameLoop = new TurnBasedGameLoop();
-        gameLoop.run();
+        world = new World(frame);
+        world.createWorld();
+        map = world.getCurrentMap();
+        Salle salle = map.chooseSalle();
+        while (salle.equals(map.getSalleBoss())) {
+            salle = map.chooseSalle();
+        }
+        controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
+        map.addPlayerToMap(controller.getPlayer());
+        map.addEntityItemPortal();
+        for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {
+            frame.getFrame().removeKeyListener(c);
+        }
+        frame.getFrame().addKeyListener(new MoveListener(map));
+        status = GameStatus.WELCOME_SCREEN;
+
+    }
+
+    public static Frame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(Frame frame) {
+        this.frame = frame;
     }
 
     public static void clrscr() {
@@ -114,6 +137,8 @@ public abstract class GameLoop {
         return status == GameStatus.WELCOME_SCREEN;
     }
 
+
+
     /**
      * Handle any user input that has happened since the last call. In order to
      * simulate the situation in real-life game, here we add a random time lag.
@@ -146,6 +171,14 @@ public abstract class GameLoop {
         } else if (isGameRunning()) {
             System.out.println(map);
         }
+    }
+
+    public static GameStatus getStatus() {
+        return status;
+    }
+
+    public static void setStatus(GameStatus status) {
+        GameLoop.status = status;
     }
 
     /**

@@ -17,22 +17,22 @@ public class Player extends AbstractEntities {
 
     private final Stuff stuff;
     private final Inventory inventory;
-    private double maxMp = 50;
+    private int maxMp = 50;
     //private double maxHp = getMaxHitPoints();
-    private double exp = 0;
-    private double expMax = 10;
-    private double HP = getHitPoints();
-    private double MP = maxMp;
-    private double ATK = 3;
-    private double DEF = 1;
-    private double AGI = 1;
-    private double LUK = 2;
+    private int exp = 0;
+    private int expMax = 10;
+    private int HP = getHitPoints();
+    private int MP = maxMp;
+    private int ATK = 3;
+    private int DEF = 1;
+    private int AGI = 1;
+    private int LUK = 2;
     //private double multiplicateur =1.12;
     private final double DASH_MP_COST = 5;
-    private final HashMap<String, Double> stats = new HashMap<>() {{
-        put("LVL", (double) getLvl());
-        put("MAX_HP", (double) getMaxHitPoints());
-        put("HP", (double) getHitPoints());
+    private final HashMap<String, Integer> stats = new HashMap<>() {{
+        put("LVL", getLvl());
+        put("MAX_HP", getMaxHitPoints());
+        put("HP", getHitPoints());
         put("MAX_MP", maxMp);
         put("MP", MP);
         put("ATK", ATK);
@@ -40,8 +40,9 @@ public class Player extends AbstractEntities {
         put("AGI", AGI);
         put("LUK", LUK);
     }};
-    private double maxExpToWin = 3;
-    private int coins = 1;
+
+    private int maxExpToWin = 3;
+    private int coins = 0;
     private int manaAttack = 2;
 //    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
 
@@ -204,15 +205,15 @@ public class Player extends AbstractEntities {
     @Override
     public void setLvl(int lvl) {
         super.setLvl(lvl);
-        stats.put("LVL", (double) lvl);
+        stats.put("LVL", lvl);
     }
 
 
-    public double getMaxMp() {
+    public int getMaxMp() {
         return maxMp;
     }
 
-    public void setMaxMp(double maxMp) {
+    public void setMaxMp(int maxMp) {
         this.maxMp = maxMp;
         stats.put("MAX_MP", maxMp);
         stats.put("MP", maxMp);
@@ -222,50 +223,50 @@ public class Player extends AbstractEntities {
     @Override
     public void setMaxHitPoints(int maxHp) {
         super.setMaxHitPoints(maxHp);
-        stats.put("MAX_HP", (double) maxHp);
+        stats.put("MAX_HP", maxHp);
     }
 
     @Override
     public void setHitPoints(int Hp) {
         super.setHitPoints(Hp);
-        stats.put("HP", (double) Hp);
+        stats.put("HP", Hp);
     }
 
 
-    public double getExp() {
+    public int getExp() {
         return exp;
     }
 
-    public void setExp(double exp) {
+    public void setExp(int exp) {
         this.exp = exp;
         stats.put("EXP", this.exp);
     }
 
-    public double getExpMax() {
+    public int getExpMax() {
         return expMax;
     }
 
-    public void setExpMax(double expMax) {
+    public void setExpMax(int expMax) {
         this.expMax = expMax;
         stats.put("EXP_MAX", expMax);
     }
 
 
-    public double getHP() {
+    public int getHP() {
         return HP;
     }
 
-    public void setHP(double HP) {
+    public void setHP(int HP) {
         this.HP = HP;
         stats.put("HP", HP);
     }
 
 
-    public double getMP() {
+    public int getMP() {
         return MP;
     }
 
-    public boolean setMP(double MP) {
+    public boolean setMP(int MP) {
         if (MP < 0) {
             return false;
         }
@@ -279,43 +280,43 @@ public class Player extends AbstractEntities {
         return true;
     }
 
-    public double getATK() {
+    public int getATK() {
         return ATK;
     }
 
-    public void setATK(double ATK) {
+    public void setATK(int ATK) {
         this.ATK = ATK;
         stats.put("ATK", ATK);
     }
 
-    public double getDEF() {
+    public int getDEF() {
         return DEF;
     }
 
-    public void setDEF(double DEF) {
+    public void setDEF(int DEF) {
         this.DEF = DEF;
         stats.put("DEF", DEF);
     }
 
-    public double getAGI() {
+    public int getAGI() {
         return AGI;
     }
 
-    public void setAGI(double AGI) {
+    public void setAGI(int AGI) {
         this.AGI = AGI;
         stats.put("AGI", AGI);
     }
 
-    public double getLUK() {
+    public int getLUK() {
         return LUK;
     }
 
-    public void setLUK(double LUK) {
+    public void setLUK(int LUK) {
         this.LUK = LUK;
         stats.put("LUK", LUK);
     }
 
-    public HashMap<String, Double> getStats() {
+    public HashMap<String, Integer> getStats() {
         return stats;
     }
 
@@ -323,11 +324,11 @@ public class Player extends AbstractEntities {
         return stuff;
     }
 
-    public double getMaxExpToWin() {
+    public int getMaxExpToWin() {
         return maxExpToWin;
     }
 
-    public void setMaxExpToWin(double maxExpToWin) {
+    public void setMaxExpToWin(int maxExpToWin) {
         this.maxExpToWin = maxExpToWin;
     }
 
@@ -336,15 +337,15 @@ public class Player extends AbstractEntities {
         setLvl(getLvl() + 1);
         setMaxHitPoints((int) (getMaxHitPoints() * getMultiplicateur()));
         setHitPoints(getMaxHitPoints());
-        setMaxMp(getMaxMp() * getMultiplicateur());
+        setMaxMp((int) (getMaxMp() * getMultiplicateur()));
         setMP(getMaxMp());
-        setATK(getATK() * getMultiplicateur());
+        setATK((int) (getATK() * getMultiplicateur()));
         setDamages((int) (getDamages() + getATK()));
-        setDEF(getDEF() * getMultiplicateur());
-        setAGI(getAGI() * getMultiplicateur());
-        setLUK(getLUK() * getMultiplicateur());
-        setExpMax(getExpMax() * getMultiplicateur() + getExpMax());
-        setMaxExpToWin(getMaxExpToWin() * getMultiplicateur());
+        setDEF((int) (getDEF() * getMultiplicateur()));
+        setAGI((int) (getAGI() * getMultiplicateur()));
+        setLUK((int) (getLUK() * getMultiplicateur()));
+        setExpMax((int) (getExpMax() * getMultiplicateur() + getExpMax()));
+        setMaxExpToWin((int) (getMaxExpToWin() * getMultiplicateur()));
         manaAttack *= getMultiplicateur();
     }
 
@@ -408,7 +409,7 @@ public class Player extends AbstractEntities {
     }
 
     private int randomExp() {
-        return (int) (Math.random() * maxExpToWin) + 1;
+        return (int) ((Math.random() * maxExpToWin) + 1);
     }
 
 

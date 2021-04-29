@@ -1,6 +1,7 @@
 package com.mady.utils.listener;
 
 import com.mady.GameLoop;
+import com.mady.GameStatus;
 import com.mady.utils.*;
 import com.mady.utils.entities.Deplacement;
 import com.mady.utils.entities.Position;
@@ -44,7 +45,7 @@ public class MoveListener implements KeyListener {
                                     pause.getSelection() - 1);
 
                 } else if (Util.keyPressed == KeyboardPressedEnum.WELCOME) {
-                    WelcomeMenu.CURSOR = Math.abs((WelcomeMenu.CURSOR - 1) % 3);
+                    WelcomeMenu.CURSOR = Math.abs((WelcomeMenu.CURSOR - 1) % 4);
                 }
                 else {
                     move(Deplacement.HAUT, e);
@@ -111,7 +112,16 @@ public class MoveListener implements KeyListener {
             case KeyEvent.VK_ESCAPE: // Touche Escape
                 if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
-                } else if (Util.keyPressed == KeyboardPressedEnum.NONE) {
+                }
+                else if (Util.keyPressed == KeyboardPressedEnum.HELP){
+                    if( GameLoop.getStatus() == GameStatus.PAUSE ){
+                        Util.keyPressed = KeyboardPressedEnum.NONE;
+                    }
+                    else{
+                    Util.keyPressed = KeyboardPressedEnum.WELCOME;}
+                    Util.inHelp = false;
+                }
+                else if (Util.keyPressed == KeyboardPressedEnum.NONE) {
                     Util.keyPressed = KeyboardPressedEnum.ESC;
                 }
                 break;
@@ -128,7 +138,12 @@ public class MoveListener implements KeyListener {
                             Util.keyPressed = KeyboardPressedEnum.NONE;
                             break;
                         case "Restart":
-                            //toDO
+                            Util.keyPressed = KeyboardPressedEnum.WELCOME;
+                            GameLoop.restart();
+
+                            break;
+                        case "Help":
+                            Util.keyPressed = KeyboardPressedEnum.HELP;
                             break;
                         case "Quit":
                             GameLoop.quit();
@@ -138,9 +153,14 @@ public class MoveListener implements KeyListener {
                 } else if (Util.keyPressed == KeyboardPressedEnum.WELCOME) {
                     if (WelcomeMenu.CURSOR == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
-                    } else if (WelcomeMenu.CURSOR == 2) {
+                    }
+                    else if (WelcomeMenu.CURSOR == 1){
+                        Util.keyPressed = KeyboardPressedEnum.HELP;
+                    }
+                    else if (WelcomeMenu.CURSOR == 2) {
                         GameLoop.quit();
                     }
+
                 } else {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }

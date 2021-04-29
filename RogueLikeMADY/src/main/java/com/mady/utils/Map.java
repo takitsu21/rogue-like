@@ -9,6 +9,7 @@ import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.ItemFactory;
+import com.mady.utils.entities.factories.items.PaidChest;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
 import com.mady.utils.entities.factories.monster.Boss;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
@@ -437,8 +438,10 @@ public class Map {
                 e.setPos(newPos);
                 success = true;
             }
-
-           else if (newCase.isPortal() ||newCase.isShop() ||newCase.isShopLeave()) {
+            else if (newCase.getItem() instanceof PaidChest) {
+                ((PaidChest) newCase.getItem()).showItem();
+            }
+            else if (newCase.isPortal() ||newCase.isShop() ||newCase.isShopLeave()) {
                 clearCase(oldCase);
                 newCase.setEntity(e);
                 e.setPos(newPos);
