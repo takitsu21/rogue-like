@@ -28,12 +28,7 @@ public class Shop extends Map {
     private int posSalle = (BASE_WIDTH - smallLine) / 2;
     private Position oldPos;
 
-//    public static void main(String[] args) {
-//        Position p = new Position(16, 63);
-//        Shop s = new Shop(new Player(p, 100, 5, 1, "@", new Salle(p)));
-//
-//        System.out.println(s);
-//    }
+
 
     public Shop(Player p,Position oldPos) {
         super(1);
@@ -60,23 +55,17 @@ public class Shop extends Map {
         Position p1 = new Position(posHautsalle + 4, posSalle + (smallLine / 2));
         PaidChest c1 = new PaidChest(p1, player.getLvl(), player.getMultiplicateur());
         addItem(c1,player);
-        System.out.println(c1.getItem());
         Position p2 = new Position(posHautsalle + 6, posSalle - 3);
         PaidChest c2 = new PaidChest(p2, player.getLvl(), player.getMultiplicateur());
         addItem(c2,player);
-        System.out.println(c2.getItem());
         //c2.setItem(it.get(1));
         Position p3 = new Position(posHautsalle + 6, posSalle + smallLine + 2);
         PaidChest c3 = new PaidChest(p3, player.getLvl(), player.getMultiplicateur());
         addItem(c3,player);
-        System.out.println(c3.getItem());
         //c3.setItem(it.get(2));
         super.getMap()[p1.getX()][p1.getY()].setItem(c1);
-        System.out.println(getMap()[p1.getX()][p1.getY()].getItem().toString());
         super.getMap()[p2.getX()][p2.getY()].setItem(c2);
-        System.out.println(getMap()[p1.getX()][p1.getY()].getItem().toString());
         super.getMap()[p3.getX()][p3.getY()].setItem(c3);
-        System.out.println(getMap()[p1.getX()][p1.getY()].getItem().toString());
         placePrice(c1);
         placePrice(c2);
         placePrice(c3);
@@ -116,7 +105,6 @@ public class Shop extends Map {
 //            return false;   //assure que la map soit assé grande pour generer le shop
         int posHautsalle = (BASE_HEIGHT - hauteurSalle) / 2;
         int posSalle = (BASE_WIDTH - smallLine) / 2;
-//        System.out.println(posHautsalle);
         for (int i = 0; i < BASE_HEIGHT; i++) {
             for (int j = 0; j < BASE_WIDTH; j++) {
                 if ((j >= posSalle && j < posSalle + smallLine && i >= posHautsalle && i < posHautsalle + 2)
@@ -164,11 +152,8 @@ public class Shop extends Map {
         AbstractStuffItem item = chest.selectItem(player);
         Price price = new Price(item,player);
         chest.setPrice(price.getPrice());
-        System.out.println(price);
-        System.out.println(item);
         //it.add(item);
         items.put(item, price);
-        System.out.println(items.get(item));
     }
 
 }
