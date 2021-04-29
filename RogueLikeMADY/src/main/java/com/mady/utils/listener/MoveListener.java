@@ -3,6 +3,7 @@ package com.mady.utils.listener;
 import com.mady.GameLoop;
 import com.mady.utils.*;
 import com.mady.utils.entities.Deplacement;
+import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
 
@@ -46,7 +47,7 @@ public class MoveListener implements KeyListener {
                     WelcomeMenu.CURSOR = Math.abs((WelcomeMenu.CURSOR - 1) % 3);
                 }
                 else {
-                    map.move(map.getPlayer(), Deplacement.HAUT.pos);
+                    move(Deplacement.HAUT, e);
                 }
                 break;
             case KeyEvent.VK_S: // Touche S
@@ -60,17 +61,14 @@ public class MoveListener implements KeyListener {
                     WelcomeMenu.CURSOR = (WelcomeMenu.CURSOR + 1) % 3;
                 }
                 else {
-                    map.move(map.getPlayer(), Deplacement.BAS.pos);
+                    move(Deplacement.BAS, e);
                 }
                 break;
             case KeyEvent.VK_Q: // Touche Q
-
-                map.move(map.getPlayer(), Deplacement.GAUCHE.pos);
-
+                move(Deplacement.GAUCHE, e);
                 break;
             case KeyEvent.VK_D: // Touche D
-                map.move(map.getPlayer(), Deplacement.DROITE.pos);
-
+                move(Deplacement.DROITE, e);
                 break;
             case KeyEvent.VK_A: // Touche A
                 map.getPlayer().zoneAttack(map.zoneCheckAround(), map);
@@ -156,5 +154,29 @@ public class MoveListener implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    private Position nextDirection(Position pos, boolean isDash) {
+        if (isDash) {
+            Position incrementedPos = pos.incrementPos(pos);
+            if (map.getCase(map.getPlayer().getPos().incrementPos(incrementedPos)).isSalle()) {
+                return incrementedPos;
+            }
+        }
+        return pos;
+    }
+
+    private void move(Deplacement d, KeyEvent e) {
+        if (e.isShiftDown()) {
+            double nextMp = map.getPlayer().getMP() - map.getPlayer().getDASH_MP_COST();
+            if (nextMp < 0) {
+                map.move(map.getPlayer(), nextDirection(d.pos, false));
+            } else {
+                map.move(map.getPlayer(), nextDirection(d.pos, true));
+                map.getPlayer().setMP(nextMp);
+            }
+        } else {
+            map.move(map.getPlayer(), nextDirection(d.pos, false));
+        }
     }
 }

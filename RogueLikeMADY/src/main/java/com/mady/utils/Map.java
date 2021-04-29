@@ -86,9 +86,23 @@ public class Map {
         return pos.incrementPos(s.getPos());
     }
 
-
+    /**
+     * Case de la map a la position (x, y)
+     * @param x ligne
+     * @param y colonne
+     * @return Case de la map
+     */
     public Case getCase(int x, int y) {
-        return this.map[x][y];
+        return map[x][y];
+    }
+
+    /**
+     * Case de la map a la position (x, y)
+     * @param pos position x, y
+     * @return Case de la map
+     */
+    public Case getCase(Position pos) {
+        return map[pos.getX()][pos.getY()];
     }
 
     public Player getPlayer() {

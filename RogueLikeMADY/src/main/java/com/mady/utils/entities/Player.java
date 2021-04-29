@@ -28,6 +28,7 @@ public class Player extends AbstractEntities {
     private double AGI = 1;
     private double LUK = 2;
     //private double multiplicateur =1.12;
+    private final double DASH_MP_COST = 5;
     private final HashMap<String, Double> stats = new HashMap<>() {{
         put("LVL", (double) getLvl());
         put("MAX_HP", (double) getMaxHitPoints());
@@ -112,6 +113,11 @@ public class Player extends AbstractEntities {
         setMaxHitPoints((int) (getMaxHitPoints() - item.getHP()));
         setHitPoints((int) (getHitPoints() - item.getHP()));
         setATK(getATK() - item.getATK());
+    }
+
+
+    public double getDASH_MP_COST() {
+        return DASH_MP_COST;
     }
 
     /**

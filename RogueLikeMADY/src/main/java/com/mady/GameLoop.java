@@ -3,13 +3,8 @@ package com.mady;
 import com.mady.utils.*;
 import com.mady.utils.listener.MoveListener;
 
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import javax.swing.*;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -146,11 +141,9 @@ public abstract class GameLoop {
             System.out.println(Util.showInventoryMenu(controller.player));
         } else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)) {
             System.out.println(map.getPause().toString(map.getMap()));
-        }
-        else if (isWelcomeScreen()) {
+        } else if (isWelcomeScreen()) {
             Util.showWelcomeScreen();
-        }
-        else if (isGameRunning()) {
+        } else if (isGameRunning()) {
             System.out.println(map);
         }
     }
