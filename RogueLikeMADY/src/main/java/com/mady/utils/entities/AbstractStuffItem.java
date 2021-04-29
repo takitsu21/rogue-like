@@ -8,22 +8,22 @@ import java.util.List;
 
 public abstract class AbstractStuffItem implements Item {
     private final String name;
-    private double HP;
-    private double MP;
-    private double ATK;
-    private double DEF;
-    private double AGI;
-    private double LUK;
-    private final List<Double> stats = new ArrayList<>(Arrays.asList(HP, MP, ATK, DEF, AGI, LUK));
+    private int HP;
+    private int MP;
+    private int ATK;
+    private int DEF;
+    private int AGI;
+    private int LUK;
+    private final List<Integer> stats = new ArrayList<>(Arrays.asList(HP, MP, ATK, DEF, AGI, LUK));
 
 
     public AbstractStuffItem(String name,
-                             double HP,
-                             double MP,
-                             double ATK,
-                             double DEF,
-                             double AGI,
-                             double LUK) {
+                             int HP,
+                             int MP,
+                             int ATK,
+                             int DEF,
+                             int AGI,
+                             int LUK) {
         this.name = name;
         this.HP = HP;
         this.MP = MP;
@@ -51,43 +51,43 @@ public abstract class AbstractStuffItem implements Item {
     public void act(Player player) {
     }
 
-    public double getHP() {
+    public int getHP() {
         return HP;
     }
 
-    public void setHP(double HP) {
+    public void setHP(int HP) {
         this.HP = HP;
     }
 
-    public double getMP() {
+    public int getMP() {
         return MP;
     }
 
-    public void setMP(double MP) {
+    public void setMP(int MP) {
         this.MP = MP;
     }
 
-    public double getATK() {
+    public int getATK() {
         return ATK;
     }
 
-    public void setATK(double ATK) {
+    public void setATK(int ATK) {
         this.ATK = ATK;
     }
 
-    public double getDEF() {
+    public int getDEF() {
         return DEF;
     }
 
-    public double getAGI() {
+    public int getAGI() {
         return AGI;
     }
 
-    public double getLUK() {
+    public int getLUK() {
         return LUK;
     }
 
-    public List<Double> getStats() {
+    public List<Integer> getStats() {
         return stats;
     }
 

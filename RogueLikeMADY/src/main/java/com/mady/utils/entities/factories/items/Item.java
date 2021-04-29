@@ -8,6 +8,7 @@ public interface Item {
 
     void setPosition(Position position);
 
+
     int getDamages();
 
     String getName();

@@ -2,7 +2,7 @@ package com.mady.utils.entities;
 
 public class Gauntlet extends AbstractStuffItem {
 
-    public Gauntlet(double HP, double MP, double ATK, double DEF, double AGI, double LUK) {
+    public Gauntlet(int HP, int MP, int ATK, int DEF, int AGI, int LUK) {
         super("gauntlet", HP, MP, ATK, DEF, AGI, LUK);
     }
 
