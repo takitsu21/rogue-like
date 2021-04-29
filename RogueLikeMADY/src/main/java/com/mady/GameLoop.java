@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public abstract class GameLoop {
 
     protected static volatile GameStatus status;
-    protected  static volatile GameController controller;
+    protected static volatile GameController controller;
     protected final Logger logger = Logger.getLogger(GameLoop.class.getName());
     protected static volatile Frame frame = new Frame();
     protected static volatile World world;
