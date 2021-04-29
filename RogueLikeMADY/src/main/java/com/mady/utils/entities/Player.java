@@ -232,7 +232,7 @@ public class Player extends AbstractEntities {
 
     public void setExp(double exp) {
         this.exp = exp;
-        stats.put("EXP", exp);
+        stats.put("EXP", this.exp);
     }
 
     public double getExpMax() {
@@ -407,7 +407,7 @@ public class Player extends AbstractEntities {
 
 
     private void winExp() {
-        exp += randomExp();
+        setExp(exp + randomExp());
         if (exp >= expMax) {
             updateStats();
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez atteint le niveau %d, félicitation!\n",

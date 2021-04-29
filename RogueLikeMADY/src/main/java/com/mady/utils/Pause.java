@@ -71,7 +71,8 @@ public class Pause {
         for (int i = 0; i < heightPause; i++) {
             for (int j = 0; j < widthPause; j++) {
                 if (i == 0 || i == heightPause - 1 || j == 0 || j == widthPause - 1) {
-                    pause_rep[i][j] = Ansi.colorize("#", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT());
+                    pause_rep[i][j] = Ansi.colorize("#", Attribute.BRIGHT_BLACK_TEXT(),
+                            Attribute.BRIGHT_BLACK_BACK());
 
                     continue;
 
