@@ -71,7 +71,7 @@ public abstract class GameLoop {
             frame.getFrame().removeKeyListener(c);
         }
         frame.getFrame().addKeyListener(new MoveListener(map));
-        status = GameStatus.RUNNING;
+        status = GameStatus.WELCOME_SCREEN;
 
     }
 
@@ -178,6 +178,14 @@ public abstract class GameLoop {
         else if (isGameRunning()) {
             System.out.println(map);
         }
+    }
+
+    public static GameStatus getStatus() {
+        return status;
+    }
+
+    public static void setStatus(GameStatus status) {
+        GameLoop.status = status;
     }
 
     /**

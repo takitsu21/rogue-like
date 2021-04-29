@@ -43,6 +43,7 @@ public class World {
         m.getMap()[oldPos.getX()][oldPos.getY()] = new Case(" ",CaseType.SALLE);
         m.setPlayer(currentMap.getPlayer());
         m.getPlayer().setPos(oldPos);
+        m.getMap()[ m.getPlayer().getPosition().getX()][ m.getPlayer().getPosition().getY()].setEntity(m.getPlayer());
         maps.remove(currentMap);
         currentMap = m;
     }

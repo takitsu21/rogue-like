@@ -19,6 +19,7 @@ public class Util {
     public static volatile boolean playerTurn = true;
     public static volatile KeyboardPressedEnum keyPressed = KeyboardPressedEnum.WELCOME;
     public static volatile StringBuilder currentAction = new StringBuilder();
+    public static volatile boolean inHelp = false;
 
     public static Deplacement randomDirection() {
         int randomDirection = Util.r.nextInt(4);
@@ -179,4 +180,41 @@ public class Util {
     public static String filler(int i) {
         return " ".repeat(Math.max(0, i));
     }
+
+
+    public static void printHELP(){
+        if(!inHelp) {
+            System.out.println("Déplacement:\n" +
+                    "z monter\n" +
+                    "s descendre\n" +
+                    "q gauche\n" +
+                    "d droite\n" +
+                    "Attaque:\n" +
+                    "attaque de zone autour du joueur a\n" +
+                    "attaque un unique monstre e\n" +
+                    "Inventaire: i (navigation z s, équiper l'objet enter, jeter l'objet backspace)\n" +
+                    "interaction: x (ouverture d'un coffre)" +
+                    "\n" +
+                    "\n" +
+                    "Representation du jeu :\n" +
+                    "Monstre:\n" +
+                    "Orc o\n" +
+                    "Goblin g\n" +
+                    "Coffre au trésor C, vous offre un item aléatoire a équiper.\n" +
+                    "Potion ou poison de force F, vous octroie un malus ou bonus d'ATK.\n" +
+                    "Potion ou poison de vie V, vous octroie un malus ou bonus de d'HP.\n" +
+                    "Portail §, vous téléporte à la prochaine map.\n" +
+                    "Coming soon...\n" +
+                    "Nouveaux :\n" +
+                    "Monstres\n" +
+                    "Items\n" +
+                    "Effets visuels\n" +
+                    "Stats des équipements à ajouter au joueur (ATK, HP, etc...)\n" +
+                    "Official Soundtrack");
+        }
+        inHelp = true;
+
+    }
 }
+
+
