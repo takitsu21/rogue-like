@@ -13,7 +13,7 @@ public class Coins extends AbstractItem {
 
     @Override
     public void act(Player player) {
-        player.setCoins(player.getCoins() + 1);
+        player.setCoins(player.getCoins() + (Util.r.nextInt(6)+1));
         Util.currentAction.append(Ansi.colorize("Vous obtenez 1 MADY coin!\n", Attribute.BRIGHT_YELLOW_TEXT()));
     }
 }
