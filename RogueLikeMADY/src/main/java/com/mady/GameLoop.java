@@ -29,7 +29,7 @@ public abstract class GameLoop {
     protected Map map;
     private Thread gameThread;
     private Thread musicThread;
-    private final MusicPlayer audioPlayer = new MusicPlayer();
+    //private final MusicPlayer audioPlayer = new MusicPlayer();
 
 
     /**
@@ -90,8 +90,8 @@ public abstract class GameLoop {
     public void run() {
         status = GameStatus.STARTING;
         gameThread = new Thread(this::processGameLoop);
-        musicThread = new Thread(audioPlayer::play);
-        musicThread.start();
+        //musicThread = new Thread(audioPlayer::play);
+        //musicThread.start();
         gameThread.start();
     }
 

@@ -2,15 +2,13 @@ package com.mady.utils;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import com.mady.utils.entities.AbstractStuffItem;
-import com.mady.utils.entities.Deplacement;
-import com.mady.utils.entities.Player;
-import com.mady.utils.entities.Stuff;
+import com.mady.utils.entities.*;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.Price;
 import com.mady.utils.entities.factories.items.Shop;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -103,20 +101,30 @@ public class Util {
             if (acc == selectedItem) {
                 sbTmp.append('[');
             }
+            if (i instanceof Amulet){
+                sbTmp.append('<').append(i.getName().substring(0, 1).toUpperCase()).append(i.getName().substring(1))
+                        .append('>')
+                        .append(" : ")
+                        .append("|LUK ")
+                        .append(it.getLUK());
+            }else {
+                sbTmp.append('<').append(i.getName().substring(0, 1).toUpperCase()).append(i.getName().substring(1))
+                        .append('>')
+                        .append(" : ")
+                        .append("|HP ")
+                        .append(it.getHP())
+                        .append("|MP ")
+                        .append(it.getMP())
+                        .append("|ATK ")
+                        .append(it.getATK())
+                        .append("|DEF ")
+                        .append(it.getDEF())
+                        .append("|AGI ")
+                        .append(it.getAGI());
 
-            sbTmp.append('<').append(i.getName().substring(0, 1).toUpperCase()).append(i.getName().substring(1))
-                    .append('>')
-                    .append(" : ")
-                    .append("|AGI ")
-                    .append((int) it.getAGI())
-                    .append("|ATK ")
-                    .append((int) it.getATK())
-                    .append("|HP ")
-                    .append((int) it.getHP())
-                    .append("|MP ")
-                    .append((int) it.getMP())
-                    .append("|LUK ")
-                    .append((int) it.getLUK());
+                //.append("|LUK ")
+                //.append((int) it.getLUK());
+            }
             if (acc == selectedItem) {
                 sbTmp.append(']');
                 sbTmp = new StringBuilder(Ansi.colorize(sbTmp.toString(), Attribute.MAGENTA_TEXT()));
@@ -125,39 +133,66 @@ public class Util {
             acc++;
         }
         sb.append("\n").append("\tStats\n");
-        for (Map.Entry<String, Double> stat : player.getStats().entrySet()) {
-            sb.append(String.format("%s : %d ", stat.getKey(), stat.getValue().intValue()));
-            switch (stat.getKey()) {
-                case "ATK":
-                    sb.append(Ansi.colorize(String.format("(+%d)", totalAtk), Attribute.GREEN_TEXT()));
-                    break;
-                case "MAX_HP":
-                    sb.append(Ansi.colorize(String.format("(+%d)", totalHp), Attribute.GREEN_TEXT()));
-                    break;
-                case "AGI":
-                    sb.append(Ansi.colorize(String.format("(+%d)", totalAgi), Attribute.GREEN_TEXT()));
-                    break;
-                case "DEF":
-                    sb.append(Ansi.colorize(String.format("(+%d)", totalDef), Attribute.GREEN_TEXT()));
-                    break;
-                case "LUK":
-                    sb.append(Ansi.colorize(String.format("(+%d)", totalLuk), Attribute.GREEN_TEXT()));
-                    break;
-                case "MAX_MP":
-                    sb.append(Ansi.colorize(String.format("(+%d)", totalMp), Attribute.GREEN_TEXT()));
-                    break;
-                default:
-                    break;
-            }
-            sb.append("\n");
-        }
+        HashMap<String, Integer> stat=player.getStats();
+        sb.append(String.format("%s : %d ", "LVL", stat.get("LVL")));
+        sb.append("\n");
+        sb.append(String.format("%s : %d ", "MAX_HP", stat.get("MAX_HP")));
+        sb.append(Ansi.colorize(String.format("(+%d)", totalHp), Attribute.GREEN_TEXT()));
+        sb.append("\n");
+        sb.append(String.format("%s : %d ", "HP", stat.get("HP")));
+        sb.append(Ansi.colorize(String.format("(+%d)", totalHp), Attribute.GREEN_TEXT()));
+        sb.append("\n");
+        sb.append(String.format("%s : %d ", "MAX_MP", stat.get("MAX_MP")));
+        sb.append(Ansi.colorize(String.format("(+%d)", totalMp), Attribute.GREEN_TEXT()));
+        sb.append("\n");
+        sb.append(String.format("%s : %d ", "MP", stat.get("MP")));
+        sb.append(Ansi.colorize(String.format("(+%d)", totalMp), Attribute.GREEN_TEXT()));
+        sb.append("\n");
+        sb.append(String.format("%s : %d ", "ATK", stat.get("ATK")));
+        sb.append(Ansi.colorize(String.format("(+%d)", totalAtk), Attribute.GREEN_TEXT()));
+        sb.append("\n");
+        sb.append(String.format("%s : %d ", "DEF", stat.get("DEF")));
+        sb.append(Ansi.colorize(String.format("(+%d)", totalDef), Attribute.GREEN_TEXT()));
+        sb.append("\n");
+        sb.append(String.format("%s : %d ", "AGI", stat.get("AGI")));
+        sb.append(Ansi.colorize(String.format("(+%d)", totalAgi), Attribute.GREEN_TEXT()));
+        sb.append("\n");
+        sb.append(String.format("%s : %d ", "LUK", stat.get("LUK")));
+        sb.append(Ansi.colorize(String.format("(+%d)", totalLuk), Attribute.GREEN_TEXT()));
+        sb.append("\n");
+//        for (Map.Entry<String, Double> stat : player.getStats().entrySet()) {
+//            sb.append(String.format("%s : %d ", stat.getKey(), stat.getValue().intValue()));
+//            switch (stat.getKey()) {
+//                case "ATK":
+//                    sb.append(Ansi.colorize(String.format("(+%d)", totalAtk), Attribute.GREEN_TEXT()));
+//                    break;
+//                case "MAX_HP":
+//                    sb.append(Ansi.colorize(String.format("(+%d)", totalHp), Attribute.GREEN_TEXT()));
+//                    break;
+//                case "AGI":
+//                    sb.append(Ansi.colorize(String.format("(+%d)", totalAgi), Attribute.GREEN_TEXT()));
+//                    break;
+//                case "DEF":
+//                    sb.append(Ansi.colorize(String.format("(+%d)", totalDef), Attribute.GREEN_TEXT()));
+//                    break;
+//                case "LUK":
+//                    sb.append(Ansi.colorize(String.format("(+%d)", totalLuk), Attribute.GREEN_TEXT()));
+//                    break;
+//                case "MAX_MP":
+//                    sb.append(Ansi.colorize(String.format("(+%d)", totalMp), Attribute.GREEN_TEXT()));
+//                    break;
+//                default:
+//                    break;
+//            }
+//            sb.append("\n");
+//        }
         return sb.toString();
     }
 
 
     public static String showShop(Player player) {
         Shop shop = new Shop(player,player.getPosition());
-        shop.generateItems();
+        //shop.generateItems();
         if (shop.isEmpty()) {
             return Ansi.colorize("Aucun objet dans le shop!", Attribute.BRIGHT_RED_TEXT());
         }
@@ -180,3 +215,4 @@ public class Util {
         return " ".repeat(Math.max(0, i));
     }
 }
+

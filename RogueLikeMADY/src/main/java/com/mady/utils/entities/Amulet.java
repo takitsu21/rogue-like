@@ -9,11 +9,11 @@ public class Amulet extends AbstractStuffItem {
      * @param AGI double
      * @param LUK double
      */
-    public Amulet(double HP, double MP, double ATK, double DEF, double AGI, double LUK) {
+    public Amulet(int HP, int MP, int ATK, int DEF, int AGI, int LUK) {
         super("amulet", HP, MP, ATK, DEF, AGI, LUK);
     }
 
-    public Amulet(double LUK) {
+    public Amulet(int LUK) {
         this(0, 0, 0, 0, 0, LUK);
     }
 

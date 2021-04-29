@@ -1,7 +1,7 @@
 package com.mady.utils.entities;
 
 public class Pants extends AbstractStuffItem {
-    public Pants(double HP, double MP, double ATK, double DEF, double AGI, double LUK) {
+    public Pants(int HP, int MP, int ATK, int DEF, int AGI, int LUK) {
         super("pant", HP, MP, ATK, DEF, AGI, LUK);
     }
 
