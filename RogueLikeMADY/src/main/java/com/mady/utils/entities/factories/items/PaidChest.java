@@ -36,7 +36,7 @@ public class PaidChest extends Chest{
     }
 
     public void showItem(){
-        Util.currentAction.append(Ansi.colorize(String.format("dans ce coffre il y a: \n",
-                getItem().toString()), Attribute.MAGENTA_TEXT()));
+        Util.currentAction.append(Ansi.colorize(String.format("Dans ce coffre il y a <%s> : %s\n",
+                getItem().getName(), getItem().toString()), Attribute.MAGENTA_TEXT()));
     }
 }
