@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class Shop extends Map {
     private final HashMap<AbstractStuffItem, Price> items = new HashMap<>();
-    private final List<AbstractStuffItem> it = new ArrayList<>();
+    //private final List<AbstractStuffItem> it = new ArrayList<>();
     private final int SHOP_SIZE = 3;
     private Seller henry;
     private Player player;
@@ -56,19 +56,27 @@ public class Shop extends Map {
 
 
     private void placeItems() {
-        generateItems();
+        //generateItems();
         Position p1 = new Position(posHautsalle + 4, posSalle + (smallLine / 2));
-        Chest c1 = new Chest(p1, player.getLvl(), player.getMultiplicateur());
-        c1.setItem(it.get(0));
+        PaidChest c1 = new PaidChest(p1, player.getLvl(), player.getMultiplicateur());
+        addItem(c1,player);
+        System.out.println(c1.getItem());
         Position p2 = new Position(posHautsalle + 6, posSalle - 3);
-        Chest c2 = new Chest(p2, player.getLvl(), player.getMultiplicateur());
-        c2.setItem(it.get(1));
+        PaidChest c2 = new PaidChest(p2, player.getLvl(), player.getMultiplicateur());
+        addItem(c2,player);
+        System.out.println(c2.getItem());
+        //c2.setItem(it.get(1));
         Position p3 = new Position(posHautsalle + 6, posSalle + smallLine + 2);
-        Chest c3 = new Chest(p3, player.getLvl(), player.getMultiplicateur());
-        c3.setItem(it.get(2));
+        PaidChest c3 = new PaidChest(p3, player.getLvl(), player.getMultiplicateur());
+        addItem(c3,player);
+        System.out.println(c3.getItem());
+        //c3.setItem(it.get(2));
         super.getMap()[p1.getX()][p1.getY()].setItem(c1);
+        System.out.println(getMap()[p1.getX()][p1.getY()].getItem().toString());
         super.getMap()[p2.getX()][p2.getY()].setItem(c2);
+        System.out.println(getMap()[p1.getX()][p1.getY()].getItem().toString());
         super.getMap()[p3.getX()][p3.getY()].setItem(c3);
+        System.out.println(getMap()[p1.getX()][p1.getY()].getItem().toString());
         placePrice(c1);
         placePrice(c2);
         placePrice(c3);
@@ -77,10 +85,10 @@ public class Shop extends Map {
     }
 
 
-    private void placePrice(Chest c) {
-        Price p = items.get(c.getItem());
-        int prix = p.getPrice();
-        c.setPrice(prix);
+    private void placePrice(PaidChest c) {
+        //Price p = items.get(c.getItem());
+        int prix = c.getPrice();
+        //c.setPrice(prix);
         int[] repesentation = new int[]{prix / 100, (prix % 100) / 10, prix % 10 };
         Position pos = c.getPosition();
         super.getMap()[pos.getX()-1][pos.getY()-1] = new Case(Ansi.colorize((String.valueOf(repesentation[0])),Attribute.BRIGHT_YELLOW_TEXT()), CaseType.PRICE);
@@ -134,11 +142,11 @@ public class Shop extends Map {
         this.oldPos = oldPos;
     }
 
-    public void generateItems() {
-        for (int i = 0; i < SHOP_SIZE; i++) {
-            addItem(player);
-        }
-    }
+//    public void generateItems() {
+//        for (int i = 0; i < SHOP_SIZE; i++) {
+//            addItem(player);
+//        }
+//    }
 
     public boolean isEmpty() {
         return items.isEmpty();
@@ -152,12 +160,15 @@ public class Shop extends Map {
         return items;
     }
 
-    private void addItem(Player player) {
-        AbstractStuffItem item = Chest.openChest(player);
+    private void addItem(PaidChest chest,Player player) {
+        AbstractStuffItem item = chest.selectItem(player);
         Price price = new Price(item,player);
-        it.add(item);
+        chest.setPrice(price.getPrice());
+        System.out.println(price);
+        System.out.println(item);
+        //it.add(item);
         items.put(item, price);
+        System.out.println(items.get(item));
     }
-
 
 }

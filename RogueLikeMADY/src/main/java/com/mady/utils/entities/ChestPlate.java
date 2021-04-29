@@ -1,7 +1,7 @@
 package com.mady.utils.entities;
 
 public class ChestPlate extends AbstractStuffItem {
-    public ChestPlate(double HP, double MP, double ATK, double DEF, double AGI, double LUK) {
+    public ChestPlate(int HP, int MP, int ATK, int DEF, int AGI, int LUK) {
         super("chest", HP, MP, ATK, DEF, AGI, LUK);
     }
 
