@@ -22,6 +22,7 @@ public abstract class AbstractEntities implements Entities {
     private Salle salle;
     private boolean isAggro = false;
     private boolean isAttack = false;
+    public boolean isHealed = false;
     private int lvl = 1;
     private int nbDeplacement = 0;
 
@@ -81,6 +82,12 @@ public abstract class AbstractEntities implements Entities {
 
     public boolean isAttack() {
         return isAttack;
+    }
+
+    public boolean isHealed() { return isHealed; }
+
+    public void setHealed(boolean healed) {
+        isHealed = healed;
     }
 
     public void setIsAttack(boolean attack) {

@@ -14,7 +14,7 @@ public class Boss extends AbstractMonster {
         super("Boss", pos, 50, 5, 1, "B", 5, salle);
     }
 
-
+    @Override
     public void skill(Map map) {
         this.map=map;
         Player player = map.getPlayer();
@@ -43,10 +43,5 @@ public class Boss extends AbstractMonster {
         }
 
         return (getHitPoints() <= 0);
-    }
-
-    @Override
-    public void skill(Entities target, Map map) {
-
     }
 }
