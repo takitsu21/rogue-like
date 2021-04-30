@@ -14,9 +14,6 @@ public class GoblinArcher extends AbstractMonster {
     }
 
     @Override
-    public void skill(Entities target, Map map) {
-        if (checkDistanceShoot(map)) {
-            attack((Player) target);
-        }
+    public void skill(Map map) {
     }
 }

@@ -9,14 +9,10 @@ import com.mady.utils.entities.Position;
 public class Witch extends AbstractMonster {
 
     public Witch(Position pos, Salle salle) {
-        super("Sorcière", pos, 8, 3, 1, "w", 5, salle);
+        super("Sorcière", pos, 8, 2, 1, "w", 3, salle);
     }
-
 
     @Override
-    public void skill(Entities target, Map map) {
-        if (checkDistanceShoot(map)) {
-            attack((Player) target);
-        }
-    }
+    public void skill(Map map) {}
+
 }

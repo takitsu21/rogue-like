@@ -56,9 +56,32 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
      *            moves randomly.
      */
 
+//    public void act(Map map) {
+//        Player player = map.getPlayer();
+//        if (this instanceof Witch) {
+//            this.attack(player);
+//        } else if (this instanceof DarkDruide) {
+//            this.skill(map);
+//        } else if (this.nextTo(map)) {
+//            this.attack(player);
+//        } else if (this instanceof GoblinArcher && checkDistanceShoot(map)) {
+//            this.attack(player);
+//        } else {
+//            updatePos(map, player);
+//            Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> se rapproche.\n",
+//                    getName(), getHitPoints(), getMaxHitPoints()), Attribute.YELLOW_TEXT()));
+//        }
+//    }
+
     public void act(Map map) {
         Player player = map.getPlayer();
-        if (this.nextTo(map)) {
+        if (this instanceof Witch) {
+            this.attack(player);
+        } else if (this instanceof DarkDruide) {
+            this.skill(map);
+        } else if (this instanceof GoblinArcher && checkDistanceShoot(map)) {
+            this.attack(player);
+        } else if (this.nextTo(map)) {
             this.attack(player);
         } else {
             updatePos(map, player);
@@ -76,6 +99,9 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     @Override
     public String getRepr() {
+        if (isHealed()) {
+            return Ansi.colorize(super.getRepr(), Attribute.GREEN_BACK(), Attribute.BLACK_TEXT());
+        }
         if (isAttack()) {
             setIsAttack(false);
             return Ansi.colorize(super.getRepr(), Attribute.RED_BACK());
@@ -83,7 +109,6 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         if (isAggro()) {
             return Ansi.colorize(super.getRepr(), Attribute.RED_TEXT());
         }
-
         return super.getRepr();
     }
 
@@ -111,26 +136,31 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     }
 
     @Override
-    public abstract void skill(Entities target, Map map);
+    public abstract void skill(Map map);
 
     public boolean checkDistanceShoot(Map map) {
         Position monsterPos = this.getPosition();
 
         if (map.getMap()[monsterPos.getX() - getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player) {
+            System.out.println("ypu can shoot");
             return true;
         }
 
         if (map.getMap()[monsterPos.getX() + getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player) {
+            System.out.println("ypu can shoot");
             return true;
         }
 
         if (map.getMap()[monsterPos.getX()][monsterPos.getY() - getEffectiveArea()].getEntity() instanceof Player) {
+            System.out.println("ypu can shoot");
             return true;
         }
 
         if (map.getMap()[monsterPos.getX()][monsterPos.getY() + getEffectiveArea()].getEntity() instanceof Player) {
+            System.out.println("ypu can shoot");
             return true;
         }
+        System.out.println("you can't shoot");
         return false;
     }
 
