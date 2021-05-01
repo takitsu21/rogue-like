@@ -66,16 +66,20 @@ public class MoveListener implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_Q: // Touche Q
-                move(Deplacement.GAUCHE, e);
+                if (Util.keyPressed == KeyboardPressedEnum.NONE){
+                move(Deplacement.GAUCHE, e);}
                 break;
             case KeyEvent.VK_D: // Touche D
-                move(Deplacement.DROITE, e);
+                if (Util.keyPressed == KeyboardPressedEnum.NONE){
+                move(Deplacement.DROITE, e);}
                 break;
             case KeyEvent.VK_A: // Touche A
-                map.getPlayer().zoneAttack(map.zoneCheckAround(), map);
+                if (Util.keyPressed == KeyboardPressedEnum.NONE){
+                map.getPlayer().zoneAttack(map.zoneCheckAround(), map);}
                 break;
             case KeyEvent.VK_E: // Touche E
-                map.getPlayer().closeAttack(map.closeCheckAround(), map);
+                if (Util.keyPressed == KeyboardPressedEnum.NONE){
+                map.getPlayer().closeAttack(map.closeCheckAround(), map);}
                 break;
             case KeyEvent.VK_BACK_SPACE:
                 if (Util.keyPressed == KeyboardPressedEnum.I && map.getPlayer().getInventory().getInventory().size() >= 1) {
