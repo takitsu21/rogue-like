@@ -148,7 +148,7 @@ public abstract class GameLoop {
         try {
             while (Util.playerTurn) {
             }
-            if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC) {
+            if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC || Util.keyPressed == KeyboardPressedEnum.SELL) {
                 status = GameStatus.PAUSE;
             }
 
@@ -162,9 +162,10 @@ public abstract class GameLoop {
      */
     protected void render() {
         clrscr();
-        if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.I) {
+        if (isGamePaused() && (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.SELL)) {
             System.out.println(Util.showInventoryMenu(controller.player));
-        } else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)) {
+        }
+        else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)) {
             System.out.println(map.getPause().toString(map.getMap()));
         } else if (isWelcomeScreen()) {
             Util.showWelcomeScreen();
