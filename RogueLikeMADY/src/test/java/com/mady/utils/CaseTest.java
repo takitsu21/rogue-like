@@ -35,19 +35,19 @@ class CaseTest {
         cAttackBoss.setAttackBoss(true);
     }
 
-    @Test
-    void isOccupied() {
-        assertFalse(cSalle.isOccupied());
-        assertFalse(cWall.isOccupied());
-        assertFalse(cEmpty.isOccupied());
-        assertTrue(cItemNotEmpty.isOccupied());
-        assertFalse(cConstructor.isOccupied());
-        assertTrue(cPlayer.isOccupied());
-        assertFalse(cPath.isOccupied());
-        assertFalse(cPortal.isOccupied());
-        assertFalse(cMap.isOccupied());
-        assertFalse(cAttackBoss.isOccupied());
-    }
+//    @Test
+//    void isOccupied() {
+//        assertFalse(cSalle.isOccupied());
+//        assertFalse(cWall.isOccupied());
+//        assertFalse(cEmpty.isOccupied());
+//        assertTrue(cItemNotEmpty.isOccupied());
+//        assertFalse(cConstructor.isOccupied());
+//        assertTrue(cPlayer.isOccupied());
+//        assertFalse(cPath.isOccupied());
+//        assertFalse(cPortal.isOccupied());
+//        assertFalse(cMap.isOccupied());
+//        assertFalse(cAttackBoss.isOccupied());
+//    }
 
     @Test
     void testToString() {

@@ -3,13 +3,14 @@ package com.mady.utils.entities.factories.items;
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.Util;
+import com.mady.utils.entities.AbstractStuffItem;
 import com.mady.utils.entities.Stuff;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Inventory {
-    private final List<Item> inventory = new ArrayList<>();
+    private final List<AbstractStuffItem> inventory = new ArrayList<>();
     private final int MAX_SIZE = 10;
     private int selectedItem = 0;
     private Stuff s;
@@ -18,7 +19,7 @@ public class Inventory {
         this.s = s;
     }
 
-    public List<Item> getInventory() {
+    public List<AbstractStuffItem> getInventory() {
         return inventory;
     }
 
@@ -26,7 +27,7 @@ public class Inventory {
         return inventory.size() == MAX_SIZE;
     }
 
-    public boolean addItem(Item i) {
+    public boolean addItem(AbstractStuffItem i) {
         if (isFull()) {
             Util.currentAction.append(Ansi.colorize("Votre inventaire est plein!\n", Attribute.RED_TEXT()));
             return false;

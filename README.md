@@ -34,6 +34,7 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
     - `s` descendre
     - `q` gauche
     - `d` droite
+    - `shift + déplacement` dash
 - Attaque:
     - attaque de zone autour du joueur `a`
     - attaque un unique monstre `e`

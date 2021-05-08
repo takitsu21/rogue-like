@@ -8,8 +8,6 @@ import com.mady.utils.entities.*;
 public class Chest extends AbstractItem {
     private int price;
 
-    private AbstractStuffItem item;
-
     /**
      * @param position du coffre.
      */
@@ -25,20 +23,20 @@ public class Chest extends AbstractItem {
      * @param player joueur a partir duquel vont etre changer les statistiques de l'item
      * @return AbstractStuffItem Item créer quand on ouvre le coffre.
      */
-    public static AbstractStuffItem openChest(Player player) {
-        double lvl = player.getLvl();
+    public AbstractStuffItem openChest(Player player) {
+        int lvl = player.getLvl();
         int randomLUK = Util.r.nextInt((int) player.getLUK()) + 1;
-        double baseMultiplicator = player.getMultiplicateur();
-        double baseStat = 5;
-        double newRandomLUK = randomLUK * lvl * baseMultiplicator;
-        double randomATK = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
-        double randomDEF = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
-        double randomAGI = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
-        double randomHP = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
-        double randomMP = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        Double baseMultiplicator = player.getMultiplicateur();
+        int baseStat = 5;
+        int newRandomLUK = Math.min((int) (randomLUK * lvl * baseMultiplicator), 100);
+        int randomATK = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        int randomDEF = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        int randomAGI = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        int randomHP = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
+        int randomMP = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
         switch (Util.r.nextInt(7)) {
             case 0:
-                return new Amulet(newRandomLUK);
+                return new Amulet((int) newRandomLUK);
             case 1:
                 return new ChestPlate(randomHP, randomMP, randomATK, randomDEF, randomAGI, 0);
             case 2:
@@ -61,13 +59,6 @@ public class Chest extends AbstractItem {
 
     }
 
-    public void setItem(AbstractStuffItem item) {
-        this.item = item;
-    }
-
-    public AbstractStuffItem getItem() {
-        return item;
-    }
 
     @Override
     public String getRepr() {

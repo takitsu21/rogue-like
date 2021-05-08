@@ -80,6 +80,14 @@ public class Case {
     }
 
     /**
+     *
+     * @ true si la case est une entité.
+     */
+    public boolean isEntity() {
+        return entity != null;
+    }
+
+    /**
      * @return true si la case est une salle.
      */
     public boolean isSalle() {
@@ -153,7 +161,6 @@ public class Case {
 
     public void setEntity(Entities entity) {
         this.entity = entity;
-        //repr = entity == null ? " " : entity.getRepr();
     }
 
     /**
@@ -188,6 +195,10 @@ public class Case {
 
     public boolean isPrice() {
         return CaseType.PRICE == ct;
+    }
+
+    public boolean isTrap() {
+        return CaseType.TRAP == ct;
     }
 
 }

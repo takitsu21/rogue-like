@@ -3,13 +3,9 @@ package com.mady;
 import com.mady.utils.*;
 import com.mady.utils.listener.MoveListener;
 
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import javax.swing.*;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -22,14 +18,14 @@ import java.util.logging.Logger;
 public abstract class GameLoop {
 
     protected static volatile GameStatus status;
-    protected final GameController controller;
+    protected static volatile GameController controller;
     protected final Logger logger = Logger.getLogger(GameLoop.class.getName());
-    protected Frame frame = new Frame();
-    protected World world;
-    protected Map map;
+    protected static volatile Frame frame = new Frame();
+    protected static volatile World world;
+    protected static volatile Map map;
     private Thread gameThread;
-    private Thread musicThread;
-    private final MusicPlayer audioPlayer = new MusicPlayer();
+    //private Thread musicThread;
+    //private final MusicPlayer audioPlayer = new MusicPlayer();
 
 
     /**
@@ -56,8 +52,30 @@ public abstract class GameLoop {
     }
 
     public static void restart() {
-        TurnBasedGameLoop gameLoop = new TurnBasedGameLoop();
-        gameLoop.run();
+        world = new World(frame);
+        world.createWorld();
+        map = world.getCurrentMap();
+        Salle salle = map.chooseSalle();
+        while (salle.equals(map.getSalleBoss())) {
+            salle = map.chooseSalle();
+        }
+        controller = new GameController(map.randomPosPlayerInSalle(salle), salle);
+        map.addPlayerToMap(controller.getPlayer());
+        map.addEntityItemPortal();
+        for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {
+            frame.getFrame().removeKeyListener(c);
+        }
+        frame.getFrame().addKeyListener(new MoveListener(map));
+        status = GameStatus.WELCOME_SCREEN;
+
+    }
+
+    public static Frame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(Frame frame) {
+        this.frame = frame;
     }
 
     public static void clrscr() {
@@ -90,8 +108,8 @@ public abstract class GameLoop {
     public void run() {
         status = GameStatus.STARTING;
         gameThread = new Thread(this::processGameLoop);
-        musicThread = new Thread(audioPlayer::play);
-        musicThread.start();
+        //musicThread = new Thread(audioPlayer::play);
+        //musicThread.start();
         gameThread.start();
     }
 
@@ -107,17 +125,18 @@ public abstract class GameLoop {
      *
      * @return {@code true} if the game is running.
      */
-    public boolean isGameRunning() {
+    public static boolean isGameRunning() {
         return status == GameStatus.RUNNING;
     }
 
-    public boolean isGamePaused() {
+    public static boolean isGamePaused() {
         return status == GameStatus.PAUSE;
     }
 
-    public boolean isWelcomeScreen() {
+    public static boolean isWelcomeScreen() {
         return status == GameStatus.WELCOME_SCREEN;
     }
+
 
     /**
      * Handle any user input that has happened since the last call. In order to
@@ -128,7 +147,7 @@ public abstract class GameLoop {
         try {
             while (Util.playerTurn) {
             }
-            if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC) {
+            if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC || Util.keyPressed == KeyboardPressedEnum.SELL) {
                 status = GameStatus.PAUSE;
             }
 
@@ -137,22 +156,33 @@ public abstract class GameLoop {
         }
     }
 
+    public static boolean isGameAttackMenu() {
+        return GameStatus.RANGE_ATTACK_CHOICE == status;
+    }
+
     /**
      * Render game frames to screen. Here we print the map.
      */
     protected void render() {
         clrscr();
-        if (isGamePaused() && Util.keyPressed == KeyboardPressedEnum.I) {
+        if (isGamePaused() && (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.SELL)) {
             System.out.println(Util.showInventoryMenu(controller.player));
-        } else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)) {
+        }
+        else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)) {
             System.out.println(map.getPause().toString(map.getMap()));
-        }
-        else if (isWelcomeScreen()) {
+        } else if (isWelcomeScreen()) {
             Util.showWelcomeScreen();
-        }
-        else if (isGameRunning()) {
+        } else if (isGameRunning() || isGameAttackMenu()) {
             System.out.println(map);
         }
+    }
+
+    public static GameStatus getStatus() {
+        return status;
+    }
+
+    public static void setStatus(GameStatus status) {
+        GameLoop.status = status;
     }
 
     /**

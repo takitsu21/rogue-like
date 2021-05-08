@@ -1,7 +1,7 @@
 package com.mady.utils.entities;
 
 public class Helmet extends AbstractStuffItem {
-    public Helmet(double HP, double MP, double ATK, double DEF, double AGI, double LUK) {
+    public Helmet(int HP, int MP, int ATK, int DEF, int AGI, int LUK) {
         super("helmet", HP, MP, ATK, DEF, AGI, LUK);
     }
 
