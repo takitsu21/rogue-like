@@ -26,20 +26,22 @@ public class Map {
     private Salle salleBoss;
     private Player player;
     private Boss boss;
-    private int nbMaxTrap = 3;
-    private int securite = 20;
+    private int nbMaxTrap = 10;
+    private int securite = 3;
+    private boolean addBoss;
 
 
-    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH) {
+    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, boolean addBoss) {
         this.nbSalles = nbSalles;
         this.BASE_HEIGHT = BASE_HEIGHT;
         this.BASE_WIDTH = BASE_WIDTH;
         this.map = new Case[BASE_HEIGHT][BASE_WIDTH];
+        this.addBoss=addBoss;
     }
 
 
-    public Map(int nbSalles) {
-        this(nbSalles, 24, 128);
+    public Map(int nbSalles, boolean addBoss) {
+        this(nbSalles, 24, 128, addBoss);
     }
 
     /**
@@ -121,6 +123,7 @@ public class Map {
     public void addPlayerToMap(Player player) {
         setPlayer(player);
         map[player.getPosition().getX()][player.getPosition().getY()].setEntity(player);
+        player.setSalle(findRoom(player.getPos()));
     }
 
     /**
@@ -302,12 +305,12 @@ public class Map {
      */
     private void generateEntities() {
         int nbMonstersByRoom;
-        for (int i = 0; i < salles.size(); i++) {
-            if (salles.get(i).equals(salleBoss)) {
+        for (Salle salle : salles) {
+            if (salle.equals(salleBoss) && addBoss) {
                 addBoss();
             } else {
                 nbMonstersByRoom = Util.r.nextInt(6) + 1;
-                addEntity(nbMonstersByRoom, salles.get(i));
+                addEntity(nbMonstersByRoom, salle);
             }
         }
     }
@@ -341,6 +344,7 @@ public class Map {
                 pos = randomPosPlayerInSalle(salle);
             }
             if (securite > 0) {
+                System.out.println(salle.inSalle(pos));
                 Entities entity = MonsterFactory.getInstance().generate(
                         Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
                 map[pos.getX()][pos.getY()].setEntity(entity);
