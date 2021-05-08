@@ -90,7 +90,7 @@ public class Map {
     }
 
     /**
-     * @param s
+     * @param s une salle
      * @return the position of the player in each new map
      */
     public Position randomPosPlayerInSalle(Salle s) {
@@ -137,7 +137,7 @@ public class Map {
     }
 
     /**
-     * @param p
+     * @param p une position
      * @return a bool.
      * generation of one room in the map.
      * Security is here to prevent a infinite loop on the research for place for a room on the map.

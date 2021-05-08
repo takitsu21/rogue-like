@@ -195,7 +195,7 @@ public class Player extends AbstractEntities {
      * @param idx index de l'item a équipé.
      */
     public void equipItem(int idx) {
-        AbstractStuffItem item = (AbstractStuffItem) inventory.getInventory().get(idx);
+        AbstractStuffItem item = inventory.getInventory().get(idx);
         if (setEquipment(item)) {
             inventory.getInventory().remove(idx);
         }

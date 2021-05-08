@@ -31,8 +31,7 @@ public class DarkDruide extends AbstractMonster {
                     if (map.isInside(i, j) && map.getMap()[i][j].isOccupied() && !map.getMap()[i][j].isPlayer()) {
                         Entities target = map.getMap()[i][j].getEntity();
                         if (target != null && target != this) {
-                            if (target.getHitPoints() == target.getMaxHitPoints()) {
-                            } else {
+                            if (target.getHitPoints() != target.getMaxHitPoints()) {
                                 heal(target);
                             }
                         }
@@ -61,7 +60,6 @@ public class DarkDruide extends AbstractMonster {
      * @return a bool. Method that check if druid is surrender by other monsters
      */
     private boolean checkSalle(Map map) {
-        boolean inSalle = false;
         Salle current = getSalle();
         int origineSalleX = current.getPos().getX();
         int origineSalleY = current.getPos().getY();
@@ -71,13 +69,12 @@ public class DarkDruide extends AbstractMonster {
                     Case location = map.getMap()[i][j];
                     if (location.getEntity() instanceof AbstractMonster) {
                         if (location.getEntity().getPosition() != this.getPosition()) {
-                            inSalle = true;
-                            return inSalle;
+                            return true;
                         }
                     }
                 }
             }
         }
-        return inSalle;
+        return false;
     }
 }

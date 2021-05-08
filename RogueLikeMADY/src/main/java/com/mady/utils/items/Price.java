@@ -14,7 +14,7 @@ public class Price {
 
     public void generatePrice(AbstractStuffItem item) {
         // TODO: générer un prix en fonction de l'item
-        int newPrice = 0;
+        int newPrice;
         switch (item.getName()) {
             case "helmet":
                 newPrice = (int) (((item.getDEF() + item.getATK() + item.getHP() + item.getMP()) / 4) * (0.1));

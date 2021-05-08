@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class WindowGameIntegration {
     private final JFrame frame;
-    private JLabel label = new JLabel("Focus");
+    private final JLabel label = new JLabel("Focus");
 
     public WindowGameIntegration() {
         this.frame = new JFrame("MADY RogueLike");

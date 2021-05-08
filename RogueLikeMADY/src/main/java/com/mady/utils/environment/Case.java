@@ -139,12 +139,11 @@ public class Case {
     }
 
     public Item getItem() {
-        return (Item) item;
+        return item;
     }
 
     public void setItem(Item item) {
         this.item = item;
-        //this.repr = item == null ? " " : item.getRepresentation();
     }
 
     public CaseTypeEnum getCt() {
@@ -199,10 +198,6 @@ public class Case {
 
     public boolean isPrice() {
         return CaseTypeEnum.PRICE == ct;
-    }
-
-    public boolean isTrap() {
-        return CaseTypeEnum.TRAP == ct;
     }
 
 }

@@ -80,10 +80,6 @@ public class Shop extends Map {
         super.getMap()[pos.getX() - 1][pos.getY() - 1] = new Case(Ansi.colorize((String.valueOf(repesentation[0])), Attribute.BRIGHT_YELLOW_TEXT()), CaseTypeEnum.PRICE);
         super.getMap()[pos.getX() - 1][pos.getY()] = new Case(Ansi.colorize((String.valueOf(repesentation[1])), Attribute.BRIGHT_YELLOW_TEXT()), CaseTypeEnum.PRICE);
         super.getMap()[pos.getX() - 1][pos.getY() + 1] = new Case(Ansi.colorize((String.valueOf(repesentation[2])), Attribute.BRIGHT_YELLOW_TEXT()), CaseTypeEnum.PRICE);
-
-        //super.getMap()[pos.getX()-1][pos.getY()-1].setRepr(Ansi.colorize((String.valueOf(repesentation[0])),Attribute.BRIGHT_YELLOW_TEXT()));
-        //super.getMap()[pos.getX()-1][pos.getY()].setRepr(Ansi.colorize((String.valueOf(repesentation[1])),Attribute.BRIGHT_YELLOW_TEXT()));
-        //super.getMap()[pos.getX()-1][pos.getY()+1].setRepr(Ansi.colorize((String.valueOf(repesentation[2])),Attribute.BRIGHT_YELLOW_TEXT()));
     }
 
 
@@ -98,7 +94,6 @@ public class Shop extends Map {
 
     private void createShop() {
 
-//        if (BASE_HEIGHT < hauteurSalle || BASE_WIDTH < largeLine)
 //            return false;   //assure que la map soit assé grande pour generer le shop
         int posHautsalle = (BASE_HEIGHT - hauteurSalle) / 2;
         int posSalle = (BASE_WIDTH - smallLine) / 2;
@@ -127,11 +122,6 @@ public class Shop extends Map {
         this.oldPos = oldPos;
     }
 
-//    public void generateItems() {
-//        for (int i = 0; i < SHOP_SIZE; i++) {
-//            addItem(player);
-//        }
-//    }
 
     public boolean isEmpty() {
         return items.isEmpty();

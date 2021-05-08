@@ -17,7 +17,7 @@ public abstract class AbstractStuffItem implements Item {
     private int AGI;
     private int LUK;
     private final List<Integer> stats = new ArrayList<>(Arrays.asList(HP, MP, ATK, DEF, AGI, LUK));
-    private Price PRI;
+    private final Price PRI;
 
 
     public AbstractStuffItem(String name,
@@ -102,8 +102,8 @@ public abstract class AbstractStuffItem implements Item {
     @Override
     public String toString() {
         //une représentation du Stuff item sera différente pour une amulete vu que sa luk est le seul parametre interessant
-        return (name.equals("amulet")) ? String.format("|LUK=%d|", (int) LUK) :
-                String.format("|HP=%d|MP=%d|ATK=%d|DEF=%d|AGI=%d|", (int) HP, (int) MP, (int) ATK, (int) DEF, (int) AGI);
+        return (name.equals("amulet")) ? String.format("|LUK=%d|", LUK) :
+                String.format("|HP=%d|MP=%d|ATK=%d|DEF=%d|AGI=%d|", HP, MP, ATK, DEF, AGI);
     }
 
 }

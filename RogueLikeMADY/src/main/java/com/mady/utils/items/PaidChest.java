@@ -20,13 +20,13 @@ public class PaidChest extends Chest {
 
     public AbstractStuffItem selectItem(Player player) {
         setItem(super.openChest(player));
-        return (AbstractStuffItem) getItem();
+        return getItem();
     }
 
 
     @Override
     public AbstractStuffItem openChest(Player player) {
-        return (AbstractStuffItem) getItem();
+        return getItem();
     }
 
 

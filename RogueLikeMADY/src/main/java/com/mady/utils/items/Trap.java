@@ -6,7 +6,7 @@ import com.mady.utils.entities.Player;
 import com.mady.utils.environment.Map;
 
 public class Trap extends AbstractItem {
-    private Map map;
+    private final Map map;
 
     public Trap(Position position, int lvl, double multiplicateur, Map map) {
         super("?", position, 0, 0, "piege", false, false, lvl, multiplicateur);

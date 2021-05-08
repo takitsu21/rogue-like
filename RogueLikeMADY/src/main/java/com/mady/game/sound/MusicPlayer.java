@@ -13,7 +13,7 @@ public class MusicPlayer {
     private String status;
 
     private AudioInputStream audioInputStream;
-    private String filePath = "/soundtrack.wav";
+    private final String filePath = "/soundtrack.wav";
     private InputStream is;
 
     public MusicPlayer() {
@@ -23,6 +23,7 @@ public class MusicPlayer {
     private void initAudio() {
         try {
             is = getClass().getResourceAsStream("/soundtrack.wav");
+            assert is != null;
             InputStream bufferedIn = new BufferedInputStream(is);
             audioInputStream = AudioSystem.getAudioInputStream(bufferedIn);
             clip = AudioSystem.getClip();

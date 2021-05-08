@@ -28,7 +28,7 @@ public class Chest extends AbstractItem {
      */
     public AbstractStuffItem openChest(Player player) {
         int lvl = player.getLvl();
-        int randomLUK = Util.r.nextInt((int) player.getLUK()) + 1;
+        int randomLUK = Util.r.nextInt(player.getLUK()) + 1;
         Double baseMultiplicator = player.getMultiplicateur();
         int baseStat = 5;
         int newRandomLUK = Math.min((int) (randomLUK * lvl * baseMultiplicator), 100);
@@ -39,7 +39,7 @@ public class Chest extends AbstractItem {
         int randomMP = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
         switch (Util.r.nextInt(7)) {
             case 0:
-                return new Amulet((int) newRandomLUK);
+                return new Amulet(newRandomLUK);
             case 1:
                 return new ChestPlate(randomHP, randomMP, randomATK, randomDEF, randomAGI, 0);
             case 2:

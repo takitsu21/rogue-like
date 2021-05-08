@@ -148,11 +148,8 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
             return true;
         }
 
-        if (map.isInside(monsterPos.getX(), monsterPos.getY() + getEffectiveArea()) &&
-                map.getMap()[monsterPos.getX()][monsterPos.getY() + getEffectiveArea()].getEntity() instanceof Player) {
-            return true;
-        }
-        return false;
+        return map.isInside(monsterPos.getX(), monsterPos.getY() + getEffectiveArea()) &&
+                map.getMap()[monsterPos.getX()][monsterPos.getY() + getEffectiveArea()].getEntity() instanceof Player;
     }
 
 }
