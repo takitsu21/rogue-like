@@ -194,11 +194,11 @@ public class Player extends AbstractEntities {
         Item i = c.getItem();
 
         c.setItem(null);
-        if (i.isDrinkable()) {
+        //if (i.isDrinkable()) {
             i.act(this);
-        } else if (i.isPickable()) {
+        //} else if (i.isPickable()) {
             // pickItem(i);
-        }
+        //}
     }
 
 

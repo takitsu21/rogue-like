@@ -6,10 +6,7 @@ import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
-import com.mady.utils.entities.factories.items.Chest;
-import com.mady.utils.entities.factories.items.Item;
-import com.mady.utils.entities.factories.items.ItemFactory;
-import com.mady.utils.entities.factories.items.PaidChest;
+import com.mady.utils.entities.factories.items.*;
 import com.mady.utils.entities.factories.monster.AbstractMonster;
 import com.mady.utils.entities.factories.monster.Boss;
 import com.mady.utils.entities.factories.monster.MonsterFactory;
@@ -29,6 +26,8 @@ public class Map {
     private Salle salleBoss;
     private Player player;
     private Boss boss;
+    private int nbMaxTrap = 3;
+    private int securite = 20;
 
 
     public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH) {
@@ -68,10 +67,12 @@ public class Map {
             salleBoss = chooseSalle();
         }
         generatePortal();
+        generateTrap();
         generateEntities();
         generateItems();
         generatePortalshop();
     }
+
 
 
     public Salle chooseSalle() {
@@ -133,15 +134,15 @@ public class Map {
         int x = p.getX();
         int y = p.getY();
         Salle s = new Salle(p);
-        int securite = 20;
-        while (securite >= 0 && !checkFreeArea(p, s.getlignes(), s.getcolonnes())) {
+        securite = 20;
+        while (securite > 0 && !checkFreeArea(p, s.getlignes(), s.getcolonnes())) {
             securite -= 1;
             p = p.getRandomPos(BASE_HEIGHT, BASE_WIDTH);
             s = new Salle(p);
             x = p.getX();
             y = p.getY();
         }
-        if (securite >= 0) {
+        if (securite > 0) {
             for (int i = 0; i < s.getlignes(); i++) {
                 for (int j = 0; j < s.getcolonnes(); j++) {
                     map[i + x][j + y] = s.getRepresentation()[i][j];
@@ -306,37 +307,45 @@ public class Map {
                 addBoss();
             } else {
                 nbMonstersByRoom = Util.r.nextInt(6) + 1;
-                addEntity(nbMonstersByRoom, i);
+                addEntity(nbMonstersByRoom, salles.get(i));
             }
         }
     }
 
     private void addBoss() {
         Position pos = randomPosPlayerInSalle(salleBoss);
-        while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()) {
+        securite=20;
+        while (securite>0 && (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied())) {
+            securite-=1;
             pos = randomPosPlayerInSalle(salleBoss);
         }
-        boss = new Boss(pos, salleBoss);
-        map[pos.getX()][pos.getY()].setEntity(boss);
-        entities.add(boss);
+        if(securite>0) {
+            boss = new Boss(pos, salleBoss);
+            map[pos.getX()][pos.getY()].setEntity(boss);
+            entities.add(boss);
+        }
     }
 
     /**
      * @param nbMonsters on ajoute à la map les entités générées. Celles-ci ne peuvent pas être placées devant les portes
      */
-    private void addEntity(int nbMonsters, int idx) {
-        Salle salle = salles.get(idx);
+    public void addEntity(int nbMonsters, Salle salle) {
+        //Salle salle = salles.get(idx);
         for (int i = 0; i < nbMonsters; i++) {
 
             Position pos = randomPosPlayerInSalle(salle);
-            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()
-                    || map[pos.getX()][pos.getY()].isPlayer()) {
+            securite = 20;
+            while (securite>0 && (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied()
+                    || map[pos.getX()][pos.getY()].isPlayer())) {
+                securite-=1;
                 pos = randomPosPlayerInSalle(salle);
             }
-            Entities entity = MonsterFactory.getInstance().generate(
-                    Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
-            map[pos.getX()][pos.getY()].setEntity(entity);
-            entities.add(entity);
+            if (securite > 0) {
+                Entities entity = MonsterFactory.getInstance().generate(
+                        Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
+                map[pos.getX()][pos.getY()].setEntity(entity);
+                entities.add(entity);
+            }
         }
     }
 
@@ -348,17 +357,41 @@ public class Map {
     private void addItems(int nbItem) {
         for (int i = 0; i < nbItem; i++) {
             Position pos = randomPosPlayerInSalle(chooseSalle());
-            while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal()) {
+            securite=20;
+            while (securite>0 && (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal())) {
+                securite-=1;
                 pos = randomPosPlayerInSalle(chooseSalle());
             }
-            Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem(), player);
-            map[pos.getX()][pos.getY()].setItem(item);
+            if(securite>0) {
+                Item item = ItemFactory.getInstance().generate(pos, Util.getRandomItem(), player);
+                map[pos.getX()][pos.getY()].setItem(item);
+            }
         }
     }
 
     private void generateItems() {
         int nbMaxItems = Util.r.nextInt(2) + 5;
         addItems(nbMaxItems);
+    }
+
+    private void generateTrap() {
+        int nbTrap = Util.r.nextInt(nbMaxTrap);
+        addTrap(nbTrap);
+    }
+
+    private void addTrap(int nbTrap) {
+        for (int i = 0; i < nbTrap; i++) {
+            Position pos = randomPosPlayerInSalle(chooseSalle());
+            securite=20;
+            while (securite>0 && (nextToDoor(pos) || map[pos.getX()][pos.getY()].isPortal() || map[pos.getX()][pos.getY()].isOccupied())) {
+                securite-=1;
+                pos = randomPosPlayerInSalle(chooseSalle());
+            }
+            if(securite>0) {
+                Item item = new Trap(pos, player.getLvl(), player.getMultiplicateur(), this);
+                map[pos.getX()][pos.getY()].setItem(item);
+            }
+        }
     }
 
 
@@ -458,6 +491,16 @@ public class Map {
         return success;
     }
 
+    private Salle findRoom (Position pos){
+        for (Salle salle:salles){
+            if (salle.inSalle(pos)){
+                return salle;
+            }
+        }
+        System.out.println("marche pas");
+        return null;
+    }
+
     /**
      * @param newPos recherche la porte associer a cette position
      * @return position
@@ -466,9 +509,11 @@ public class Map {
     private Position findDoor(Position newPos) {
         for (PairPos chemin : chemins) {
             if (chemin.getP1().equals(newPos)) {
+                player.setSalle(findRoom(chemin.getP2()));
                 return chemin.getP2();
             }
             if (chemin.getP2().equals(newPos)) {
+                player.setSalle(findRoom(chemin.getP1()));
                 return chemin.getP1();
             }
         }
