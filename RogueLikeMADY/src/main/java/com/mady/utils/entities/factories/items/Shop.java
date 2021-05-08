@@ -9,6 +9,7 @@ import com.mady.utils.entities.Player;
 import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.monster.Seller;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public class Shop extends Map {
 
 
     public Shop(Player p,Position oldPos) {
-        super(1);
+        super(1, false);
         this.player = p;
         this.oldPos = oldPos;
 

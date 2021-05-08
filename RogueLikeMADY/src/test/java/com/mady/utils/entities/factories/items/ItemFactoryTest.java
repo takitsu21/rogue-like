@@ -17,9 +17,9 @@ class ItemFactoryTest {
     @Test
     void generate() {
         assertTrue(f.generate(p, "potion_vie", player) instanceof PotionVie);
-        assertTrue(f.generate(p, "potion_force", player) instanceof PotionForce);
+        assertTrue(f.generate(p, "potion_force", player) instanceof PotionMana);
         assertTrue(f.generate(p, "poison_vie", player) instanceof PoisonVie);
-        assertTrue(f.generate(p, "poison_force", player) instanceof PoisonForce);
+        assertTrue(f.generate(p, "poison_force", player) instanceof PoisonMana);
         assertTrue(f.generate(p, "chest", player) instanceof Chest);
         assertFalse(f.generate(p, "chest", player) instanceof PotionVie);
         assertNull(f.generate(p, "pomme de terre ", player));

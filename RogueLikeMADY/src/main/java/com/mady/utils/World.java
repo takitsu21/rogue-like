@@ -11,6 +11,7 @@ public class World {
     private final List<Map> maps = new ArrayList<>();
     private final Frame frame;
     private Map currentMap;
+    private int compteur=0;
 
     public World(Frame frame) {
         this.frame = frame;
@@ -51,8 +52,9 @@ public class World {
     public void addMap() {
         boolean bCreatWorld;
         Map map;
+        compteur+=1;
         do {
-            map = new Map(6, 24, 128);
+            map = new Map(6, 24, 128, compteur%3==0);
             bCreatWorld = map.createMap();
         }
         while (bCreatWorld);

@@ -12,8 +12,8 @@ class MapTest {
 
     @BeforeEach
     void setUp() {
-        map1 = new Map(5, 32, 16);
-        map2 = new Map(6, 16, 64);
+        map1 = new Map(5, 32, 16, false);
+        map2 = new Map(6, 16, 64, true);
     }
 
     @Test

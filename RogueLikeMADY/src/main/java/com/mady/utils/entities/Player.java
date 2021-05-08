@@ -6,6 +6,7 @@ import com.mady.utils.*;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.monster.Boss;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,19 +16,29 @@ public class Player extends AbstractEntities {
 
     private final Stuff stuff;
     private final Inventory inventory;
-    private int maxMp = 50;
-    //private double maxHp = getMaxHitPoints();
     private int exp = 0;
     private int expMax = 10;
-    private int HP = getHitPoints();
+    private int maxMp = 50;
     private int MP = maxMp;
     private int ATK = 3;
     private int DEF = 1;
     private int AGI = 1;
-    private int LUK = 2;
+    private int LUK = 1;
+
+    private int realMaxHp = 100;
+    private int realHP = 100;
+    private int realExpMax = 10;
+    private int realMaxMp = 50;
+    private int realMP = realMaxMp;
+    private int realATK = 3;
+    private int realDEF = 1;
+    private int realAGI = 1;
+    private int realLUK = 1;
+   
     public static int ATTACK_CURSOR = 0;
     private List<Entities> monsterAround = new ArrayList<>();
     private final int DASH_MP_COST = 10;
+
     private final HashMap<String, Integer> stats = new HashMap<>() {{
         put("LVL", getLvl());
         put("MAX_HP", getMaxHitPoints());
@@ -109,8 +120,8 @@ public class Player extends AbstractEntities {
         setDEF(getDEF() - item.getDEF());
         setMaxMp(getMaxMp() - item.getMP());
         setMP(getMP() - item.getMP());
-        setMaxHitPoints((int) (getMaxHitPoints() - item.getHP()));
-        setHitPoints((int) (getHitPoints() - item.getHP()));
+        setMaxHitPoints(getMaxHitPoints() - item.getHP());
+        setHitPoints(getHitPoints() - item.getHP());
         setATK(getATK() - item.getATK());
     }
 
@@ -130,8 +141,8 @@ public class Player extends AbstractEntities {
         setDEF(getDEF() + item.getDEF());
         setMaxMp(getMaxMp() + item.getMP());
         setMP(getMP() + item.getMP());
-        setMaxHitPoints((int) (getMaxHitPoints() + item.getHP()));
-        setHitPoints((int) (getHitPoints() + item.getHP()));
+        setMaxHitPoints(getMaxHitPoints() + item.getHP());
+        setHitPoints(getHitPoints() + item.getHP());
         setATK(getATK() + item.getATK());
     }
 
@@ -251,11 +262,11 @@ public class Player extends AbstractEntities {
 
 
     public int getHP() {
-        return HP;
+        return getHitPoints();
     }
 
     public void setHP(int HP) {
-        this.HP = HP;
+        setHitPoints(HP);
         stats.put("HP", HP);
     }
 
@@ -268,7 +279,6 @@ public class Player extends AbstractEntities {
         if (MP < 0) {
             return false;
         }
-
         if (MP >= getMaxMp()) {
             MP = getMaxMp();
         }
@@ -333,18 +343,20 @@ public class Player extends AbstractEntities {
     public void updateStats() {
         setExp(0);
         setLvl(getLvl() + 1);
-        setMaxHitPoints((int) (getMaxHitPoints() * getMultiplicateur()));
-        setHitPoints(getMaxHitPoints());
-        setMaxMp((int) (getMaxMp() * getMultiplicateur()));
-        setMP(getMaxMp());
-        setATK((int) (getATK() * getMultiplicateur()));
-        setDamages((int) (getDamages() + getATK()));
-        setDEF((int) (getDEF() * getMultiplicateur()));
-        setAGI((int) (getAGI() * getMultiplicateur()));
-        setLUK((int) (getLUK() * getMultiplicateur()));
-        setExpMax((int) (getExpMax() * getMultiplicateur() + getExpMax()));
+        setRealMaxHp((int) (getRealMaxHp() * getMultiplicateur()));
+        setRealHP(getRealMaxHp());
+        setRealMaxMp((int) (getRealMaxMp() * getMultiplicateur()));
+        setRealMP(getRealMaxMp());
+        setRealATK((int) (getRealATK() * getMultiplicateur()));
+        setDamages(getDamages() + getRealATK());
+        setRealDEF((int) (getRealDEF() * getMultiplicateur()));
+        setRealAGI((int) (getRealAGI() * getMultiplicateur()));
+        setRealLUK((int) (getRealLUK() * getMultiplicateur()));
+        setRealExpMax((int) (getRealExpMax() * getMultiplicateur() + getRealExpMax()));
         setMaxExpToWin((int) (getMaxExpToWin() * getMultiplicateur()));
         manaAttack *= getMultiplicateur();
+        maxExpToWin*=getMultiplicateur();
+
     }
 
     public boolean isDead() {
@@ -440,23 +452,110 @@ public class Player extends AbstractEntities {
         if (monster.isDead(map)) {
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", monster.getName()),
                     Attribute.RED_TEXT()));
-            winExp();
+            winExp(monster);
             map.getEntities().remove(monster);
         }
     }
 
-    private int randomExp() {
-        return (int) ((Math.random() * maxExpToWin) + 1);
+    private int randomExp(Entities monster) {
+        return monster instanceof Boss ?
+                (int) ((Math.random() * maxExpToWin) + 1)*2 :
+                (int) ((Math.random() * maxExpToWin) + 1);
     }
 
 
-    private void winExp() {
-        setExp(exp + randomExp());
+    private void winExp(Entities monster) {
+        setExp(exp + randomExp(monster));
         if (exp >= expMax) {
             updateStats();
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez atteint le niveau %d, félicitation!\n",
                     getLvl()), Attribute.YELLOW_TEXT()));
         }
+    }
+
+
+    public int getRealMaxHp() {
+        return realMaxHp;
+    }
+
+    public void setRealMaxHp(int realMaxHp) {
+        setMaxHitPoints(getMaxHitPoints()-getRealMaxHp()+realMaxHp);
+        this.realMaxHp = realMaxHp;
+    }
+
+    public int getRealHP() {
+        return realHP;
+    }
+
+    public void setRealHP(int realHP) {
+        setHitPoints(getHitPoints()-getRealHP()+realHP);
+        this.realHP = realHP;
+    }
+
+    public int getRealExpMax() {
+        return realExpMax;
+    }
+
+    public void setRealExpMax(int realExpMax) {
+        setExpMax(getExpMax()-getRealExpMax()+realExpMax);
+        this.realExpMax = realExpMax;
+    }
+
+    public int getRealMaxMp() {
+        return realMaxMp;
+    }
+
+    public void setRealMaxMp(int realMaxMp) {
+        System.out.println(getMaxMp());
+        System.out.println(getRealMaxMp());
+        System.out.println(realMaxMp);
+        setMaxMp(getMaxMp()-getRealMaxMp()+realMaxMp);
+        this.realMaxMp = realMaxMp;
+    }
+
+    public int getRealMP() {
+        return realMP;
+    }
+
+    public void setRealMP(int realMP) {
+        setMP(getMP()-getRealMP()+realMP);
+        this.realMP = realMP;
+    }
+
+    public int getRealATK() {
+        return realATK;
+    }
+
+    public void setRealATK(int realATK) {
+        setATK(getATK()-getRealATK()+realATK);
+        this.realATK = realATK;
+    }
+
+    public int getRealDEF() {
+        return realDEF;
+    }
+
+    public void setRealDEF(int realDEF) {
+        setDEF(getDEF()-getRealDEF()+realDEF);
+        this.realDEF = realDEF;
+    }
+
+    public int getRealAGI() {
+        return realAGI;
+    }
+
+    public void setRealAGI(int realAGI) {
+        setAGI(getAGI()-getRealAGI()+realAGI);
+        this.realAGI = realAGI;
+    }
+
+    public int getRealLUK() {
+        return realLUK;
+    }
+
+    public void setRealLUK(int realLUK) {
+        setLUK(getLUK()-getRealLUK()+realLUK);
+        this.realLUK = realLUK;
     }
 
     public void sell(){

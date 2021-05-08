@@ -27,19 +27,21 @@ public class Map {
     private Player player;
     private Boss boss;
     private int nbMaxTrap = 3;
-    private int securite = 20;
+    private int securite;
+    private boolean addBoss;
 
 
-    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH) {
+    public Map(int nbSalles, int BASE_HEIGHT, int BASE_WIDTH, boolean addBoss) {
         this.nbSalles = nbSalles;
         this.BASE_HEIGHT = BASE_HEIGHT;
         this.BASE_WIDTH = BASE_WIDTH;
         this.map = new Case[BASE_HEIGHT][BASE_WIDTH];
+        this.addBoss=addBoss;
     }
 
 
-    public Map(int nbSalles) {
-        this(nbSalles, 24, 128);
+    public Map(int nbSalles, boolean addBoss) {
+        this(nbSalles, 24, 128, addBoss);
     }
 
     /**
@@ -121,6 +123,7 @@ public class Map {
     public void addPlayerToMap(Player player) {
         setPlayer(player);
         map[player.getPosition().getX()][player.getPosition().getY()].setEntity(player);
+        player.setSalle(findRoom(player.getPos()));
     }
 
     /**
@@ -134,7 +137,7 @@ public class Map {
         int x = p.getX();
         int y = p.getY();
         Salle s = new Salle(p);
-        securite = 20;
+        securite = 50;
         while (securite > 0 && !checkFreeArea(p, s.getlignes(), s.getcolonnes())) {
             securite -= 1;
             p = p.getRandomPos(BASE_HEIGHT, BASE_WIDTH);
@@ -302,12 +305,12 @@ public class Map {
      */
     private void generateEntities() {
         int nbMonstersByRoom;
-        for (int i = 0; i < salles.size(); i++) {
-            if (salles.get(i).equals(salleBoss)) {
+        for (Salle salle : salles) {
+            if (salle.equals(salleBoss) && addBoss) {
                 addBoss();
             } else {
                 nbMonstersByRoom = Util.r.nextInt(6) + 1;
-                addEntity(nbMonstersByRoom, salles.get(i));
+                addEntity(nbMonstersByRoom, salle);
             }
         }
     }
@@ -573,10 +576,10 @@ public class Map {
         StringBuilder sb = new StringBuilder();
 
         sb.append(Ansi.colorize(String.format("HP : %d/%d | ", player.getHitPoints(), player.getMaxHitPoints())
-                , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", (int) player.getMP(),
-                (int) player.getMaxMp()), Attribute.BLUE_TEXT()))
+                , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", player.getMP(),
+                player.getMaxMp()), Attribute.BLUE_TEXT()))
                 .append(Ansi.colorize(String.format("Lvl %d ", player.getLvl()), Attribute.YELLOW_TEXT()))
-                .append(Ansi.colorize(String.format("[%d/%d EXP] | ", (int) player.getExp(), (int) player.getExpMax()),
+                .append(Ansi.colorize(String.format("[%d/%d EXP] | ", player.getExp(), player.getExpMax()),
                         Attribute.MAGENTA_TEXT()))
                 .append(Ansi.colorize(String.format("%d MADY Coins\n", player.getCoins()),
                         Attribute.BRIGHT_YELLOW_TEXT()));
