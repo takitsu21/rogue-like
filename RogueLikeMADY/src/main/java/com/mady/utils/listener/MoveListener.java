@@ -153,7 +153,8 @@ public class MoveListener implements KeyListener {
                 }
                 else if (Util.keyPressed == KeyboardPressedEnum.SELL ) {
                     if (map.getPlayer().getInventory().getInventory().size() >= 1){
-                    map.getPlayer().sell();}
+                    map.getPlayer().sell();
+                    map.getPlayer().getInventory().setSelectedItem(0);}
                     else {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }

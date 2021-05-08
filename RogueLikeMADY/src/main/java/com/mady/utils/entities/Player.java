@@ -421,12 +421,12 @@ public class Player extends AbstractEntities {
 
     public void sell(){
 
-        Item selected = inventory.getInventory().remove(inventory.getSelectedItem());
-        coins  = coins + Util.r.nextInt(6) + 1 ;
+        AbstractStuffItem selected = inventory.getInventory().remove(inventory.getSelectedItem());
+        coins  = coins + selected.getPRIX() ;
         if(inventory.getInventory().size() == 0 ){
             Util.keyPressed = KeyboardPressedEnum.NONE;
         }
-        System.out.println( Ansi.colorize(String.format("Vous avez vendu %s",selected.getName()), Attribute.GREEN_TEXT()));
+        System.out.println( Ansi.colorize(String.format("Vous avez vendu %s pour %d MadyCoin",selected.getName(),selected.getPRIX()), Attribute.GREEN_TEXT()));
 
     }
 
