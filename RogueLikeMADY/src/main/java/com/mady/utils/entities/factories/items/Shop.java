@@ -151,7 +151,7 @@ public class Shop extends Map {
     private void addItem(PaidChest chest,Player player) {
         AbstractStuffItem item = chest.selectItem(player);
         Price price = new Price(item);
-        chest.setPrice(price.getPrice()+(int) (price.getPrice()*0.2));
+        chest.setPrice(price.getPrice()+(int) (price.getPrice()));
         //it.add(item);
         items.put(item, price);
     }
