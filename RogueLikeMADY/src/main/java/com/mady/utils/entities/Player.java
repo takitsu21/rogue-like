@@ -2,10 +2,7 @@ package com.mady.utils.entities;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import com.mady.utils.Case;
-import com.mady.utils.Map;
-import com.mady.utils.Salle;
-import com.mady.utils.Util;
+import com.mady.utils.*;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
@@ -195,11 +192,11 @@ public class Player extends AbstractEntities {
         Item i = c.getItem();
 
         c.setItem(null);
-        if (i.isDrinkable()) {
+        //if (i.isDrinkable()) {
             i.act(this);
-        } else if (i.isPickable()) {
+        //} else if (i.isPickable()) {
             // pickItem(i);
-        }
+        //}
     }
 
 
@@ -461,4 +458,18 @@ public class Player extends AbstractEntities {
                     getLvl()), Attribute.YELLOW_TEXT()));
         }
     }
+
+    public void sell(){
+
+        AbstractStuffItem selected = inventory.getInventory().remove(inventory.getSelectedItem());
+        coins  = coins + selected.getPRIX() ;
+        if(inventory.getInventory().size() == 0 ){
+            Util.keyPressed = KeyboardPressedEnum.NONE;
+        }
+        System.out.println( Ansi.colorize(String.format("Vous avez vendu %s pour %d MadyCoin",selected.getName(),selected.getPRIX()), Attribute.GREEN_TEXT()));
+
+    }
+
+
+
 }

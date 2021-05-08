@@ -28,7 +28,7 @@ public class Chest extends AbstractItem {
         int randomLUK = Util.r.nextInt((int) player.getLUK()) + 1;
         Double baseMultiplicator = player.getMultiplicateur();
         int baseStat = 5;
-        int newRandomLUK = (int) (randomLUK * lvl * baseMultiplicator);
+        int newRandomLUK = Math.min((int) (randomLUK * lvl * baseMultiplicator), 100);
         int randomATK = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
         int randomDEF = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;
         int randomAGI = Util.r.nextInt((int) (baseStat * (lvl * baseMultiplicator) + randomLUK)) + randomLUK;

@@ -197,4 +197,8 @@ public class Case {
         return CaseType.PRICE == ct;
     }
 
+    public boolean isTrap() {
+        return CaseType.TRAP == ct;
+    }
+
 }

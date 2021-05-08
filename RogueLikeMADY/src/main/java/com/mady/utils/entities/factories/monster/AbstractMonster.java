@@ -19,11 +19,9 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
                            Salle salle) {
 
         super(name, pos, lifePoints, damages, movement, repr, effectiveArea, salle);
-        if (getLvl() != 1) {
-            setMaxHitPoints((int) (lifePoints * (getLvl() - 1) * getMultiplicateur()));
-            setHitPoints((int) (lifePoints * (getLvl() - 1) * getMultiplicateur()));
-            setDamages((int) (damages * (getLvl() - 1) * getMultiplicateur()));
-        }
+        setMaxHitPoints((int) (lifePoints * getLvl() * getMultiplicateur()));
+        setHitPoints((int) (lifePoints * getLvl() * getMultiplicateur()));
+        setDamages((int) (damages * getLvl() * getMultiplicateur()));
     }
 
 
@@ -100,6 +98,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     @Override
     public String getRepr() {
         if (isHealed()) {
+            setHealed(false);
             return Ansi.colorize(super.getRepr(), Attribute.GREEN_BACK(), Attribute.BLACK_TEXT());
         }
         if (isAttack()) {
@@ -141,26 +140,25 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     public boolean checkDistanceShoot(Map map) {
         Position monsterPos = this.getPosition();
 
-        if (map.getMap()[monsterPos.getX() - getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player) {
-            System.out.println("ypu can shoot");
+        if (map.getMap()[monsterPos.getX() - getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player
+                && map.isInside(monsterPos.getX() - getEffectiveArea(), monsterPos.getY())) {
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX() + getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player) {
-            System.out.println("ypu can shoot");
+        if (map.getMap()[monsterPos.getX() + getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player
+                && map.isInside(monsterPos.getX() + getEffectiveArea(), monsterPos.getY())) {
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX()][monsterPos.getY() - getEffectiveArea()].getEntity() instanceof Player) {
-            System.out.println("ypu can shoot");
+        if (map.getMap()[monsterPos.getX()][monsterPos.getY() - getEffectiveArea()].getEntity() instanceof Player
+                && map.isInside(monsterPos.getX(),monsterPos.getY() - getEffectiveArea())) {
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX()][monsterPos.getY() + getEffectiveArea()].getEntity() instanceof Player) {
-            System.out.println("ypu can shoot");
+        if (map.getMap()[monsterPos.getX()][monsterPos.getY() + getEffectiveArea()].getEntity() instanceof Player
+                && map.isInside(monsterPos.getX(),monsterPos.getY() + getEffectiveArea())) {
             return true;
         }
-        System.out.println("you can't shoot");
         return false;
     }
 
