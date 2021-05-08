@@ -18,8 +18,6 @@ public class Player extends AbstractEntities {
 
     private final Stuff stuff;
     private final Inventory inventory;
-    //private double maxHp = getMaxHitPoints();
-    //private int HP = getHitPoints();
     private int exp = 0;
     private int expMax = 10;
     private int maxMp = 50;
@@ -31,7 +29,6 @@ public class Player extends AbstractEntities {
 
     private int realMaxHp = 100;
     private int realHP = 100;
-    private int realExp = 0;
     private int realExpMax = 10;
     private int realMaxMp = 50;
     private int realMP = realMaxMp;
@@ -99,7 +96,7 @@ public class Player extends AbstractEntities {
         i.setPosition(null);
         if (((Chest)chest).getPrice()>this.getCoins()) {
             //c.setItem(null);
-            Util.currentAction.append(Ansi.colorize(String.format("Vous n'avez pas assez de MADY coins pour ouvrir le coffre.\n")));
+            Util.currentAction.append(Ansi.colorize("Vous n'avez pas assez de MADY coins pour ouvrir le coffre.\n"));
         }else if (pickItem(i)) {
             setCoins(getCoins()-((Chest) chest).getPrice());
             c.setItem(null);
@@ -123,8 +120,8 @@ public class Player extends AbstractEntities {
         setDEF(getDEF() - item.getDEF());
         setMaxMp(getMaxMp() - item.getMP());
         setMP(getMP() - item.getMP());
-        setMaxHitPoints((int) (getMaxHitPoints() - item.getHP()));
-        setHitPoints((int) (getHitPoints() - item.getHP()));
+        setMaxHitPoints(getMaxHitPoints() - item.getHP());
+        setHitPoints(getHitPoints() - item.getHP());
         setATK(getATK() - item.getATK());
     }
 
@@ -144,8 +141,8 @@ public class Player extends AbstractEntities {
         setDEF(getDEF() + item.getDEF());
         setMaxMp(getMaxMp() + item.getMP());
         setMP(getMP() + item.getMP());
-        setMaxHitPoints((int) (getMaxHitPoints() + item.getHP()));
-        setHitPoints((int) (getHitPoints() + item.getHP()));
+        setMaxHitPoints(getMaxHitPoints() + item.getHP());
+        setHitPoints(getHitPoints() + item.getHP());
         setATK(getATK() + item.getATK());
     }
 
@@ -282,7 +279,6 @@ public class Player extends AbstractEntities {
         if (MP < 0) {
             return false;
         }
-
         if (MP >= getMaxMp()) {
             MP = getMaxMp();
         }
@@ -352,7 +348,7 @@ public class Player extends AbstractEntities {
         setRealMaxMp((int) (getRealMaxMp() * getMultiplicateur()));
         setRealMP(getRealMaxMp());
         setRealATK((int) (getRealATK() * getMultiplicateur()));
-        setDamages((int) (getDamages() + getRealATK()));
+        setDamages(getDamages() + getRealATK());
         setRealDEF((int) (getRealDEF() * getMultiplicateur()));
         setRealAGI((int) (getRealAGI() * getMultiplicateur()));
         setRealLUK((int) (getRealLUK() * getMultiplicateur()));
@@ -435,7 +431,6 @@ public class Player extends AbstractEntities {
             updateStats();
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez atteint le niveau %d, félicitation!\n",
                     getLvl()), Attribute.YELLOW_TEXT()));
-            System.out.println(stats.toString());
         }
     }
 
@@ -455,15 +450,6 @@ public class Player extends AbstractEntities {
     public void setRealHP(int realHP) {
         setHitPoints(getHitPoints()-getRealHP()+realHP);
         this.realHP = realHP;
-    }
-
-    public int getRealExp() {
-        return realExp;
-    }
-
-    public void setRealExp(int realExp) {
-        setExp(getExp()-getRealExp()+realExp);
-        this.realExp = realExp;
     }
 
     public int getRealExpMax() {
@@ -532,7 +518,4 @@ public class Player extends AbstractEntities {
         this.realLUK = realLUK;
     }
 
-    public int getManaAttack() {
-        return manaAttack;
-    }
 }

@@ -26,8 +26,8 @@ public class Map {
     private Salle salleBoss;
     private Player player;
     private Boss boss;
-    private int nbMaxTrap = 10;
-    private int securite = 3;
+    private int nbMaxTrap = 3;
+    private int securite;
     private boolean addBoss;
 
 
@@ -137,7 +137,7 @@ public class Map {
         int x = p.getX();
         int y = p.getY();
         Salle s = new Salle(p);
-        securite = 20;
+        securite = 50;
         while (securite > 0 && !checkFreeArea(p, s.getlignes(), s.getcolonnes())) {
             securite -= 1;
             p = p.getRandomPos(BASE_HEIGHT, BASE_WIDTH);
@@ -344,7 +344,6 @@ public class Map {
                 pos = randomPosPlayerInSalle(salle);
             }
             if (securite > 0) {
-                System.out.println(salle.inSalle(pos));
                 Entities entity = MonsterFactory.getInstance().generate(
                         Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
                 map[pos.getX()][pos.getY()].setEntity(entity);
@@ -577,10 +576,10 @@ public class Map {
         StringBuilder sb = new StringBuilder();
 
         sb.append(Ansi.colorize(String.format("HP : %d/%d | ", player.getHitPoints(), player.getMaxHitPoints())
-                , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", (int) player.getMP(),
-                (int) player.getMaxMp()), Attribute.BLUE_TEXT()))
+                , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", player.getMP(),
+                player.getMaxMp()), Attribute.BLUE_TEXT()))
                 .append(Ansi.colorize(String.format("Lvl %d ", player.getLvl()), Attribute.YELLOW_TEXT()))
-                .append(Ansi.colorize(String.format("[%d/%d EXP] | ", (int) player.getExp(), (int) player.getExpMax()),
+                .append(Ansi.colorize(String.format("[%d/%d EXP] | ", player.getExp(), player.getExpMax()),
                         Attribute.MAGENTA_TEXT()))
                 .append(Ansi.colorize(String.format("%d MADY Coins\n", player.getCoins()),
                         Attribute.BRIGHT_YELLOW_TEXT()));
