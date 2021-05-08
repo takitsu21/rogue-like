@@ -52,26 +52,9 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
 
     /**
      * @param map the comportment of the monster.
-     *            Two possibilities, either he's next to the player and then attacks him, or the mob is away from the player and
-     *            moves randomly.
+     *            Check of special cases for special acting: witch, druid and distant shoot for goblin
+     *            or either you can attack or move if the player can't be hit
      */
-
-//    public void act(Map map) {
-//        Player player = map.getPlayer();
-//        if (this instanceof Witch) {
-//            this.attack(player);
-//        } else if (this instanceof DarkDruide) {
-//            this.skill(map);
-//        } else if (this.nextTo(map)) {
-//            this.attack(player);
-//        } else if (this instanceof GoblinArcher && checkDistanceShoot(map)) {
-//            this.attack(player);
-//        } else {
-//            updatePos(map, player);
-//            Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> se rapproche.\n",
-//                    getName(), getHitPoints(), getMaxHitPoints()), Attribute.YELLOW_TEXT()));
-//        }
-//    }
 
     public void act(Map map) {
         Player player = map.getPlayer();
@@ -97,6 +80,10 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
                 getName(), getHitPoints(), getMaxHitPoints(), getDamages()), Attribute.RED_TEXT()));
     }
 
+    /**
+     *
+     * @return special string based on target status
+     */
     @Override
     public String getRepr() {
         if (isHealed()) {
@@ -139,6 +126,13 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     @Override
     public abstract void skill(Map map);
 
+    /**
+     *
+     * @param map
+     * @return either or not the monster can attack from a distance the player
+     * the player must be precisely on one of the fourth directional case and this one msut be
+     * at the exact distance that equals the effective area
+     */
     public boolean checkDistanceShoot(Map map) {
         Position monsterPos = this.getPosition();
 
