@@ -2,18 +2,18 @@ package com.mady.utils.entities;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import com.mady.utils.Map;
-import com.mady.utils.Salle;
+import com.mady.utils.Position;
 import com.mady.utils.Util;
-import com.mady.utils.entities.factories.items.Chest;
-import com.mady.utils.entities.factories.monster.AbstractMonster;
-import com.mady.utils.entities.factories.monster.Boss;
+import com.mady.utils.enums.DeplacementEnum;
+import com.mady.utils.environment.Map;
+import com.mady.utils.environment.Salle;
 
 public abstract class AbstractEntities implements Entities {
     private final int movement;
     private final int effectiveArea;
     private final String name;
     private final double multiplicateur = 1.12;
+    public boolean isHealed = false;
     private String repr;
     private Position pos;
     private int maxHitPoints;
@@ -22,7 +22,6 @@ public abstract class AbstractEntities implements Entities {
     private Salle salle;
     private boolean isAggro = false;
     private boolean isAttack = false;
-    public boolean isHealed = false;
     private int lvl = 1;
     private int nbDeplacement = 0;
     private int manaGain = 10;
@@ -85,7 +84,9 @@ public abstract class AbstractEntities implements Entities {
         return isAttack;
     }
 
-    public boolean isHealed() { return isHealed; }
+    public boolean isHealed() {
+        return isHealed;
+    }
 
     public void setHealed(boolean healed) {
         isHealed = healed;
@@ -117,16 +118,16 @@ public abstract class AbstractEntities implements Entities {
 
     @Override
     public void takeDamages(int damages) {
-        if(this instanceof Player){
-            this.setHitPoints(this.getHitPoints() - (damages/((Player) this).getDEF()));
-        }else {
+        if (this instanceof Player) {
+            this.setHitPoints(this.getHitPoints() - (damages / ((Player) this).getDEF()));
+        } else {
             this.setHitPoints(this.getHitPoints() - damages);
         }
         isAttack = true;
     }
 
     public boolean isDead(Map map) {
-        if(getHitPoints() <= 0) {
+        if (getHitPoints() <= 0) {
             map.clearCase(getPosition());
         }
         return (getHitPoints() <= 0);
@@ -171,7 +172,7 @@ public abstract class AbstractEntities implements Entities {
 
     public Position nextPos(Entities entitie) {
         int randomMove = Util.r.nextInt(entitie.getMovement() + 1);
-        Deplacement d = Util.randomDirection();
+        DeplacementEnum d = Util.randomDirection();
         return d.pos.multiplyPos(randomMove);
     }
 
@@ -187,9 +188,9 @@ public abstract class AbstractEntities implements Entities {
             if (isInPerimeter(map)) {
                 ((AbstractMonster) this).act(map);
             } else {
-                int security=10;
-                while (security>=0 && !map.move(this, nextPos(this))){
-                    security-=1;
+                int security = 20;
+                while (security >= 0 && !map.move(this, nextPos(this))) {
+                    security -= 1;
                 }
             }
             if (this instanceof Boss) {
@@ -232,7 +233,8 @@ public abstract class AbstractEntities implements Entities {
             this.nbDeplacement = 0;
             ((Player) this).setMP(((Player) this).getMP() + Util.getPercent(((Player) this).getMaxMp(), manaGain));
             Util.currentAction.append(Ansi.colorize(String.format(
-                    "Vous gagnez %d mana en marchant.\n", 3), Attribute.BLUE_TEXT()));
+                    "Vous gagnez %d mana en marchant.\n", Util.getPercent(((Player) this).getMaxMp(), manaGain)),
+                    Attribute.BLUE_TEXT()));
         }
     }
 }

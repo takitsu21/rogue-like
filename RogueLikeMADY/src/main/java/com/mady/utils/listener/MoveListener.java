@@ -2,30 +2,32 @@ package com.mady.utils.listener;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import com.mady.GameLoop;
-import com.mady.GameStatus;
-import com.mady.utils.*;
-import com.mady.utils.entities.Deplacement;
+import com.mady.game.GameLoop;
+import com.mady.game.GameStatus;
+import com.mady.game.menus.PauseMenu;
+import com.mady.game.menus.WelcomeMenu;
+import com.mady.utils.Position;
+import com.mady.utils.Util;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
-
-import com.mady.utils.entities.Position;
-import com.mady.utils.entities.factories.items.Chest;
-import com.mady.utils.entities.factories.items.Item;
-import com.mady.utils.entities.factories.monster.Seller;
+import com.mady.utils.entities.Seller;
+import com.mady.utils.enums.DeplacementEnum;
+import com.mady.utils.enums.KeyboardPressedEnum;
+import com.mady.utils.environment.Map;
+import com.mady.utils.items.Chest;
+import com.mady.utils.items.Item;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.security.Key;
 
 public class MoveListener implements KeyListener {
     private final Map map;
-    private final Pause pause;
+    private final PauseMenu pauseMenu;
 
     public MoveListener(Map map) {
         this.map = map;
-        this.pause = map.getPause();
+        this.pauseMenu = map.getPause();
     }
 
 
@@ -47,38 +49,38 @@ public class MoveListener implements KeyListener {
                                     map.getPlayer().getInventory().getInventory().size() - 1 :
                                     (map.getPlayer().getInventory().getSelectedItem() - 1));
                 } else if (Util.keyPressed == KeyboardPressedEnum.ESC) {
-                    pause.setSelection(
-                            ((pause.getSelection() - 1) < 0) ?
-                                    pause.getListe().size() - 1 :
-                                    pause.getSelection() - 1);
+                    pauseMenu.setSelection(
+                            ((pauseMenu.getSelection() - 1) < 0) ?
+                                    pauseMenu.getListe().size() - 1 :
+                                    pauseMenu.getSelection() - 1);
 
                 } else if (Util.keyPressed == KeyboardPressedEnum.WELCOME) {
                     WelcomeMenu.CURSOR = Math.abs((WelcomeMenu.CURSOR - 1) % 4);
                 } else {
-                    move(Deplacement.HAUT, e);
+                    move(DeplacementEnum.HAUT, e);
                 }
                 break;
             case KeyEvent.VK_S: // Touche S
-                if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.SELL ) {
+                if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.SELL) {
                     map.getPlayer().getInventory().setSelectedItem((map.getPlayer().getInventory().getSelectedItem()
                             + 1) % ((map.getPlayer().getInventory().getInventory().size() > 0) ?
                             map.getPlayer().getInventory().getInventory().size() : 1));
                 } else if (Util.keyPressed == KeyboardPressedEnum.ESC) {
-                    pause.setSelection((pause.getSelection() + 1) % pause.getListe().size());
+                    pauseMenu.setSelection((pauseMenu.getSelection() + 1) % pauseMenu.getListe().size());
                 } else if (Util.keyPressed == KeyboardPressedEnum.WELCOME) {
                     WelcomeMenu.CURSOR = (WelcomeMenu.CURSOR + 1) % 3;
                 } else {
-                    move(Deplacement.BAS, e);
+                    move(DeplacementEnum.BAS, e);
                 }
                 break;
             case KeyEvent.VK_Q: // Touche Q
                 if (Util.keyPressed == KeyboardPressedEnum.NONE) {
-                    move(Deplacement.GAUCHE, e);
+                    move(DeplacementEnum.GAUCHE, e);
                 }
                 break;
             case KeyEvent.VK_D: // Touche D
                 if (Util.keyPressed == KeyboardPressedEnum.NONE) {
-                    move(Deplacement.DROITE, e);
+                    move(DeplacementEnum.DROITE, e);
                 }
                 break;
             case KeyEvent.VK_A: // Touche A
@@ -98,11 +100,7 @@ public class MoveListener implements KeyListener {
                     if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
-                }
-
-
-
-                else {
+                } else {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
@@ -113,12 +111,11 @@ public class MoveListener implements KeyListener {
                 for (int i = x - 1; i <= x + 1; i++) {
                     for (int j = y - 1; j <= y + 1; j++) {
                         Item item = map.getCase(i, j).getItem();
-                        Entities seller = map.getCase(i,j).getEntity();
-                        if(seller instanceof Seller){
+                        Entities seller = map.getCase(i, j).getEntity();
+                        if (seller instanceof Seller) {
                             Util.keyPressed = KeyboardPressedEnum.SELL;
                             break;
-                        }
-                        else if (item instanceof Chest) {
+                        } else if (item instanceof Chest) {
                             map.getPlayer().pickItem(map.getCase(i, j));
                         }
                     }
@@ -129,9 +126,8 @@ public class MoveListener implements KeyListener {
                 if (Util.keyPressed == KeyboardPressedEnum.I) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                     break;
-                }
-                else if(Util.keyPressed == KeyboardPressedEnum.NONE){
-                Util.keyPressed = KeyboardPressedEnum.I;
+                } else if (Util.keyPressed == KeyboardPressedEnum.NONE) {
+                    Util.keyPressed = KeyboardPressedEnum.I;
                 }
                 break;
             case KeyEvent.VK_ESCAPE: // Touche Escape
@@ -158,17 +154,15 @@ public class MoveListener implements KeyListener {
                     if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
-                }
-                else if (Util.keyPressed == KeyboardPressedEnum.SELL ) {
-                    if (map.getPlayer().getInventory().getInventory().size() >= 1){
-                    map.getPlayer().sell();
-                    map.getPlayer().getInventory().setSelectedItem(0);}
-                    else {
+                } else if (Util.keyPressed == KeyboardPressedEnum.SELL) {
+                    if (map.getPlayer().getInventory().getInventory().size() >= 1) {
+                        map.getPlayer().sell();
+                        map.getPlayer().getInventory().setSelectedItem(0);
+                    } else {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
-                }
-                else if (Util.keyPressed == KeyboardPressedEnum.ESC) {
-                    switch (pause.getListe().get(pause.getSelection())) {
+                } else if (Util.keyPressed == KeyboardPressedEnum.ESC) {
+                    switch (pauseMenu.getListe().get(pauseMenu.getSelection())) {
                         case "Resume":
                             Util.keyPressed = KeyboardPressedEnum.NONE;
                             break;
@@ -199,9 +193,7 @@ public class MoveListener implements KeyListener {
                     map.getPlayer().setMonsterAround(new ArrayList<>());
                     Player.ATTACK_CURSOR = 0;
                     GameLoop.setStatus(GameStatus.RUNNING);
-                }
-
-                else {
+                } else {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
@@ -258,7 +250,7 @@ public class MoveListener implements KeyListener {
         return pos;
     }
 
-    private void move(Deplacement d, KeyEvent e) {
+    private void move(DeplacementEnum d, KeyEvent e) {
         if (GameLoop.isGameRunning()) {
             if (e.isShiftDown()) {
                 int nextMp = map.getPlayer().getMP() - Util.getPercent(map.getPlayer().getMaxMp(),

@@ -1,6 +1,6 @@
 package com.mady.utils;
 
-import com.mady.utils.entities.Position;
+import com.mady.utils.environment.Salle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

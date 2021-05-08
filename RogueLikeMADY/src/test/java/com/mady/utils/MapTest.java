@@ -1,5 +1,6 @@
 package com.mady.utils;
 
+import com.mady.utils.environment.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

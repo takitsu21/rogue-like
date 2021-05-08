@@ -2,11 +2,17 @@ package com.mady.utils.entities;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import com.mady.utils.*;
-import com.mady.utils.entities.factories.items.Chest;
-import com.mady.utils.entities.factories.items.Inventory;
-import com.mady.utils.entities.factories.items.Item;
-import com.mady.utils.entities.factories.monster.Boss;
+import com.mady.utils.Position;
+import com.mady.utils.Util;
+import com.mady.utils.enums.KeyboardPressedEnum;
+import com.mady.utils.environment.Case;
+import com.mady.utils.environment.Map;
+import com.mady.utils.environment.Salle;
+import com.mady.utils.items.Chest;
+import com.mady.utils.items.Inventory;
+import com.mady.utils.items.Item;
+import com.mady.utils.items.stuff.AbstractStuffItem;
+import com.mady.utils.items.stuff.Stuff;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +20,10 @@ import java.util.List;
 
 public class Player extends AbstractEntities {
 
+    public static int ATTACK_CURSOR = 0;
     private final Stuff stuff;
     private final Inventory inventory;
+    private final int DASH_MP_COST = 10;
     private int exp = 0;
     private int expMax = 10;
     private int maxMp = 50;
@@ -24,21 +32,6 @@ public class Player extends AbstractEntities {
     private int DEF = 1;
     private int AGI = 1;
     private int LUK = 1;
-
-    private int realMaxHp = 100;
-    private int realHP = 100;
-    private int realExpMax = 10;
-    private int realMaxMp = 50;
-    private int realMP = realMaxMp;
-    private int realATK = 3;
-    private int realDEF = 1;
-    private int realAGI = 1;
-    private int realLUK = 1;
-   
-    public static int ATTACK_CURSOR = 0;
-    private List<Entities> monsterAround = new ArrayList<>();
-    private final int DASH_MP_COST = 10;
-
     private final HashMap<String, Integer> stats = new HashMap<>() {{
         put("LVL", getLvl());
         put("MAX_HP", getMaxHitPoints());
@@ -50,7 +43,16 @@ public class Player extends AbstractEntities {
         put("AGI", AGI);
         put("LUK", LUK);
     }};
-
+    private int realMaxHp = 100;
+    private int realHP = 100;
+    private int realExpMax = 10;
+    private int realMaxMp = 50;
+    private int realMP = realMaxMp;
+    private int realATK = 3;
+    private int realDEF = 1;
+    private int realAGI = 1;
+    private int realLUK = 1;
+    private List<Entities> monsterAround = new ArrayList<>();
     private int maxExpToWin = 3;
     private int coins = 0;
     private int manaAttack = 4;
@@ -204,9 +206,9 @@ public class Player extends AbstractEntities {
 
         c.setItem(null);
         //if (i.isDrinkable()) {
-            i.act(this);
+        i.act(this);
         //} else if (i.isPickable()) {
-            // pickItem(i);
+        // pickItem(i);
         //}
     }
 
@@ -344,9 +346,9 @@ public class Player extends AbstractEntities {
         setExp(0);
         setLvl(getLvl() + 1);
         setRealMaxHp((int) (getRealMaxHp() * getMultiplicateur()));
-        setRealHP(getRealMaxHp());
+        setHitPoints(getMaxHitPoints());
         setRealMaxMp((int) (getRealMaxMp() * getMultiplicateur()));
-        setRealMP(getRealMaxMp());
+        setMP(getMaxMp());
         setRealATK((int) (getRealATK() * getMultiplicateur()));
         setDamages(getDamages() + getRealATK());
         setRealDEF((int) (getRealDEF() * getMultiplicateur()));
@@ -355,8 +357,7 @@ public class Player extends AbstractEntities {
         setRealExpMax((int) (getRealExpMax() * getMultiplicateur() + getRealExpMax()));
         setMaxExpToWin((int) (getMaxExpToWin() * getMultiplicateur()));
         manaAttack *= getMultiplicateur();
-        maxExpToWin*=getMultiplicateur();
-
+        maxExpToWin *= getMultiplicateur();
     }
 
     public boolean isDead() {
@@ -459,7 +460,7 @@ public class Player extends AbstractEntities {
 
     private int randomExp(Entities monster) {
         return monster instanceof Boss ?
-                (int) ((Math.random() * maxExpToWin) + 1)*2 :
+                (int) ((Math.random() * maxExpToWin) + 1) * 2 :
                 (int) ((Math.random() * maxExpToWin) + 1);
     }
 
@@ -479,7 +480,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setRealMaxHp(int realMaxHp) {
-        setMaxHitPoints(getMaxHitPoints()-getRealMaxHp()+realMaxHp);
+        setMaxHitPoints(getMaxHitPoints() - getRealMaxHp() + realMaxHp);
         this.realMaxHp = realMaxHp;
     }
 
@@ -488,7 +489,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setRealHP(int realHP) {
-        setHitPoints(getHitPoints()-getRealHP()+realHP);
+//        setHitPoints(getHitPoints() - getRealHP() + realHP);
         this.realHP = realHP;
     }
 
@@ -497,7 +498,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setRealExpMax(int realExpMax) {
-        setExpMax(getExpMax()-getRealExpMax()+realExpMax);
+        setExpMax(getExpMax() - getRealExpMax() + realExpMax);
         this.realExpMax = realExpMax;
     }
 
@@ -506,10 +507,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setRealMaxMp(int realMaxMp) {
-        System.out.println(getMaxMp());
-        System.out.println(getRealMaxMp());
-        System.out.println(realMaxMp);
-        setMaxMp(getMaxMp()-getRealMaxMp()+realMaxMp);
+        setMaxMp(getMaxMp() - getRealMaxMp() + realMaxMp);
         this.realMaxMp = realMaxMp;
     }
 
@@ -518,7 +516,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setRealMP(int realMP) {
-        setMP(getMP()-getRealMP()+realMP);
+//        setMP(getMP() - getRealMP() + realMP);
         this.realMP = realMP;
     }
 
@@ -527,7 +525,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setRealATK(int realATK) {
-        setATK(getATK()-getRealATK()+realATK);
+        setATK(getATK() - getRealATK() + realATK);
         this.realATK = realATK;
     }
 
@@ -536,7 +534,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setRealDEF(int realDEF) {
-        setDEF(getDEF()-getRealDEF()+realDEF);
+        setDEF(getDEF() - getRealDEF() + realDEF);
         this.realDEF = realDEF;
     }
 
@@ -545,7 +543,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setRealAGI(int realAGI) {
-        setAGI(getAGI()-getRealAGI()+realAGI);
+        setAGI(getAGI() - getRealAGI() + realAGI);
         this.realAGI = realAGI;
     }
 
@@ -554,22 +552,20 @@ public class Player extends AbstractEntities {
     }
 
     public void setRealLUK(int realLUK) {
-        setLUK(getLUK()-getRealLUK()+realLUK);
+        setLUK(getLUK() - getRealLUK() + realLUK);
         this.realLUK = realLUK;
     }
 
-    public void sell(){
-
+    public void sell() {
         AbstractStuffItem selected = inventory.getInventory().remove(inventory.getSelectedItem());
-        int resellPrice = (selected.getPRIX() / 2 ) > 0 ? (selected.getPRIX() / 2 ) : 1;
-        coins  = coins + resellPrice ;
-        if(inventory.getInventory().size() == 0 ){
+        int resellPrice = (selected.getPRIX() / 2) > 0 ? (selected.getPRIX() / 2) : 1;
+        coins = coins + resellPrice;
+        if (inventory.getInventory().size() == 0) {
             Util.keyPressed = KeyboardPressedEnum.NONE;
         }
-        System.out.println( Ansi.colorize(String.format("Vous avez vendu %s pour %d MadyCoin",selected.getName(),resellPrice), Attribute.GREEN_TEXT()));
+        Util.currentAction.append(Ansi.colorize(String.format("Vous avez vendu %s pour %d MadyCoin", selected.getName(), resellPrice), Attribute.GREEN_TEXT()));
 
     }
-
 
 
 }

@@ -1,7 +1,9 @@
 package com.mady.utils;
 
 import com.mady.utils.entities.Player;
-import com.mady.utils.entities.Position;
+import com.mady.utils.enums.CaseTypeEnum;
+import com.mady.utils.environment.Case;
+import com.mady.utils.environment.Salle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,16 +24,16 @@ class CaseTest {
 
     @BeforeEach
     void setUp() {
-        cWall = new Case("#", null, CaseType.WALL);
-        cSalle = new Case(" ", null, CaseType.SALLE);
-        cEmpty = new Case(CaseType.SALLE);
-        cItemNotEmpty = new Case("C", null, CaseType.SALLE);
+        cWall = new Case("#", null, CaseTypeEnum.WALL);
+        cSalle = new Case(" ", null, CaseTypeEnum.SALLE);
+        cEmpty = new Case(CaseTypeEnum.SALLE);
+        cItemNotEmpty = new Case("C", null, CaseTypeEnum.SALLE);
         cConstructor = new Case(".");
         cPlayer = new Case("@", new Player(new Position(0, 0), 0, 0, 0, "@", new Salle(0, 0, new Position(0, 0))));
-        cPath = new Case("P", null, CaseType.PATH);
-        cPortal = new Case("§", null, CaseType.PORTAL);
-        cMap = new Case(" ", null, CaseType.MAP);
-        cAttackBoss = new Case(CaseType.SALLE);
+        cPath = new Case("P", null, CaseTypeEnum.PATH);
+        cPortal = new Case("§", null, CaseTypeEnum.PORTAL);
+        cMap = new Case(" ", null, CaseTypeEnum.MAP);
+        cAttackBoss = new Case(CaseTypeEnum.SALLE);
         cAttackBoss.setAttackBoss(true);
     }
 

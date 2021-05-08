@@ -1,8 +1,11 @@
 package com.mady.utils.entities.factories.monster;
 
-import com.mady.utils.Salle;
+import com.mady.utils.Position;
 import com.mady.utils.Util;
-import com.mady.utils.entities.Position;
+import com.mady.utils.entities.GoblinArcher;
+import com.mady.utils.entities.OrcWarrior;
+import com.mady.utils.environment.Salle;
+import com.mady.utils.factories.MonsterFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

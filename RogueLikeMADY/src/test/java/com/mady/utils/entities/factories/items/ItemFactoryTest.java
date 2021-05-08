@@ -1,8 +1,10 @@
 package com.mady.utils.entities.factories.items;
 
-import com.mady.utils.Salle;
+import com.mady.utils.Position;
 import com.mady.utils.entities.Player;
-import com.mady.utils.entities.Position;
+import com.mady.utils.environment.Salle;
+import com.mady.utils.factories.ItemFactory;
+import com.mady.utils.items.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

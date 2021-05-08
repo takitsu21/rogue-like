@@ -2,11 +2,17 @@ package com.mady.utils;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
-import com.mady.utils.entities.*;
-import com.mady.utils.entities.factories.items.Inventory;
-import com.mady.utils.entities.factories.items.Item;
-import com.mady.utils.entities.factories.items.Price;
-import com.mady.utils.entities.factories.items.Shop;
+import com.mady.game.WindowGameIntegration;
+import com.mady.game.menus.WelcomeMenu;
+import com.mady.utils.entities.Player;
+import com.mady.utils.enums.DeplacementEnum;
+import com.mady.utils.enums.KeyboardPressedEnum;
+import com.mady.utils.items.Inventory;
+import com.mady.utils.items.Price;
+import com.mady.utils.items.Shop;
+import com.mady.utils.items.stuff.AbstractStuffItem;
+import com.mady.utils.items.stuff.Amulet;
+import com.mady.utils.items.stuff.Stuff;
 import com.mady.utils.listener.MoveListener;
 
 import java.awt.event.KeyListener;
@@ -21,17 +27,17 @@ public class Util {
     public static volatile StringBuilder currentAction = new StringBuilder();
     public static volatile boolean inHelp = false;
 
-    public static Deplacement randomDirection() {
+    public static DeplacementEnum randomDirection() {
         int randomDirection = Util.r.nextInt(4);
         switch (randomDirection) {
             case 0:
-                return Deplacement.BAS;
+                return DeplacementEnum.BAS;
             case 1:
-                return Deplacement.HAUT;
+                return DeplacementEnum.HAUT;
             case 2:
-                return Deplacement.GAUCHE;
+                return DeplacementEnum.GAUCHE;
             default:
-                return Deplacement.DROITE;
+                return DeplacementEnum.DROITE;
         }
     }
 
@@ -58,9 +64,9 @@ public class Util {
 
     public static String showInventoryMenu(Player player) {
         StringBuilder sb = new StringBuilder();
-        if(keyPressed == KeyboardPressedEnum.SELL){
+        if (keyPressed == KeyboardPressedEnum.SELL) {
             sb.append(Ansi.colorize("\nVOUS VENDEZ A HENRY\n", Attribute.GREEN_TEXT()));
-            sb.append(String.format("\t\t vous avez %d MadyCoin\n",player.getCoins()));
+            sb.append(String.format("\t\t vous avez %d MadyCoin\n", player.getCoins()));
         }
         Inventory inventory = player.getInventory();
         Stuff s = player.getStuff();
@@ -102,7 +108,7 @@ public class Util {
         }
         sb.append("\tInventory \n");
         for (AbstractStuffItem i : inventory.getInventory()) {
-            AbstractStuffItem it =  i;
+            AbstractStuffItem it = i;
             StringBuilder sbTmp = new StringBuilder();
             if (acc == selectedItem) {
                 sbTmp.append('[');
@@ -135,7 +141,9 @@ public class Util {
             if (acc == selectedItem) {
                 sbTmp.append(']');
                 sbTmp = new StringBuilder(Ansi.colorize(sbTmp.toString(), Attribute.MAGENTA_TEXT()));
-                if(keyPressed == KeyboardPressedEnum.SELL){sbTmp.append(Ansi.colorize(String.format(" --> Prix: %d MadyCoin",it.getPRIX()), Attribute.YELLOW_TEXT()));}
+                if (keyPressed == KeyboardPressedEnum.SELL) {
+                    sbTmp.append(Ansi.colorize(String.format(" --> Prix: %d MadyCoin", it.getPRIX()), Attribute.YELLOW_TEXT()));
+                }
             }
             sb.append(sbTmp).append("\n");
             acc++;
@@ -259,20 +267,19 @@ public class Util {
     }
 
     /**
-     *
-     * @param frame frame swing pour les KeyListener
-     * @param map Map du jeu
+     * @param windowGameIntegration windowGameIntegration swing pour les KeyListener
+     * @param map                   Map du jeu
      */
-    public static void refreshKeyListener(Frame frame, com.mady.utils.Map map) {
-        for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {
-            frame.getFrame().removeKeyListener(c);
+    public static void refreshKeyListener(WindowGameIntegration windowGameIntegration, com.mady.utils.environment.Map map) {
+        for (KeyListener c : windowGameIntegration.getFrame().getListeners(KeyListener.class)) {
+            windowGameIntegration.getFrame().removeKeyListener(c);
         }
-        frame.getFrame().addKeyListener(new MoveListener(map));
+        windowGameIntegration.getFrame().addKeyListener(new MoveListener(map));
     }
 
     public static int getPercent(double max, double reduce) {
         if (max > 0.0 && reduce > 0.0) {
-            return (int)(max * (reduce / 100));
+            return (int) (max * (reduce / 100));
         }
         return 0;
     }

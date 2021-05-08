@@ -1,7 +1,8 @@
 package com.mady.utils.entities;
 
-import com.mady.utils.Map;
-import com.mady.utils.Salle;
+import com.mady.utils.Position;
+import com.mady.utils.environment.Map;
+import com.mady.utils.environment.Salle;
 
 public interface Entities {
     Position getPosition();
