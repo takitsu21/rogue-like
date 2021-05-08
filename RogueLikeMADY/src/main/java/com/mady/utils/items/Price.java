@@ -17,8 +17,6 @@ public class Price {
         int newPrice = 0;
         switch (item.getName()) {
             case "helmet":
-                newPrice = (int) (((item.getDEF() + item.getATK() + item.getHP() + item.getMP()) / 4) * (0.1));
-                break;
             case "gauntlet":
             case "pant":
             case "shoes":
