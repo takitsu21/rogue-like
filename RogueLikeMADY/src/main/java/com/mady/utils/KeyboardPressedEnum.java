@@ -1,7 +1,7 @@
 package com.mady.utils;
 
 public enum KeyboardPressedEnum {
-    NONE(0), I(1), ESC(2), WELCOME(3), HELP(4);
+    NONE(0), I(1), ESC(2), WELCOME(3), HELP(4), SELL(5), T(6);
 
     public int type;
 

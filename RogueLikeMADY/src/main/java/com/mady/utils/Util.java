@@ -7,7 +7,9 @@ import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
 import com.mady.utils.entities.factories.items.Price;
 import com.mady.utils.entities.factories.items.Shop;
+import com.mady.utils.listener.MoveListener;
 
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -56,7 +58,10 @@ public class Util {
 
     public static String showInventoryMenu(Player player) {
         StringBuilder sb = new StringBuilder();
-
+        if(keyPressed == KeyboardPressedEnum.SELL){
+            sb.append(Ansi.colorize("\nVOUS VENDEZ A HENRY\n", Attribute.GREEN_TEXT()));
+            sb.append(String.format("\t\t vous avez %d MadyCoin\n",player.getCoins()));
+        }
         Inventory inventory = player.getInventory();
         Stuff s = player.getStuff();
         int selectedItem = inventory.getSelectedItem();
@@ -96,19 +101,19 @@ public class Util {
             totalMp += it.getMP();
         }
         sb.append("\tInventory \n");
-        for (Item i : inventory.getInventory()) {
-            AbstractStuffItem it = (AbstractStuffItem) i;
+        for (AbstractStuffItem i : inventory.getInventory()) {
+            AbstractStuffItem it =  i;
             StringBuilder sbTmp = new StringBuilder();
             if (acc == selectedItem) {
                 sbTmp.append('[');
             }
-            if (i instanceof Amulet){
+            if (i instanceof Amulet) {
                 sbTmp.append('<').append(i.getName().substring(0, 1).toUpperCase()).append(i.getName().substring(1))
                         .append('>')
                         .append(" : ")
                         .append("|LUK ")
                         .append(it.getLUK());
-            }else {
+            } else {
                 sbTmp.append('<').append(i.getName().substring(0, 1).toUpperCase()).append(i.getName().substring(1))
                         .append('>')
                         .append(" : ")
@@ -123,18 +128,20 @@ public class Util {
                         .append("|AGI ")
                         .append(it.getAGI());
 
+
                 //.append("|LUK ")
                 //.append((int) it.getLUK());
             }
             if (acc == selectedItem) {
                 sbTmp.append(']');
                 sbTmp = new StringBuilder(Ansi.colorize(sbTmp.toString(), Attribute.MAGENTA_TEXT()));
+                if(keyPressed == KeyboardPressedEnum.SELL){sbTmp.append(Ansi.colorize(String.format(" --> Prix: %d MadyCoin",it.getPRIX()), Attribute.YELLOW_TEXT()));}
             }
             sb.append(sbTmp).append("\n");
             acc++;
         }
         sb.append("\n").append("\tStats\n");
-        HashMap<String, Integer> stat=player.getStats();
+        HashMap<String, Integer> stat = player.getStats();
         sb.append(String.format("%s : %d ", "LVL", stat.get("LVL")));
         sb.append("\n");
         sb.append(String.format("%s : %d ", "MAX_HP", stat.get("MAX_HP")));
@@ -192,7 +199,7 @@ public class Util {
 
 
     public static String showShop(Player player) {
-        Shop shop = new Shop(player,player.getPosition());
+        Shop shop = new Shop(player, player.getPosition());
         //shop.generateItems();
         if (shop.isEmpty()) {
             return Ansi.colorize("Aucun objet dans le shop!", Attribute.BRIGHT_RED_TEXT());
@@ -217,8 +224,8 @@ public class Util {
     }
 
 
-    public static void printHELP(){
-        if(!inHelp) {
+    public static void printHELP() {
+        if (!inHelp) {
             System.out.println("Déplacement:\n" +
                     "z monter\n" +
                     "s descendre\n" +
@@ -249,6 +256,25 @@ public class Util {
         }
         inHelp = true;
 
+    }
+
+    /**
+     *
+     * @param frame frame swing pour les KeyListener
+     * @param map Map du jeu
+     */
+    public static void refreshKeyListener(Frame frame, com.mady.utils.Map map) {
+        for (KeyListener c : frame.getFrame().getListeners(KeyListener.class)) {
+            frame.getFrame().removeKeyListener(c);
+        }
+        frame.getFrame().addKeyListener(new MoveListener(map));
+    }
+
+    public static int getPercent(double max, double reduce) {
+        if (max > 0.0 && reduce > 0.0) {
+            return (int)(max * (reduce / 100));
+        }
+        return 0;
     }
 }
 

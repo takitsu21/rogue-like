@@ -1,6 +1,7 @@
 package com.mady.utils.entities;
 
 import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.items.Price;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ public abstract class AbstractStuffItem implements Item {
     private int DEF;
     private int AGI;
     private int LUK;
+    private Price PRI;
     private final List<Integer> stats = new ArrayList<>(Arrays.asList(HP, MP, ATK, DEF, AGI, LUK));
 
 
@@ -31,6 +33,7 @@ public abstract class AbstractStuffItem implements Item {
         this.DEF = DEF;
         this.AGI = AGI;
         this.LUK = LUK;
+        this.PRI = new Price(this) ;
     }
 
     public AbstractStuffItem(String name) {
@@ -89,6 +92,10 @@ public abstract class AbstractStuffItem implements Item {
 
     public List<Integer> getStats() {
         return stats;
+    }
+
+    public int getPRIX() {
+        return PRI.getPrice();
     }
 
     @Override
