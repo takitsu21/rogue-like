@@ -16,7 +16,7 @@ import java.util.List;
 public class DarkDruide extends AbstractMonster {
 
     public DarkDruide(Position pos, Salle salle) {
-        super("Druide noir", pos, 12, 3, 1, "d", 4, salle);
+        super("Druide noir", pos, 15, 2, 1, "d", 4, salle);
     }
 
 
@@ -29,7 +29,7 @@ public class DarkDruide extends AbstractMonster {
                 for (int j = pos.getY() - area; j <= pos.getY() + area; j++) {
                     if (map.isInside(i, j) && map.getMap()[i][j].isOccupied() && !map.getMap()[i][j].isPlayer()) {
                         Entities target = map.getMap()[i][j].getEntity();
-                        if (target != null) {
+                        if (target != null && target != this) {
                             if (target.getHitPoints() == target.getMaxHitPoints()) {
                             } else {
                                 heal(target);
@@ -49,6 +49,7 @@ public class DarkDruide extends AbstractMonster {
         target.setHitPoints(HpHealed);
         if (target.getHitPoints() > target.getMaxHitPoints()) {
             target.setHitPoints(target.getMaxHitPoints());
+            setHealed(false);
         }
         Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> est soigné de %d HP.\n",
                 target.getName(), target.getHitPoints(), target.getMaxHitPoints(), getDamages()), Attribute.GREEN_TEXT()));
