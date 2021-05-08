@@ -56,7 +56,10 @@ public class Util {
 
     public static String showInventoryMenu(Player player) {
         StringBuilder sb = new StringBuilder();
-
+        if(keyPressed == KeyboardPressedEnum.SELL){
+            sb.append(Ansi.colorize("\nVOUS VENDEZ A HENRY\n", Attribute.GREEN_TEXT()));
+            sb.append(String.format("\t\t vous avez %d MadyCoin\n",player.getCoins()));
+        }
         Inventory inventory = player.getInventory();
         Stuff s = player.getStuff();
         int selectedItem = inventory.getSelectedItem();

@@ -4,12 +4,15 @@ import com.mady.GameLoop;
 import com.mady.GameStatus;
 import com.mady.utils.*;
 import com.mady.utils.entities.Deplacement;
+import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Position;
 import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Item;
+import com.mady.utils.entities.factories.monster.Seller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 public class MoveListener implements KeyListener {
     private final Map map;
@@ -33,7 +36,7 @@ public class MoveListener implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_Z: // Touche Z
-                if (Util.keyPressed == KeyboardPressedEnum.I) {   // si l'on se trouve dans l'inventaire
+                if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.SELL) {   // si l'on se trouve dans l'inventaire
                     map.getPlayer().getInventory().
                             setSelectedItem(((map.getPlayer().getInventory().getSelectedItem() - 1) < 0) ?
                                     map.getPlayer().getInventory().getInventory().size() - 1 :
@@ -52,7 +55,7 @@ public class MoveListener implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_S: // Touche S
-                if (Util.keyPressed == KeyboardPressedEnum.I) {
+                if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.SELL ) {
                     map.getPlayer().getInventory().setSelectedItem((map.getPlayer().getInventory().getSelectedItem()
                             + 1) % ((map.getPlayer().getInventory().getInventory().size() > 0) ?
                             map.getPlayer().getInventory().getInventory().size() : 1));
@@ -88,7 +91,11 @@ public class MoveListener implements KeyListener {
                     if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
-                } else {
+                }
+
+
+
+                else {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
@@ -99,7 +106,12 @@ public class MoveListener implements KeyListener {
                 for (int i = x - 1; i <= x + 1; i++) {
                     for (int j = y - 1; j <= y + 1; j++) {
                         Item item = map.getCase(i, j).getItem();
-                        if (item instanceof Chest) {
+                        Entities seller = map.getCase(i,j).getEntity();
+                        if(seller instanceof Seller){
+                            Util.keyPressed = KeyboardPressedEnum.SELL;
+                            break;
+                        }
+                        else if (item instanceof Chest) {
                             map.getPlayer().pickItem(map.getCase(i, j));
                         }
                     }
@@ -111,10 +123,12 @@ public class MoveListener implements KeyListener {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                     break;
                 }
+                else if(Util.keyPressed == KeyboardPressedEnum.NONE){
                 Util.keyPressed = KeyboardPressedEnum.I;
+                }
                 break;
             case KeyEvent.VK_ESCAPE: // Touche Escape
-                if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC) {
+                if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC || Util.keyPressed == KeyboardPressedEnum.SELL) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 else if (Util.keyPressed == KeyboardPressedEnum.HELP){
@@ -136,7 +150,15 @@ public class MoveListener implements KeyListener {
                     if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
-                } else if (Util.keyPressed == KeyboardPressedEnum.ESC) {
+                }
+                else if (Util.keyPressed == KeyboardPressedEnum.SELL ) {
+                    if (map.getPlayer().getInventory().getInventory().size() >= 1){
+                    map.getPlayer().sell();}
+                    else {
+                        Util.keyPressed = KeyboardPressedEnum.NONE;
+                    }
+                }
+                else if (Util.keyPressed == KeyboardPressedEnum.ESC) {
                     switch (pause.getListe().get(pause.getSelection())) {
                         case "Resume":
                             Util.keyPressed = KeyboardPressedEnum.NONE;
