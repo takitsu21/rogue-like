@@ -133,23 +133,23 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
     public boolean checkDistanceShoot(Map map) {
         Position monsterPos = this.getPosition();
 
-        if (map.getMap()[monsterPos.getX() - getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player
-                && map.isInside(monsterPos.getX() - getEffectiveArea(), monsterPos.getY())) {
+        if (map.isInside(monsterPos.getX() - getEffectiveArea(), monsterPos.getY()) &&
+                map.getMap()[monsterPos.getX() - getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player) {
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX() + getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player
-                && map.isInside(monsterPos.getX() + getEffectiveArea(), monsterPos.getY())) {
+        if (map.isInside(monsterPos.getX() + getEffectiveArea(), monsterPos.getY()) &&
+                map.getMap()[monsterPos.getX() + getEffectiveArea()][monsterPos.getY()].getEntity() instanceof Player) {
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX()][monsterPos.getY() - getEffectiveArea()].getEntity() instanceof Player
-                && map.isInside(monsterPos.getX(), monsterPos.getY() - getEffectiveArea())) {
+        if (map.isInside(monsterPos.getX(), monsterPos.getY() - getEffectiveArea()) &&
+                map.getMap()[monsterPos.getX()][monsterPos.getY() - getEffectiveArea()].getEntity() instanceof Player) {
             return true;
         }
 
-        if (map.getMap()[monsterPos.getX()][monsterPos.getY() + getEffectiveArea()].getEntity() instanceof Player
-                && map.isInside(monsterPos.getX(), monsterPos.getY() + getEffectiveArea())) {
+        if (map.isInside(monsterPos.getX(), monsterPos.getY() + getEffectiveArea()) &&
+                map.getMap()[monsterPos.getX()][monsterPos.getY() + getEffectiveArea()].getEntity() instanceof Player) {
             return true;
         }
         return false;

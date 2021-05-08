@@ -8,7 +8,7 @@ import com.mady.utils.entities.Player;
 
 public class PoisonVie extends AbstractItem {
     public PoisonVie(Position position, int lvl, double multiplicateur) {
-        super("V", position, 0, (int) (Math.random() * 2) + 1, "Poison de vie", true, false, lvl, multiplicateur);
+        super("V", position, 0, 2, "Poison de vie", true, false, lvl, multiplicateur);
     }
 
     /**
@@ -18,15 +18,14 @@ public class PoisonVie extends AbstractItem {
      */
     @Override
     public void act(Player player) {
-        if (player.getHitPoints() - getDamages() >= 0) {
-            int oldHp = player.getHitPoints();
-            player.setHitPoints(player.getHitPoints() - getDamages());
-            Util.currentAction.append(Ansi.colorize(String.format("%s vous réduit la vie de %d à %d (-%d)\n",
-                    getName(), oldHp, player.getHitPoints(), getDamages()), Attribute.YELLOW_TEXT()));
+        int HP=Util.getPercent(player.getMaxHitPoints(),getDamages());
+        System.out.println(HP);
+        int oldHp = player.getHitPoints();
+        player.setHitPoints(Math.max(player.getHitPoints() - HP, 0));
+        Util.currentAction.append(Ansi.colorize(String.format("%s vous réduit la vie de %d à %d (-%d)\n",
+                getName(), oldHp, player.getHitPoints(), HP), Attribute.YELLOW_TEXT()));
 
-        } else {
-            player.setHitPoints(0);
-        }
+
     }
 }
 

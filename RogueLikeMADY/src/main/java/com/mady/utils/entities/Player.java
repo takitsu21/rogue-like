@@ -238,9 +238,16 @@ public class Player extends AbstractEntities {
     }
 
     @Override
-    public void setHitPoints(int Hp) {
-        super.setHitPoints(Hp);
-        stats.put("HP", Hp);
+    public void setHitPoints(int HP) {
+        if (HP < 0) {
+            HP=0;
+        }
+        if (HP >= getMaxHitPoints()) {
+            HP = getMaxHitPoints();
+        }
+
+        super.setHitPoints(HP);
+        stats.put("HP", HP);
     }
 
 
@@ -357,7 +364,6 @@ public class Player extends AbstractEntities {
         setRealExpMax((int) (getRealExpMax() * getMultiplicateur() + getRealExpMax()));
         setMaxExpToWin((int) (getMaxExpToWin() * getMultiplicateur()));
         manaAttack *= getMultiplicateur();
-        maxExpToWin *= getMultiplicateur();
     }
 
     public boolean isDead() {
@@ -366,7 +372,6 @@ public class Player extends AbstractEntities {
 
 
     public void attack(Entities monster, Map map, int mpUsed) {
-        System.out.println(mpUsed);
         if (setMP(getMP() - mpUsed)) {
             if (monster == null) {
                 Util.currentAction.append("Aucune cible atteinte...\n");
@@ -383,7 +388,6 @@ public class Player extends AbstractEntities {
      * @param map     map sur laquelle ce trouve le joueur
      */
     public void closeAttack(Entities monster, Map map) {
-        System.out.println(getMaxMp());
         attack(monster, map, Util.getPercent(getMaxMp(), manaAttack));
     }
 
@@ -460,8 +464,8 @@ public class Player extends AbstractEntities {
 
     private int randomExp(Entities monster) {
         return monster instanceof Boss ?
-                (int) ((Math.random() * maxExpToWin) + 1) * 2 :
-                (int) ((Math.random() * maxExpToWin) + 1);
+                (Util.r.nextInt(maxExpToWin) + 1)*2:
+                Util.r.nextInt(maxExpToWin) + 1;
     }
 
 
