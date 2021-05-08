@@ -99,8 +99,8 @@ public class Util {
             totalMp += it.getMP();
         }
         sb.append("\tInventory \n");
-        for (Item i : inventory.getInventory()) {
-            AbstractStuffItem it = (AbstractStuffItem) i;
+        for (AbstractStuffItem i : inventory.getInventory()) {
+            AbstractStuffItem it =  i;
             StringBuilder sbTmp = new StringBuilder();
             if (acc == selectedItem) {
                 sbTmp.append('[');
@@ -126,12 +126,14 @@ public class Util {
                         .append("|AGI ")
                         .append(it.getAGI());
 
+
                 //.append("|LUK ")
                 //.append((int) it.getLUK());
             }
             if (acc == selectedItem) {
                 sbTmp.append(']');
                 sbTmp = new StringBuilder(Ansi.colorize(sbTmp.toString(), Attribute.MAGENTA_TEXT()));
+                if(keyPressed == KeyboardPressedEnum.SELL){sbTmp.append(Ansi.colorize(String.format(" --> Prix: %d MadyCoin",it.getPRIX()), Attribute.YELLOW_TEXT()));}
             }
             sb.append(sbTmp).append("\n");
             acc++;
