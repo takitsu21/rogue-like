@@ -238,7 +238,8 @@ public class MoveListener implements KeyListener {
     private void move(Deplacement d, KeyEvent e) {
         if (GameLoop.isGameRunning()) {
             if (e.isShiftDown()) {
-                int nextMp = map.getPlayer().getMP() - map.getPlayer().getDASH_MP_COST();
+                int nextMp = map.getPlayer().getMP() - Util.getPercent(map.getPlayer().getMaxMp(),
+                        map.getPlayer().getDASH_MP_COST());
                 if (nextMp < 0) {
                     map.move(map.getPlayer(), nextDirection(d.pos, false));
                 } else {

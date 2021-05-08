@@ -264,5 +264,12 @@ public class Util {
         }
         frame.getFrame().addKeyListener(new MoveListener(map));
     }
+
+    public static int getPercent(double max, double reduce) {
+        if (max > 0.0 && reduce > 0.0) {
+            return (int)(max * (reduce / 100));
+        }
+        return 0;
+    }
 }
 

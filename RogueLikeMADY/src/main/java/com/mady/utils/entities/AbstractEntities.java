@@ -25,6 +25,7 @@ public abstract class AbstractEntities implements Entities {
     public boolean isHealed = false;
     private int lvl = 1;
     private int nbDeplacement = 0;
+    private int manaGain = 10;
 
 
     public AbstractEntities(String name,
@@ -229,7 +230,7 @@ public abstract class AbstractEntities implements Entities {
         this.nbDeplacement = nbDeplacement;
         if (this instanceof Player && nbDeplacement % 5 == 0) {
             this.nbDeplacement = 0;
-            ((Player) this).setMP(((Player) this).getMP() + 3);
+            ((Player) this).setMP(((Player) this).getMP() + Util.getPercent(((Player) this).getMaxMp(), manaGain));
             Util.currentAction.append(Ansi.colorize(String.format(
                     "Vous gagnez %d mana en marchant.\n", 3), Attribute.BLUE_TEXT()));
         }

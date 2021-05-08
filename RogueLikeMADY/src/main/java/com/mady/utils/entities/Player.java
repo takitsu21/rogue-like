@@ -30,7 +30,7 @@ public class Player extends AbstractEntities {
     private int LUK = 2;
     public static int ATTACK_CURSOR = 0;
     private List<Entities> monsterAround = new ArrayList<>();
-    private final int DASH_MP_COST = 5;
+    private final int DASH_MP_COST = 10;
     private final HashMap<String, Integer> stats = new HashMap<>() {{
         put("LVL", getLvl());
         put("MAX_HP", getMaxHitPoints());
@@ -45,8 +45,7 @@ public class Player extends AbstractEntities {
 
     private int maxExpToWin = 3;
     private int coins = 0;
-    private int manaAttack = 2;
-//    private List<Double> stats = new ArrayList<>(Arrays.asList(maxMp, maxHp, expMax, HP, MP, ATK, DEF, AGI, LUK));
+    private int manaAttack = 4;
 
 
     public Player(Position pos, int hitPoints, int damages, int movement, String repr, Salle salle) {
@@ -357,6 +356,7 @@ public class Player extends AbstractEntities {
 
 
     public void attack(Entities monster, Map map, int mpUsed) {
+        System.out.println(mpUsed);
         if (setMP(getMP() - mpUsed)) {
             if (monster == null) {
                 Util.currentAction.append("Aucune cible atteinte...\n");
@@ -373,7 +373,8 @@ public class Player extends AbstractEntities {
      * @param map     map sur laquelle ce trouve le joueur
      */
     public void closeAttack(Entities monster, Map map) {
-        attack(monster, map, manaAttack);
+        System.out.println(getMaxMp());
+        attack(monster, map, Util.getPercent(getMaxMp(), manaAttack));
     }
 
     /**
@@ -381,7 +382,7 @@ public class Player extends AbstractEntities {
      * @param map     map sur laquelle ce trouve le joueur
      */
     public void rangeAttack(Entities monster, Map map) {
-        attack(monster, map, manaAttack * 4);
+        attack(monster, map, Util.getPercent(getMaxMp(), manaAttack * 4));
     }
 
     /**
@@ -389,7 +390,7 @@ public class Player extends AbstractEntities {
      * @param map      map sur laquelle ce trouve le joueur
      */
     public void zoneAttack(List<Entities> monsters, Map map) {
-        if (setMP(getMP() - manaAttack * 4)) {
+        if (setMP(getMP() - Util.getPercent(getMaxMp(), manaAttack * 4))) {
             if (monsters.isEmpty()) {
                 Util.currentAction.append("Aucune cible atteinte...\n");
             } else {
