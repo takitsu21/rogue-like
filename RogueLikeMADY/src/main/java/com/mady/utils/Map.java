@@ -551,7 +551,15 @@ public class Map {
                 } else if (i == BASE_HEIGHT - 1) {
                     sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
                 } else {
-                    sb.append(map[i][j].toString());
+                    if (!map[i][j].isPlayer() && map[i][j].isEntity() && !player.getMonsterAround().isEmpty() &&
+                            player.getMonsterAround().
+                            get(Player.ATTACK_CURSOR).
+                            equals(map[i][j].getEntity())) {
+                        sb.append(Ansi.colorize(map[i][j].toString(), Attribute.BRIGHT_BLUE_BACK()));
+                    } else {
+                        sb.append(map[i][j].toString());
+                    }
+
                 }
             }
             if (i == BASE_HEIGHT - 1) {

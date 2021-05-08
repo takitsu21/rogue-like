@@ -10,6 +10,7 @@ import com.mady.utils.entities.factories.items.Chest;
 import com.mady.utils.entities.factories.items.Inventory;
 import com.mady.utils.entities.factories.items.Item;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +28,8 @@ public class Player extends AbstractEntities {
     private int DEF = 1;
     private int AGI = 1;
     private int LUK = 2;
-    //private double multiplicateur =1.12;
+    public static int ATTACK_CURSOR = 0;
+    private List<Entities> monsterAround = new ArrayList<>();
     private final int DASH_MP_COST = 5;
     private final HashMap<String, Integer> stats = new HashMap<>() {{
         put("LVL", getLvl());
@@ -82,14 +84,14 @@ public class Player extends AbstractEntities {
      * @param c Case de la map.
      */
     public void pickItem(Case c) {
-        Item chest =c.getItem();
+        Item chest = c.getItem();
         AbstractStuffItem i = ((Chest) chest).openChest(this);
         i.setPosition(null);
-        if (((Chest)chest).getPrice()>this.getCoins()) {
+        if (((Chest) chest).getPrice() > this.getCoins()) {
             //c.setItem(null);
             Util.currentAction.append(Ansi.colorize(String.format("Vous n'avez pas assez de MADY coins pour ouvrir le coffre.\n")));
-        }else if (pickItem(i)) {
-            setCoins(getCoins()-((Chest) chest).getPrice());
+        } else if (pickItem(i)) {
+            setCoins(getCoins() - ((Chest) chest).getPrice());
             c.setItem(null);
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez récupérer <%s> : %s dans le coffre.\n",
                     i.getName().substring(0, 1).toUpperCase() + i.getName().substring(1), i), Attribute.MAGENTA_TEXT()));
@@ -349,17 +351,13 @@ public class Player extends AbstractEntities {
         manaAttack *= getMultiplicateur();
     }
 
-    public boolean isDead(Map map) {
+    public boolean isDead() {
         return (getHitPoints() <= 0);
     }
 
-    /**
-     * @param monster monstre a attaquer
-     * @param map     map sur laquelle ce trouve le joueur
-     */
 
-    public void closeAttack(Entities monster, Map map) {
-        if (setMP(getMP() - manaAttack)) {
+    public void attack(Entities monster, Map map, int mpUsed) {
+        if (setMP(getMP() - mpUsed)) {
             if (monster == null) {
                 Util.currentAction.append("Aucune cible atteinte...\n");
             } else {
@@ -371,10 +369,25 @@ public class Player extends AbstractEntities {
     }
 
     /**
-     * @param monsters liste des monstres a attaquer
+     * @param monster monstre a attaquer
+     * @param map     map sur laquelle ce trouve le joueur
+     */
+    public void closeAttack(Entities monster, Map map) {
+        attack(monster, map, manaAttack);
+    }
+
+    /**
+     * @param monster monstre a attaquer
+     * @param map     map sur laquelle ce trouve le joueur
+     */
+    public void rangeAttack(Entities monster, Map map) {
+        attack(monster, map, manaAttack * 4);
+    }
+
+    /**
+     * @param monsters monstres a attaquer
      * @param map      map sur laquelle ce trouve le joueur
      */
-
     public void zoneAttack(List<Entities> monsters, Map map) {
         if (setMP(getMP() - manaAttack * 4)) {
             if (monsters.isEmpty()) {
@@ -387,6 +400,32 @@ public class Player extends AbstractEntities {
         } else {
             Util.currentAction.append("Pas assez de mana...\n");
         }
+    }
+
+    /**
+     * Mes à jour la liste des monstres présente dans l'effective area du joueur
+     * pour l'attaque à distance.
+     *
+     * @param map map du jeu
+     */
+    public void entitiesLongRangeAvailaible(Map map) {
+        List<Entities> monsters = new ArrayList<>();
+        for (int i = getPos().getX() - getEffectiveArea(); i <= getPos().getX() + getEffectiveArea(); i++) {
+            for (int j = getPos().getY() - getEffectiveArea(); j <= getPos().getY() + getEffectiveArea(); j++) {
+                if (map.isInside(i, j) && map.getCase(i, j).isEntity() && !map.getCase(i, j).isPlayer()) {
+                    monsters.add(map.getCase(i, j).getEntity());
+                }
+            }
+        }
+        monsterAround = monsters;
+    }
+
+    public List<Entities> getMonsterAround() {
+        return monsterAround;
+    }
+
+    public void setMonsterAround(List<Entities> monsterAround) {
+        this.monsterAround = monsterAround;
     }
 
     /**

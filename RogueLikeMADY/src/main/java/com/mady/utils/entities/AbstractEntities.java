@@ -230,6 +230,8 @@ public abstract class AbstractEntities implements Entities {
         if (this instanceof Player && nbDeplacement % 5 == 0) {
             this.nbDeplacement = 0;
             ((Player) this).setMP(((Player) this).getMP() + 3);
+            Util.currentAction.append(Ansi.colorize(String.format(
+                    "Vous gagnez %d mana en marchant.\n", 3), Attribute.BLUE_TEXT()));
         }
     }
 }
