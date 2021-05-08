@@ -9,8 +9,8 @@ import com.mady.utils.Util;
 import com.mady.utils.entities.AbstractEntities;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Position;
-
 import java.util.List;
+
 
 public class DarkDruide extends AbstractMonster {
 
@@ -19,6 +19,13 @@ public class DarkDruide extends AbstractMonster {
     }
 
 
+    /**
+     *
+     *@param map
+     * druid has a special skill
+     * he can heal another unit if a unit is attack around him
+     * he can't heal himself
+     */
     @Override
     public void skill(Map map) {
         Position pos = getPosition();
@@ -54,26 +61,11 @@ public class DarkDruide extends AbstractMonster {
                 target.getName(), target.getHitPoints(), target.getMaxHitPoints(), getDamages()), Attribute.GREEN_TEXT()));
     }
 
-//    private boolean checkMonsterInSalle(Map map) {
-//        boolean inSalle = false;
-//        Salle druidSalle = getSalle();
-//        int lignes = druidSalle.getlignes();
-//        int colonnes = druidSalle.getcolonnes();
-//        Position druidPos = getPosition();
-//        for (int i = 0; i <= lignes; i++) {
-//            for (int j = 0; j <= colonnes; j++) {
-//                if (map.getMap()[i][j].getEntity() instanceof AbstractMonster && !map.getMap()[i][j].isPlayer()) {
-//                    Position entityPos = map.getMap()[i][j].getEntity().getPosition();
-//                    if (entityPos != druidPos) {
-//                        inSalle = true;
-//                        return inSalle;
-//                    }
-//                }
-//            }
-//        }
-//        return inSalle;
-//    }
-
+    /**
+     *
+     * @param map
+     * @return a bool. Method that check if druid is surrender by other monsters
+     */
     private boolean checkSalle(Map map) {
         boolean inSalle = false;
         Salle current = getSalle();
@@ -92,6 +84,6 @@ public class DarkDruide extends AbstractMonster {
                 }
             }
         }
-        return false;
+        return inSalle;
     }
 }
