@@ -142,7 +142,8 @@ public class Util {
                 sbTmp.append(']');
                 sbTmp = new StringBuilder(Ansi.colorize(sbTmp.toString(), Attribute.MAGENTA_TEXT()));
                 if (keyPressed == KeyboardPressedEnum.SELL) {
-                    sbTmp.append(Ansi.colorize(String.format(" --> Prix: %d MadyCoin", it.getPRIX()), Attribute.YELLOW_TEXT()));
+                    int resellPrice = (i.getPRIX() / 2) > 0 ? (i.getPRIX() / 2) : 1;
+                    sbTmp.append(Ansi.colorize(String.format(" --> Prix: %d MadyCoin", resellPrice), Attribute.YELLOW_TEXT()));
                 }
             }
             sb.append(sbTmp).append("\n");
