@@ -125,18 +125,17 @@ public abstract class GameLoop {
      *
      * @return {@code true} if the game is running.
      */
-    public boolean isGameRunning() {
+    public static boolean isGameRunning() {
         return status == GameStatus.RUNNING;
     }
 
-    public boolean isGamePaused() {
+    public static boolean isGamePaused() {
         return status == GameStatus.PAUSE;
     }
 
-    public boolean isWelcomeScreen() {
+    public static boolean isWelcomeScreen() {
         return status == GameStatus.WELCOME_SCREEN;
     }
-
 
 
     /**
@@ -157,6 +156,10 @@ public abstract class GameLoop {
         }
     }
 
+    public static boolean isGameAttackMenu() {
+        return GameStatus.RANGE_ATTACK_CHOICE == status;
+    }
+
     /**
      * Render game frames to screen. Here we print the map.
      */
@@ -169,7 +172,7 @@ public abstract class GameLoop {
             System.out.println(map.getPause().toString(map.getMap()));
         } else if (isWelcomeScreen()) {
             Util.showWelcomeScreen();
-        } else if (isGameRunning()) {
+        } else if (isGameRunning() || isGameAttackMenu()) {
             System.out.println(map);
         }
     }
