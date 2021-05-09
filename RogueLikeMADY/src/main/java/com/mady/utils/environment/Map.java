@@ -584,8 +584,8 @@ public class Map {
                         Attribute.MAGENTA_TEXT()))
                 .append(Ansi.colorize(String.format("%d MADY Coins|", player.getCoins()),
                         Attribute.BRIGHT_YELLOW_TEXT()))
-                .append(Ansi.colorize((String.format("Elixir de vie %d|", player.getElixirVie())), Attribute.RED_TEXT()))
-                .append(Ansi.colorize((String.format("Elixir de mana %d|", player.getElixirMana())), Attribute.BLUE_TEXT()))
+                .append(Ansi.colorize((String.format(" Elixir de vie %d |", player.getElixirVie())), Attribute.RED_TEXT()))
+                .append(Ansi.colorize((String.format(" Elixir de mana %d |", player.getElixirMana())), Attribute.BLUE_TEXT()))
                 .append(String.format("\tETAGE %d\n", World.compteur));
 
 
