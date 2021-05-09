@@ -131,7 +131,8 @@ public class MoveListener implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_ESCAPE: // Touche Escape
-                if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC || Util.keyPressed == KeyboardPressedEnum.SELL) {
+                if (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.ESC ||
+                        Util.keyPressed == KeyboardPressedEnum.SELL) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 } else if (Util.keyPressed == KeyboardPressedEnum.HELP) {
                     if (GameLoop.getStatus() == GameStatus.PAUSE) {
@@ -144,6 +145,8 @@ public class MoveListener implements KeyListener {
                     Util.keyPressed = KeyboardPressedEnum.ESC;
                 } else if (Util.keyPressed == KeyboardPressedEnum.T) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
+                    map.getPlayer().setMonsterAround(new ArrayList<>());
+                    Player.ATTACK_CURSOR = 0;
                     GameLoop.setStatus(GameStatus.RUNNING);
                 }
                 break;
