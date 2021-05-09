@@ -75,5 +75,4 @@ public abstract class AbstractItem implements Item {
         return multiplicateur;
     }
 
-
 }

@@ -227,6 +227,28 @@ public class MoveListener implements KeyListener {
                             monster.getName(), monster.getHitPoints(), monster.getMaxHitPoints()), Attribute.BLUE_TEXT()));
                 }
                 break;
+            case KeyEvent.VK_1:
+                if(map.getPlayer().getElixirVie() > 0){
+                    int tempHeal = Util.getPercent(map.getPlayer().getMaxHitPoints(),5);
+                    map.getPlayer().setElixirVie(map.getPlayer().getElixirVie()-1);
+                    map.getPlayer().setHitPoints(map.getPlayer().getHP() + tempHeal);
+                    Util.currentAction.append(Ansi.colorize(String.format("Vous gagnez %d de Vie en utilisant un elixir de Vie.\n",tempHeal), Attribute.BLUE_TEXT()));
+                }
+                else{
+                Util.currentAction.append("Vous n'avez pas d'elixir de Vie ...\n");}
+                break;
+            case KeyEvent.VK_2:
+                if(map.getPlayer().getElixirMana() > 0){
+                    int tempMana = Util.getPercent(map.getPlayer().getMaxMp(),5);
+                    map.getPlayer().setElixirMana(map.getPlayer().getElixirMana()-1);
+                    map.getPlayer().setMP(map.getPlayer().getMP() + tempMana);
+                    Util.currentAction.append(Ansi.colorize(String.format("Vous gagnez %d de Mana en utilisant un elixir de Mana.\n",tempMana), Attribute.BLUE_TEXT()));
+                }
+                else{
+                    Util.currentAction.append("Vous n'avez pas d'elixir de Mana...\n");}
+
+                break;
+
 
 
             default:

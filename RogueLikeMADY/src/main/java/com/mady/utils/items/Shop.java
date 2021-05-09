@@ -38,6 +38,7 @@ public class Shop extends Map {
         super.addPlayerToMap(p);
         placeItems();
         GeneratePortal();
+        addElixir();
 
 
     }
@@ -142,5 +143,18 @@ public class Shop extends Map {
         //it.add(item);
         items.put(item, price);
     }
+
+    public void addElixir(){
+        super.getMap()[posHautsalle][posSalle].setItem(new Elixir(new Position(posHautsalle,posSalle),"Vie"));
+        super.getMap()[posHautsalle][posSalle].setRepr(Ansi.colorize(" ",Attribute.RED_BACK()));
+        super.getMap()[posHautsalle][smallLine+posSalle-1].setItem(new Elixir(new Position(posHautsalle,smallLine+posSalle-1),"Mana"));
+        super.getMap()[posHautsalle][smallLine+posSalle-1].setRepr(Ansi.colorize(" ",Attribute.BLUE_BACK()));
+
+
+
+
+    }
+
+
 
 }

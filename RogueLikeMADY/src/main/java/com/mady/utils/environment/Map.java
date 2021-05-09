@@ -35,7 +35,7 @@ public class Map {
     private Salle salleBoss;
     private Player player;
     private Boss boss;
-    private int nbMaxTrap = 3;
+    private final int nbMaxTrap = 3;
     private int securite;
     private boolean addBoss;
 
@@ -583,8 +583,10 @@ public class Map {
                 .append(Ansi.colorize(String.format("Lvl %d ", player.getLvl()), Attribute.YELLOW_TEXT()))
                 .append(Ansi.colorize(String.format("[%d/%d EXP] | ", player.getExp(), player.getExpMax()),
                         Attribute.MAGENTA_TEXT()))
-                .append(Ansi.colorize(String.format("%d MADY Coins\n", player.getCoins()),
-                        Attribute.BRIGHT_YELLOW_TEXT()));
+                .append(Ansi.colorize(String.format("%d MADY Coins|", player.getCoins()),
+                        Attribute.BRIGHT_YELLOW_TEXT()))
+                .append(Ansi.colorize((String.format("⚗️%d|",player.getElixirVie())),Attribute.RED_TEXT()))
+                .append(Ansi.colorize((String.format("⚗️%d|\n",player.getElixirMana())),Attribute.BLUE_TEXT()));
 
         for (int i = 0; i <= BASE_WIDTH + 1; i++) {
             sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));

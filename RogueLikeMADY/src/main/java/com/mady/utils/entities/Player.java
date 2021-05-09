@@ -55,6 +55,8 @@ public class Player extends AbstractEntities {
     private List<Entities> monsterAround = new ArrayList<>();
     private int maxExpToWin = 3;
     private int coins = 0;
+    private int ElixirMana = 0;
+    private int ElixirVie = 0;
     private int manaAttack = 4;
 
 
@@ -95,16 +97,17 @@ public class Player extends AbstractEntities {
     public void pickItem(Case c) {
         Item chest = c.getItem();
         AbstractStuffItem i = ((Chest) chest).openChest(this);
-        i.setPosition(null);
-        if (((Chest) chest).getPrice() > this.getCoins()) {
+        if (i != null && ((Chest) chest).getPrice() > this.getCoins()) {
             //c.setItem(null);
             Util.currentAction.append(Ansi.colorize(String.format("Vous n'avez pas assez de MADY coins pour ouvrir le coffre.\n")));
-        } else if (pickItem(i)) {
+        } else if ( i != null && pickItem(i)) {
+            i.setPosition(null);
             setCoins(getCoins() - ((Chest) chest).getPrice());
             c.setItem(null);
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez récupérer <%s> : %s dans le coffre.\n",
                     i.getName().substring(0, 1).toUpperCase() + i.getName().substring(1), i), Attribute.MAGENTA_TEXT()));
         }
+
 
     }
 
@@ -269,6 +272,21 @@ public class Player extends AbstractEntities {
         stats.put("EXP_MAX", expMax);
     }
 
+    public int getElixirMana() {
+        return ElixirMana;
+    }
+
+    public void setElixirMana(int ElixirMana) {
+        ElixirMana = ElixirMana;
+    }
+
+    public int getElixirVie() {
+        return ElixirVie;
+    }
+
+    public void setElixirVie(int ElixirVie) {
+        ElixirVie = ElixirVie;
+    }
 
     public int getHP() {
         return getHitPoints();

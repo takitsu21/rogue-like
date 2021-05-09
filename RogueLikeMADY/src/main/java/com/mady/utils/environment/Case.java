@@ -5,6 +5,7 @@ import com.diogonunes.jcolor.Attribute;
 import com.mady.utils.entities.Entities;
 import com.mady.utils.entities.Player;
 import com.mady.utils.enums.CaseTypeEnum;
+import com.mady.utils.items.Elixir;
 import com.mady.utils.items.Item;
 
 public class Case {
@@ -120,7 +121,7 @@ public class Case {
             return Ansi.colorize(repr, Attribute.BRIGHT_MAGENTA_TEXT());
         } else if (entity != null) {
             return entity.getRepr();
-        } else if (item != null) {
+        } else if (item != null && !( item instanceof Elixir) ) {
             return item.getRepr();
         }
 
