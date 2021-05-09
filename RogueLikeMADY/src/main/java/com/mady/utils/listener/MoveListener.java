@@ -205,6 +205,11 @@ public class MoveListener implements KeyListener {
                     Util.keyPressed = KeyboardPressedEnum.T;
                     Player.ATTACK_CURSOR = 0;
                     map.getPlayer().entitiesLongRangeAvailaible(map);
+                    if (map.getPlayer().getMonsterAround().size() == 0) {
+                        Util.keyPressed = KeyboardPressedEnum.NONE;
+                        Util.currentAction.append("Il n'y a pas de monstres autour de vous...\n");
+                        break;
+                    }
                     GameLoop.setStatus(GameStatus.RANGE_ATTACK_CHOICE);
                 } else if (Util.keyPressed == KeyboardPressedEnum.T) {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
@@ -215,6 +220,9 @@ public class MoveListener implements KeyListener {
                 break;
             case KeyEvent.VK_LEFT:
                 if (Util.keyPressed == KeyboardPressedEnum.T) {
+                    if (map.getPlayer().getMonsterAround().size() == 0) {
+                        break;
+                    }
                     Player.ATTACK_CURSOR = Math.abs((Player.ATTACK_CURSOR - 1) % map.getPlayer().getMonsterAround().size());
                     Entities monster = map.getPlayer().getMonsterAround().get(Player.ATTACK_CURSOR);
                     Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> est sélectionné.\n",
@@ -224,6 +232,9 @@ public class MoveListener implements KeyListener {
                 break;
             case KeyEvent.VK_RIGHT:
                 if (Util.keyPressed == KeyboardPressedEnum.T) {
+                    if (map.getPlayer().getMonsterAround().size() == 0) {
+                        break;
+                    }
                     Player.ATTACK_CURSOR = (Player.ATTACK_CURSOR + 1) % map.getPlayer().getMonsterAround().size();
                     Entities monster = map.getPlayer().getMonsterAround().get(Player.ATTACK_CURSOR);
                     Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> est sélectionné.\n",
