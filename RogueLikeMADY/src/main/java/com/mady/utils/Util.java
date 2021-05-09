@@ -8,8 +8,6 @@ import com.mady.utils.entities.Player;
 import com.mady.utils.enums.DeplacementEnum;
 import com.mady.utils.enums.KeyboardPressedEnum;
 import com.mady.utils.items.Inventory;
-import com.mady.utils.items.Price;
-import com.mady.utils.items.Shop;
 import com.mady.utils.items.stuff.AbstractStuffItem;
 import com.mady.utils.items.stuff.Amulet;
 import com.mady.utils.items.stuff.Stuff;
@@ -88,11 +86,9 @@ public class Util {
         String AmuletStats = s.getAmulet() == null ? " " : s.getAmulet().toString();
         String ShoesStats = s.getShoes() == null ? " " : s.getShoes().toString();
         String WeaponStats = s.getWeapon() == null ? " " : s.getWeapon().toString();
-//        sb.append(Ansi.colorize("\"\"\"\"\"\"\"\"\"\"\"\"\"", Attribute.BRIGHT_BLACK_BACK(),
-//                Attribute.BRIGHT_BLACK_TEXT()));
-        sb.append(" STUFF : ");
+
+        sb.append(" STUFF   ");
         sb.append(String.format("           HElMET: %s\n", HelmetStats));
-//        sb.append("\n\"");
         sb.append(String.format("    [%c] [%c]          WEAPON: %s AMULET: %s\n", rph, rpa, WeaponStats, AmuletStats));
         sb.append(String.format(" [%c][%c][%c]           GAUNTLET: %s\n", rpg, rpc, rpw, GauntletStats));
         sb.append(String.format("    [%c]              CHESTPLATE: %s\n", rpp, ChestPlateStats));
@@ -105,6 +101,7 @@ public class Util {
             totalAtk += it.getATK();
             totalHp += it.getHP();
             totalMp += it.getMP();
+            totalDef += it.getDEF();
         }
         sb.append("\tInventory \n");
         for (AbstractStuffItem i : inventory.getInventory()) {
@@ -133,10 +130,6 @@ public class Util {
                         .append(it.getDEF())
                         .append("|AGI ")
                         .append(it.getAGI());
-
-
-                //.append("|LUK ")
-                //.append((int) it.getLUK());
             }
             if (acc == selectedItem) {
                 sbTmp.append(']');
@@ -177,49 +170,6 @@ public class Util {
         sb.append(String.format("%s : %d ", "LUK", stat.get("LUK")));
         sb.append(Ansi.colorize(String.format("(+%d)", totalLuk), Attribute.GREEN_TEXT()));
         sb.append("\n");
-//        for (Map.Entry<String, Double> stat : player.getStats().entrySet()) {
-//            sb.append(String.format("%s : %d ", stat.getKey(), stat.getValue().intValue()));
-//            switch (stat.getKey()) {
-//                case "ATK":
-//                    sb.append(Ansi.colorize(String.format("(+%d)", totalAtk), Attribute.GREEN_TEXT()));
-//                    break;
-//                case "MAX_HP":
-//                    sb.append(Ansi.colorize(String.format("(+%d)", totalHp), Attribute.GREEN_TEXT()));
-//                    break;
-//                case "AGI":
-//                    sb.append(Ansi.colorize(String.format("(+%d)", totalAgi), Attribute.GREEN_TEXT()));
-//                    break;
-//                case "DEF":
-//                    sb.append(Ansi.colorize(String.format("(+%d)", totalDef), Attribute.GREEN_TEXT()));
-//                    break;
-//                case "LUK":
-//                    sb.append(Ansi.colorize(String.format("(+%d)", totalLuk), Attribute.GREEN_TEXT()));
-//                    break;
-//                case "MAX_MP":
-//                    sb.append(Ansi.colorize(String.format("(+%d)", totalMp), Attribute.GREEN_TEXT()));
-//                    break;
-//                default:
-//                    break;
-//            }
-//            sb.append("\n");
-//        }
-        return sb.toString();
-    }
-
-
-    public static String showShop(Player player) {
-        Shop shop = new Shop(player, player.getPosition());
-        //shop.generateItems();
-        if (shop.isEmpty()) {
-            return Ansi.colorize("Aucun objet dans le shop!", Attribute.BRIGHT_RED_TEXT());
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(Ansi.colorize("SHOP\n", Attribute.MAGENTA_TEXT()));
-        for (Map.Entry<AbstractStuffItem, Price> entry : shop.getItems().entrySet()) {
-            sb.append(String.format("%s : ", entry.getKey()))
-                    .append(Ansi.colorize(String.format("%s MADY Coins.\n", entry.getValue()),
-                            Attribute.BRIGHT_YELLOW_TEXT()));
-        }
         return sb.toString();
     }
 
@@ -227,11 +177,6 @@ public class Util {
         WelcomeMenu wm = new WelcomeMenu();
         System.out.println(wm);
     }
-
-    public static String filler(int i) {
-        return " ".repeat(Math.max(0, i));
-    }
-
 
     public static void printHELP() {
         if (!inHelp) {
