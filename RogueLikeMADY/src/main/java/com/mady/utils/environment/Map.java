@@ -77,7 +77,9 @@ public class Map {
         while (salleBoss.equals(player.getSalle())) {
             salleBoss = chooseSalle();
         }
-        generatePortal();
+        if (!addBoss) {
+            generatePortal();
+        }
         generateTrap();
         generateEntities();
         generateItems();
@@ -355,7 +357,7 @@ public class Map {
             }
             if (securite > 0) {
                 Entities entity = MonsterFactory.getInstance().generate(
-                        Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
+                        Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle, player);
                 map[pos.getX()][pos.getY()].setEntity(entity);
                 entities.add(entity);
             }
@@ -541,9 +543,9 @@ public class Map {
     /**
      * generation des escaliers qui permettent d'évoluer entre salles. Celui-ci ne peut pas être placé devant une porte.
      */
-    private void generatePortal() {
+    public void generatePortal() {
         Position pos = randomPosPlayerInSalle(salleBoss);
-        while (nextToDoor(pos)) {
+        while (nextToDoor(pos) || map[pos.getX()][pos.getY()].isOccupied()){
             pos = randomPosPlayerInSalle(salleBoss);
         }
         map[pos.getX()][pos.getY()] = new Case("§", CaseTypeEnum.PORTAL);

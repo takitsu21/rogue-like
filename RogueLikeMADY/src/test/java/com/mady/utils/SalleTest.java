@@ -26,18 +26,18 @@ public class SalleTest {
         assertTrue(s1.inSalle(new Position(0, 0)));
 
         assertFalse(s1.inSalle(new Position(66, 66)));
-        assertFalse(s1.inSalle(new Position(7, 7)));
+        assertTrue(s1.inSalle(new Position(7, 7)));
         assertTrue(s2.inSalle(s2.findMiddle()));
         assertTrue(s2.inSalle(s2.getPos()));
         assertFalse(s2.inSalle(new Position(0, 0)));
         assertFalse(s2.inSalle(new Position(-1, -9)));
     }
 
-//    @Test
-//    void isCorner() {
-//        assertFalse(s1.isCorner(s1.findMiddle()));
-//        assertTrue(s2.isCorner(s2.getPos().incrementPos(new Position(s2.getlignes(), s2.getcolonnes()))));
-//    }
+    @Test
+    void isCorner() {
+        assertFalse(s1.isCorner(s1.findMiddle()));
+        assertTrue(s2.isCorner(s2.getPos().incrementPos(new Position(s2.getlignes()+1, s2.getcolonnes()+1))));
+    }
 
     @Test
     void findMiddle() {

@@ -15,37 +15,46 @@ public class MonsterFactory {
         return instance;
     }
 
-    public Monster generate(int id, Position position, Salle salle) {
+    public Monster generate(int id, Position position, Salle salle, Player player) {
+        AbstractMonster monster;
         switch (id) {
             case 0:
-                return new GoblinArcher(position, salle);
+                monster = new GoblinArcher(position, salle);
+                break;
             case 1:
-                return new OrcWarrior(position, salle);
+                monster = new OrcWarrior(position, salle);
+                break;
             case 2:
-                return new Witch(position, salle);
+                monster = new Witch(position, salle);
+                break;
             case 3:
-                return new Troll(position, salle);
+                monster = new Troll(position, salle);
+                break;
             case 4:
-                return new DarkDruide(position, salle);
-
+                monster = new DarkDruide(position, salle);
+                break;
 
             default:
-                return null;
+                monster = null;
         }
+        if (monster != null) {
+            monster.setLvl(player.getLvl());
+        }
+        return monster;
     }
 
-    public Monster generate(String id, Position position, Salle salle) {
+    public Monster generate(String id, Position position, Salle salle, Player player) {
         switch (id) {
             case "goblinArcher":
-                return generate(0, position, salle);
+                return generate(0, position, salle, player);
             case "orcWarrior":
-                return generate(1, position, salle);
+                return generate(1, position, salle, player);
             case "Sorcière":
-                return generate(2, position, salle);
+                return generate(2, position, salle, player);
             case "Troll":
-                return generate(3, position, salle);
+                return generate(3, position, salle, player);
             case "Druide noir":
-                return generate(4, position, salle);
+                return generate(4, position, salle, player);
             default:
                 return null;
         }
