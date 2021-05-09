@@ -159,7 +159,8 @@ public class Util {
         sb.append(Ansi.colorize(String.format("(+%d)", totalMp), Attribute.GREEN_TEXT()));
         sb.append("\n");
         sb.append(String.format("%s : %d ", "ATK", stat.get("ATK")));
-        sb.append(Ansi.colorize(String.format("(+%d)", totalAtk), Attribute.GREEN_TEXT()));
+        sb.append(Ansi.colorize(String.format("(+%d) ", totalAtk), Attribute.GREEN_TEXT()));
+        sb.append(String.format("(Dégâts brut %d)", player.getDamages()));
         sb.append("\n");
         sb.append(String.format("%s : %d ", "DEF", stat.get("DEF")));
         sb.append(Ansi.colorize(String.format("(+%d)", totalDef), Attribute.GREEN_TEXT()));
