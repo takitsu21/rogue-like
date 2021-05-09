@@ -28,7 +28,7 @@ public class Player extends AbstractEntities {
     private int expMax = 10;
     private int maxMp = 50;
     private int MP = maxMp;
-    private int ATK = 3;
+    private int ATK = 1;
     private int DEF = 1;
     private int AGI = 1;
     private int LUK = 1;
@@ -48,7 +48,7 @@ public class Player extends AbstractEntities {
     private int realExpMax = 10;
     private int realMaxMp = 50;
     private int realMP = realMaxMp;
-    private int realATK = 3;
+    private int realATK = 1;
     private int realDEF = 1;
     private int realAGI = 1;
     private int realLUK = 1;
@@ -149,6 +149,17 @@ public class Player extends AbstractEntities {
         setMaxHitPoints(getMaxHitPoints() + item.getHP());
         setHitPoints(getHitPoints() + item.getHP());
         setATK(getATK() + item.getATK());
+
+        setDamages((int) (getRealDamages() + (2 * Math.sqrt(getATK()))));
+    }
+
+    public int getRealDamages() {
+        return realDamages;
+    }
+
+    public void setRealDamages(int realDamages) {
+        setDamages(getDamages() - getRealDamages() + realDamages);
+        this.realDamages = realDamages;
     }
 
     /**
@@ -375,7 +386,7 @@ public class Player extends AbstractEntities {
         setRealMaxMp((int) (getRealMaxMp() * getMultiplicateur()));
         setMP(getMaxMp());
         setRealATK((int) (getRealATK() * getMultiplicateur()));
-        setDamages((int) (getDamages() + (getATK() * 0.50)));
+        setRealDamages((int) (getRealDamages() + (2 * Math.sqrt(getATK()))));
         setRealDEF((int) (getRealDEF() * getMultiplicateur()));
         setRealAGI((int) (getRealAGI() * getMultiplicateur()));
         setRealLUK((int) (getRealLUK() * getMultiplicateur()));
