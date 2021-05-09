@@ -152,7 +152,7 @@ public class MoveListener implements KeyListener {
                 break;
             case KeyEvent.VK_ENTER: // Touche Enter
                 if (Util.keyPressed == KeyboardPressedEnum.I && map.getPlayer().getInventory().getInventory().size() >= 1) {
-                    map.getPlayer().equipItem(map.getPlayer().getInventory().getSelectedItem());
+                    map.getPlayer().equipItem(Math.abs(map.getPlayer().getInventory().getSelectedItem()));
                     map.getPlayer().getInventory().setSelectedItem(0);
                     if (map.getPlayer().getInventory().getInventory().size() == 0) {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
@@ -172,7 +172,6 @@ public class MoveListener implements KeyListener {
                         case "Restart":
                             Util.keyPressed = KeyboardPressedEnum.WELCOME;
                             GameLoop.restart();
-
                             break;
                         case "Help":
                             Util.keyPressed = KeyboardPressedEnum.HELP;

@@ -120,7 +120,7 @@ public abstract class AbstractEntities implements Entities {
     public void takeDamages(int damages) {
         if (this instanceof Player) {
             this.setHitPoints((int) (this.getHitPoints() - (damages *
-                    (1000 / (1140 + 3.5 * ((Player) this).getDEF())))));
+                    (1000 / (1140 + 4.5 * ((Player) this).getDEF())))));
         } else {
             this.setHitPoints(this.getHitPoints() - damages);
         }

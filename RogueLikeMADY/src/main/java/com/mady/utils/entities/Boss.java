@@ -9,7 +9,7 @@ public class Boss extends AbstractMonster {
     Map map;
 
     public Boss(Position pos, Salle salle, int playerLvl) {
-        super("Boss", pos, 50, 5, 1, "B", 5, salle, playerLvl);
+        super("Boss", pos, 35, 4, 1, "B", 5, salle, playerLvl);
     }
 
     @Override

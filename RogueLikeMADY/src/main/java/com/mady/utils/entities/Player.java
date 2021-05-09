@@ -375,7 +375,7 @@ public class Player extends AbstractEntities {
         setRealMaxMp((int) (getRealMaxMp() * getMultiplicateur()));
         setMP(getMaxMp());
         setRealATK((int) (getRealATK() * getMultiplicateur()));
-        setDamages(getDamages() + getRealATK());
+        setDamages((int) (getDamages() + (getATK() * 0.50)));
         setRealDEF((int) (getRealDEF() * getMultiplicateur()));
         setRealAGI((int) (getRealAGI() * getMultiplicateur()));
         setRealLUK((int) (getRealLUK() * getMultiplicateur()));
