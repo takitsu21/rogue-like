@@ -7,7 +7,9 @@
 
 <h3 align="center">RogueLike MADY</h3>
 
-![Game](https://i.imgur.com/FDKUPoZ.png)
+![Accueil](https://i.imgur.com/hTDKKex.png)
+
+![Game](https://i.imgur.com/wMwNcCK.png)
 
 ## <u>Développeurs :</u>
 
@@ -20,7 +22,7 @@
 
 Le but de ce projet est de développer en groupe un jeu de type <b>RogueLike</b>, en s'appuyant sur des méthodes
 utilisées en entreprise telle que la methode agile, pour developper le jeu nous nous somme aidé
-de <i>[MAVEN](https://maven.apache.org/). </i>
+de <i>[MAVEN](https://maven.apache.org/).</i>
 
 Un Rogue Like est un sous-genre de jeu vidéo de rôle dans lequel le joueur explore un donjon infesté de monstres qu’il
 doit combattre pour gagner de l’expérience et des trésors. Le genre se caractérise notamment par la génération
@@ -34,50 +36,71 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
     - `s` descendre
     - `q` gauche
     - `d` droite
-    - `shift + déplacement` dash
+    - `⇧ + déplacement` dash / roulade dans une direction
 - Attaque:
-    - attaque de zone autour du joueur `a`
-    - attaque un unique monstre `e`
-- Inventaire: `i` (navigation `z s`, équiper l'objet `enter`, jeter l'objet `backspace`)
-- interaction: `x` (ouverture d'un coffre)
+    - `a` attaque de zone autour du joueur
+    - `e` attaque un unique monstre
+    - `t` attaque un unique monstre à distance
+        - `←` `→` sélectionner les différents monstres autour de soi
+        - `⏎` pour valider la sélection et attaquer le monstre
 
-![Inventaire](https://i.imgur.com/vUfnbbn.png)
+- Inventaire: `i` (navigation `z s`, équiper l'objet `⏎`, jeter l'objet `⌫`)
+
+![Inventaire](https://i.imgur.com/6JurPRn.png)
+
+- interaction: `x` (ouverture d'un coffre, achat d'un coffre dans le shop, achat de potions)
+
+- Vente
+    - intéragir avec le marchand `!` dans le shop afin de vendre des objets.
+    - `z`, `s` pour sélectioner un objet.
+    - `⏎` pour confirmer la vente.
+
+
+![Shop](https://i.imgur.com/5kdfdIf.png)
+
 
 ## <u>Representation du jeu :</u>
 
 - Monstre:
-    - Orc `o`
-    - Goblin `g`
-- Coffre au trésor <span style="color:magenta">C</span>, vous offre un item aléatoire a équiper.
-- Potion ou poison de force <span style="color:orange">F</span>, vous octroie un malus ou bonus d'ATK.
-- Potion ou poison de vie <span style="color:orange">V</span>, vous octroie un malus ou bonus de d'HP.
+    - `o` Orc
+    - `g` Goblin
+    - `T` Troll
+    - `w` Sorcière
+    - `d` Druide noir
+    - `B` Boss
+- Coffre au trésor <span style="color:magenta">C</span>, vous offre un item aléatoire a équiper, un coffre dans un shop est payant et contient un item prédéfini.
+- Potion ou poison de mana <span style="color:orange">M</span>, vous octroie un malus ou bonus de MP.
+- Potion ou poison de vie <span style="color:orange">V</span>, vous octroie un malus ou bonus de HP.
 - Portail <span style="color:cyan">§</span>, vous téléporte à la prochaine map.
-- Coming soon...
-    - Nouveaux :
-        - Monstres
-        - Items
-        - Effets visuels
-        - Stats des équipements à ajouter au joueur (ATK, HP, etc...)
-    - Official Soundtrack
+    - Quand un boss est présent (toutes les 3 salles), le portail apparaît une fois le
+    boss tué.
+- Shop <span style="color:magenta">$</span>, vous téléporte à la map du shop.
+- PNJ <span style="color:yellow">!</span>, Henri, le marchand.
+- Elixirs de Vie (présent dans le shop) <span style="background-color:red;color:red">C</span>
+- Elixirs de mana (présent dans le shop) <span style="background-color:blue;color:blue;">C</span>
 
-## <u>Conseil de jeu :</u>
 
-Pour gagner de l'expérience vous devrez tuer des monstres. Cela vous permettra de monter en niveau et d'augmenter vos
-statistiques. Ouvrir des coffres vous permet d'obtenir des équipements que vous pourrez visualiser dans l'inventaire.
-Marcher sur des potions vous donnera l'opportunité de gagner des bonus ou des malus de statistiques. Pour changer de
-salle déplacer vous sur les portes et vous serez téléporté dans la salle relié. Le changement de monde s'effectue
-lorsque vous marché sur le portail.
+## <u>Conseils de jeu :</u>
 
-Il vous faudra cliquer sur la fenêtre swing qui s'ouvrira pour pouvoir utiliser les touches.
+⚠️ Quand votre partie commence il vous faudra rester focus sur la fenêtre swing qui s'ouvrira. ⚠️ \
+
+Pour gagner de l'expérience vous devrez tuer des monstres. Cela vous permettra de monter en niveau et d'augmenter vos statistiques. \
+Ouvrir des coffres vous permet d'obtenir des équipements que vous pourrez visualiser dans l'inventaire et vendre au marchand. \
+Marcher sur des potions vous donnera l'opportunité de gagner des bonus ou des malus de vie ou de mana. \
+Pour changer de salle déplacer vous sur les portes et vous serez téléporté dans la salle relié. \
+Au cours de votre partie vous croiserez la porte menant au shop où vous pourrez vendre et acheter du materiel (⚠️ si vous sortez du shop vous ne pouvez plus y retourner). \
+Le changement de monde s'effectue lorsque vous marché sur le portail (⚠️ quand vous passez un portail vous ne pouvez pas revenir en arrière).\
 
 ## <u>Bugs connus</u>
 
-- Problème de génération de chemins / portes dans les coins des salles.
-- Problème d'interactions avec le jeu de façon inattendu (on ne peut plus bouger).
+- [X] Problème d'interactions avec le jeu de façon inattendu (on ne peut plus bouger).
+- [ ] Les chemins peuvent se croiser entre eux mais sont tout de même utilisables.
+- [ ] Problème de génération de chemins / portes dans les coins des salles.
+- [ ] Génération de la map plus longue de temps en temps car nous avons augmenté sa taille et le nombre de salles présentes dans celle-ci.
 
 ## <u>Pour run l'artefact : </u>
 
-Si vous êtes sur Windows il vous faudra un serveur X graphique (Xming) pour lancer le programme.
+Si vous êtes sur Windows avec wsl il vous faudra un serveur X graphique (ex: Xming) pour lancer le programme.
 
 CMD SHELL
 
