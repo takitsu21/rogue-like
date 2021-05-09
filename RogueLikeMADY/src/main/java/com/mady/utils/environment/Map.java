@@ -335,7 +335,7 @@ public class Map {
             pos = randomPosPlayerInSalle(salleBoss);
         }
         if (securite > 0) {
-            boss = new Boss(pos, salleBoss);
+            boss = new Boss(pos, salleBoss, player.getLvl());
             map[pos.getX()][pos.getY()].setEntity(boss);
             entities.add(boss);
         }

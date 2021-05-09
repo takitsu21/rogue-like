@@ -7,8 +7,8 @@ import com.mady.utils.environment.Salle;
 public class OrcWarrior extends AbstractMonster {
 
 
-    public OrcWarrior(Position pos, Salle salle) {
-        super("Orc", pos, 10, 2, 1, "o", 3, salle);
+    public OrcWarrior(Position pos, Salle salle, int playerLvl) {
+        super("Orc", pos, 10, 2, 1, "o", 3, salle, playerLvl);
     }
 
 

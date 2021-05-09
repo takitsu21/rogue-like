@@ -6,8 +6,8 @@ import com.mady.utils.environment.Salle;
 
 public class Troll extends AbstractMonster {
 
-    public Troll(Position pos, Salle salle) {
-        super("Troll", pos, 15, 2, 1, "T", 2, salle);
+    public Troll(Position pos, Salle salle, int playerLvl) {
+        super("Troll", pos, 15, 2, 1, "T", 2, salle, playerLvl);
     }
 
 

@@ -11,8 +11,8 @@ import com.mady.utils.environment.Salle;
 
 public class DarkDruide extends AbstractMonster {
 
-    public DarkDruide(Position pos, Salle salle) {
-        super("Druide noir", pos, 15, 2, 1, "d", 4, salle);
+    public DarkDruide(Position pos, Salle salle, int playerLvl) {
+        super("Druide noir", pos, 15, 2, 1, "d", 4, salle, playerLvl);
     }
 
 

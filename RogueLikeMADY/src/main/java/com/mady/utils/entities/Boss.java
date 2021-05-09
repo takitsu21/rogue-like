@@ -8,8 +8,8 @@ import com.mady.utils.items.Chest;
 public class Boss extends AbstractMonster {
     Map map;
 
-    public Boss(Position pos, Salle salle) {
-        super("Boss", pos, 50, 5, 1, "B", 5, salle);
+    public Boss(Position pos, Salle salle, int playerLvl) {
+        super("Boss", pos, 50, 5, 1, "B", 5, salle, playerLvl);
     }
 
     @Override

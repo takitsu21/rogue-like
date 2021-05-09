@@ -17,12 +17,14 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
                            int movement,
                            String repr,
                            int effectiveArea,
-                           Salle salle) {
+                           Salle salle,
+                           int playerLvl) {
 
         super(name, pos, lifePoints, damages, movement, repr, effectiveArea, salle);
-        setMaxHitPoints(getLvl()==1? (int) (lifePoints * getLvl() * getMultiplicateur()) : (int) (lifePoints * (getLvl() * 2) * getMultiplicateur()));
+        setLvl(playerLvl);
+        setMaxHitPoints((int) ((lifePoints * getLvl()) * getMultiplicateur()));
         setHitPoints(getMaxHitPoints());
-        setDamages(getLvl()==1? (int) (lifePoints * getLvl() * getMultiplicateur()) : (int) (damages * (getLvl() * 2) * getMultiplicateur()));
+        setDamages((int) ((damages * getLvl()) * getMultiplicateur()));
     }
 
 

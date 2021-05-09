@@ -19,26 +19,24 @@ public class MonsterFactory {
         AbstractMonster monster;
         switch (id) {
             case 0:
-                monster = new GoblinArcher(position, salle);
+                monster = new GoblinArcher(position, salle, player.getLvl());
                 break;
             case 1:
-                monster = new OrcWarrior(position, salle);
+                monster = new OrcWarrior(position, salle, player.getLvl());
                 break;
             case 2:
-                monster = new Witch(position, salle);
+                monster = new Witch(position, salle, player.getLvl());
                 break;
             case 3:
-                monster = new Troll(position, salle);
+                monster = new Troll(position, salle, player.getLvl());
                 break;
             case 4:
-                monster = new DarkDruide(position, salle);
+                monster = new DarkDruide(position, salle, player.getLvl());
                 break;
 
             default:
                 monster = null;
-        }
-        if (monster != null) {
-            monster.setLvl(player.getLvl());
+                break;
         }
         return monster;
     }
