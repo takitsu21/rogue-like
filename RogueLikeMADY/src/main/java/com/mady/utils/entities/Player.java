@@ -52,7 +52,6 @@ public class Player extends AbstractEntities {
     private int realDEF = 1;
     private int realAGI = 1;
     private int realLUK = 1;
-    private int realDamages = 5;
     private List<Entities> monsterAround = new ArrayList<>();
     private int maxExpToWin = 3;
     private int coins = 0;
@@ -150,16 +149,6 @@ public class Player extends AbstractEntities {
         setMaxHitPoints(getMaxHitPoints() + item.getHP());
         setHitPoints(getHitPoints() + item.getHP());
         setATK(getATK() + item.getATK());
-        setDamages((int) (getRealDamages() + (3 * Math.sqrt(getATK()))));
-    }
-
-    public int getRealDamages() {
-        return realDamages;
-    }
-
-    public void setRealDamages(int realDamages) {
-        setDamages(getDamages() - getRealDamages() + realDamages);
-        this.realDamages = realDamages;
     }
 
     /**
@@ -386,7 +375,7 @@ public class Player extends AbstractEntities {
         setRealMaxMp((int) (getRealMaxMp() * getMultiplicateur()));
         setMP(getMaxMp());
         setRealATK((int) (getRealATK() * getMultiplicateur()));
-        setRealDamages((int) (getRealDamages() + (3 * Math.sqrt(getATK()))));
+        setDamages((int) (getDamages() + (getATK() * 0.50)));
         setRealDEF((int) (getRealDEF() * getMultiplicateur()));
         setRealAGI((int) (getRealAGI() * getMultiplicateur()));
         setRealLUK((int) (getRealLUK() * getMultiplicateur()));
