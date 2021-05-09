@@ -33,12 +33,11 @@ public class SalleTest {
         assertFalse(s2.inSalle(new Position(-1, -9)));
     }
 
-    @Test
-    void isCorner() {
-        assertFalse(s1.isCorner(s1.findMiddle()));
-        assertTrue(s2.isCorner(s2.getPos().incrementPos(new Position(s2.getlignes(), s2.getcolonnes()))));
-
-    }
+//    @Test
+//    void isCorner() {
+//        assertFalse(s1.isCorner(s1.findMiddle()));
+//        assertTrue(s2.isCorner(s2.getPos().incrementPos(new Position(s2.getlignes(), s2.getcolonnes()))));
+//    }
 
     @Test
     void findMiddle() {

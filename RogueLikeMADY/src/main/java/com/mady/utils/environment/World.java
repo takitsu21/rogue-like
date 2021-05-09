@@ -13,7 +13,7 @@ public class World {
     private final List<Map> maps = new ArrayList<>();
     private final WindowGameIntegration windowGameIntegration;
     private Map currentMap;
-    private int compteur = 0;
+    public static int compteur = 0;
 
     public World(WindowGameIntegration windowGameIntegration) {
         this.windowGameIntegration = windowGameIntegration;
@@ -56,7 +56,7 @@ public class World {
         Map map;
         compteur += 1;
         do {
-            map = new Map(6, 24, 128, compteur % 3 == 0);
+            map = new Map(8, 32, 160, compteur % 3 == 0);
             bCreatWorld = map.createMap();
         }
         while (bCreatWorld);

@@ -383,7 +383,7 @@ public class Map {
     }
 
     private void generateItems() {
-        int nbMaxItems = Util.r.nextInt(2) + 5;
+        int nbMaxItems = Util.r.nextInt(2) + 10;
         addItems(nbMaxItems);
     }
 
@@ -576,7 +576,6 @@ public class Map {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
         sb.append(Ansi.colorize(String.format("HP : %d/%d | ", player.getHitPoints(), player.getMaxHitPoints())
                 , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", player.getMP(),
                 player.getMaxMp()), Attribute.BLUE_TEXT()))
@@ -585,8 +584,12 @@ public class Map {
                         Attribute.MAGENTA_TEXT()))
                 .append(Ansi.colorize(String.format("%d MADY Coins|", player.getCoins()),
                         Attribute.BRIGHT_YELLOW_TEXT()))
-                .append(Ansi.colorize((String.format("⚗️%d|",player.getElixirVie())),Attribute.RED_TEXT()))
-                .append(Ansi.colorize((String.format("⚗️%d|\n",player.getElixirMana())),Attribute.BLUE_TEXT()));
+                .append(Ansi.colorize((String.format("Elixir de vie %d|", player.getElixirVie())), Attribute.RED_TEXT()))
+                .append(Ansi.colorize((String.format("Elixir de mana %d|", player.getElixirMana())), Attribute.BLUE_TEXT()))
+                .append(String.format("\tETAGE %d\n", World.compteur));
+
+
+
 
         for (int i = 0; i <= BASE_WIDTH + 1; i++) {
             sb.append(Ansi.colorize("\"", Attribute.BLACK_BACK(), Attribute.BLACK_TEXT()));
