@@ -56,6 +56,7 @@ public abstract class GameLoop {
     }
 
     public static void restart() {
+        World.compteur = 0;
         world = new World(windowGameIntegration);
         world.createWorld();
         map = world.getCurrentMap();
@@ -71,7 +72,6 @@ public abstract class GameLoop {
         }
         windowGameIntegration.getFrame().addKeyListener(new MoveListener(map));
         status = GameStatus.WELCOME_SCREEN;
-
     }
 
     public static WindowGameIntegration getFrame() {
