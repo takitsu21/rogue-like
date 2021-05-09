@@ -2,7 +2,9 @@ package com.mady.game.menus;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
+import com.mady.utils.entities.Player;
 import com.mady.utils.environment.Case;
+import com.mady.utils.environment.World;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +30,20 @@ public class PauseMenu {
         return liste;
     }
 
-    public String toString(Case[][] map) {
+    public String toString(Case[][] map,Player player) {
         StringBuilder sb = new StringBuilder();
+        sb.append(Ansi.colorize(String.format("HP : %d/%d | ", player.getHitPoints(), player.getMaxHitPoints())
+                , Attribute.RED_TEXT())).append(Ansi.colorize(String.format("MP %d/%d | ", player.getMP(),
+                player.getMaxMp()), Attribute.BLUE_TEXT()))
+                .append(Ansi.colorize(String.format("Lvl %d ", player.getLvl()), Attribute.YELLOW_TEXT()))
+                .append(Ansi.colorize(String.format("[%d/%d EXP] | ", player.getExp(), player.getExpMax()),
+                        Attribute.MAGENTA_TEXT()))
+                .append(Ansi.colorize(String.format("%d MADY Coins|", player.getCoins()),
+                        Attribute.BRIGHT_YELLOW_TEXT()))
+                .append(Ansi.colorize((String.format(" Elixir de vie %d |", player.getElixirVie())), Attribute.RED_TEXT()))
+                .append(Ansi.colorize((String.format(" Elixir de mana %d |", player.getElixirMana())), Attribute.BLUE_TEXT()))
+                .append(String.format("\tETAGE %d\n", World.compteur));
+
         int height = map.length;
         int width = map[0].length;
         int heightPause = height / 3;

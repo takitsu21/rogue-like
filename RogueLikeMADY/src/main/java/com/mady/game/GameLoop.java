@@ -179,7 +179,7 @@ public abstract class GameLoop {
         if (isGamePaused() && (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.SELL)) {
             System.out.println(Util.showInventoryMenu(controller.player));
         } else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)) {
-            System.out.println(map.getPause().toString(map.getMap()));
+            System.out.println(map.getPause().toString(map.getMap(),map.getPlayer()));
         } else if (isWelcomeScreen()) {
             Util.showWelcomeScreen();
         } else if (isGameRunning() || isGameAttackMenu()) {
