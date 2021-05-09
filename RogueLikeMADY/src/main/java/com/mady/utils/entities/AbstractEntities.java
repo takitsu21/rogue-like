@@ -24,7 +24,7 @@ public abstract class AbstractEntities implements Entities {
     private boolean isAttack = false;
     private int lvl = 1;
     private int nbDeplacement = 0;
-    private int manaGain = 10;
+    private int manaGain = 6;
 
 
     public AbstractEntities(String name,

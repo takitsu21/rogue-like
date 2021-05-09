@@ -105,8 +105,8 @@ public class Salle {
     }
 
     public boolean inSalle(Position position) {
-        return (position.getX() >= this.pos.getX() - 1 && position.getX() <= this.pos.getX() + lignes
-                && position.getY() >= this.pos.getY() - 1 && position.getY() <= this.pos.getY() + colonnes);
+        return (position.getX() >= this.pos.getX() - 1 && position.getX() <= this.pos.getX() + lignes + 1
+                && position.getY() >= this.pos.getY() - 1 && position.getY() <= this.pos.getY() + colonnes + 1);
     }
 
     /**

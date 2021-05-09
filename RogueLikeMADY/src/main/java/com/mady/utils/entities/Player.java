@@ -473,6 +473,9 @@ public class Player extends AbstractEntities {
                 monster.getName(), monster.getHitPoints(), monster.getMaxHitPoints(), getDamages()), Attribute.BLUE_TEXT()));
 
         if (monster.isDead(map)) {
+            if(monster instanceof Boss){
+                map.generatePortal();
+            }
             Util.currentAction.append(Ansi.colorize(String.format("Vous avez tué %s.\n", monster.getName()),
                     Attribute.RED_TEXT()));
             winExp(monster);
