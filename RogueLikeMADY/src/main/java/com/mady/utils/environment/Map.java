@@ -357,7 +357,7 @@ public class Map {
             }
             if (securite > 0) {
                 Entities entity = MonsterFactory.getInstance().generate(
-                        Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle);
+                        Util.r.nextInt(MonsterFactory.nbMonsters), pos, salle, player);
                 map[pos.getX()][pos.getY()].setEntity(entity);
                 entities.add(entity);
             }
