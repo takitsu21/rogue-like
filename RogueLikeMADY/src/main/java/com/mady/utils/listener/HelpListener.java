@@ -78,13 +78,13 @@ public class HelpListener implements ActionListener {
                 "    - `d` Druide noir\n" +
                 "    - `B` Boss\n" +
                 "- Coffre au trésor <span style=\"color:magenta\">C</span>, vous offre un item aléatoire a équiper, un coffre dans un shop est payant et contient un item prédéfini.\n" +
-                "- Potion ou poison de mana <span style=\"color:orange\">M</span>, vous octroie un malus ou bonus de MP.\n" +
-                "- Potion ou poison de vie <span style=\"color:orange\">V</span>, vous octroie un malus ou bonus de HP.\n" +
+                "- Potion ou poison de mana <span style=\"color:orange\";>M</span>, vous octroie un malus ou bonus de MP.\n" +
+                "- Potion ou poison de vie <span style=\"color:orange\";>V</span>, vous octroie un malus ou bonus de HP.\n" +
                 "- Portail <span style=\"color:cyan\">§</span>, vous téléporte à la prochaine map.\n" +
                 "    - Quand un boss est présent (toutes les 3 salles), le portail apparaît une fois le\n" +
                 "    boss tué.\n" +
-                "- Shop <span style=\"color:magenta\">$</span>, vous téléporte à la map du shop.\n" +
-                "- PNJ <span style=\"color:yellow\">!</span>, Henri, le marchand.\n" +
+                "- Shop <span style=\"color:magenta\";>$</span>, vous téléporte à la map du shop.\n" +
+                "- PNJ <span style=\"color:orange\";>!</span>, Henri, le marchand.\n" +
                 "- Elixirs de Vie (présent dans le shop) <span style=\"background-color:red;color:red\">C</span>\n" +
                 "- Elixirs de mana (présent dans le shop) <span style=\"background-color:blue;color:blue;\">C</span>\n" +
                 "\n" +
@@ -93,12 +93,12 @@ public class HelpListener implements ActionListener {
                 "\n" +
                 "⚠️ Quand votre partie commence il vous faudra rester focus sur la fenêtre swing qui s'ouvrira. ⚠️\n" +
                 "\n" +
-                "Pour gagner de l'expérience vous devrez tuer des monstres. Cela vous permettra de monter en niveau et d'augmenter vos statistiques. \\\n" +
-                "Ouvrir des coffres vous permet d'obtenir des équipements que vous pourrez visualiser dans l'inventaire et vendre au marchand. \\\n" +
-                "Marcher sur des potions vous donnera l'opportunité de gagner des bonus ou des malus de vie ou de mana. \\\n" +
-                "Pour changer de salle déplacer vous sur les portes et vous serez téléporté dans la salle relié. \\\n" +
-                "Au cours de votre partie vous croiserez la porte menant au shop où vous pourrez vendre et acheter du materiel (⚠️ si vous sortez du shop vous ne pouvez plus y retourner). \\\n" +
-                "Le changement de monde s'effectue lorsque vous marché sur le portail (⚠️ quand vous passez un portail vous ne pouvez pas revenir en arrière).\\\n" +
+                "Pour gagner de l'expérience vous devrez tuer des monstres. Cela vous permettra de monter en niveau et d'augmenter vos statistiques. \n" +
+                "Ouvrir des coffres vous permet d'obtenir des équipements que vous pourrez visualiser dans l'inventaire et vendre au marchand. \n" +
+                "Marcher sur des potions vous donnera l'opportunité de gagner des bonus ou des malus de vie ou de mana. \n" +
+                "Pour changer de salle déplacer vous sur les portes et vous serez téléporté dans la salle relié. \n" +
+                "Au cours de votre partie vous croiserez la porte menant au shop où vous pourrez vendre et acheter du materiel (⚠️ si vous sortez du shop vous ne pouvez plus y retourner). \n" +
+                "Le changement de monde s'effectue lorsque vous marché sur le portail (⚠️ quand vous passez un portail vous ne pouvez pas revenir en arrière).\n" +
                 "\n" +
                 "## <u>Bugs connus</u>\n" +
                 "\n" +
@@ -113,16 +113,15 @@ public class HelpListener implements ActionListener {
                 "\n" +
                 "CMD SHELL\n" +
                 "\n" +
-                "`\n" +
-                "java -jar RogueLikeMADY-1.0-SNAPSHOT.jar\n" +
-                "`\n" +
+                "`java -jar RogueLikeMADY-1.0-SNAPSHOT.jar`\n" +
                 "\n" +
                 "<img src=\"https://i.imgur.com/d9cDliK.png\" alt=\"Logo\" width=48 height=48> <img src=\"https://i.imgur.com/fliRMaY.png\" alt=\"Logo\" width=48 height=48> <img src=\"https://i.imgur.com/zaCLOhf.png\" alt=\"Logo\" width=48 height=48>\n" +
                 "\n" +
                 "\n" +
                 "\n");
 
-        JScrollPane jsb = new JScrollPane(editor);
+        editor.setEditable(false);
+        JScrollPane jsb = new JScrollPane(editor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         helpFrame.getContentPane().add(jsb);
         ImageIcon img = new ImageIcon(Objects.requireNonNull(getClass().getResource("/MAD16x16.png")));
