@@ -33,7 +33,7 @@ public class Elixir extends PaidChest {
             player.setCoins(player.getCoins()-getPrice());
             Util.currentAction.append(Ansi.colorize(String.format("Vous achetez une potion de %s\n",name), Attribute.MAGENTA_TEXT()));
         }
-        else if(player.getElixirMana() < MAX_POTION || player.getElixirVie() < MAX_POTION){
+        else if(player.getElixirMana() +1 > MAX_POTION || player.getElixirVie() +1 > MAX_POTION){
             Util.currentAction.append(Ansi.colorize(String.format("Vous achetez trop de d'elixirs de %s",name), Attribute.MAGENTA_TEXT()));
         }
         }
