@@ -277,7 +277,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setElixirMana(int ElixirMana) {
-        ElixirMana = ElixirMana;
+        this.ElixirMana = ElixirMana;
     }
 
     public int getElixirVie() {
@@ -285,7 +285,7 @@ public class Player extends AbstractEntities {
     }
 
     public void setElixirVie(int ElixirVie) {
-        ElixirVie = ElixirVie;
+        this.ElixirVie = ElixirVie;
     }
 
     public int getHP() {
