@@ -119,7 +119,8 @@ public abstract class AbstractEntities implements Entities {
     @Override
     public void takeDamages(int damages) {
         if (this instanceof Player) {
-            this.setHitPoints(this.getHitPoints() - (damages / ((Player) this).getDEF()));
+            this.setHitPoints((int) (this.getHitPoints() - (damages *
+                    (1000 / (1140 + 3.5 * ((Player) this).getDEF())))));
         } else {
             this.setHitPoints(this.getHitPoints() - damages);
         }
@@ -155,7 +156,6 @@ public abstract class AbstractEntities implements Entities {
      * if he enters the monster goes towards the player
      * the effective area of a monster moves with him
      */
-
     private boolean isInPerimeter(Map map) {
         for (int i = pos.getX() - effectiveArea; i <= pos.getX() + effectiveArea; i++) {
             for (int j = pos.getY() - effectiveArea; j <= pos.getY() + effectiveArea; j++) {
@@ -169,7 +169,11 @@ public abstract class AbstractEntities implements Entities {
         return false;
     }
 
-
+    /**
+     *
+     * @param entitie monstre.
+     * @return nouvelle position aléatoire du monstre.
+     */
     public Position nextPos(Entities entitie) {
         int randomMove = Util.r.nextInt(entitie.getMovement() + 1);
         DeplacementEnum d = Util.randomDirection();

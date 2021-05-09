@@ -4,6 +4,7 @@ import com.mady.utils.entities.Player;
 import com.mady.utils.enums.CaseTypeEnum;
 import com.mady.utils.environment.Case;
 import com.mady.utils.environment.Salle;
+import com.mady.utils.items.Chest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,9 +28,12 @@ class CaseTest {
         cWall = new Case("#", null, CaseTypeEnum.WALL);
         cSalle = new Case(" ", null, CaseTypeEnum.SALLE);
         cEmpty = new Case(CaseTypeEnum.SALLE);
-        cItemNotEmpty = new Case("C", null, CaseTypeEnum.SALLE);
+        cItemNotEmpty = new Case("C",
+                new Chest(new Position(0, 0),  1, 1), CaseTypeEnum.SALLE);
         cConstructor = new Case(".");
-        cPlayer = new Case("@", new Player(new Position(0, 0), 0, 0, 0, "@", new Salle(0, 0, new Position(0, 0))));
+        cPlayer = new Case("@",
+                new Player(new Position(0, 0), 0, 0, 0, "@",
+                        new Salle(0, 0, new Position(0, 0))));
         cPath = new Case("P", null, CaseTypeEnum.PATH);
         cPortal = new Case("§", null, CaseTypeEnum.PORTAL);
         cMap = new Case(" ", null, CaseTypeEnum.MAP);
@@ -37,19 +41,19 @@ class CaseTest {
         cAttackBoss.setAttackBoss(true);
     }
 
-//    @Test
-//    void isOccupied() {
-//        assertFalse(cSalle.isOccupied());
-//        assertFalse(cWall.isOccupied());
-//        assertFalse(cEmpty.isOccupied());
-//        assertTrue(cItemNotEmpty.isOccupied());
-//        assertFalse(cConstructor.isOccupied());
-//        assertTrue(cPlayer.isOccupied());
-//        assertFalse(cPath.isOccupied());
-//        assertFalse(cPortal.isOccupied());
-//        assertFalse(cMap.isOccupied());
-//        assertFalse(cAttackBoss.isOccupied());
-//    }
+    @Test
+    void isOccupied() {
+        assertFalse(cSalle.isOccupied());
+        assertFalse(cWall.isOccupied());
+        assertFalse(cEmpty.isOccupied());
+        assertTrue(cItemNotEmpty.isOccupied());
+        assertFalse(cConstructor.isOccupied());
+        assertTrue(cPlayer.isOccupied());
+        assertFalse(cPath.isOccupied());
+        assertFalse(cPortal.isOccupied());
+        assertFalse(cMap.isOccupied());
+        assertFalse(cAttackBoss.isOccupied());
+    }
 
     @Test
     void testToString() {

@@ -36,7 +36,6 @@ public class SalleTest {
     @Test
     void isCorner() {
         assertFalse(s1.isCorner(s1.findMiddle()));
-        assertTrue(s1.isCorner(s1.getPos()));
         assertTrue(s2.isCorner(s2.getPos().incrementPos(new Position(s2.getlignes(), s2.getcolonnes()))));
 
     }
