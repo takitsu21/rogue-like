@@ -181,33 +181,30 @@ public class Util {
 
     public static void printHELP() {
         if (!inHelp) {
-            System.out.println("Déplacement:\n" +
-                    "z monter\n" +
-                    "s descendre\n" +
-                    "q gauche\n" +
-                    "d droite\n" +
-                    "Attaque:\n" +
-                    "attaque de zone autour du joueur a\n" +
-                    "attaque un unique monstre e\n" +
-                    "Inventaire: i (navigation z s, équiper l'objet enter, jeter l'objet backspace)\n" +
-                    "interaction: x (ouverture d'un coffre)" +
+            System.out.println("Contrôle du Joueur\n" +
                     "\n" +
+                    "- Déplacement:\n" +
+                    "    - z monter\n" +
+                    "    - s descendre\n" +
+                    "    - q gauche\n" +
+                    "    - d droite\n" +
+                    "    - ⇧ + déplacement dash / roulade dans une direction\n" +
+                    "- Attaque:\n" +
+                    "    - a attaque de zone autour du joueur\n" +
+                    "    - e attaque un unique monstre\n" +
+                    "    - t attaque un unique monstre à distance\n" +
+                    "        - ← → sélectionner les différents monstres autour de soi\n" +
+                    "        - ⏎ pour valider la sélection et attaquer le monstre\n" +
                     "\n" +
-                    "Representation du jeu :\n" +
-                    "Monstre:\n" +
-                    "Orc o\n" +
-                    "Goblin g\n" +
-                    "Coffre au trésor C, vous offre un item aléatoire a équiper.\n" +
-                    "Potion ou poison de force F, vous octroie un malus ou bonus d'ATK.\n" +
-                    "Potion ou poison de vie V, vous octroie un malus ou bonus de d'HP.\n" +
-                    "Portail §, vous téléporte à la prochaine map.\n" +
-                    "Coming soon...\n" +
-                    "Nouveaux :\n" +
-                    "Monstres\n" +
-                    "Items\n" +
-                    "Effets visuels\n" +
-                    "Stats des équipements à ajouter au joueur (ATK, HP, etc...)\n" +
-                    "Official Soundtrack");
+                    "- Inventaire: i (navigation z s, équiper l'objet ⏎, jeter l'objet ⌫)\n" +
+                    "\n" +
+                    "- interaction: x (ouverture d'un coffre, achat d'un coffre dans le shop, achat de potions)\n" +
+                    "\n" +
+                    "- Vente\n" +
+                    "    - intéragir avec le marchand ! dans le shop afin de vendre des objets.\n" +
+                    "    - z, s pour sélectioner un objet.\n" +
+                    "    - ⏎ pour confirmer la vente.\n\n" +
+                    "Pour des informations complémentaire sur le jeu allez dans la fenêtre d'application et cliquez sur \"Plus d'infos\"");
         }
         inHelp = true;
 
