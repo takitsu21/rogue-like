@@ -88,7 +88,7 @@ public class Util {
         String WeaponStats = s.getWeapon() == null ? " " : s.getWeapon().toString();
 
         sb.append(" STUFF   ");
-        sb.append(String.format("           HElMET: %s\n", HelmetStats));
+        sb.append(String.format("           HELMET: %s\n", HelmetStats));
         sb.append(String.format("    [%c] [%c]          WEAPON: %s AMULET: %s\n", rph, rpa, WeaponStats, AmuletStats));
         sb.append(String.format(" [%c][%c][%c]           GAUNTLET: %s\n", rpg, rpc, rpw, GauntletStats));
         sb.append(String.format("    [%c]              CHESTPLATE: %s\n", rpp, ChestPlateStats));
@@ -160,7 +160,7 @@ public class Util {
         sb.append("\n");
         sb.append(String.format("%s : %d ", "ATK", stat.get("ATK")));
         sb.append(Ansi.colorize(String.format("(+%d) ", totalAtk), Attribute.GREEN_TEXT()));
-        sb.append(String.format("(Dégâts brut %d)", player.getDamages()));
+        sb.append(String.format("(Dégâts %d)", player.getDamages()));
         sb.append("\n");
         sb.append(String.format("%s : %d ", "DEF", stat.get("DEF")));
         sb.append(Ansi.colorize(String.format("(+%d)", totalDef), Attribute.GREEN_TEXT()));

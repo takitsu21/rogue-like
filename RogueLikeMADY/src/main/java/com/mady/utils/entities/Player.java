@@ -52,6 +52,7 @@ public class Player extends AbstractEntities {
     private int realDEF = 1;
     private int realAGI = 1;
     private int realLUK = 1;
+    private int realDamages = 5;
     private List<Entities> monsterAround = new ArrayList<>();
     private int maxExpToWin = 3;
     private int coins = 0;
