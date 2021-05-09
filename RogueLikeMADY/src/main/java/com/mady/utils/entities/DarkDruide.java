@@ -12,7 +12,7 @@ import com.mady.utils.environment.Salle;
 public class DarkDruide extends AbstractMonster {
 
     public DarkDruide(Position pos, Salle salle, int playerLvl) {
-        super("Druide noir", pos, 15, 2, 1, "d", 4, salle, playerLvl);
+        super("Druide noir", pos, 10, 2, 1, "d", 3, salle, playerLvl);
     }
 
 
@@ -45,14 +45,15 @@ public class DarkDruide extends AbstractMonster {
 
     private void heal(Entities target) {
         ((AbstractEntities) target).setHealed(true);
-        int HpHealed = target.getHitPoints() + getDamages();
+        int heal = (int) Math.floor(getDamages() * 0.75);
+        int HpHealed = target.getHitPoints() + heal;
         target.setHitPoints(HpHealed);
         if (target.getHitPoints() > target.getMaxHitPoints()) {
             target.setHitPoints(target.getMaxHitPoints());
             setHealed(false);
         }
         Util.currentAction.append(Ansi.colorize(String.format("%s<%d/%d HP> est soigné de %d HP.\n",
-                target.getName(), target.getHitPoints(), target.getMaxHitPoints(), getDamages()), Attribute.GREEN_TEXT()));
+                target.getName(), target.getHitPoints(), target.getMaxHitPoints(), heal), Attribute.GREEN_TEXT()));
     }
 
     /**

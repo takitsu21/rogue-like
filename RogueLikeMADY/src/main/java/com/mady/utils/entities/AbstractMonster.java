@@ -27,6 +27,10 @@ public abstract class AbstractMonster extends AbstractEntities implements Monste
         setDamages((int) ((damages * getLvl()) * getMultiplicateur()));
     }
 
+    @Override
+    public Double getMultiplicateur() {
+        return 1.06;
+    }
 
     private void updatePos(Map map, Player player) {
         Position playerPos = player.getPosition();
