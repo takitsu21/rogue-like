@@ -82,7 +82,7 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
 
 ## <u>Conseils de jeu :</u>
 
-⚠️ Quand votre partie commence il vous faudra rester focus sur la fenêtre swing qui s'ouvrira. ⚠️ \
+⚠️ Quand votre partie commence il vous faudra rester focus sur la fenêtre swing qui s'ouvrira. ⚠️
 
 Pour gagner de l'expérience vous devrez tuer des monstres. Cela vous permettra de monter en niveau et d'augmenter vos statistiques. \
 Ouvrir des coffres vous permet d'obtenir des équipements que vous pourrez visualiser dans l'inventaire et vendre au marchand. \
