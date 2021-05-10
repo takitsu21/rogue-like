@@ -45,11 +45,13 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
         - `⏎` pour valider la sélection et attaquer le monstre
 
 - Inventaire: `i` (navigation `z s`, équiper l'objet `⏎`, jeter l'objet `⌫`)
-- Consommer un elixir:
-  - `1` elixir de vie
-  - `2` elixir de mana
+  ![Inventaire](https://i.imgur.com/6JurPRn.png)  
 
-![Inventaire](https://i.imgur.com/6JurPRn.png)
+- Consommer un elixir:
+  - `&` elixir de vie
+  - `é` elixir de mana
+
+
 
 - interaction: `x` (ouverture d'un coffre, achat d'un coffre dans le shop, achat de potions)
 
