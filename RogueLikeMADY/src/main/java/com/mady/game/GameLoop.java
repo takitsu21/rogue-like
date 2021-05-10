@@ -1,5 +1,6 @@
 package com.mady.game;
 
+import com.mady.game.sound.MusicPlayer;
 import com.mady.utils.Util;
 import com.mady.utils.enums.KeyboardPressedEnum;
 import com.mady.utils.environment.Map;
@@ -28,8 +29,8 @@ public abstract class GameLoop {
     protected static volatile Map map;
     protected final Logger logger = Logger.getLogger(GameLoop.class.getName());
     private Thread gameThread;
-    //private Thread musicThread;
-    //private final MusicPlayer audioPlayer = new MusicPlayer();
+    private Thread musicThread;
+    private final MusicPlayer audioPlayer = new MusicPlayer();
 
 
     /**
@@ -141,8 +142,8 @@ public abstract class GameLoop {
     public void run() {
         status = GameStatus.STARTING;
         gameThread = new Thread(this::processGameLoop);
-        //musicThread = new Thread(audioPlayer::play);
-        //musicThread.start();
+        musicThread = new Thread(audioPlayer::play);
+        musicThread.start();
         gameThread.start();
     }
 
