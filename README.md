@@ -100,7 +100,7 @@ Si au cours de la partie vous avez besoin d'un rappel des déplacements n'hésit
 
 - [X] Problème d'interactions avec le jeu de façon inattendu (on ne peut plus bouger).
 - [ ] Les chemins peuvent se croiser entre eux mais sont tout de même utilisables.
-- [ ] Problème de génération de chemins / portes dans les coins des salles.
+- [X] Problème de génération de chemins / portes dans les coins des salles.
 - [ ] Génération de la map plus longue de temps en temps car nous avons augmenté sa taille et le nombre de salles présentes dans celle-ci.
 
 ## <u>Pour run l'artefact : </u>
