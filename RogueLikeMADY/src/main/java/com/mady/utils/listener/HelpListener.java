@@ -60,6 +60,10 @@ public class HelpListener implements ActionListener {
                 "\n" +
                 "- Inventaire: `i` (navigation `z s`, équiper l'objet `⏎`, jeter l'objet `⌫`)\n" +
                 "\n" +
+                "- Consommer un elixir:\n" +
+                "   - `1` elixir de vie\n" +
+                "   - `2` elixir de mana\n" +
+                "\n" +
                 "- interaction: `x` (ouverture d'un coffre, achat d'un coffre dans le shop, achat de potions)\n" +
                 "\n" +
                 "- Vente\n" +
@@ -99,6 +103,8 @@ public class HelpListener implements ActionListener {
                 "Pour changer de salle déplacer vous sur les portes et vous serez téléporté dans la salle relié. \n" +
                 "Au cours de votre partie vous croiserez la porte menant au shop où vous pourrez vendre et acheter du materiel (⚠️ si vous sortez du shop vous ne pouvez plus y retourner). \n" +
                 "Le changement de monde s'effectue lorsque vous marché sur le portail (⚠️ quand vous passez un portail vous ne pouvez pas revenir en arrière).\n" +
+                "\n" +
+                "Si au cours de la partie vous avez besoin d'un rappel des déplacements n'hésité pas utilisé le help du menue pause ou de la fenêtre swing.\n" +
                 "\n" +
                 "## <u>Bugs connus</u>\n" +
                 "\n" +

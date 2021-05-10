@@ -198,6 +198,10 @@ public class Util {
                     "\n" +
                     "- Inventaire: i (navigation z s, équiper l'objet ⏎, jeter l'objet ⌫)\n" +
                     "\n" +
+                    "- Consommer un elixir:\n" +
+                    "   - `1` elixir de vie\n" +
+                    "   - `2` elixir de mana\n" +
+                    "\n" +
                     "- interaction: x (ouverture d'un coffre, achat d'un coffre dans le shop, achat de potions)\n" +
                     "\n" +
                     "- Vente\n" +

@@ -45,6 +45,9 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
         - `⏎` pour valider la sélection et attaquer le monstre
 
 - Inventaire: `i` (navigation `z s`, équiper l'objet `⏎`, jeter l'objet `⌫`)
+- Consommer un elixir:
+  - `1` elixir de vie
+  - `2` elixir de mana
 
 ![Inventaire](https://i.imgur.com/6JurPRn.png)
 
@@ -87,9 +90,11 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
 Pour gagner de l'expérience vous devrez tuer des monstres. Cela vous permettra de monter en niveau et d'augmenter vos statistiques. \
 Ouvrir des coffres vous permet d'obtenir des équipements que vous pourrez visualiser dans l'inventaire et vendre au marchand. \
 Marcher sur des potions vous donnera l'opportunité de gagner des bonus ou des malus de vie ou de mana. \
-Pour changer de salle déplacer vous sur les portes et vous serez téléporté dans la salle relié. \
+Pour changer de salle déplacer vous sur les portes et vous serez téléporté dans la salle relié.\
 Au cours de votre partie vous croiserez la porte menant au shop où vous pourrez vendre et acheter du materiel (⚠️ si vous sortez du shop vous ne pouvez plus y retourner). \
-Le changement de monde s'effectue lorsque vous marché sur le portail (⚠️ quand vous passez un portail vous ne pouvez pas revenir en arrière).\
+Le changement de monde s'effectue lorsque vous marché sur le portail (⚠️ quand vous passez un portail vous ne pouvez pas revenir en arrière).
+
+Si au cours de la partie vous avez besoin d'un rappel des déplacements n'hésité pas utilisé le help du menue pause ou de la fenêtre swing.
 
 ## <u>Bugs connus</u>
 
