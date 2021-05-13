@@ -105,5 +105,7 @@ public class TurnBasedGameLoop extends GameLoop {
                 Util.playerTurn = true;
             }
         }
+        render();
+        Util.playerTurn = true;
     }
 }
