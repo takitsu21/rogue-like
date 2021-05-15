@@ -161,9 +161,11 @@ public class MoveListener implements KeyListener {
                     if (map.getPlayer().getInventory().getInventory().size() >= 1) {
                         map.getPlayer().sell();
                         map.getPlayer().getInventory().setSelectedItem(0);
-                    } else {
+                    }
+                    else {
                         Util.keyPressed = KeyboardPressedEnum.NONE;
                     }
+
                 } else if (Util.keyPressed == KeyboardPressedEnum.ESC) {
                     switch (pauseMenu.getListe().get(pauseMenu.getSelection())) {
                         case "Resume":
@@ -195,7 +197,7 @@ public class MoveListener implements KeyListener {
                     map.getPlayer().setMonsterAround(new ArrayList<>());
                     Player.ATTACK_CURSOR = 0;
                     GameLoop.setStatus(GameStatus.RUNNING);
-                } else {
+                } else if(Util.keyPressed != KeyboardPressedEnum.HELP)  {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
                 break;
