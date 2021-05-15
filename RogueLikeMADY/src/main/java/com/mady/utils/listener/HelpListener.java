@@ -60,7 +60,11 @@ public class HelpListener implements ActionListener {
                 "\n" +
                 "- Inventaire: `i` (navigation `z s`, équiper l'objet `⏎`, jeter l'objet `⌫`)\n" +
                 "\n" +
-                "- Consommer un elixir:\n" +
+                "- Quitter n'importe quel menu d'interaction:\n" +
+                "    - `ESC` (touche escape)\n" +
+                "    - touche initiale d'interaction exemple : \n" +
+                "      si on appuie sur `i` pour ouvrir l'inventaire on pourra le fermer avec `i` ou `esc`\n" +
+        "- Consommer un elixir:\n" +
                 "    - `&` elixir de vie\n" +
                 "    - `é` elixir de mana\n" +
                 "\n" +

@@ -200,6 +200,10 @@ public class Util {
                     "\n" +
                     "- Inventaire: i (navigation z s, équiper l'objet ⏎, jeter l'objet ⌫)\n" +
                     "\n" +
+                    "- Quitter n'importe quel menu d'interaction:\n" +
+                    "    - ESC (touche escape)\n" +
+                    "    - touche initiale d'interaction exemple : \n" +
+                    "      si on appuie sur i pour ouvrir l'inventaire on pourra le fermer avec i ou esc\n\n" +
                     "- Consommer un elixir:\n" +
                     "   - & élixir de vie\n" +
                     "   - é élixir de mana\n" +

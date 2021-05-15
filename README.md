@@ -47,6 +47,11 @@ procédurale de ses niveaux, son système de mort permanente, son gameplay au to
 - Inventaire: `i` (navigation `z s`, équiper l'objet `⏎`, jeter l'objet `⌫`)
   ![Inventaire](https://i.imgur.com/6JurPRn.png)  
 
+- Quitter n'importe quel menu d'interaction:
+  - `ESC` (touche escape)
+  - touche initiale d'interaction exemple : 
+    si on appuie sur i pour ouvrir l'inventaire on pourra le fermer avec `i` ou `esc`
+
 - Consommer un elixir:
   - `&` elixir de vie
   - `é` elixir de mana
