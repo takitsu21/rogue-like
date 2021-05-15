@@ -200,9 +200,6 @@ public class MoveListener implements KeyListener {
                 } else if(Util.keyPressed != KeyboardPressedEnum.HELP)  {
                     Util.keyPressed = KeyboardPressedEnum.NONE;
                 }
-                else{
-                    Util.inHelp = false;
-                }
                 break;
             case KeyEvent.VK_T:
                 if (Util.keyPressed == KeyboardPressedEnum.NONE) {
@@ -273,6 +270,8 @@ public class MoveListener implements KeyListener {
                 return;
         }
         Util.playerTurn = false;
+        Util.inHelp = false;
+
     }
 
     @Override
