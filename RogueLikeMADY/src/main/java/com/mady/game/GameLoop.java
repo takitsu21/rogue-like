@@ -177,7 +177,10 @@ public abstract class GameLoop {
      */
     protected void render() {
         clrscr();
-        if (isGamePaused() && (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.SELL)) {
+        if (Util.keyPressed == KeyboardPressedEnum.HELP) {
+            Util.printHELP();
+        }
+        else if (isGamePaused() && (Util.keyPressed == KeyboardPressedEnum.I || Util.keyPressed == KeyboardPressedEnum.SELL)) {
             System.out.println(Util.showInventoryMenu(controller.player));
         } else if ((isGamePaused() && Util.keyPressed == KeyboardPressedEnum.ESC)) {
             System.out.println(map.getPause().toString(map.getMap(),map.getPlayer()));

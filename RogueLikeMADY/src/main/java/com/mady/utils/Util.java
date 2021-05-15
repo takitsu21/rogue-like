@@ -2,6 +2,7 @@ package com.mady.utils;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
+import com.mady.game.GameLoop;
 import com.mady.game.WindowGameIntegration;
 import com.mady.game.menus.WelcomeMenu;
 import com.mady.utils.entities.Player;
@@ -181,6 +182,7 @@ public class Util {
 
     public static void printHELP() {
         if (!inHelp) {
+            GameLoop.clrscr();
             System.out.println("Contrôle du Joueur\n" +
                     "\n" +
                     "- Déplacement:\n" +
@@ -211,7 +213,6 @@ public class Util {
                     "Pour des informations complémentaire sur le jeu allez dans la fenêtre d'application et cliquez sur \"Plus d'infos\"");
         }
         inHelp = true;
-
     }
 
     /**

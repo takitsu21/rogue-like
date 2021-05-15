@@ -39,9 +39,6 @@ public class TurnBasedGameLoop extends GameLoop {
                     processInput();
                     if (Util.keyPressed == KeyboardPressedEnum.NONE) {
                         status = GameStatus.RUNNING;
-                    } else if (Util.keyPressed == KeyboardPressedEnum.HELP) {
-                        Util.printHELP();
-
                     }
                     render();
                     Util.playerTurn = true;
@@ -64,10 +61,7 @@ public class TurnBasedGameLoop extends GameLoop {
                     world.getCurrentMap().addPlayerToMap(map.getPlayer());
                     world.getCurrentMap().addEntityItemPortal();
                     map = world.getCurrentMap();
-                    for (KeyListener c : windowGameIntegration.getFrame().getListeners(KeyListener.class)) {
-                        windowGameIntegration.getFrame().removeKeyListener(c);
-                    }
-                    windowGameIntegration.getFrame().addKeyListener(new MoveListener(map));
+                    Util.refreshKeyListener(windowGameIntegration, map);
                 }
                 if (map.getMap()[map.getPlayer().getPosition().getX()][map.getPlayer().getPosition().getY()].isShop()) {
 
@@ -84,7 +78,6 @@ public class TurnBasedGameLoop extends GameLoop {
                     stop();
                     System.out.println(Ansi.colorize("Le jeu est fini, vous êtes mort...",
                             Attribute.RED_TEXT()));
-                    render();
                     quit();
                 }
                 render();
@@ -102,8 +95,8 @@ public class TurnBasedGameLoop extends GameLoop {
                 Util.printHELP();
             } else {
                 render();
-                Util.playerTurn = true;
             }
+            Util.playerTurn = true;
         }
         render();
         Util.playerTurn = true;
